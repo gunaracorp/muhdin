@@ -1,0 +1,342 @@
+/* ============================================================
+   nusantara.css — Task 33-b (Rebuild homepage MUHDIN NUSANTARA)
+   Keyframes + utilitas animasi khusus halaman utama baru.
+   Aturan: ringan di HP, semua gerak dimatikan pada
+   prefers-reduced-motion: reduce (blok di akhir file).
+   ============================================================ */
+
+/* --- S01 HERO — node alur ekosistem mengapung lembut (4-6px) --- */
+@keyframes nus-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.nus-float {
+  animation: nus-float 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* --- S01 HERO — konektor "pulse mengalir": kilau emas berjalan
+       (vertikal di HP, horizontal mulai md) --- */
+@keyframes nus-slide-y {
+  0% {
+    transform: translate(-50%, -110%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 300%);
+    opacity: 0;
+  }
+}
+@keyframes nus-slide-x {
+  0% {
+    transform: translate(-110%, -50%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(300%, -50%);
+    opacity: 0;
+  }
+}
+.nus-connector {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    oklch(0.72 0.135 85 / 0.45) 30%,
+    oklch(0.72 0.135 85 / 0.45) 70%,
+    transparent
+  );
+}
+.nus-connector::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 40%;
+  min-height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent, oklch(0.93 0.08 95), transparent);
+  animation: nus-slide-y 2.4s ease-in-out infinite;
+}
+@media (min-width: 768px) {
+  .nus-connector {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(0.72 0.135 85 / 0.45) 30%,
+      oklch(0.72 0.135 85 / 0.45) 70%,
+      transparent
+    );
+  }
+  .nus-connector::after {
+    top: 50%;
+    left: 0;
+    width: 40%;
+    min-width: 12px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, oklch(0.93 0.08 95), transparent);
+    animation-name: nus-slide-x;
+  }
+}
+
+/* --- S02 THE IDEA — micro-bounce ikon pilar saat kartu di-hover --- */
+@keyframes nus-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-6px);
+  }
+  70% {
+    transform: translateY(-2px);
+  }
+}
+@media (hover: hover) {
+  .nus-pillar:hover .nus-pillar-icon {
+    animation: nus-bounce 0.55s ease;
+  }
+}
+
+/* --- S04 MUHDIN VERIFIED — cincin pulse bergelombang --- */
+@keyframes nus-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+}
+.nus-ring {
+  animation: nus-ring 2.8s ease-out infinite;
+}
+.nus-ring-2 {
+  animation-delay: 1.4s;
+}
+
+/* --- S04 + S06 — glow emas berdenyut (badge & node pusat) --- */
+@keyframes nus-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.135 85 / 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 14px oklch(0.72 0.135 85 / 0);
+  }
+}
+.nus-glow {
+  animation: nus-glow 2.6s ease-out infinite;
+}
+
+/* --- S04 — centang muncul dengan stroke-draw (CSS murni;
+       dipicu kelas .is-inview dari IntersectionObserver ringan) --- */
+.nus-check-path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+.nus-verified.is-inview .nus-check-path {
+  animation: nus-draw 0.9s ease-out 0.5s forwards;
+}
+@keyframes nus-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --- S05 HOW IT WORKS — garis progres tumbuh saat masuk viewport
+       (vertikal di HP, horizontal di desktop; origin mengikuti arah baca) --- */
+@keyframes nus-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes nus-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.nus-vprogress {
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.nus-hprogress {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+html[dir="rtl"] .nus-hprogress {
+  transform-origin: 100% 50%;
+}
+.nus-inview .nus-vprogress {
+  animation: nus-grow-y 2.8s ease-out forwards;
+}
+.nus-inview .nus-hprogress {
+  animation: nus-grow-x 2.8s ease-out forwards;
+}
+
+/* --- S06 NETWORK — garis SVG "data mengalir": dash loop lambat --- */
+@keyframes nus-dash {
+  to {
+    stroke-dashoffset: -96;
+  }
+}
+.nus-netline {
+  stroke-dasharray: 5 7;
+  animation: nus-dash 7s linear infinite;
+}
+
+/* --- AKSESIBILITAS — hormati preferensi pengurangan gerak --- */
+@media (prefers-reduced-motion: reduce) {
+  .nus-float,
+  .nus-connector::after,
+  .nus-ring,
+  .nus-glow,
+  .nus-pillar:hover .nus-pillar-icon,
+  .nus-netline,
+  .nus-inview .nus-vprogress,
+  .nus-inview .nus-hprogress {
+    animation: none !important;
+  }
+  .nus-check-path {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+  .nus-vprogress {
+    transform: scaleY(1);
+  }
+  .nus-hprogress {
+    transform: scaleX(1);
+  }
+}
+
+/* ==================================================================
+   Task 38 — Animasi bergaya Nusuk.sa (ken-burns, ticker, shimmer).
+   Semua CSS murni, hormati prefers-reduced-motion, RTL-aware.
+   ================================================================== */
+
+/* --- S01 HERO — Ken Burns: zoom pelan & sinematik pada foto latar --- */
+@keyframes nus-kenburns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.12) translate3d(0, -1.5%, 0);
+  }
+}
+.nus-kenburns {
+  animation: nus-kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* --- LIVE STRIP — ticker dua-dua: konten digandakan (aria-hidden) untuk loop mulus.
+       Geser -50% agar terasa tak berujung. RTL: arah flip via html[dir]. --- */
+@keyframes nus-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes nus-ticker-rtl {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.nus-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: nus-ticker 42s linear infinite;
+}
+html[dir="rtl"] .nus-ticker-track {
+  animation-name: nus-ticker-rtl;
+}
+.nus-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* --- STATS — kilau emas menyapu angka pencapaian (sekali tiap 4 detik) --- */
+@keyframes nus-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  55%,
+  100% {
+    background-position: 200% center;
+  }
+}
+.nus-shimmer-text {
+  background: linear-gradient(
+    100deg,
+    oklch(0.78 0.13 85) 38%,
+    oklch(0.96 0.08 95) 50%,
+    oklch(0.78 0.13 85) 62%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: nus-shimmer 4.2s ease-in-out infinite;
+}
+
+/* --- KARTU JOURNEY — zoom gambar halus saat hover (ala kartu Nusuk) --- */
+.nus-zoomimg {
+  transition: transform 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+.group:hover .nus-zoomimg,
+.group:focus-within .nus-zoomimg {
+  transform: scale(1.07);
+}
+
+/* --- LIVE STRIP — titik "live" berdenyut lembut --- */
+@keyframes nus-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.55);
+  }
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 6px rgba(212, 175, 55, 0);
+  }
+}
+.nus-live-dot {
+  animation: nus-pulse-dot 2s ease-in-out infinite;
+}
+
+/* --- AKSESIBILITAS (Task 38) --- */
+@media (prefers-reduced-motion: reduce) {
+  .nus-kenburns,
+  .nus-ticker-track,
+  .nus-shimmer-text,
+  .nus-live-dot {
+    animation: none !important;
+  }
+  .nus-zoomimg {
+    transition: none;
+  }
+}

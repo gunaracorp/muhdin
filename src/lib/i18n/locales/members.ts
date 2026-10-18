@@ -1,0 +1,145 @@
+/**
+ * namespace "members" — dikelola oleh agent Task 14-b.
+ * Struktur wajib: { id: {...}, en: {...}, ar: {...} } — key identik di ketiganya.
+ * Kode DB (tipe member, status) tetap dipakai untuk logika/filter; label lewat kamus.
+ */
+export const membersDict = {
+  id: {
+    members: {
+      eyebrow: "Direktori Resmi",
+      title: "Anggota & Verifikasi Ekosistem",
+      subtitle:
+        "Direktori publik penyelenggara terverifikasi MUHDIN. Legalitas dan rekam jejak diverifikasi, sanksi ditegakkan konsisten, dan mutu diaudit berkala.",
+      tabDirectory: "Direktori Anggota",
+      tabVerify: "Cek Verifikasi",
+      filterAll: "Semua Jenis",
+      type: {
+        PPIU: "PPIU",
+        PIHK: "PIHK",
+        KBIHU: "KBIHU",
+        IPHI: "IPHI",
+        TRAVEL_WISATA: "Travel Wisata",
+      },
+      searchPlaceholder: "Cari nama, kota, provinsi…",
+      searchAria: "Cari anggota",
+      empty: "Tidak ada anggota yang cocok dengan filter.",
+      since: "Sejak {year}",
+      licensePrefix: "Izin",
+      ratingLabel: "Rating",
+      status: {
+        TERVERIFIKASI: "Terverifikasi",
+        PENDING: "Dalam Proses",
+        SUSPENDED: "Ditangguhkan",
+      },
+      verifyEyebrow: "Verifikasi Satu Klik",
+      verifyTitle: "Periksa Legalitas Sebelum Bertransaksi",
+      verifySubtitle:
+        "Masukkan nama penyelenggara atau nomor izin. Hasil verifikasi berbasis direktori resmi MUHDIN — melindungi jamaah dari pelaku ilegal.",
+      verifyPlaceholder: "Contoh: PT Insan Barokah atau PPIU-2026-0011",
+      verifyAria: "Nama penyelenggara atau nomor izin",
+      verifyButton: "Verifikasi",
+      minCharsError: "Masukkan minimal 3 karakter nama penyelenggara atau nomor izin.",
+      notFoundTitle: "Tidak Ditemukan dalam Direktori",
+      notFoundDesc:
+        "Penyelenggara dengan nama/izin tersebut tidak terdaftar di ekosistem MUHDIN. Hati-hati terhadap pelaku ilegal — pastikan selalu memverifikasi legalitas melalui kanal resmi sebelum menyetorkan dana.",
+      trustTitle: "Legalitas Terverifikasi",
+      trustDesc: "Izin resmi dan rekam jejak diverifikasi tim MUHDIN.",
+      fundsTitle: "Dana Terlindungi",
+      fundsDesc: "Escrow dan takaful sebagai standar ekosistem.",
+      fraudTitle: "Nol Toleransi Penipuan",
+      fraudDesc: "Sanksi berjenjang hingga pelaporan ke regulator.",
+    },
+  },
+  en: {
+    members: {
+      eyebrow: "Official Directory",
+      title: "Members & Ecosystem Verification",
+      subtitle:
+        "The public directory of MUHDIN-verified service providers. Legal standing and track records are verified, sanctions are enforced consistently, and quality is audited periodically.",
+      tabDirectory: "Member Directory",
+      tabVerify: "Verification Check",
+      filterAll: "All Types",
+      type: {
+        PPIU: "PPIU",
+        PIHK: "PIHK",
+        KBIHU: "KBIHU",
+        IPHI: "IPHI",
+        TRAVEL_WISATA: "Halal Tour Operator",
+      },
+      searchPlaceholder: "Search name, city, or province…",
+      searchAria: "Search members",
+      empty: "No members match the filter.",
+      since: "Since {year}",
+      licensePrefix: "License",
+      ratingLabel: "Rating",
+      status: {
+        TERVERIFIKASI: "Verified",
+        PENDING: "In Process",
+        SUSPENDED: "Suspended",
+      },
+      verifyEyebrow: "One-Click Verification",
+      verifyTitle: "Check Legality Before You Transact",
+      verifySubtitle:
+        "Enter a provider's name or license number. Verification is based on the official MUHDIN directory — protecting pilgrims from illegal operators.",
+      verifyPlaceholder: "e.g. PT Insan Barokah or PPIU-2026-0011",
+      verifyAria: "Provider name or license number",
+      verifyButton: "Verify",
+      minCharsError: "Enter at least 3 characters of the provider's name or license number.",
+      notFoundTitle: "Not Found in the Directory",
+      notFoundDesc:
+        "No provider with that name or license number is registered in the MUHDIN ecosystem. Beware of illegal operators — always verify legality through official channels before depositing any funds.",
+      trustTitle: "Verified Legality",
+      trustDesc: "Official licenses and track records verified by the MUHDIN team.",
+      fundsTitle: "Protected Funds",
+      fundsDesc: "Escrow and takaful as ecosystem standards.",
+      fraudTitle: "Zero Tolerance for Fraud",
+      fraudDesc: "Graduated sanctions, up to reporting to the regulator.",
+    },
+  },
+  ar: {
+    members: {
+      eyebrow: "الدليل الرسمي",
+      title: "الأعضاء والتحقق في المنظومة",
+      subtitle:
+        "الدليل العام لمقدمي الخدمات الموثقين في مُهدين. تُدقق الجدارة القانونية وسجل الأداء، وتُطبق العقوبات بثبات، وتُراجع الجودة دورياً.",
+      tabDirectory: "دليل الأعضاء",
+      tabVerify: "فحص الاعتماد",
+      filterAll: "جميع الأنواع",
+      type: {
+        PPIU: "PPIU",
+        PIHK: "PIHK",
+        KBIHU: "KBIHU",
+        IPHI: "IPHI",
+        TRAVEL_WISATA: "منظم رحلات حلال",
+      },
+      searchPlaceholder: "ابحث بالاسم أو المدينة أو المحافظة…",
+      searchAria: "البحث في الأعضاء",
+      empty: "لا يوجد أعضاء مطابقون للتصفية.",
+      since: "منذ {year}",
+      licensePrefix: "الترخيص",
+      ratingLabel: "التقييم",
+      status: {
+        TERVERIFIKASI: "موثق",
+        PENDING: "قيد المعالجة",
+        SUSPENDED: "موقوف",
+      },
+      verifyEyebrow: "التحقق بنقرة واحدة",
+      verifyTitle: "تحقق من الجدارة القانونية قبل التعامل",
+      verifySubtitle:
+        "أدخل اسم مقدم الخدمة أو رقم الترخيص. يستند التحقق إلى الدليل الرسمي لمُهدين — حمايةً للحجاج من المتعاملين غير الشرعيين.",
+      verifyPlaceholder: "مثال: PT Insan Barokah أو PPIU-2026-0011",
+      verifyAria: "اسم مقدم الخدمة أو رقم الترخيص",
+      verifyButton: "تحقق",
+      minCharsError: "أدخل 3 أحرف على الأقل من اسم مقدم الخدمة أو رقم الترخيص.",
+      notFoundTitle: "غير موجود في الدليل",
+      notFoundDesc:
+        "لا يوجد مقدم خدمة بهذا الاسم أو رقم الترخيص مسجل في منظومة مُهدين. احترس من المتعاملين غير الشرعيين — تحقق دائماً من الجدارة القانونية عبر القنوات الرسمية قبل إيداع أي أموال.",
+      trustTitle: "جدارة قانونية موثقة",
+      trustDesc: "التراخيص الرسمية وسجل الأداء يتحقق منهما فريق مُهدين.",
+      fundsTitle: "أموال محمية",
+      fundsDesc: "الحفظ (اسكرو) والتكافل معياران أساسيان في المنظومة.",
+      fraudTitle: "لا تسامح مع الاحتيال",
+      fraudDesc: "عقوبات متدرجة تصل إلى الإبلاغ للجهة الرقابية.",
+    },
+  },
+} as const;

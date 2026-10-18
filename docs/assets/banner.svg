@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="MUHDIN.WEB.ID — Asosiasi Haji dan Umrah Digital Pertama di Dunia">
+  <title>MUHDIN.WEB.ID — Asosiasi Haji &amp; Umrah Digital Pertama di Dunia</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06281c"/>
+      <stop offset="0.55" stop-color="#0b3d2c"/>
+      <stop offset="1" stop-color="#0e5137"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f5d97a"/>
+      <stop offset="0.5" stop-color="#d4af37"/>
+      <stop offset="1" stop-color="#b8860b"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="stars" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M28 8l2.2 5.6L36 16l-5.8 2.4L28 24l-2.2-5.6L20 16l5.8-2.4z" fill="#d4af37" opacity="0.14"/>
+      <path d="M0 36l1.6 4 4 1.6-4 1.6L0 47.2l-1.6-4-4-1.6 4-1.6z" fill="#f5d97a" opacity="0.10"/>
+      <path d="M52 40l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="#d4af37" opacity="0.08"/>
+    </pattern>
+    <clipPath id="frame"><rect width="1200" height="320" rx="0"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="320" fill="url(#bg)"/>
+    <rect width="1200" height="320" fill="url(#stars)"/>
+    <rect width="1200" height="320" fill="url(#sheen)"/>
+
+    <!-- Lengkung kubah halus -->
+    <path d="M0 320 L0 210 Q 180 120 360 190 T 720 170 T 1080 190 L 1200 170 L 1200 320 Z" fill="#083122" opacity="0.55"/>
+    <path d="M0 320 L0 250 Q 240 170 480 230 T 960 220 L 1200 240 L 1200 320 Z" fill="#052017" opacity="0.6"/>
+
+    <!-- Ka'bah stilasi kiri -->
+    <g transform="translate(96 118)">
+      <rect x="0" y="0" width="86" height="86" rx="6" fill="#0a0a0a" stroke="#d4af37" stroke-width="2.5"/>
+      <rect x="-3" y="26" width="92" height="14" fill="url(#gold)"/>
+      <rect x="-3" y="26" width="92" height="14" fill="none" stroke="#8a6508" stroke-width="1"/>
+    </g>
+    <!-- bulan sabit -->
+    <g transform="translate(196 92)" fill="url(#gold)">
+      <path d="M30 0a30 30 0 1 0 21 51 24 24 0 1 1 0-42A30 30 0 0 0 30 0z" opacity="0.9"/>
+    </g>
+
+    <!-- Judul utama -->
+    <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+      <text x="330" y="112" fill="#f5d97a" font-size="26" font-weight="700" letter-spacing="10">MUHDIN.WEB.ID</text>
+      <text x="330" y="170" fill="#ffffff" font-size="58" font-weight="800" letter-spacing="1">Portal Digital Ekosistem</text>
+      <text x="330" y="228" fill="url(#gold)" font-size="58" font-weight="800" letter-spacing="1">Umrah &amp; Haji Indonesia</text>
+      <text x="332" y="264" fill="#a7d9bf" font-size="19" font-weight="500">Masyarakat Umroh Haji Digital Nusantara · Dari Nusantara ke Tanah Suci</text>
+    </g>
+
+    <!-- Ribbon Pertama di Dunia -->
+    <g transform="translate(330 276)">
+      <rect x="0" y="0" width="560" height="30" rx="15" fill="#0a0a0a" opacity="0.55" stroke="url(#gold)" stroke-width="1.4"/>
+      <circle cx="22" cy="15" r="7" fill="url(#gold)"/>
+      <text x="40" y="21" fill="#f5d97a" font-size="15.5" font-weight="700" font-family="'Segoe UI', Arial, sans-serif">🌍 ASOSIASI HAJI &amp; UMRAH DIGITAL PERTAMA DI DUNIA</text>
+    </g>
+
+    <!-- Ornamen garis emas kanan -->
+    <g transform="translate(1010 64)" stroke="url(#gold)" fill="none" opacity="0.9">
+      <path d="M0 0h150" stroke-width="2"/>
+      <path d="M40 12h110" stroke-width="1.2" opacity="0.6"/>
+      <circle cx="150" cy="0" r="4" fill="url(#gold)" stroke="none"/>
+    </g>
+    <text x="1012" y="100" fill="#f5d97a" font-size="15" font-family="'Segoe UI', Arial, sans-serif" opacity="0.85" font-weight="600">EST. GARIS PELOPOR</text>
+    <text x="1012" y="122" fill="#a7d9bf" font-size="13" font-family="'Segoe UI', Arial, sans-serif" opacity="0.8">PHI · IPHI · BLUEPRINT · 2026</text>
+
+    <!-- Bintang sudut -->
+    <g fill="#f5d97a" opacity="0.5">
+      <path d="M1150 260l3 7.5 7.5 3-7.5 3-3 7.5-3-7.5-7.5-3 7.5-3z"/>
+      <path d="M60 30l2.2 5.6 5.6 2.2-5.6 2.2-2.2 5.6-2.2-5.6-5.6-2.2 5.6-2.2z"/>
+    </g>
+  </g>
+</svg>

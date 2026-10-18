@@ -1,0 +1,110 @@
+/* ============================================================
+   Task 44 — Kit Banner "PROMO 200 ANGGOTA PERTAMA"
+   Extends banner.css (dipakai bersama banner-promo200-{feed,story,wide}.html)
+   Brand: forest-deep emerald + gold — konsisten dgn situs & kit GRATIS lama
+   ============================================================ */
+
+/* Angka raksasa + baris kecil di bawahnya */
+.h1 .num-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+.h1 .num { line-height: 0.95; display: block; }
+.h1 .sub1 {
+  display: block;
+  margin-top: 8px;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+}
+
+/* Baris urgensi merah (slot terbatas) */
+.urgent {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid rgba(226, 99, 90, 0.78);
+  background: rgba(122, 22, 16, 0.4);
+  color: #ffd9d5;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 9px 22px;
+  text-align: center;
+  box-shadow: 0 12px 34px -14px rgba(226, 99, 90, 0.65);
+}
+.urgent::before { content: "●"; color: #ff6b5f; font-size: 0.9em; }
+
+/* ============================================================
+   FEED — 1080 × 1080
+   ============================================================ */
+body.feed .h1 .line1 { font-size: 62px; letter-spacing: 0.32em; text-indent: 0.32em; }
+body.feed .h1 .num { font-size: 208px; }
+body.feed .h1 .sub1 { font-size: 54px; margin-top: 6px; }
+body.feed .num-row { margin: 4px 0 2px; gap: 24px; }
+body.feed .stamp { width: 150px; height: 150px; }
+body.feed .stamp .a { font-size: 36px; }
+body.feed .stamp .b { font-size: 10px; }
+body.feed .usp { margin-top: 16px; font-size: 21px; }
+body.feed .chips { margin-top: 14px; }
+body.feed .chip { font-size: 15px; padding: 7px 16px; }
+body.feed .compare { margin-top: 16px; width: 620px; }
+body.feed .compare .row { font-size: 17px; padding: 12px 22px; }
+body.feed .urgent { margin-top: 16px; font-size: 15px; }
+body.feed .cta-wrap { margin-top: 16px; }
+body.feed .cta { height: 56px; padding: 0 42px; font-size: 19px; }
+body.feed .domain { font-size: 22px; }
+body.feed .foot { margin-top: 14px; font-size: 11px; }
+
+/* ============================================================
+   STORY — 1080 × 1920
+   ============================================================ */
+body.story .brand { margin-top: 96px; }
+body.story .wordmark { font-size: 58px; }
+body.story .eyebrow { font-size: 18px; margin-top: 110px; }
+body.story .h1 { margin-top: 22px; }
+body.story .h1 .line1 { font-size: 78px; letter-spacing: 0.32em; text-indent: 0.32em; }
+body.story .h1 .num { font-size: 300px; }
+body.story .h1 .sub1 { font-size: 74px; margin-top: 8px; }
+body.story .num-row { margin: 8px 0 4px; gap: 30px; }
+body.story .stamp { width: 190px; height: 190px; }
+body.story .stamp .a { font-size: 46px; }
+body.story .stamp .b { font-size: 12px; }
+body.story .usp { margin-top: 26px; font-size: 26px; }
+body.story .chips { margin-top: 24px; }
+body.story .chip { font-size: 19px; padding: 10px 22px; }
+body.story .compare { margin-top: 30px; width: 760px; }
+body.story .compare .row { font-size: 22px; padding: 18px 30px; }
+body.story .urgent { margin-top: 28px; font-size: 19px; }
+body.story .promise { margin-top: 26px; font-size: 16px; }
+body.story .cta-wrap { margin-top: 30px; }
+body.story .cta { height: 72px; padding: 0 56px; font-size: 24px; }
+body.story .domain { font-size: 29px; }
+body.story .arabic { margin-top: 44px; font-size: 30px; }
+body.story .foot { margin-top: 30px; font-size: 13px; }
+
+/* ============================================================
+   WIDE — 1200 × 630
+   ============================================================ */
+body.wide .content { align-items: flex-start; }
+body.wide .h1 { text-align: left; }
+body.wide .h1 .line1 { font-size: 40px; letter-spacing: 0.3em; text-indent: 0.3em; }
+body.wide .h1 .num { font-size: 128px; }
+body.wide .h1 .sub1 { font-size: 34px; margin-top: 4px; }
+body.wide .num-row { justify-content: flex-start; margin: 4px 0 2px; gap: 20px; }
+body.wide .stamp { width: 104px; height: 104px; }
+body.wide .stamp .a { font-size: 24px; }
+body.wide .stamp .b { font-size: 7.5px; }
+body.wide .usp { margin-top: 12px; font-size: 17px; text-align: left; }
+body.wide .chips { margin-top: 12px; justify-content: flex-start; gap: 10px; }
+body.wide .chip { font-size: 13px; padding: 6px 14px; }
+body.wide .compare { display: none; }
+body.wide .urgent { margin-top: 14px; font-size: 13px; padding: 7px 18px; }
+body.wide .promise { margin-top: 12px; font-size: 11px; padding: 8px 16px; }
+body.wide .cta-wrap { margin-top: 14px; text-align: left; }
+body.wide .cta { height: 50px; padding: 0 34px; font-size: 16px; }
+body.wide .domain { font-size: 20px; margin-top: 8px; }
+body.wide .foot { position: absolute; right: 64px; bottom: 28px; font-size: 10.5px; text-align: right; }

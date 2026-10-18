@@ -1,0 +1,517 @@
+/**
+ * namespace "nusTrust" — dikelola oleh agent Task 33-c (Trust/Compliance UI).
+ * Halaman: verifikasi publik (#/verifikasi), privasi (#/privasi), syarat (#/syarat),
+ * portal anggota (#/dashboard).
+ * Struktur wajib: { id: {...}, en: {...}, ar: {...} } — key identik di ketiganya.
+ * Catatan legal (ROLE 25): disclaimer resmi MUHDIN Verified hidup di
+ * src/lib/nusantara.ts (VERIFIED_DISCLAIMER_ID) — kamus ini hanya fallback.
+ */
+export const nusTrustDict = {
+  id: {
+    nusTrust: {
+      verify: {
+        eyebrow: "Verifikasi Publik",
+        title: "MUHDIN VERIFIED",
+        subtitle: "Kenali mitra. Verifikasi sebelum bertransaksi.",
+        searchLabel: "Nama organisasi atau nomor izin",
+        searchPlaceholder: "Contoh: PT Insan Barokah atau PPIU-2026-0011",
+        searchAria: "Nama organisasi atau nomor izin yang ingin diverifikasi",
+        searchButton: "Verifikasi",
+        searchHelp:
+          "Minimal 3 karakter. Cari berdasarkan nama organisasi atau nomor izin resmi yang tercantum pada dokumen.",
+        minChars: "Masukkan minimal 3 karakter nama organisasi atau nomor izin.",
+        searching: "Memverifikasi data organisasi…",
+        error: "Gagal memverifikasi. Silakan coba beberapa saat lagi.",
+        resultsTitle: "Hasil Verifikasi",
+        resultsFor: "Pencarian: {query}",
+        resultsCount: "{n} organisasi ditemukan",
+        located: "{city}, {province}",
+        website: "Situs web resmi",
+        websiteAria: "Buka situs web resmi organisasi di tab baru",
+        verifiedOn: "Diverifikasi pada {date}",
+        statusAria: "Status verifikasi: {label}",
+      },
+      official: {
+        title: "VERIFIKASI RESMI",
+        badgeAria: "Organisasi terverifikasi MUHDIN",
+        qrCaption: "Pindai untuk membuka halaman verifikasi publik",
+        qrAria: "Kode QR verifikasi publik organisasi",
+        verifyIdLabel: "ID Verifikasi",
+        docsTitle: "Kategori dokumen yang diperiksa",
+        doc1: "Dokumen identitas legal organisasi (akta, NIB, pengesahan)",
+        doc2: "Dokumen izin usaha / legalitas operasional bidang layanan",
+        doc3: "Rekening koran dari bank referensi sebagai indikasi operasional",
+        doc4: "Profil organisasi dan rekam jejak publik pendukung",
+        docsNote:
+          "Kategori di atas diperiksa berdasarkan informasi yang tersedia saat verifikasi — bukan audit menyeluruh atas keuangan atau operasional.",
+        nextReview: "Tinjauan berikutnya: {year} (indikatif)",
+      },
+      disclaimer: {
+        title: "Disclaimer",
+        fallback:
+          "MUHDIN Verified adalah status verifikasi dokumen internal MUHDIN pada tanggal verifikasi — bukan izin, akreditasi, atau endorsement pemerintah. MUHDIN bukan PPIU/PIHK dan bukan penjamin keberangkatan. Selalu periksa kembali legalitas penyelenggara ke kanal resmi sebelum bertransaksi.",
+      },
+      empty: {
+        title: "Tidak Ditemukan",
+        desc: "Tidak ditemukan. Periksa kembali nama atau nomor izin.",
+        cta: "Daftarkan Organisasi",
+      },
+      priv: {
+        eyebrow: "Privasi & Perlindungan Data",
+        title: "Kebijakan Privasi",
+        subtitle:
+          "Bagaimana MUHDIN mengumpulkan, menggunakan, dan melindungi data Anda — ditulis sejak hari pertama dengan prinsip data-minimal.",
+        collectTitle: "Data yang Kami Kumpulkan",
+        collectDesc:
+          "Saat membuat akun atau mendaftar sebagai anggota, kami mengumpulkan data akun (nama, email kerja, peran), data organisasi yang Anda kirimkan (identitas legal, jenis layanan, wilayah operasi), serta kontak resmi yang Anda setujui untuk ditampilkan. Kami hanya meminta data yang diperlukan untuk verifikasi keanggotaan dan operasional ekosistem.",
+        notpubTitle: "Data yang TIDAK Kami Publikasikan",
+        notpubDesc:
+          "Halaman publik MUHDIN sengaja dirancang hemat data. Informasi berikut tidak pernah ditampilkan di direktori atau halaman verifikasi publik:",
+        notpubNik: "NIK dan nomor identitas pribadi lainnya",
+        notpubPassport: "Data paspor dan dokumen perjalanan pribadi",
+        notpubBank: "Nomor rekening dan dokumen keuangan pribadi",
+        notpubDocs: "Dokumen pribadi yang dikirim untuk keperluan verifikasi",
+        notpubContact: "Telepon dan email pribadi — hanya kontak yang disetujui organisasi yang ditampilkan",
+        basisTitle: "Dasar Pemrosesan & Persetujuan",
+        basisDesc:
+          "Data diproses berdasarkan persetujuan yang Anda berikan saat pendaftaran (consent), untuk keperluan verifikasi keanggotaan, penampilan profil di direktori sebatas yang disetujui, serta menjaga keamanan dan kepercayaan ekosistem. Anda dapat menarik persetujuan tertentu melalui kanal resmi.",
+        retentionTitle: "Retensi & Penghapusan",
+        retentionDesc:
+          "Data disimpan selama keanggotaan aktif ditambah periode administratif yang wajar. Permintaan penghapusan dilayani melalui kontak resmi setelah verifikasi identitas pemohon. Data yang diwajibkan oleh peraturan untuk disimpan tidak dapat dihapus sebelum jangka wajibnya berakhir.",
+        rightsTitle: "Hak Anda",
+        rightsDesc:
+          "Anda berhak meminta akses, koreksi, pembatasan pemrosesan, penarikan persetujuan, dan penghapusan data pribadi Anda. Permintaan dapat diajukan kapan saja melalui kontak resmi dan akan kami tanggapi dalam waktu yang wajar.",
+        contactTitle: "Kontak Perlindungan Data",
+        contactDesc:
+          "Untuk pertanyaan, permintaan, atau keluhan seputar privasi, hubungi kami di email resmi berikut. Kami membalas setiap permintaan yang sah.",
+        placeholder:
+          "Dokumen ini adalah placeholder awal — versi final akan ditinjau bersama penasihat hukum.",
+      },
+      terms: {
+        eyebrow: "Syarat & Ketentuan",
+        title: "Ketentuan Layanan",
+        subtitle:
+          "Aturan dasar penggunaan platform MUHDIN, keanggotaan, dan batasan status MUHDIN Verified.",
+        defTitle: "Definisi",
+        defDesc:
+          "MUHDIN adalah ekosistem keanggotaan yang menghubungkan penyelenggara, pelaku usaha, profesional, dan penyedia layanan bidang haji–umrah. Pengguna adalah individu atau organisasi yang mengakses platform ini. MUHDIN Verified adalah status verifikasi dokumen internal — bukan izin operasional.",
+        memberTitle: "Keanggotaan & Iuran",
+        memberDesc:
+          "Keanggotaan MUHDIN didasarkan pada pendaftaran, verifikasi rekam jejak, dan pembayaran iuran tahunan. Iuran adalah biaya organisasi MUHDIN untuk operasional ekosistem — bukan biaya pemerintah, bukan biaya pengurusan izin, dan tidak memberikan status hukum apa pun kepada anggota.",
+        verifiedTitle: "Status MUHDIN Verified & Batasannya",
+        verifiedDesc:
+          "Label MUHDIN Verified mencerminkan hasil pemeriksaan dokumen oleh tim internal pada tanggal verifikasi. Status ini terbatas pada data yang tersedia, dapat berubah, dan bukan jaminan mutu layanan masa depan. Ketentuan lengkapnya sebagai berikut:",
+        conductTitle: "Perilaku Anggota",
+        conductDesc:
+          "Anggota wajib menjunjung kejujuran informasi, melindungi dana jamaah, dan tidak menyalahgunakan nama, logo, atau status MUHDIN untuk klaim yang tidak benar. Pelanggaran dikenai sanksi berjenjang mulai dari teguran hingga pencabutan keanggotaan dan pencabutan label verifikasi.",
+        ipTitle: "Hak Kekayaan Intelektual",
+        ipDesc:
+          "Nama, logo, konten, dan materi platform adalah milik MUHDIN atau pemberi lisensinya dan dilindungi hukum. Anggota tidak diperbolehkan menggunakan aset tersebut di luar keterangan kemitraan yang disetujui tanpa izin tertulis.",
+        liabilityTitle: "Batasan Tanggung Jawab",
+        liabilityDesc:
+          "MUHDIN menyediakan platform dan lapisan verifikasi sebaik-baiknya, namun tidak menjamin transaksi antarpihak bebas dari risiko. MUHDIN bukan penjamin keberangkatan dan tidak bertanggung jawab atas kerugian langsung maupun tidak langsung yang timbul dari transaksi antara anggota dan jamaah atau mitra lainnya.",
+        changesTitle: "Perubahan Ketentuan",
+        changesDesc:
+          "Ketentuan ini dapat diperbarui seiring perkembangan ekosistem. Perubahan material akan diumumkan melalui kanal resmi MUHDIN, dan penggunaan platform berkelanjutan setelah pengumuman dianggap sebagai persetujuan.",
+        contactTitle: "Kontak",
+        contactDesc:
+          "Pertanyaan mengenai ketentuan ini dapat dikirimkan melalui halaman kontak atau email resmi MUHDIN. Kami senang menjelaskan bagian mana pun sebelum Anda berkomitmen.",
+        quoteLabel: "Kutipan kebijakan",
+      },
+      dash: {
+        eyebrow: "Portal Anggota",
+        title: "Dashboard Anggota",
+        subtitle: "Pantau status pendaftaran dan langkah berikutnya — cukup dengan kode tiket Anda.",
+        formTitle: "Masukkan Kode Tiket",
+        formDesc:
+          "Kode tiket Anda tercantum pada konfirmasi pendaftaran (format MHD-XXXXXX). Setelah dibuka, kode tersimpan aman di perangkat ini agar Anda tidak perlu mengetik ulang.",
+        formLabel: "Kode Tiket",
+        formPlaceholder: "Contoh: MHD-A1B2C3",
+        formAria: "Kode tiket pendaftaran anggota",
+        formButton: "Buka Status",
+        formEmpty: "Masukkan kode tiket terlebih dahulu.",
+        loading: "Memuat status pendaftaran…",
+        notFound: "Kode tiket tidak ditemukan. Periksa kembali ketikan Anda atau daftarkan organisasi terlebih dahulu.",
+        error: "Terjadi kesalahan saat memuat status. Silakan coba beberapa saat lagi.",
+        exit: "Keluar",
+        exitDesc: "Hapus tiket tersimpan dari perangkat ini.",
+        storedNote: "Tiket tersimpan di perangkat ini",
+        identityOrg: "Organisasi",
+        identityType: "Jenis Mitra",
+        identityTicket: "Kode Tiket",
+        copy: "Salin kode",
+        copied: "Tersalin!",
+        timelineTitle: "Progres Pendaftaran",
+        step1: "Diterima",
+        step2: "Ditinjau",
+        step3: "Keputusan",
+        step1Desc: "Pendaftaran Anda masuk ke sistem MUHDIN.",
+        step2Desc: "Tim verifikasi memeriksa dokumen dan rekam jejak.",
+        step3Desc: "Keputusan keanggotaan ditetapkan dan diumumkan.",
+        ariaTimeline: "Progres verifikasi pendaftaran",
+        ariaDone: "{step}: selesai",
+        ariaCurrent: "{step}: sedang berjalan",
+        ariaWaiting: "{step}: menunggu",
+        reviewNoteTitle: "Catatan Verifikator",
+        nextTitle: "Langkah Selanjutnya",
+        nextPending:
+          "Lengkapi dokumen persyaratan dan tunggu panggilan verifikasi dari tim MUHDIN. Pastikan kontak organisasi mudah dihubungi — Anda dapat memantau perubahan status dari halaman ini kapan saja.",
+        nextApproved:
+          "Pendaftaran Anda disetujui. Selanjutnya lengkapi profil keanggotaan, perkenalkan organisasi Anda di direktori, dan mulai bangun koneksi dalam ekosistem.",
+        nextRejected:
+          "Pendaftaran belum dapat disetujui. Bacalah catatan verifikator dengan saksama, perbaiki bagian yang diminta, lalu ajukan pendaftaran ulang — Anda dipersilakan mencoba kembali kapan saja.",
+        congratsTitle: "Selamat, Pendaftaran Anda Disetujui!",
+        congratsDesc:
+          "Organisasi Anda kini menjadi bagian dari ekosistem MUHDIN. Telusuri direktori anggota dan perkenalkan layanan Anda kepada publik.",
+        ctaDirectory: "Cek Direktori",
+        ctaVerify: "Verifikasi Publik",
+        ctaReapply: "Daftar Ulang",
+        quickTitle: "Akses Cepat",
+        quickMembership: "Keanggotaan",
+        quickMembershipDesc: "Direktori anggota & status verifikasi ekosistem.",
+        quickAcademy: "Akademi",
+        quickAcademyDesc: "Tutorial dan modul pengembangan kapasitas.",
+        quickHelp: "Bantuan",
+        quickHelpDesc: "Hubungi tim MUHDIN untuk pertanyaan apa pun.",
+        statusPENDING: "Ditinjau",
+        statusAPPROVED: "Disetujui",
+        statusREJECTED: "Ditolak",
+      },
+    },
+  },
+  en: {
+    nusTrust: {
+      verify: {
+        eyebrow: "Public Verification",
+        title: "MUHDIN VERIFIED",
+        subtitle: "Know your partner. Verify before you transact.",
+        searchLabel: "Organisation name or license number",
+        searchPlaceholder: "e.g. PT Insan Barokah or PPIU-2026-0011",
+        searchAria: "Organisation name or license number to verify",
+        searchButton: "Verify",
+        searchHelp:
+          "Minimum 3 characters. Search by organisation name or the official license number stated on their documents.",
+        minChars: "Please enter at least 3 characters of the organisation name or license number.",
+        searching: "Verifying organisation data…",
+        error: "Verification failed. Please try again later.",
+        resultsTitle: "Verification Results",
+        resultsFor: "Search: {query}",
+        resultsCount: "{n} organisations found",
+        located: "{city}, {province}",
+        website: "Official website",
+        websiteAria: "Open the organisation's official website in a new tab",
+        verifiedOn: "Verified on {date}",
+        statusAria: "Verification status: {label}",
+      },
+      official: {
+        title: "OFFICIAL VERIFICATION",
+        badgeAria: "MUHDIN-verified organisation",
+        qrCaption: "Scan to open the public verification page",
+        qrAria: "Public verification QR code for this organisation",
+        verifyIdLabel: "Verification ID",
+        docsTitle: "Document categories reviewed",
+        doc1: "Legal identity documents of the organisation (deed, business registration, incorporation)",
+        doc2: "Business licence / operational legal documents for the service field",
+        doc3: "Bank statements from a reference bank as an indication of operations",
+        doc4: "Organisation profile and supporting public track record",
+        docsNote:
+          "The categories above are reviewed based on information available at verification time — not a full financial or operational audit.",
+        nextReview: "Next review: {year} (indicative)",
+      },
+      disclaimer: {
+        title: "Disclaimer",
+        fallback:
+          "MUHDIN Verified is an internal MUHDIN document-verification status as of the verification date — not a government licence, accreditation, or endorsement. MUHDIN is not a PPIU/PIHK and does not guarantee departures. Always re-check an organiser's legality through official channels before transacting.",
+      },
+      empty: {
+        title: "Not Found",
+        desc: "No match found. Please double-check the name or license number.",
+        cta: "Register an Organisation",
+      },
+      priv: {
+        eyebrow: "Privacy & Data Protection",
+        title: "Privacy Policy",
+        subtitle:
+          "How MUHDIN collects, uses, and protects your data — written from day one on a data-minimisation principle.",
+        collectTitle: "Data We Collect",
+        collectDesc:
+          "When you create an account or register as a member, we collect account data (name, work email, role), the organisation data you submit (legal identity, service type, operating region), and the official contact details you approve for display. We only ask for what is necessary for membership verification and ecosystem operations.",
+        notpubTitle: "Data We Do NOT Publish",
+        notpubDesc:
+          "MUHDIN's public pages are deliberately data-minimal. The following information is never displayed on the directory or public verification pages:",
+        notpubNik: "National ID numbers and other personal identity numbers",
+        notpubPassport: "Passport details and personal travel documents",
+        notpubBank: "Bank account numbers and personal financial documents",
+        notpubDocs: "Private documents submitted for verification purposes",
+        notpubContact: "Personal phone and email — only organisation-approved contacts are displayed",
+        basisTitle: "Processing Basis & Consent",
+        basisDesc:
+          "Data is processed based on the consent you grant at registration, for membership verification, for displaying a profile in the directory to the extent approved, and to keep the ecosystem safe and trustworthy. You may withdraw specific consents through official channels.",
+        retentionTitle: "Retention & Deletion",
+        retentionDesc:
+          "Data is kept for the duration of active membership plus a reasonable administrative period. Deletion requests are served through official contact after verifying the requester's identity. Data that regulations require us to retain cannot be deleted before the mandatory period ends.",
+        rightsTitle: "Your Rights",
+        rightsDesc:
+          "You have the right to request access, correction, restriction of processing, withdrawal of consent, and deletion of your personal data. Requests may be submitted at any time via official contact and will be answered within a reasonable time.",
+        contactTitle: "Data Protection Contact",
+        contactDesc:
+          "For privacy questions, requests, or complaints, reach us at the official email below. We respond to every legitimate request.",
+        placeholder:
+          "This document is an initial placeholder — the final version will be reviewed together with legal counsel.",
+      },
+      terms: {
+        eyebrow: "Terms & Conditions",
+        title: "Terms of Service",
+        subtitle:
+          "The ground rules for using the MUHDIN platform, membership, and the limits of the MUHDIN Verified status.",
+        defTitle: "Definitions",
+        defDesc:
+          "MUHDIN is a membership ecosystem connecting organisers, businesses, professionals, and service providers in the hajj–umrah field. Users are individuals or organisations accessing this platform. MUHDIN Verified is an internal document-verification status — not an operating licence.",
+        memberTitle: "Membership & Dues",
+        memberDesc:
+          "MUHDIN membership is based on registration, track-record verification, and annual dues. Dues are MUHDIN organisational fees for ecosystem operations — not government fees, not licence-processing fees, and they confer no legal status upon members.",
+        verifiedTitle: "MUHDIN Verified Status & Its Limits",
+        verifiedDesc:
+          "The MUHDIN Verified label reflects a document review by our internal team as of the verification date. The status is limited to available data, may change, and is not a guarantee of future service quality. The full clause reads as follows:",
+        conductTitle: "Member Conduct",
+        conductDesc:
+          "Members must uphold truthful information, protect pilgrims' funds, and never misuse the MUHDIN name, logo, or status for false claims. Violations carry graduated sanctions from warnings up to membership termination and withdrawal of the verification label.",
+        ipTitle: "Intellectual Property",
+        ipDesc:
+          "The platform's name, logo, content, and materials belong to MUHDIN or its licensors and are protected by law. Members may not use these assets beyond approved partnership attributions without written permission.",
+        liabilityTitle: "Limitation of Liability",
+        liabilityDesc:
+          "MUHDIN provides the platform and a verification layer to the best of its ability, but does not guarantee that transactions between parties are risk-free. MUHDIN does not guarantee departures and is not liable for direct or indirect losses arising from transactions between members and pilgrims or other partners.",
+        changesTitle: "Changes to These Terms",
+        changesDesc:
+          "These terms may be updated as the ecosystem evolves. Material changes will be announced through official MUHDIN channels, and continued use of the platform after the announcement constitutes acceptance.",
+        contactTitle: "Contact",
+        contactDesc:
+          "Questions about these terms may be sent through the contact page or MUHDIN's official email. We are happy to clarify any part before you commit.",
+        quoteLabel: "Policy excerpt",
+      },
+      dash: {
+        eyebrow: "Member Portal",
+        title: "Member Dashboard",
+        subtitle: "Track your application status and next steps — all you need is your ticket code.",
+        formTitle: "Enter Your Ticket Code",
+        formDesc:
+          "Your ticket code is stated on the registration confirmation (format MHD-XXXXXX). Once opened, the code is stored safely on this device so you never have to retype it.",
+        formLabel: "Ticket Code",
+        formPlaceholder: "Example: MHD-A1B2C3",
+        formAria: "Member application ticket code",
+        formButton: "Open Status",
+        formEmpty: "Please enter your ticket code first.",
+        loading: "Loading application status…",
+        notFound: "Ticket code not found. Please check your entry, or register your organisation first.",
+        error: "Something went wrong while loading the status. Please try again later.",
+        exit: "Sign Out",
+        exitDesc: "Remove the stored ticket from this device.",
+        storedNote: "Ticket stored on this device",
+        identityOrg: "Organisation",
+        identityType: "Partner Type",
+        identityTicket: "Ticket Code",
+        copy: "Copy code",
+        copied: "Copied!",
+        timelineTitle: "Application Progress",
+        step1: "Received",
+        step2: "Under Review",
+        step3: "Decision",
+        step1Desc: "Your application has entered the MUHDIN system.",
+        step2Desc: "The verification team reviews documents and track record.",
+        step3Desc: "The membership decision is issued and announced.",
+        ariaTimeline: "Application verification progress",
+        ariaDone: "{step}: completed",
+        ariaCurrent: "{step}: in progress",
+        ariaWaiting: "{step}: pending",
+        reviewNoteTitle: "Reviewer's Note",
+        nextTitle: "Next Steps",
+        nextPending:
+          "Complete the required documents and await the verification call from the MUHDIN team. Keep your organisation's contact reachable — you can monitor status changes here at any time.",
+        nextApproved:
+          "Your application has been approved. Next, complete your membership profile, introduce your organisation in the directory, and start building connections across the ecosystem.",
+        nextRejected:
+          "Your application could not be approved at this time. Read the reviewer's note carefully, address the requested points, then submit a new application — you are welcome to try again at any time.",
+        congratsTitle: "Congratulations, Your Application Is Approved!",
+        congratsDesc:
+          "Your organisation is now part of the MUHDIN ecosystem. Explore the member directory and introduce your services to the public.",
+        ctaDirectory: "Browse Directory",
+        ctaVerify: "Public Verification",
+        ctaReapply: "Re-apply",
+        quickTitle: "Quick Access",
+        quickMembership: "Membership",
+        quickMembershipDesc: "Member directory & ecosystem verification status.",
+        quickAcademy: "Academy",
+        quickAcademyDesc: "Tutorials and capacity-building modules.",
+        quickHelp: "Help",
+        quickHelpDesc: "Contact the MUHDIN team for any question.",
+        statusPENDING: "Under Review",
+        statusAPPROVED: "Approved",
+        statusREJECTED: "Rejected",
+      },
+    },
+  },
+  ar: {
+    nusTrust: {
+      verify: {
+        eyebrow: "التحقق العام",
+        title: "MUHDIN Verified",
+        subtitle: "اعرف شريكك. تحقق قبل أن تتعامل.",
+        searchLabel: "اسم المنظمة أو رقم الترخيص",
+        searchPlaceholder: "مثال: PT Insan Barokah أو PPIU-2026-0011",
+        searchAria: "اسم المنظمة أو رقم الترخيص المراد التحقق منه",
+        searchButton: "تحقق",
+        searchHelp: "ثلاثة أحرف على الأقل. ابحث باسم المنظمة أو رقم الترخيص الرسمي الوارد في وثائقها.",
+        minChars: "الرجاء إدخال ثلاثة أحرف على الأقل من اسم المنظمة أو رقم الترخيص.",
+        searching: "جارٍ التحقق من بيانات المنظمة…",
+        error: "فشل التحقق. الرجاء المحاولة بعد قليل.",
+        resultsTitle: "نتائج التحقق",
+        resultsFor: "البحث: {query}",
+        resultsCount: "تم العثور على {n} منظمة",
+        located: "{city}، {province}",
+        website: "الموقع الرسمي",
+        websiteAria: "فتح الموقع الرسمي للمنظمة في علامة تبويب جديدة",
+        verifiedOn: "تم التحقق في {date}",
+        statusAria: "حالة التحقق: {label}",
+      },
+      official: {
+        title: "تحقق رسمي",
+        badgeAria: "منظمة موثقة من MUHDIN",
+        qrCaption: "امسح الرمز لفتح صفحة التحقق العام",
+        qrAria: "رمز QR للتحقق العام الخاص بهذه المنظمة",
+        verifyIdLabel: "معرّف التحقق",
+        docsTitle: "فئات الوثائق المدققة",
+        doc1: "وثائق الهوية القانونية للمنظمة (السند، التسجيل التجاري، التصديق)",
+        doc2: "رخصة العمل / الوثائق القانونية التشغيلية لمجال الخدمة",
+        doc3: "كشوف حساب مصرفية من بنك مرجعي كمؤشر على النشاط",
+        doc4: "ملف المنظمة وسجلها العام الداعم",
+        docsNote:
+          "تدقق الفئات أعلاه بناءً على المعلومات المتاحة وقت التحقق — وليست تدقيقاً شاملاً للمالية أو العمليات.",
+        nextReview: "المراجعة القادمة: {year} (تقديري)",
+      },
+      disclaimer: {
+        title: "إخلاء مسؤولية",
+        fallback:
+          "حالة MUHDIN Verified هي نتيجة تدقيق وثائقي داخلي من MUHDIN بتاريخ التحقق — وليست ترخيصاً حكومياً ولا اعتماداً ولا رعاية. MUHDIN ليست PPIU/PIHK ولا تضمن رحلات. تحقق دائماً من شرعية المنظم عبر القنوات الرسمية قبل التعامل.",
+      },
+      empty: {
+        title: "غير موجود",
+        desc: "لا توجد نتائج. يرجى التحقق من الاسم أو رقم الترخيص مرة أخرى.",
+        cta: "سجّل منظمتك",
+      },
+      priv: {
+        eyebrow: "الخصوصية وحماية البيانات",
+        title: "سياسة الخصوصية",
+        subtitle: "كيف يجمع MUHDIN بياناتك ويستخدمها ويحميها — مكتوبة منذ اليوم الأول بمبدأ تقليل البيانات.",
+        collectTitle: "البيانات التي نجمعها",
+        collectDesc:
+          "عند إنشاء حساب أو التسجيل كعضو، نجمع بيانات الحساب (الاسم، البريد الإلكتروني للعمل، الدور)، وبيانات المنظمة التي ترسلها (الهوية القانونية، نوع الخدمة، نطاق العمل)، وجهات الاتصال الرسمية التي توافق على عرضها. لا نطلب إلا ما يلزم للتحقق من العضوية وتشغيل المنظومة.",
+        notpubTitle: "البيانات التي لا ننشرها",
+        notpubDesc: "صفحات MUHDIN العامة مصممة عمداً بأقل قدر من البيانات. المعلومات التالية لا تُعرض أبداً في الدليل أو صفحات التحقق العام:",
+        notpubNik: "الأرقام الوطنية للهوية وأرقام الهوية الشخصية الأخرى",
+        notpubPassport: "بيانات جواز السفر ووثائق السفر الشخصية",
+        notpubBank: "أرقام الحسابات البنكية والوثائق المالية الشخصية",
+        notpubDocs: "الوثائق الشخصية المرسلة لأغراض التحقق",
+        notpubContact: "الهاتف والبريد الإلكتروني الشخصي — تُعرض جهات الاتصال المعتمدة من المنظمة فقط",
+        basisTitle: "أساس المعالجة والموافقة",
+        basisDesc:
+          "تُعالج البيانات بناءً على موافقتك عند التسجيل، وذلك للتحقق من العضوية، ولعرض الملف في الدليل بالقدر المعتمد، وللحفاظ على أمان المنظومة وموثوقيتها. يمكنك سحب موافقات محددة عبر القنوات الرسمية.",
+        retentionTitle: "الاحتفاظ والحذف",
+        retentionDesc:
+          "تُحفظ البيانات طوال فترة العضوية النشطة إضافة إلى مدة إدارية معقولة. تُلبّى طلبات الحذف عبر جهة الاتصال الرسمية بعد التحقق من هوية الطالب. أما البيانات التي تُلزمنا الأنظمة بالاحتفاظ بها فلا يمكن حذفها قبل انتهاء المدة الإلزامية.",
+        rightsTitle: "حقوقك",
+        rightsDesc:
+          "من حقك طلب الوصول إلى بياناتك وتصحيحها وتقييد معالجتها وسحب الموافقة وحذفها. يمكن تقديم الطلبات في أي وقت عبر جهة الاتصال الرسمية وسنرد عليها في وقت معقول.",
+        contactTitle: "جهة اتصال حماية البيانات",
+        contactDesc: "للاستفسارات أو الطلبات أو الشكاوى المتعلقة بالخصوصية، راسلنا على البريد الرسمي التالي. نرد على كل طلب مشروع.",
+        placeholder: "هذه الوثيقة مسودة أولية — ستتم مراجعة النسخة النهائية مع مستشار قانوني.",
+      },
+      terms: {
+        eyebrow: "الشروط والأحكام",
+        title: "شروط الخدمة",
+        subtitle: "القواعد الأساسية لاستخدام منصة MUHDIN والعضوية وحدود حالة MUHDIN Verified.",
+        defTitle: "التعريفات",
+        defDesc:
+          "MUHDIN منظومة عضوية تربط المنظمين والشركات والمهنيين ومزودي الخدمات في مجال الحج والعمرة. المستخدمون هم الأفراد أو المنظمات الذين يستخدمون هذه المنصة. حالة MUHDIN Verified هي نتيجة تدقيق وثائقي داخلي — وليست ترخيص تشغيل.",
+        memberTitle: "العضوية والاشتراكات",
+        memberDesc:
+          "تقوم عضوية MUHDIN على التسجيل والتحقق من السجل وسداد الاشتراك السنوي. الاشتراك رسوم تنظيمية لـ MUHDIN لتشغيل المنظومة — وليست رسوم حكومية ولا رسوم استخراج تراخيص، ولا تمنح العضو أي وضع قانوني.",
+        verifiedTitle: "حالة MUHDIN Verified وحدودها",
+        verifiedDesc:
+          "تعكس علامة MUHDIN Verified نتيجة مراجعة وثائق أجراها فريقنا الداخلي بتاريخ التحقق. هذه الحالة مقيّدة بالبيانات المتاحة، وقابلة للتغير، وليست ضماناً لجودة الخدمة مستقبلاً. ونص البند الكامل كالآتي:",
+        conductTitle: "سلوك الأعضاء",
+        conductDesc:
+          "يلتزم الأعضاء بصحة المعلومات وحماية أموال الحجاج وعدم إساءة استخدام اسم MUHDIN أو شعاره أو حالته في ادعاءات غير صحيحة. تُطبق عقوبات متدرجة على المخالفات تتراوح من الإنذار إلى إنهاء العضوية وسحب علامة التحقق.",
+        ipTitle: "حقوق الملكية الفكرية",
+        ipDesc:
+          "اسم المنصة وشعارها ومحتواها وموادها ملك لـ MUHDIN أو مرخّصيها ومحمية قانوناً. لا يجوز للأعضاء استخدام هذه الأصول خارج الإسنادات المعتمدة للشراكة دون إذن كتابي.",
+        liabilityTitle: "حدود المسؤولية",
+        liabilityDesc:
+          "توفر MUHDIN المنصة وطبقة التحقق على أفضل وجه، لكنها لا تضمن خلو المعاملات بين الأطراف من المخاطر. MUHDIN ليست ضامناً للرحلات ولا تتحمل مسؤولية الخسائر المباشرة أو غير المباشرة الناشئة عن معاملات الأعضاء مع الحجاج أو الشركاء الآخرين.",
+        changesTitle: "التغييرات على هذه الشروط",
+        changesDesc:
+          "قد تُحدَّث هذه الشروط مع تطور المنظومة. تُعلن التغييرات الجوهرية عبر القنوات الرسمية لـ MUHDIN، ويُعد استمرار استخدام المنصة بعد الإعلان موافقةً عليها.",
+        contactTitle: "التواصل",
+        contactDesc: "يمكن إرسال الأسئلة حول هذه الشروط عبر صفحة الاتصال أو البريد الرسمي لـ MUHDIN. يسعدنا توضيح أي بند قبل التزامك.",
+        quoteLabel: "مقتطف من السياسة",
+      },
+      dash: {
+        eyebrow: "بوابة الأعضاء",
+        title: "لوحة العضو",
+        subtitle: "تابع حالة طلبك والخطوات التالية — كل ما تحتاجه هو رمز التذكرة.",
+        formTitle: "أدخل رمز التذكرة",
+        formDesc: "رمز التذكرة مذكور في تأكيد التسجيل (بالصيغة MHD-XXXXXX). بعد فتحه يُحفظ الرمز بأمان على هذا الجهاز حتى لا تعيد كتابته.",
+        formLabel: "رمز التذكرة",
+        formPlaceholder: "مثال: MHD-A1B2C3",
+        formAria: "رمز تذكرة طلب العضوية",
+        formButton: "فتح الحالة",
+        formEmpty: "الرجاء إدخال رمز التذكرة أولاً.",
+        loading: "جارٍ تحميل حالة الطلب…",
+        notFound: "رمز التذكرة غير موجود. تحقق من الإدخال أو سجّل منظمتك أولاً.",
+        error: "حدث خطأ أثناء تحميل الحالة. الرجاء المحاولة بعد قليل.",
+        exit: "خروج",
+        exitDesc: "إزالة التذكرة المحفوظة من هذا الجهاز.",
+        storedNote: "التذكرة محفوظة على هذا الجهاز",
+        identityOrg: "المنظمة",
+        identityType: "نوع الشريك",
+        identityTicket: "رمز التذكرة",
+        copy: "نسخ الرمز",
+        copied: "تم النسخ!",
+        timelineTitle: "تقدم الطلب",
+        step1: "مُستلم",
+        step2: "قيد المراجعة",
+        step3: "القرار",
+        step1Desc: "دخل طلبك نظام MUHDIN.",
+        step2Desc: "يراجع فريق التحقق الوثائق والسجل.",
+        step3Desc: "يصدر قرار العضوية ويُعلن.",
+        ariaTimeline: "تقدم التحقق من الطلب",
+        ariaDone: "{step}: مكتمل",
+        ariaCurrent: "{step}: جارٍ",
+        ariaWaiting: "{step}: في الانتظار",
+        reviewNoteTitle: "ملاحظة المراجع",
+        nextTitle: "الخطوات التالية",
+        nextPending:
+          "أكمل الوثائق المطلوبة وانتظر مكالمة التحقق من فريق MUHDIN. حافظ على إمكانية التواصل مع منظمتك — يمكنك متابعة تغير الحالة من هنا في أي وقت.",
+        nextApproved:
+          "تمت الموافقة على طلبك. بعد ذلك أكمل ملف العضوية، وعرّف بمنظمتك في الدليل، وابدأ بناء الاتصالات داخل المنظومة.",
+        nextRejected:
+          "لم يتم اعتماد الطلب حالياً. اقرأ ملاحظة المراجع بعناية، وعالج النقاط المطلوبة، ثم قدّم طلباً جديداً — يمكنك المحاولة مرة أخرى في أي وقت.",
+        congratsTitle: "تهانينا، تمت الموافقة على طلبك!",
+        congratsDesc: "منظمتك أصبحت الآن جزءاً من منظومة MUHDIN. استكشف دليل الأعضاء وعرّف الجمهور بخدماتك.",
+        ctaDirectory: "تصفح الدليل",
+        ctaVerify: "التحقق العام",
+        ctaReapply: "إعادة التقديم",
+        quickTitle: "وصول سريع",
+        quickMembership: "العضوية",
+        quickMembershipDesc: "دليل الأعضاء وحالة التحقق في المنظومة.",
+        quickAcademy: "الأكاديمية",
+        quickAcademyDesc: "الدروس ووحدات بناء القدرات.",
+        quickHelp: "المساعدة",
+        quickHelpDesc: "تواصل مع فريق MUHDIN لأي استفسار.",
+        statusPENDING: "قيد المراجعة",
+        statusAPPROVED: "مقبول",
+        statusREJECTED: "مرفوض",
+      },
+    },
+  },
+};
