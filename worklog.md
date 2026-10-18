@@ -1552,3 +1552,22 @@ Stage Summary:
 - "Nusuk" (platform resmi Kementerian Haji Saudi) sengaja TIDAK diubah — bukan bagian nama organisasi
 - File terganti: whitepaper-muhdin-2026.pdf (18 hal, 760KB) + salinan upload/ + 6 PNG promo + 4 PDF demo
 - Bonus fix: key i18n freeBadge (bug bawaan repo, badge homepage tampil raw key sebelumnya)
+
+---
+Task ID: 4
+Agent: Z.ai Code (main orchestrator)
+Task: Kajian gap analysis hulu→hilir "halaman & layanan yang belum dibuat" (46 dewan pakar lintas bidang)
+
+Work Log:
+- Konfirmasi Task 3 (rebranding Nusantara→Indonesia) sudah 100% tuntas; tersisa 0 kemunculan di kode/DB
+- Audit menyeluruh kondisi existing: 23 halaman publik hash-route (beranda, nusuk, ekosistem, alur, anggota, verifikasi, tutorial, berita, tentang, pengurus, layanan/<slug>, kontak, gabung, daftar, lacak, dashboard/jamaah|mitra|ppiu-pihk, privasi, syarat, galeri, agenda, unduhan, lapor, admin)
+- Inventarisasi 66 endpoint API + 26 model Prisma + fitur: PWA, i18n ID/EN/AR+RTL, dark mode, WA gateway (Fonnte/Wablas), audit log, backup/export, RSS, sitemap/robots, QR verifikasi, 15 peran pendaftaran, CMS lengkap
+- Cek POST publik: testimonials, complaints, applications, subscribers, messages (jamaah dapat submit)
+- Riset web: Kementerian Haji dan Umrah (Kemenhaj) baru + verifikasi ulang ±3.000 travel umrah; benchmark amphuri.org, sapuhi.id, erahajj; regulasi PP 115/2014
+- Menyusun gap analysis 46 dewan pakar dalam 8 klaster: Hukum (6), Operasional Industri (7), Modal Manusia (4), Teknologi (8), Pengalaman (7), Bisnis & Ekosistem (6), Perlindungan & Penyelesaian (4), Keberlanjutan & Riset (4)
+- Memetakan ~35 halaman/layanan baru yang belum dibuat ke dalam roadmap P0 (0-30 hari), P1 (1-3 bulan), P2 (3-12 bulan)
+
+Stage Summary:
+- Kondisi existing sangat kuat (fase "portal resmi asosiasi" lengkap); gap strategis ada di: (1) lapisan transaksional keanggotaan (iuran/KTA digital/sertifikat), (2) lapisan perlindungan hulu-hilir (regulasi, etik/sanksi, mediasi DPS, darurat), (3) lapisan jamaah B2C (kalkulator, katalog paket, AI chatbot, akademi/LMS), (4) lapisan platform (widget embed, developer API, push, status page), (5) kepatuhan PDP & kepatuhan Kemenhaj
+- Catatan teknis: hash-router SPA = risiko SEO/OG; perlu prerender/SSR untuk halaman publik
+- Kajian disajikan penuh ke user; siap dieksekusi bertahap bila disetujui
