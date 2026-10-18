@@ -205,6 +205,46 @@ export interface WhatsAppConfig {
   lastTestStatus: string;
 }
 
+/** Task 60 — konfigurasi notifikasi email sekretariat (App Password dimasking). */
+export interface EmailConfig {
+  smtpHost: string;
+  smtpPort: number;
+  smtpSecure: boolean;
+  smtpUser: string;
+  fromName: string;
+  recipients: string[];
+  enabled: boolean;
+  notifyContact: boolean;
+  notifyApplication: boolean;
+  notifyComplaint: boolean;
+  notifySubscriber: boolean;
+  notifyTestimonial: boolean;
+  hasPass: boolean;
+  passMasked: string;
+  envFallback: boolean;
+  effective: boolean;
+  lastTestAt: string | null;
+  lastTestStatus: string;
+}
+
+/** Task 60 — baris log audit notifikasi (email & WhatsApp). */
+export interface NotificationLogItem {
+  id: string;
+  channel: string;
+  eventType: string;
+  status: string;
+  recipient: string;
+  subject: string;
+  detail: string;
+  refId: string | null;
+  createdAt: string;
+}
+
+export interface NotificationLogResponse {
+  logs: NotificationLogItem[];
+  stats: { sent: number; failed: number };
+}
+
 // ==================== KELENGKAPAN PORTAL (Task 18) ====================
 
 export interface GalleryItem {

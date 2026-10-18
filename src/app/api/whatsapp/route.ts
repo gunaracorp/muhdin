@@ -48,8 +48,12 @@ export async function PUT(req: NextRequest) {
       return fail("Provider tidak valid.");
     }
     const targetRaw = body.target !== undefined ? String(body.target) : cfg.target;
-    if (targetRaw && normalizeWaNumber(targetRaw).length < 10) {
-      return fail("Nomor WhatsApp tujuan tidak valid (contoh: 6281234567890).");
+    // Task 60 — dukung multi-nomor tujuan dipisah koma; validasi tiap bagian.
+    const targetParts = targetRaw.split(",").map((s) => s.trim()).filter(Boolean);
+    for (const part of targetParts) {
+      if (part && normalizeWaNumber(part).length < 10) {
+        return fail("Nomor WhatsApp tujuan tidak valid (contoh: 6281234567890 atau 628xxx,628yyy).");
+      }
     }
 
     const updated = await db.whatsAppSetting.update({
@@ -57,7 +61,7 @@ export async function PUT(req: NextRequest) {
       data: {
         provider,
         apiUrl: body.apiUrl !== undefined ? String(body.apiUrl).trim() : cfg.apiUrl,
-        target: targetRaw ? normalizeWaNumber(targetRaw) : "",
+        target: targetParts.length > 0 ? targetParts.map((p) => normalizeWaNumber(p)).join(",") : "",
         enabled: body.enabled !== undefined ? Boolean(body.enabled) : cfg.enabled,
         notifyContact: body.notifyContact !== undefined ? Boolean(body.notifyContact) : cfg.notifyContact,
         notifyApplication:

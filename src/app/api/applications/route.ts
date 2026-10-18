@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { guardAdmin, ok, fail } from "@/lib/api-helpers";
 import { notifyMembershipApplication } from "@/lib/whatsapp";
+import { notifyEmailApplication } from "@/lib/email"; // Task 60 — notifikasi email sekretariat
 import { rateLimit } from "@/lib/ratelimit";
 import { broadcastRegistration } from "@/lib/live-gateway"; // Task 53 — push realtime
 
@@ -110,6 +111,24 @@ export async function POST(req: NextRequest) {
       city: app.city,
       licenseNo: app.licenseNo,
       ticketCode: app.ticketCode,
+      queueNumber: app.queueNumber, // Task 60 — nomor urut di pesan WA
+    });
+    // Task 60 — notifikasi email ke sekretariat (asosiasi.muhdin@gmail.com &
+    // muhdin.indonesia@gmail.com), lengkap semua kolom formulir.
+    void notifyEmailApplication({
+      queueNumber: app.queueNumber,
+      ticketCode: app.ticketCode,
+      orgName: app.orgName,
+      type: app.type,
+      contactName: app.contactName,
+      email: app.email,
+      phone: app.phone,
+      city: app.city,
+      province: app.province,
+      licenseNo: app.licenseNo,
+      message: app.message,
+      createdAt: app.createdAt,
+      refId: app.id,
     });
     // Task 53 — push realtime ke semua pengunjung (gagal-aman).
     const total = await db.membershipApplication.count({ where: { status: { not: "REJECTED" } } });

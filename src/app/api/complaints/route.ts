@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { guardAdmin, ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
 import { notifyComplaint } from "@/lib/whatsapp";
+import { notifyEmailComplaint } from "@/lib/email"; // Task 60 — notifikasi email sekretariat
 
 export async function GET(req: NextRequest) {
   const denied = await guardAdmin();
@@ -48,6 +49,17 @@ export async function POST(req: NextRequest) {
     });
     // Task 15-d/18 — notifikasi WhatsApp (fire-and-forget, gagal-aman).
     void notifyComplaint({ name, targetMember: complaint.targetMember, category: complaint.category });
+    // Task 60 — notifikasi email ke sekretariat, lengkap seluruh kolom laporan.
+    void notifyEmailComplaint({
+      name,
+      email,
+      phone: complaint.phone,
+      targetMember: complaint.targetMember,
+      category: complaint.category,
+      content,
+      createdAt: complaint.createdAt,
+      refId: complaint.id,
+    });
     return ok(complaint, 201);
   } catch {
     return fail("Gagal mengirim pengaduan.", 500);

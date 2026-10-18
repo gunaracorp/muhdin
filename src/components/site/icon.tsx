@@ -18,6 +18,8 @@ import {
   // Task 52 (P0) — ikon infrastruktur kepercayaan
   Gavel, Siren, Calculator, Lock, LifeBuoy, Stethoscope, Banknote,
   PiggyBank, Code2, ClipboardCheck, FileCheck2, Pill, BookMarked, Swords,
+  // Task 60 — notifikasi email
+  History, AtSign,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -97,6 +99,8 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   save: Save,
   rotate: RotateCcw,
   keyround: KeyRound,
+  history: History,
+  "at-sign": AtSign,
   "shield-alert": ShieldAlert,
   target: Target,
   "heart-pulse": HeartPulse,

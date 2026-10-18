@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { guardAdmin, ok, fail } from "@/lib/api-helpers";
 import { localeFromRequest, applyEntityTranslations } from "@/lib/i18n-server";
+import { notifyEmailTestimonial } from "@/lib/email"; // Task 60 — notifikasi email sekretariat
+import { notifyTestimonial } from "@/lib/whatsapp"; // Task 60 — notifikasi WhatsApp
 
 export async function GET(req: NextRequest) {
   try {
@@ -38,6 +40,16 @@ export async function POST(req: NextRequest) {
         published: false,
       },
     });
+    // Task 60 — notifikasi testimoni baru ke sekretariat (fire-and-forget).
+    void notifyEmailTestimonial({
+      name: t.name,
+      role: t.role,
+      content: t.content,
+      rating: t.rating,
+      createdAt: t.createdAt,
+      refId: t.id,
+    });
+    void notifyTestimonial({ name: t.name, role: t.role, rating: t.rating });
     return ok(t, 201);
   } catch {
     return fail("Gagal mengirim testimoni.", 500);

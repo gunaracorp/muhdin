@@ -10,6 +10,7 @@
  * dan memiliki timeout 10 detik agar form publik tidak menggantung.
  */
 import { db } from "@/lib/db";
+import { logNotification } from "@/lib/email"; // Task 60 — audit log terpadu
 
 export const WA_PROVIDERS = ["FONNTE", "WABLAS", "CUSTOM"] as const;
 
@@ -49,25 +50,55 @@ async function post(url: string, init: RequestInit): Promise<WaSendResult> {
   return { sent: true, detail: text.slice(0, 200) || "OK" };
 }
 
-/** Kirim pesan WhatsApp sesuai konfigurasi tersimpan. */
+/** Kirim pesan WhatsApp sesuai konfigurasi tersimpan.
+ *  Task 60 — mendukung multi-nomor tujuan (dipisah koma); setiap nomor
+ *  dikirim paralel, satu nomor gagal tidak menggagalkan yang lain. */
 export async function sendWhatsAppMessage(message: string): Promise<WaSendResult> {
   try {
     const cfg = await getWhatsAppSetting();
     if (!cfg.enabled) return { sent: false, detail: "Notifikasi WhatsApp sedang nonaktif." };
     if (!cfg.token) return { sent: false, detail: "Token gateway belum diisi." };
-    if (!cfg.target) return { sent: false, detail: "Nomor tujuan admin belum diisi." };
-    const target = normalizeWaNumber(cfg.target);
+    const targets = cfg.target
+      .split(",")
+      .map((s) => normalizeWaNumber(s.trim()))
+      .filter((s) => s.length >= 10);
+    if (targets.length === 0) return { sent: false, detail: "Nomor tujuan admin belum diisi." };
+    if (targets.length === 1) return await sendToTarget(cfg.provider, cfg.apiUrl, cfg.token, targets[0], message);
 
-    switch (cfg.provider) {
+    const results = await Promise.allSettled(
+      targets.map((t) => sendToTarget(cfg.provider, cfg.apiUrl, cfg.token, t, message))
+    );
+    const settled = results.map((r) => (r.status === "fulfilled" ? r.value : { sent: false, detail: String(r.reason) }));
+    const okCount = settled.filter((r) => r.sent).length;
+    return {
+      sent: okCount > 0,
+      detail: `${okCount}/${targets.length} terkirim — ${targets.map((t, i) => `${t}=${settled[i]?.sent ? "OK" : "GAGAL"}`).join("; ")}`,
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { sent: false, detail: msg.includes("timeout") ? "Timeout — gateway tidak merespons 10 detik." : msg };
+  }
+}
+
+/** Kirim ke satu nomor tujuan pada provider tertentu. */
+async function sendToTarget(
+  provider: string,
+  apiUrl: string,
+  token: string,
+  target: string,
+  message: string
+): Promise<WaSendResult> {
+  try {
+    switch (provider) {
       case "FONNTE":
         return await post("https://api.fonnte.com/send", {
           method: "POST",
-          headers: { Authorization: cfg.token },
+          headers: { Authorization: token },
           body: new URLSearchParams({ target, message }),
         });
       case "WABLAS":
         return await post(
-          `https://console.wablas.com/api/send-message?token=${encodeURIComponent(cfg.token)}`,
+          `https://console.wablas.com/api/send-message?token=${encodeURIComponent(token)}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -75,15 +106,15 @@ export async function sendWhatsAppMessage(message: string): Promise<WaSendResult
           }
         );
       case "CUSTOM": {
-        if (!cfg.apiUrl) return { sent: false, detail: "URL endpoint CUSTOM belum diisi." };
-        return await post(cfg.apiUrl, {
+        if (!apiUrl) return { sent: false, detail: "URL endpoint CUSTOM belum diisi." };
+        return await post(apiUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: cfg.token, target, message }),
+          body: JSON.stringify({ token, target, message }),
         });
       }
       default:
-        return { sent: false, detail: `Provider tidak dikenal: ${cfg.provider}` };
+        return { sent: false, detail: `Provider tidak dikenal: ${provider}` };
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -125,10 +156,12 @@ export function waApplicationTemplate(a: {
   city: string;
   licenseNo: string;
   ticketCode: string; // Task 18 — kode tiket pelacakan publik
+  queueNumber?: number | null; // Task 53 — nomor urut papan slot
 }) {
   return [
     "📋 *Pendaftaran Anggota Baru — MUHDIN*",
     "",
+    a.queueNumber ? `*Nomor Urut:* #${a.queueNumber}` : null,
     `*Kode Tiket:* ${a.ticketCode}`,
     `*Organisasi:* ${a.orgName}`,
     `*Tipe:* ${a.type}`,
@@ -139,6 +172,32 @@ export function waApplicationTemplate(a: {
     `*No. Izin:* ${a.licenseNo}`,
     "",
     "_Tinjau melalui CMS MUHDIN → Pendaftaran._",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+/** Task 60 — template langganan newsletter baru (footer publik). */
+export function waSubscriberTemplate(s: { email: string }) {
+  return [
+    "📰 *Langganan Newsletter Baru — MUHDIN*",
+    "",
+    `*Email:* ${s.email}`,
+    "",
+    "_Tinjau melalui CMS MUHDIN → Pelanggan._",
+  ].join("\n");
+}
+
+/** Task 60 — template testimoni publik baru (menunggu moderasi). */
+export function waTestimonialTemplate(t: { name: string; role: string; rating: number }) {
+  return [
+    "⭐ *Testimoni Baru — MUHDIN*",
+    "",
+    `*Nama:* ${t.name}`,
+    `*Peran:* ${t.role}`,
+    `*Rating:* ${t.rating}/5`,
+    "",
+    "_Moderasi melalui CMS MUHDIN → Testimoni._",
   ].join("\n");
 }
 
@@ -174,6 +233,14 @@ export async function notifyContactMessage(m: Parameters<typeof waContactTemplat
         data: { lastTestAt: new Date(), lastTestStatus: `${res.sent ? "OK" : "GAGAL"} — ${res.detail.slice(0, 180)}` },
       })
       .catch(() => {});
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType: "CONTACT",
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject: `Pesan Kontak — ${m.subject}`,
+      detail: res.detail,
+    });
   } catch {
     /* notifikasi tidak boleh mengganggu alur utama */
   }
@@ -190,6 +257,14 @@ export async function notifyMembershipApplication(a: Parameters<typeof waApplica
         data: { lastTestAt: new Date(), lastTestStatus: `${res.sent ? "OK" : "GAGAL"} — ${res.detail.slice(0, 180)}` },
       })
       .catch(() => {});
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType: "APPLICATION",
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject: `Pendaftaran #${a.queueNumber ?? "-"} — ${a.orgName}`,
+      detail: res.detail,
+    });
   } catch {
     /* notifikasi tidak boleh mengganggu alur utama */
   }
@@ -208,7 +283,53 @@ export async function notifyComplaint(c: Parameters<typeof waComplaintTemplate>[
         data: { lastTestAt: new Date(), lastTestStatus: `${res.sent ? "OK" : "GAGAL"} — ${res.detail.slice(0, 180)}` },
       })
       .catch(() => {});
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType: "COMPLAINT",
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject: `Pengaduan — ${c.category}`,
+      detail: res.detail,
+    });
   } catch {
     /* notifikasi tidak boleh mengganggu alur utama */
+  }
+}
+
+/** Task 60 — notifikasi WA langganan newsletter (mengikuti saklar kontak). */
+export async function notifySubscriber(s: Parameters<typeof waSubscriberTemplate>[0]) {
+  try {
+    const cfg = await getWhatsAppSetting();
+    if (!cfg.enabled || !cfg.notifyContact) return;
+    const res = await sendWhatsAppMessage(waSubscriberTemplate(s));
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType: "SUBSCRIBER",
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject: `Langganan — ${s.email}`,
+      detail: res.detail,
+    });
+  } catch {
+    /* diamkan */
+  }
+}
+
+/** Task 60 — notifikasi WA testimoni baru (mengikuti saklar kontak). */
+export async function notifyTestimonial(t: Parameters<typeof waTestimonialTemplate>[0]) {
+  try {
+    const cfg = await getWhatsAppSetting();
+    if (!cfg.enabled || !cfg.notifyContact) return;
+    const res = await sendWhatsAppMessage(waTestimonialTemplate(t));
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType: "TESTIMONIAL",
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject: `Testimoni — ${t.name}`,
+      detail: res.detail,
+    });
+  } catch {
+    /* diamkan */
   }
 }

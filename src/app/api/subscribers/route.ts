@@ -10,6 +10,8 @@ import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { guardRole, ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
+import { notifyEmailSubscriber } from "@/lib/email"; // Task 60 — notifikasi email sekretariat
+import { notifySubscriber } from "@/lib/whatsapp"; // Task 60 — notifikasi WhatsApp
 
 export async function GET() {
   const denied = await guardRole(["SUPER_ADMIN", "ADMIN"]);
@@ -32,7 +34,10 @@ export async function POST(req: NextRequest) {
     const email = String(body.email || "").trim().toLowerCase();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return fail("Format email tidak valid.");
     try {
-      await db.subscriber.create({ data: { email } });
+      const s = await db.subscriber.create({ data: { email } });
+      // Task 60 — notifikasi langganan baru ke sekretariat (fire-and-forget).
+      void notifyEmailSubscriber({ email, createdAt: s.createdAt, refId: s.id });
+      void notifySubscriber({ email });
       return ok({ ok: true, already: false }, 201);
     } catch (err) {
       // Task 18 — P2002 (email unik): jangan bocorkan bahwa email sudah terdaftar.

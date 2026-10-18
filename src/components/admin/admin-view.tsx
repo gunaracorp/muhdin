@@ -19,6 +19,7 @@ import {
 } from "@/components/admin/admin-sections";
 import { AdminUsers } from "@/components/admin/admin-users";
 import { AdminWhatsAppCard } from "@/components/admin/admin-whatsapp";
+import { AdminEmailCard, AdminNotificationLog } from "@/components/admin/admin-notifications";
 import { AdminBell } from "@/components/admin/admin-bell";
 import { AdminGallery } from "@/components/admin/admin-gallery";
 import { AdminAgenda } from "@/components/admin/admin-agenda";
@@ -206,7 +207,9 @@ export function AdminView() {
           {section === "settings" && (
             <>
               <AdminSettings />
+              <AdminEmailCard />
               <AdminWhatsAppCard />
+              <AdminNotificationLog />
             </>
           )}
           {section === "translator" && <AdminTranslator />}

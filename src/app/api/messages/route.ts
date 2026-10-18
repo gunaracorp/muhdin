@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { guardAdmin, ok, fail } from "@/lib/api-helpers";
 import { notifyContactMessage } from "@/lib/whatsapp";
+import { notifyEmailContact } from "@/lib/email"; // Task 60 — notifikasi email sekretariat
 import { rateLimit } from "@/lib/ratelimit";
 
 export async function GET(req: NextRequest) {
@@ -37,6 +38,9 @@ export async function POST(req: NextRequest) {
     });
     // Task 15-d — notifikasi WhatsApp (fire-and-forget, gagal-aman).
     void notifyContactMessage({ name, email, phone: msg.phone, subject, message });
+    // Task 60 — notifikasi email ke sekretariat (asosiasi.muhdin@gmail.com &
+    // muhdin.indonesia@gmail.com), termasuk DSAR PDP dari halaman #/pdp.
+    void notifyEmailContact({ name, email, phone: msg.phone, subject, message, createdAt: msg.createdAt, refId: msg.id });
     return ok(msg, 201);
   } catch {
     return fail("Gagal mengirim pesan.", 500);

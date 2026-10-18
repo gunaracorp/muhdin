@@ -1711,3 +1711,29 @@ Stage Summary:
 - Data uji tersisa di DB (realistis utk demo): #6 Semarang PPIU, #7 Yogyakarta KBIHU, #8 Bogor PPIU (MHD-5VVEX5), #9 Madinah hotel — bisa dihapus via admin
 - Screenshot: /tmp/task53-board.png (desktop), /tmp/task53-queue-card.png, /tmp/task53-success.png
 - Prasyarat produksi: jalankan mini-services/registration-gateway (`bun run dev`); port 3004 hanya localhost
+---
+Task ID: 7
+Agent: Z.ai Code (main orchestrator)
+Task: Notifikasi otomatis formulir publik → 2 email sekretariat (asosiasi.muhdin@gmail.com & muhdin.indonesia@gmail.com) + notifikasi WhatsApp — "setiap orang yang mengirim formulir otomatis mengirim data ke sekretariat"
+
+Work Log:
+- Prisma: +model EmailSetting (SMTP singleton, default recipients = 2 Gmail sekretariat, saklar per jenis formulir) + NotificationLog (audit EMAIL/WHATSAPP, index createdAt & channel+status); db:push OK
+- Deps: nodemailer@10.1.2 + @types/nodemailer (bun add)
+- src/lib/email.ts (BARU): resolveEmailConfig (DB menang, fallback env SMTP_USER/SMTP_PASS/SMTP_HOST/SMTP_PORT), Gmail SMTP 465/587, sendSecretariatEmail kirim PARALEL per penerima (1 gagal tidak menggagalkan lain), 5 template HTML bermerek (header hijau+gold MUHDIN, kartu fakta emas, tabel zebra semua kolom, blok pesan, footer WIB + refId), versi text, fmtWib (Asia/Jakarta), logNotification terpadu, per-recipient log SENT/FAILED, lastTestStatus update; notifier: notifyEmail{Contact,Application,Complaint,Subscriber,Testimonial} + sendEmailTest — semua fire-and-forget gagal-aman
+- src/lib/whatsapp.ts: refactor sendWhatsAppMessage → multi-nomor tujuan (dipisah koma) via sendToTarget per provider; waApplicationTemplate +queueNumber; +waSubscriberTemplate & waTestimonialTemplate; +notifySubscriber & notifyTestimonial; SEMUA notifier kini menulis NotificationLog (audit terpadu)
+- API BARU: /api/email-settings (GET/PUT admin: masking App Password, validasi recipient/port, envFallback flag) + /api/email-settings/test (POST kirim uji nyata) + /api/whatsapp/test (FIX: dipanggil UI lama tapi belum pernah ada — kini kirim uji + log) + /api/notifications (GET filter channel/status + stats; DELETE SUPER_ADMIN)
+- Wiring 5 endpoint formulir: messages (kontak+DSAR), applications (email + WA queueNumber), complaints, subscribers (SEBELUMNYA TANPA notifikasi), testimonials (SEBELUMNYA TANPA notifikasi) — semua void fire-and-forget
+- Admin UI: src/components/admin/admin-notifications.tsx (BARU) — AdminEmailCard (SMTP host/port/auto-secure, akun Gmail, App Password show/hide+mask, penerima multi, nama pengirim, panduan 5 langkah App Password, 5 saklar per formulir, status kirim terakhir, Simpan+Kirim Uji) & AdminNotificationLog (filter channel/status chips, stats terkirim/gagal, max-h-96 scroll, badge + detail error, Muat Ulang, Bersihkan via AlertDialog); dimount di admin-view section "settings" (AdminSettings → AdminEmailCard → AdminWhatsAppCard → AdminNotificationLog)
+- icon.tsx: +History, +AtSign; types.ts: +EmailConfig, NotificationLogItem, NotificationLogResponse
+- FIX lint: set-state-in-effect di AdminNotificationLog (refresh terpisah dari load)
+- scripts/preview-email.ts: pratinjau HTML email offline (bun, tanpa kirim)
+- Verifikasi curl: login admin → GET /api/email-settings (recipients default = 2 Gmail persis); kredensial dummy → 1 POST /api/messages menghasilkan 2 log EMAIL (per mailbox) dgn error NYATA Gmail "535 Invalid login" (membuktikan koneksi ke smtp.gmail.com sungguhan); WA dummy token → log "invalid token" NYATA dari api.fonnte.com; ke-5 jenis formulir × 2 channel terkonfirmasi (14 upaya); complaint 201; application → queue #10 MHD-BX8FWT; test endpoints keduanya respons benar
+- Reset kredensial dummy → keadaan "armed menunggu kredensial": log FAILED berisi instruksi jelas ("SMTP belum dikonfigurasi — isi akun Gmail + App Password di CMS")
+- Agent Browser: admin settings render 3 kartu sempurna; email preview HTML screenshot (branded, tabel detail, #10 + tiket); submit form kontak publik via UI → POST 201 → log baru muncul (EMAIL + WHATSAPP CONTACT); 0 console error, 0 page error, mobile 390px tanpa overflow
+- Screenshot: /tmp/task60-admin-notif.png (desktop penuh), /tmp/task60-final-admin.png, /tmp/task60-email-preview.png
+
+Stage Summary:
+- SETIAP formulir publik (kontak/DSAR, pendaftaran anggota, pengaduan, langganan, testimoni) kini otomatis diteruskan ke asosiasi.muhdin@gmail.com & muhdin.indonesia@gmail.com (email bermerek, semua kolom, nomor urut, kode tiket, WIB) + notifikasi WhatsApp admin (multi-nomor)
+- Prasyarat produksi 1 langkah: isi Akun Gmail pengirim + App Password (16 karakter) di CMS → Pengaturan → aktifkan → Simpan → Kirim Email Uji; begitu terisi, semua log berubah dari FAILED → SENT otomatis; fallback env SMTP_USER/SMTP_PASS tersedia utk deploy tanpa UI
+- Fondasi audit: NotificationLog membuktikan tiap upaya kirim per penerima (SIAP PDP — detail error tersaring)
+- Pipeline terbukti nyata: Gmail SMTP 535 & Fonnte "invalid token" = respons server sungguhan, bukan simulasi
