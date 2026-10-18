@@ -29,8 +29,15 @@ function isNodeActive(node: MenuNode, current: string, sub: string): boolean {
     return second ? current === root && sub === second : current === root;
   }
   if (node.key === "pengurus" && current === "pengurus") return true;
-  return current === "layanan" && (node.children ?? []).some((c) => c.slug === sub);
+  return (node.children ?? []).some((c) => {
+    // Task 52 (P0) — sub-item bisa punya route hash kustom (bukan layanan).
+    const [root, second] = (c.route ?? `layanan/${c.slug}`).split("/");
+    return current === root && (second ? sub === second : true);
+  });
 }
+
+/** Path tujuan sub-item: route kustom atau #/layanan/<slug>. */
+const childPath = (c: { slug: string; route?: string }) => c.route ?? `layanan/${c.slug}`;
 
 export function Navbar() {
   const route = useHashRoute();
@@ -129,11 +136,12 @@ export function Navbar() {
               {t(`layanan.groups.${node.group}.label`)}
             </p>
             {(node.children ?? []).map((c) => {
-              const childActive = current === "layanan" && sub === c.slug;
+              const [cRoot, cSecond] = childPath(c).split("/");
+              const childActive = current === cRoot && (cSecond ? sub === cSecond : true);
               return (
                 <button
                   key={c.slug}
-                  onClick={() => go(`layanan/${c.slug}`)}
+                  onClick={() => go(childPath(c))}
                   aria-current={childActive ? "page" : undefined}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-[13px] font-bold transition-colors",
@@ -194,11 +202,12 @@ export function Navbar() {
         {isOpen && (
           <div className="mt-1 space-y-1 ps-4">
             {(node.children ?? []).map((c) => {
-              const childActive = current === "layanan" && sub === c.slug;
+              const [cRoot, cSecond] = childPath(c).split("/");
+              const childActive = current === cRoot && (cSecond ? sub === cSecond : true);
               return (
                 <button
                   key={c.slug}
-                  onClick={() => go(`layanan/${c.slug}`)}
+                  onClick={() => go(childPath(c))}
                   className={cn(
                     "flex w-full items-center gap-2.5 rounded-xl px-4 py-2.5 text-start text-[13px] font-semibold transition-colors",
                     childActive ? "bg-primary/10 text-primary" : "text-foreground/70 hover:bg-muted"

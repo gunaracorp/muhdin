@@ -59,6 +59,18 @@ const QUICK_LINKS: [path: string, key: string][] = [
   ["kontak", "kontak"],
 ];
 
+/** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */
+const TRUST_LINKS: [path: string, key: string][] = [
+  ["regulasi", "trustRegulasi"],
+  ["transparansi", "trustTransparansi"],
+  ["etik", "trustEtik"],
+  ["pdp", "trustPdp"],
+  ["darurat", "trustDarurat"],
+  ["sehat", "trustSehat"],
+  ["kalkulator", "trustKalkulator"],
+  ["widget", "trustWidget"],
+];
+
 /** Task 30 — tiap layanan footer kini deep-link ke detail ekosistemnya (dialog auto-terbuka). */
 const EKOSISTEM_LINKS: [key: string, num: number][] = [
   ["visa", 1],
@@ -549,7 +561,7 @@ export function Footer() {
           </div>
 
           {/* 4 — Kolom utama */}
-          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {/* Brand */}
             <div className="space-y-4">
               <div className="footer-brand-light">
@@ -613,6 +625,18 @@ export function Footer() {
                 {EKOSISTEM_LINKS.map(([k, num]) => (
                   <li key={k}>
                     <FootLink onClick={() => go(`ekosistem/${num}`)}>{t(`footer.eco.${k}`)}</FootLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Tata kelola & kepercayaan — Task 52 (P0) */}
+            <nav aria-label={t("footer.trustTitle")}>
+              <ColHead>{t("footer.trustTitle")}</ColHead>
+              <ul className="space-y-2.5 text-sm">
+                {TRUST_LINKS.map(([path, key]) => (
+                  <li key={key}>
+                    <FootLink onClick={() => go(path)}>{t(`footer.${key}`)}</FootLink>
                   </li>
                 ))}
               </ul>

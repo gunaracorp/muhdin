@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Preview Widget Verifikasi — MUHDIN</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 18px; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1000px 500px at 50% -10%, rgba(212,175,55,.14), transparent 60%),
+        linear-gradient(180deg, #f6f8f6, #eef2ee);
+      color: #123; text-align: center;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: radial-gradient(1000px 500px at 50% -10%, rgba(212,175,55,.12), transparent 60%), linear-gradient(180deg, #101613, #0b0f0d); color: #eee; }
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+    .brand .dot { width: 8px; height: 8px; border-radius: 999px; background: #d4af37; }
+    h1 { margin: 0; font-size: 15px; font-weight: 700; opacity: .8; max-width: 34ch; }
+    #badge { min-height: 40px; display: flex; align-items: center; justify-content: center; }
+    .hint { font-size: 11.5px; opacity: .55; max-width: 40ch; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="brand"><span class="dot"></span> MUHDIN · WIDGET VERIFIKASI</div>
+  <h1>Status keanggotaan langsung dari database resmi MUHDIN</h1>
+  <div id="badge" data-muhdin-license=""></div>
+  <p class="hint" id="hint">Memuat…</p>
+
+  <script>
+    // Ambil lisensi dari URL: /widget-demo.html?license=PPIU-2026-0001
+    (function () {
+      var q = new URLSearchParams(location.search).get("license") ||
+              new URLSearchParams(location.search).get("q") || "";
+      q = q.trim();
+      var badge = document.getElementById("badge");
+      var hint = document.getElementById("hint");
+      if (q.length < 3) {
+        hint.textContent = "Tanpa parameter ?license= — badge akan menampilkan status 'tidak terdaftar'.";
+      } else {
+        hint.textContent = "Memeriksa: " + q;
+        badge.setAttribute("data-muhdin-license", q);
+      }
+    })();
+  </script>
+  <script src="muhdin-badge.js" data-lang="id" async></script>
+</body>
+</html>

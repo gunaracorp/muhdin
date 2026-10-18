@@ -15,6 +15,9 @@ import {
   Timer, DatabaseZap, Satellite, Radar, Cable, Fingerprint, ShieldEllipsis, EyeOff, Server, HardDrive, Cpu, Gauge,
   Sun, Moon, Monitor, Bell, BellRing, MessageCircle, UserCog, Megaphone, ArrowUp,
   TrainFront, Stamp, Briefcase, Truck,
+  // Task 52 (P0) — ikon infrastruktur kepercayaan
+  Gavel, Siren, Calculator, Lock, LifeBuoy, Stethoscope, Banknote,
+  PiggyBank, Code2, ClipboardCheck, FileCheck2, Pill, BookMarked, Swords,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -143,6 +146,21 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   stamp: Stamp,
   briefcase: Briefcase,
   truck: Truck,
+  // Task 52 (P0) — ikon infrastruktur kepercayaan
+  gavel: Gavel,
+  siren: Siren,
+  calculator: Calculator,
+  lock: Lock,
+  "life-buoy": LifeBuoy,
+  stethoscope: Stethoscope,
+  banknote: Banknote,
+  "piggy-bank": PiggyBank,
+  "code-2": Code2,
+  "clipboard-check": ClipboardCheck,
+  "file-check": FileCheck2,
+  pill: Pill,
+  "book-marked": BookMarked,
+  swords: Swords,
 };
 
 export function Icon({

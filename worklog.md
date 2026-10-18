@@ -1571,3 +1571,117 @@ Stage Summary:
 - Kondisi existing sangat kuat (fase "portal resmi asosiasi" lengkap); gap strategis ada di: (1) lapisan transaksional keanggotaan (iuran/KTA digital/sertifikat), (2) lapisan perlindungan hulu-hilir (regulasi, etik/sanksi, mediasi DPS, darurat), (3) lapisan jamaah B2C (kalkulator, katalog paket, AI chatbot, akademi/LMS), (4) lapisan platform (widget embed, developer API, push, status page), (5) kepatuhan PDP & kepatuhan Kemenhaj
 - Catatan teknis: hash-router SPA = risiko SEO/OG; perlu prerender/SSR untuk halaman publik
 - Kajian disajikan penuh ke user; siap dieksekusi bertahap bila disetujui
+
+---
+Task ID: 5-d
+Agent: frontend-styling-expert
+Task: Halaman Kalkulator+Widget — 2 view interaktif (kalkulator-view.tsx, widget-view.tsx) + 2 file locale i18n (kalkulator.ts, widget.ts)
+
+Work Log:
+- Baca worklog (100 baris terakhir) + pola wajib: privacy-view.tsx, p0-shared.tsx (TrustHero/TrustSection/TrustCallout/TrustSteps), icon.tsx (semua ikon baru tersedia), misc.ts, i18n/index.tsx (formatNumberL10n/useT), widget-demo.html, muhdin-badge.js, api/widget/verify/route.ts.
+- Buat src/lib/i18n/locales/kalkulator.ts — namespace "kalkulator", 60 key × 3 locale (id/en/ar), tree identik, `as const`; arab = MSA benar (teks, bukan transliterasi).
+- Buat src/lib/i18n/locales/widget.ts — namespace "widget", 49 key × 3 locale, parity OK.
+- Buat src/components/views/kalkulator-view.tsx (route #/kalkulator, "use client", useT, navigate):
+  - Hero TrustHero (eyebrow PERENCANAAN JAMAAH) + grid lg:grid-cols-5 (kiri 3 input / kanan 2 hasil, stack mobile).
+  - Panel input: Tabs 3 mode (reguler/plus/ramadhan) + modeHint faktor; Slider durasi 5–21 (default 9, nilai ditampilkan); Select hotel Standar 90/Unggul 150/Premium 260; Select musim ×0.85–×1.60 (disable+terkunci Ramadhan saat mode ramadhan — murni render logic, tanpa effect); Input jamaah 1–50 (default 2) & kurs (default 4350, catatan "perbarui sesuai kurs hari ini"); clamp input via clampNum (fallback aman).
+  - Rumus deterministik semua di useMemo (client-side, tanpa endpoint): visa 500·pax, tiket 2900·faktor musim, kamar ceil(pax/2)×(durasi−1)×tarif×(plus 1.35)×musim, makan 60·durasi·pax, transport 150·pax, manasik 250·pax, penyelenggaraan 12%, totalIDR=totalSAR×kurs; baris SAR dibulatkan agar tabel konsisten (rows + org integer → subtotal+org = total).
+  - Panel hasil: angka besar per jamaah (font-extrabold text-primary, dir=ltr untuk angka), total rombongan, Badge amber "Estimasi ±20%", Table komponen|SAR|IDR + baris penyelenggaraan + TOTAL (bg-primary/10 font-bold), TableHead dioverride text-start/text-end (RTL-aman; bawaan shadcn text-left), note client-side.
+  - Simulator tabungan (TrustSection piggy-bank): saldo awal, setoran/bulan, slider target 6–60 bulan; kebutuhan/terkumpul/butuhBulan=ceil(max(0,need−saldo)/max(1,setoran)); Progress (min(100,pct)); 3 status: Badge emerald "Siap keberangkatan pada target" / Badge primary "Tercapai dalam ±N bulan — lebih cepat dari target" / Badge amber "Butuh ±N bulan — tambah setoran Rp X/bulan" (X=ceil((need−saldo)/target−setoran)).
+  - TrustCallout gold ikon info "Bukan Penawaran Harga" + 2 CTA navigate("anggota") & navigate("verifikasi").
+- Buat src/components/views/widget-view.tsx (route #/widget, "use client"):
+  - Hero TrustHero (UNTUK PENYELENGGARA ANGGOTA) + 3 kartu "Mengapa Widget Ini Penting" (qr-code/shield-check/trending-up, pola ITEMS as const + t(`widget.why.items.${key}.…`)).
+  - "Coba Live" (TrustSection scan): Input + default "PPIU-2025-0018", Button Coba (Enter juga), iframe /widget-demo.html?license=<encodeURIComponent(applied)> height 150 sandbox="allow-scripts allow-same-origin" title aria, tips FAKE-999 → status TIDAK TERDAFTAR.
+  - "Kode Embed" (TrustSection code-2): pre monospace dir=ltr bg-muted overflow-x-auto, ORIGIN = window.location.origin via pola adjusting-state-during-render (guard SSR: placeholder https://www.muhdin.or.id sebelum mount, tanpa setState-in-effect), Button Salin Kode + useToast sukses/gagal (pola contact-view), tabel atribut opsional data-q/data-lang/data-endpoint/data-size (ui/table).
+  - "Cara Pasang" TrustSteps 3 (clipboard-check/file-check/badge-check); "Catatan Privasi & Aturan" TrustCallout gold ikon lock + list 3 aturan (minimasi data, hanya website milik sendiri, anti-pemalsuan → link navigate("etik") inline); CTA navigate("gabung") & navigate("verifikasi").
+- Verifikasi: tsc --noEmit → 0 error di 4 file milik saya (sisa error = file pre-existing milik lain: examples/, scripts/, skills/, mitra-dashboard); eslint 4 file → bersih; bun script verifikasi rumus + parity i18n.
+- API widget dicek live: q=PPIU-2025-0018 → found=true TERVERIFIKASI (PT Andalan Pelayanan Umrah, Surabaya); q=FAKE-999 → found=false; /widget-demo.html & /muhdin-badge.js → 200.
+- Tidak menyentuh file bersama (muhdin-app.tsx, dictionaries.ts, navbar, footer, menu-data, p0-shared, icon.tsx, public/*, api/*) — hanya 4 file baru.
+
+Stage Summary:
+- 4 file selesai & lolos tsc+lint: src/components/views/kalkulator-view.tsx (export KalkulatorView), src/components/views/widget-view.tsx (export WidgetView), src/lib/i18n/locales/kalkulator.ts (export kalkulatorDict, 60 key), src/lib/i18n/locales/widget.ts (export widgetDict, 49 key).
+- Kalkulasi terverifikasi script: reguler/9 hari/standar/normal/2 pax/kurs 4350 → kamar 720, subtotal 9400, penyelenggaraan 1128, total SAR 10528, total IDR 45.796.800, per jamaah 22.898.400 (persis checklist); case plus/premium/4 pax juga masuk akal.
+- i18n parity id=en=ar OK (kalkulator 60/60/60, widget 49/49/49); semua angka via formatNumberL10n; RTL-aman (ms/me/start/end, dir=ltr pada pre/angka/iframe-src-like kolom, icon-flip pada arrow CTA); dark-mode-aman (token bg-card/border/muted + varian dark amber/emerald).
+- Catatan ORKESTRATOR (wiring tersisa, file bersama tidak boleh saya edit): (1) dictionaries.ts — import kalkulatorDict & widgetDict dari @/lib/i18n/locales/kalkulator & /widget lalu masukkan ke array dicts; (2) muhdin-app.tsx — case "kalkulator": <KalkulatorView/>, case "widget": <WidgetView/> (+import); (3) route "etik" yang dirujuk tombol di widget-view dibuat agent 5-x — link aman walau route belum ada (hash tidak pindah).
+
+---
+Task ID: 5-c
+Agent: frontend-styling-expert
+Task: 3 halaman publik baru (PDP, Darurat, Sehat) + 3 file locale i18n
+
+Work Log:
+- Baca konteks: worklog (100 baris terakhir), privacy-view (pola view), contact-view (pola form+toast), misc.ts (pola locale), p0-shared.tsx (props TrustHero/TrustSection/TrustCallout/TrustSteps), icon.tsx (ICONS map), client-api, use-hash-route, reveal.tsx, select.tsx, types (RegionalBranchItem), api/branches & api/messages route.
+- Buat 6 file baru (TIDAK menyentuh file bersama):
+  1. src/lib/i18n/locales/pdp.ts — pdpDict, namespace pdp (92 key/locale)
+  2. src/lib/i18n/locales/darurat.ts — daruratDict, namespace darurat (64 key/locale)
+  3. src/lib/i18n/locales/sehat.ts — sehatDict, namespace sehat (55 key/locale)
+  4. src/components/views/pdp-view.tsx — PdpView (#/pdp): TrustHero + callout gold book-marked + prinsip pemrosesan 6 (grid 3×2) + hak subjek data 7 kartu dengan kutipan Pasal 5–13 (eye/file-text/pencil/trash/refresh/ban/wallet) + FORM DSAR fungsional (Select 6 jenis, validasi client-side nama/email/jenis/uraian≥10char, apiSend POST /api/messages subject "DSAR — <jenis>", phone opsional, toast sukses/gagal termasuk 429 rate-limit, tombol disabled+Loader2 spin, 3 teks bantuan) + perlindungan teknis 6 poin (scrypt, audit trail, minimasi publikasi, retensi, rbac) + DPO dpo@muhdin.web.id (mailto) + catatan lembaga pengawas + CTA syarat.
+  5. src/components/views/darurat-view.tsx — DaruratView (#/darurat): TrustHero tone="red" + 5 nomor darurat Saudi kartu tel: besar kontras kuat (911/999/997/998/937; ikon siren/shield-alert/heart-pulse/users/stethoscope; catatan panggilan gratis) + perwakilan RI (KBRI Riyadh, KJRI Jeddah, kartu Portal Yordam Kemlu https://yordam.kemlu.go.id target _blank) + catatan hotline resmi Kemlu + Posko MUHDIN (Button navigate("kontak"), catatan FAB WA + kode rombongan/PPIU) + Jaringan Posko Wilayah LIVE: apiGet<Branch[]>("/api/branches") maks 8, skeleton loading, error state + tombol retry, empty state, kartu name/city/province/picName + tombol Telepon (tel:) & WhatsApp (waHref: digits-only, buang awalan 0/8 → tambah 62) + Prosedur Cepat 5 langkah via TrustSteps (paspor hilang, terpisah, sakit, meninggal, insiden transport) + tombol navigate("lapor") + aplikasi resmi (Nusuk, Tawakkalna, SiHatalhajj, eksternal) + TrustCallout danger ban anti-penipuan dengan tombol navigate("verifikasi").
+  6. src/components/views/sehat-view.tsx — SehatView (#/sehat): TrustHero + vaksinasi 4 kartu dengan badge status (Meningitis ACWY WAJIB/Influenza/Polio/COVID-19) + tombol "Detail layanan" navigate ke layanan/vaksin-meningitis|vaksin-flu|vaksin-polio + KKH Jeddah/Makkah/Madinah (institusional, tanpa alamat palsu) dengan daftar layanan & catatan lokasi/jam saat musim + kesiapan pribadi 6 checklist (pill/info/sun/heart-pulse/clipboard-check/wallet, termasuk larangan kodein/tramadol) + asuransi & jaminan perjalanan (polis PPIU, 3 cakupan, TrustCallout gold TJH) + TrustCallout amber disclaimer edukasi + CTA bawah (Posko Darurat solid → darurat, Layanan Vaksin outline → layanan/vaksin-meningitis).
+- Verifikasi skrip sementara (bun, sudah dihapus): paritas key tree id/en/ar = pdp 92 / darurat 64 / sehat 55 (identik semua locale); semua ikon yang dipakai ada di ICONS; semua key literal & key dinamis (template literal t(`ns.x.${key}`)) ada di dict.
+- tsc --noEmit: 0 error milik file 5-c (7 error pre-existing di examples/, scripts/, skills/, mitra-dashboard.tsx — bukan milik task ini).
+- Smoke test: dev server 200, GET /api/branches 200 (field name/code/province/city/officeName/address/picName/picPhone/email tersedia untuk kartu posko).
+
+Stage Summary:
+- 6 file baru siap di-wire: dict pdpDict/daruratDict/sehatDict (root ns pdp.* / darurat.* / sehat.* — unik, total 211 key per locale) + view PdpView/DaruratView/SehatView (export named).
+- Orkestrator perlu: import 3 dict ke dictionaries.ts + daftarkan case "pdp"/"darurat"/"sehat" di muhdin-app.tsx (tidak saya sentuh sesuai aturan).
+- Pola kepatuhan: view "use client", useT/navigate/Button dari sumber resmi, komponen p0-shared dipakai (TrustHero red untuk darurat), ITEMS pattern + t() string-only, RTL-aman (ms/me/icon-flip/dir=ltr untuk nomor & email), dark-mode token Tailwind, mobile-first (grid 1→2→3/4 kolom).
+- Form DSAR kompatibel penuh dengan POST /api/messages (rate limit 5/menit/IP → pesan "Terlalu banyak percobaan…" ditampilkan apa adanya via toast destructive).
+- Catatan: ikon "flame"/"droplet" tidak tersedia di ICONS — diganti ikon set resmi (users untuk pemadam; set pill/clipboard-check/heart-pulse/sun/wallet/info untuk kesiapan pribadi) sesuai daftar aman di instruksi.
+---
+Task ID: 5-b-2
+Agent: frontend-styling-expert
+Work Log:
+- Membaca pola view (privacy-view.tsx), shell bersama (p0-shared.tsx: TrustHero/TrustSection/TrustCallout/TrustSteps), pola locale (misc.ts, darurat.ts), ICONS map, client-api.ts, use-hash-route.ts.
+- Membuat `src/lib/i18n/locales/etik.ts` — `etikDict`, namespace root `etik.*`, 53 key × 3 locale (id/en/ar), key tree identik (diverifikasi via script: id==en==ar true), `as const`.
+- Membuat `src/components/views/etik-view.tsx` — export `EtikView`:
+  - TrustHero "Kode Etik & Papan Sanksi" (eyebrow INTEGRITAS INDUSTRI).
+  - Enam Prinsip (grid 3×2, ikon scale/file-check/shield-check/badge-check/lock/handshake).
+  - Alur Penegakan (TrustSteps 4: inbox/search/gavel/megaphone).
+  - Jenis Sanksi (3 kartu; suspend membawa badge merah "DITANGGUHKAN").
+  - Papan Sanksi Publik LIVE `apiGet<Member[]>("/api/members?status=SUSPENDED")` + state loading(Skeleton)/error(Button coba lagi)/empty(TrustCallout success check-circle-2)/isi(kartu merah border-red-500/40 — name, licenseNo, city·province, TANPA phone/email; catatan PENDING).
+  - Laporkan Pelanggaran (TrustCallout danger siren + poin kerahasiaan & anti-fitnah + Button navigate("lapor") + mailto etik@muhdin.web.id).
+  - Callout gold praduga-tak-bersalah + pemulihan; CTA navigate("verifikasi") & navigate("transparansi").
+- RTL-aman (ms/me/icon-flip/map-pin netral), dark-mode-aman (token tema), mobile-first (grid sm/lg).
+- TIDAK menyentuh file bersama (muhdin-app, dictionaries, navbar, footer, menu-data, p0-shared, icon). Router/dict wiring diserahkan ke orkestrator.
+- Verifikasi: `bunx tsc --noEmit | rg "etik"` → 0 error.
+Stage Summary: 2 file baru (etik-view.tsx + locales/etik.ts), 53 key i18n id/en/ar parity, tsc bersih, live fetch papan sanksi dengan 4 state lengkap, PDP-aman.
+---
+Task ID: 5-b-1
+Agent: frontend-styling-expert
+
+Work Log:
+- Membaca pola: privacy-view.tsx, p0-shared.tsx (TrustHero/TrustSection/TrustCallout/TrustSteps), misc.ts, icon.tsx (ICONS map), client-api.ts (apiGet), i18n/index.tsx (formatNumberL10n/useT), types.ts (Member), constants.ts (MEMBER_TYPES).
+- Membuat 4 file baru (tanpa menyentuh file bersama):
+  1) src/components/views/regulasi-view.tsx — RegulasiView (#/regulasi): TrustHero; TrustSection "Landasan Kelembagaan" (3 kartu: UU 17/2013 Ormas, SK Kemenkumham, AD & ART); "Regulasi Industri Haji & Umrah" (UU 13/2008, PP 115/2014, Peraturan Kemenhaji — tiap kartu link eksternal peraturan.bpk.go.id + ikon external-link); "Standar Syariah" (kartu fatwa DSN-MUI + link dsn-mui.or.id + TrustCallout gold); "Kebijakan Internal" (4 kartu button internal: etik/ekosistem/unduhan/transparansi); TrustCallout gold ikon info (Sekretariat Bakornas + link kontak); CTA bawah 3 Button outline (etik, transparansi, anggota). List via const ITEMS as const + t(`regulasi.x.${key}`).
+  2) src/components/views/transparansi-view.tsx — TransparansiView (#/transparansi): TrustHero; "Statistik Keanggotaan Live" via useEffect + apiGet<Member[]>("/api/members") (state loading/error/data, filter status TERVERIFIKASI, fallback semua baris): kartu total terverifikasi & jumlah provinsi unik (formatNumberL10n), distribusi tipe top-4 dengan bar horizontal div (width % dari max, label jumlah), Skeleton ui/skeleton saat loading, error + Button "Coba Lagi", catatan live + dot pulse; "Laporan yang Diterbitkan" (3 kartu: Tahunan+Whitepaper dengan tombol navigate("unduhan"), Keuangan, Notulen); "Komitmen Publikasi" TrustSteps 4 (activity/calendar/book-marked/timer); "Kanal Pengawasan Publik" 4 kartu internal (verifikasi/scan, lapor/megaphone, etik/gavel, lacak/search); TrustCallout amber ikon alert-triangle (pendanaan dari iuran anggota).
+  3) src/lib/i18n/locales/regulasi.ts — regulasiDict {id,en,ar} as const, namespace root regulasi.* — 45 key per locale, parity terverifikasi (bun script: id 45 / en 45 / ar 45, identical key tree).
+  4) src/lib/i18n/locales/transparansi.ts — transparansiDict {id,en,ar} as const, namespace transparansi.* — 43 key per locale, parity terverifikasi (43/43/43).
+- RTL: ms/me/ps/pe (ms-1.5, me-1.5), -end positioning via shared comps, icon-flip untuk semua arrow-right, text-start pada button-card. Dark-mode: token tema (bg-card, border, text-muted-foreground, bg-primary/10) + varian dark: eksplisit utk gold/red/amber. Mobile-first: grid 1 kolom → sm:grid-cols-2 → lg:grid-cols-3, flex-wrap CTA, skeleton h-fix.
+- t() hanya string; label tipe anggota memakai fallback pola members.type.* (reuse kamus members-view, tanpa mengeditnya).
+
+Stage Summary:
+- Status: SELESAI. 4 file baru dibuat; tsc --noEmit bersih utk file regulasi*|transparansi* (0 error milik sendiri); tidak ada file bersama yang diubah.
+- i18n: regulasi 45 key, transparansi 43 key, identik di id/en/ar (Arab MSA bermutu).
+- Integrasi menyusul (orchestrator): daftarkan regulasiDict & transparansiDict ke dictionaries.ts + route #/regulasi & #/transparansi di muhdin-app.tsx.
+
+---
+Task ID: 5 (a–f)
+Agent: Z.ai Code (main orchestrator) + 3 frontend-styling-expert subagent (5-b-1, 5-b-2, 5-c, 5-d)
+Task: P0 Quick Wins — 8 halaman "Infrastruktur Kepercayaan" (regulasi, transparansi, etik, pdp, darurat, sehat, kalkulator, widget) + widget badge embed
+
+Work Log:
+- 5-a (orkestrator): 13 ikon lucide baru (icon.tsx); p0-shared.tsx (TrustHero/TrustSection/TrustCallout/TrustSteps); endpoint publik CORS /api/widget/verify (field minimal, tanpa kontak — minimasi PDP); public/muhdin-badge.js (self-contained, XSS-escape, 5 status + i18n id/en/ar, klik → #/verifikasi/<q>); public/widget-demo.html (preview iframe); skeleton 8 route + wiring
+- 5-b-1/5-b-2/5-c/5-d (subagent paralel): 8 view + 8 locale file (id/en/ar parity): regulasi 45 key, transparansi 43, etik 53, pdp 92, darurat 64, sehat 55, kalkulator 60, widget 49 — semua ikon dari ICONS map, RTL-aman, loading/error/empty states
+- Wiring (orkestrator): dictionaries.ts (+8 dict), muhdin-app.tsx (+8 case), menu-data.ts (MenuChild.route + node kepercayaan 5 anak), navbar.tsx (childPath + active-state kustom desktop/mobile), footer.tsx (kolom TRUST 8 link, grid xl:grid-cols-6), layanan.ts (+grup kepercayaan + 5 item ×3 bahasa), navbar.ts locale (+kepercayaan ×3), footer.ts locale (+trustTitle/trust* ×3)
+- FIX kritis #1: root-duplikat i18n — trust-menu.ts (navbar/layanan/footer root) MENIMPA root lama via Object.assign → footer.quick.* tampil raw key → key dipindah ke navbar.ts/layanan.ts/footer.ts, trust-menu.ts dihapus
+- FIX #2: lint react-hooks/set-state-in-effect di transparansi-view (setState async callback + reload terpisah)
+- Insiden: dev server down (trust-menu.ts dihapus saat masih diimpor) → restart nohup bun run dev, pulih
+- Verifikasi Agent Browser (desktop 1440 + mobile 390): 8 halaman H1 benar + 0 raw key + 0 console error; kalkulator = angka verifikasi mental persis (22.898.400/45.796.800; Ramadhan 32.427.075; Plus 23.511.750); mode ramadhan terkunci; widget iframe status TERVERIFIKASI & FAKE-999 → NOTFOUND; Salin Kode → toast; form DSAR POST 201 + 2 baris tersimpan di ContactMessage; etik papan sanksi empty-state "Alhamdulillah"; darurat tel: 911/999/997/998/937 + wa.me posko + yordam.kemlu.go.id; transparansi live stats (5/4/2/2 anggota per tipe); locale EN (H1 berubah) & AR RTL (dir=rtl) berfungsi di halaman baru; dropdown navbar KEPERCAYAAN desktop + accordion mobile → 5 sub-item navigasi; footer kolom trust; tanpa overflow-x mobile; struktur footer mt-auto + min-h-screen
+
+Stage Summary:
+- 8 Quick Wins P0 LIVE: #/regulasi #/transparansi #/etik #/pdp #/darurat #/sehat #/kalkulator #/widget
+- Widget verifikasi: badge 1-baris <script data-license> untuk situs anggota (CORS *, field minimal) + endpoint /api/widget/verify + demo iframe
+- Total i18n baru ±461 key × 3 locale; arsitektur i18n diperkuat (dokumentasi aturan root-duplikat di dictionaries.ts)
+- tsc: 0 error baru (7 pre-existing di examples/scripts/skills/mitra-dashboard); eslint bersih untuk semua file task
+- Screenshot: /tmp/p0-widget-desktop.png, /tmp/p0-darurat-mobile.png
+- Sisa P0 backlog yang tidak diminta user: Press Room (#/media) & Status Page (#/status) — menunggu persetujuan

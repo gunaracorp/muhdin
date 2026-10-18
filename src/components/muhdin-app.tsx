@@ -35,6 +35,15 @@ import { JamaahDashboard } from "@/components/views/jamaah-dashboard";
 import { MitraDashboard } from "@/components/views/mitra-dashboard";
 // Task 51 — Dashboard PPIU & PPIHK + sinkronisasi Nusuk
 import { PpiuPpihkDashboard } from "@/components/views/ppiu-pihk-dashboard";
+// Task 52 (P0) — Infrastruktur Kepercayaan (8 halaman baru)
+import { RegulasiView } from "@/components/views/regulasi-view";
+import { TransparansiView } from "@/components/views/transparansi-view";
+import { EtikView } from "@/components/views/etik-view";
+import { PdpView } from "@/components/views/pdp-view";
+import { DaruratView } from "@/components/views/darurat-view";
+import { SehatView } from "@/components/views/sehat-view";
+import { KalkulatorView } from "@/components/views/kalkulator-view";
+import { WidgetView } from "@/components/views/widget-view";
 import { LocaleProvider, useT } from "@/lib/i18n";
 import { RegisterSW } from "@/components/pwa/register-sw";
 import { WaFab } from "@/components/site/wa-fab";
@@ -229,6 +238,31 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       break;
     case "lapor":
       content = <ReportView />;
+      break;
+    // Task 52 (P0) — Infrastruktur Kepercayaan (8 halaman baru)
+    case "regulasi":
+      content = <RegulasiView />;
+      break;
+    case "transparansi":
+      content = <TransparansiView />;
+      break;
+    case "etik":
+      content = <EtikView />;
+      break;
+    case "pdp":
+      content = <PdpView />;
+      break;
+    case "darurat":
+      content = <DaruratView />;
+      break;
+    case "sehat":
+      content = <SehatView />;
+      break;
+    case "kalkulator":
+      content = <KalkulatorView />;
+      break;
+    case "widget":
+      content = <WidgetView />;
       break;
     case "admin":
       content = <AdminView />;

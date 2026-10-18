@@ -18,6 +18,8 @@ export interface MenuChild {
   /** slug halaman detail → #/layanan/<slug>; sekaligus key i18n layanan.items.<slug> */
   slug: string;
   icon: string;
+  /** Task 52 (P0) — route hash kustom (di luar #/layanan/<slug>), mis. "regulasi" */
+  route?: string;
 }
 
 export interface MenuNode {
@@ -100,6 +102,20 @@ export const MENU_NODES: MenuNode[] = [
       { slug: "vaksin-meningitis", icon: "shield-check" },
       { slug: "vaksin-polio", icon: "shield-ellipsis" },
       { slug: "vaksin-flu", icon: "heart-pulse" },
+    ],
+  },
+  // Task 52 (P0) — dropdown KEPERCAYAAN: infrastruktur kepercayaan publik.
+  // Sub-item menuju route hash kustom (bukan #/layanan/<slug>).
+  {
+    key: "kepercayaan",
+    group: "kepercayaan",
+    groupIcon: "shield-check",
+    children: [
+      { slug: "regulasi", icon: "scale", route: "regulasi" },
+      { slug: "transparansi", icon: "eye", route: "transparansi" },
+      { slug: "etik", icon: "gavel", route: "etik" },
+      { slug: "pdp", icon: "lock", route: "pdp" },
+      { slug: "darurat", icon: "siren", route: "darurat" },
     ],
   },
 ];

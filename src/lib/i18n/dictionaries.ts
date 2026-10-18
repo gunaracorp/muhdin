@@ -32,6 +32,19 @@ import { layananDict } from "@/lib/i18n/locales/layanan";
 import { dashDict } from "@/lib/i18n/locales/dashboard";
 // Task 51 — Dashboard PPIU & PPIHK + sinkronisasi Nusuk
 import { ppiuPihkDict } from "@/lib/i18n/locales/ppiu-pihk";
+// Task 52 (P0) — Infrastruktur Kepercayaan (8 halaman baru).
+// Catatan: key menu (navbar.items.kepercayaan, layanan.groups.kepercayaan,
+// footer.trust*) ditambahkan langsung ke locales/navbar.ts, locales/layanan.ts
+// & locales/footer.ts karena Object.assign di file ini menimpa root utuh —
+// root duplikat akan mencabut dict lama (bug footer.quick.* sudah terjadi).
+import { regulasiDict } from "@/lib/i18n/locales/regulasi";
+import { transparansiDict } from "@/lib/i18n/locales/transparansi";
+import { etikDict } from "@/lib/i18n/locales/etik";
+import { pdpDict } from "@/lib/i18n/locales/pdp";
+import { daruratDict } from "@/lib/i18n/locales/darurat";
+import { sehatDict } from "@/lib/i18n/locales/sehat";
+import { kalkulatorDict } from "@/lib/i18n/locales/kalkulator";
+import { widgetDict } from "@/lib/i18n/locales/widget";
 
 const dicts = [
   commonDict,
@@ -66,6 +79,15 @@ const dicts = [
   dashDict,
   // Task 51 — Dashboard PPIU & PPIHK (#/dashboard/ppiu-pihk)
   ppiuPihkDict,
+  // Task 52 (P0) — Infrastruktur Kepercayaan (8 halaman + menu/footer)
+  regulasiDict,
+  transparansiDict,
+  etikDict,
+  pdpDict,
+  daruratDict,
+  sehatDict,
+  kalkulatorDict,
+  widgetDict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {
