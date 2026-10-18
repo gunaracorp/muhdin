@@ -316,6 +316,126 @@ export function AdminEmailCard() {
   );
 }
 
+/* ==================== CHECKLIST SETUP NOTIFIKASI ==================== */
+
+/** Task 61 — ringkasan status persiapan notifikasi (email + WA) satu layar. */
+export function AdminNotificationSetupChecklist() {
+  const [email, setEmail] = useState<EmailConfig | null>(null);
+  const [wa, setWa] = useState<WhatsAppConfig | null>(null);
+
+  useEffect(() => {
+    apiGet<EmailConfig>("/api/email-settings").then(setEmail).catch(() => setEmail(null));
+    apiGet<WhatsAppConfig>("/api/whatsapp").then(setWa).catch(() => setWa(null));
+  }, []);
+
+  if (!email || !wa) return null;
+
+  const emailOk = email.effective;
+  const waTargetOk = wa.target.length >= 10;
+  const waGatewayOk = wa.hasToken;
+
+  const rows = [
+    {
+      icon: "at-sign",
+      ok: email.recipients.length > 0,
+      title: "Email penerima sekretariat",
+      desc: email.recipients.join(", ") || "Belum ada penerima.",
+      pending: "Isi minimal satu email tujuan di kartu Notifikasi Email.",
+    },
+    {
+      icon: "mail",
+      ok: emailOk,
+      title: "Akun Gmail pengirim + App Password (SMTP)",
+      desc: emailOk ? `Terpasang untuk ${email.smtpUser || "fallback env"}.` : "Email hanya bisa terkirim setelah SMTP diisi.",
+      pending:
+        "Aktifkan Verifikasi 2 Langkah di akun Google → myaccount.google.com/apppasswords → buat App Password → tempel di kartu Notifikasi Email → Simpan.",
+    },
+    {
+      icon: "message-circle",
+      ok: waTargetOk,
+      title: "Nomor WhatsApp admin tujuan",
+      desc: waTargetOk ? `Notifikasi dikirim ke +${wa.target.split(",").join(", +")}.` : "Nomor tujuan belum diisi.",
+      pending: "Isi nomor di kartu Notifikasi WhatsApp (format 62xxx).",
+    },
+    {
+      icon: "keyround",
+      ok: waGatewayOk,
+      title: `Gateway WhatsApp — ${wa.provider === "CALLMEBOT" ? "CallMeBot (gratis)" : wa.provider}`,
+      desc: waGatewayOk ? "API key/token terpasang — kirim pesan uji untuk memastikan." : "Menunggu API key/token gateway.",
+      pending:
+        wa.provider === "CALLMEBOT"
+          ? "Dari WhatsApp admin, kirim: I enable callmebot on +" + wa.target + " ke nomor +34 644 66 32 62 → salin API key dari balasan → tempel di kartu WhatsApp → Simpan."
+          : "Buat token di dashboard provider, tempel di kartu Notifikasi WhatsApp, lalu Simpan.",
+    },
+    {
+      icon: "bell-ring",
+      ok: email.enabled || wa.enabled,
+      title: "Saklar notifikasi aktif",
+      desc: [email.enabled && "Email", wa.enabled && "WhatsApp"].filter(Boolean).join(" & ") + " sedang aktif.",
+      pending: "Aktifkan saklar induk di kartu Email dan/atau WhatsApp.",
+    },
+  ];
+
+  const doneCount = rows.filter((r) => r.ok).length;
+
+  return (
+    <div className="rounded-2xl border bg-card p-5 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+        <div className="flex items-start gap-3">
+          <div className="h-10 w-10 rounded-xl bg-primary/10 grid place-items-center text-primary shrink-0">
+            <Icon name="clipboard-list" className="h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="font-bold">Checklist Setup Notifikasi</h3>
+            <p className="text-sm text-muted-foreground">
+              {doneCount === rows.length
+                ? "Semua siap — setiap formulir otomatis diteruskan ke sekretariat. ✓"
+                : `${doneCount} dari ${rows.length} langkah selesai — lengkapi item bertanda MENUNGGU.`}
+            </p>
+          </div>
+        </div>
+        <div className="sm:ml-auto shrink-0">
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-3 py-1 text-xs font-bold",
+              doneCount === rows.length ? "bg-primary text-primary-foreground" : "bg-amber-500/15 text-amber-700 dark:text-amber-400"
+            )}
+          >
+            {doneCount}/{rows.length} SIAP
+          </span>
+        </div>
+      </div>
+
+      <div className="grid gap-2.5 md:grid-cols-2 xl:grid-cols-3">
+        {rows.map((r) => (
+          <div key={r.title} className={cn("rounded-xl border p-3.5", r.ok ? "border-primary/30 bg-primary/5" : "border-amber-500/40 bg-amber-500/5")}>
+            <div className="flex items-start gap-2.5">
+              <div
+                className={cn(
+                  "h-8 w-8 rounded-lg grid place-items-center shrink-0",
+                  r.ok ? "bg-primary/10 text-primary" : "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                )}
+              >
+                <Icon name={r.ok ? "check-circle-2" : r.icon} className="h-4 w-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-bold leading-snug">{r.title}</p>
+                {r.ok ? (
+                  <p className="text-xs text-muted-foreground mt-1 break-words">{r.desc}</p>
+                ) : (
+                  <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 leading-relaxed break-words">
+                    <b>MENUNGGU —</b> {r.pending}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ==================== LOG AUDIT NOTIFIKASI ==================== */
 
 const EVENT_LABEL: Record<string, string> = {

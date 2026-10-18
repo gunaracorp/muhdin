@@ -32,6 +32,11 @@ const PROVIDERS = [
     help: "Buat device di console.wablas.com lalu salin token API dari menu Device.",
   },
   {
+    value: "CALLMEBOT",
+    label: "CallMeBot (Gratis)",
+    help: "100% gratis tanpa daftar akun. Dari WhatsApp admin, kirim pesan: I enable callmebot on +628xxx ke nomor +34 644 66 32 62 — Anda akan menerima balasan berisi API key. Tempel API key itu di kolom API Key.",
+  },
+  {
     value: "CUSTOM",
     label: "Gateway Mandiri",
     help: "Endpoint POST JSON { token, target, message } milik server Anda sendiri.",
@@ -174,7 +179,10 @@ export function AdminWhatsAppCard() {
           )}
 
           <div className="space-y-1.5">
-            <Label htmlFor="wa-token">API Token {cfg.hasToken && <span className="text-[11px] font-normal text-muted-foreground">(tersimpan: {cfg.tokenMasked})</span>}</Label>
+            <Label htmlFor="wa-token">
+              {cfg.provider === "CALLMEBOT" ? "API Key CallMeBot" : "API Token"}
+              {cfg.hasToken && <span className="text-[11px] font-normal text-muted-foreground">(tersimpan: {cfg.tokenMasked})</span>}
+            </Label>
             <div className="relative">
               <Icon
                 name="keyround"
@@ -185,7 +193,7 @@ export function AdminWhatsAppCard() {
                 type={showToken ? "text" : "password"}
                 value={tokenInput}
                 onChange={(e) => setTokenInput(e.target.value)}
-                placeholder={cfg.hasToken ? "Kosongkan untuk memakai token tersimpan" : "Tempel token gateway di sini"}
+                placeholder={cfg.hasToken ? "Kosongkan untuk memakai token tersimpan" : cfg.provider === "CALLMEBOT" ? "Tempel API key dari balasan CallMeBot" : "Tempel token gateway di sini"}
                 className="ps-9 pe-10 font-mono text-sm"
                 autoComplete="off"
               />

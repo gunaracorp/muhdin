@@ -1737,3 +1737,23 @@ Stage Summary:
 - Prasyarat produksi 1 langkah: isi Akun Gmail pengirim + App Password (16 karakter) di CMS → Pengaturan → aktifkan → Simpan → Kirim Email Uji; begitu terisi, semua log berubah dari FAILED → SENT otomatis; fallback env SMTP_USER/SMTP_PASS tersedia utk deploy tanpa UI
 - Fondasi audit: NotificationLog membuktikan tiap upaya kirim per penerima (SIAP PDP — detail error tersaring)
 - Pipeline terbukti nyata: Gmail SMTP 535 & Fonnte "invalid token" = respons server sungguhan, bukan simulasi
+---
+Task ID: 8
+Agent: Z.ai Code (main orchestrator)
+Task: Settingan final notifikasi — 2 email sekretariat (muhdin.indonesia@gmail.com & asosiasi.muhdin@gmail.com) + WA gateway GRATIS ke +6281222345856 (urgent)
+
+Work Log:
+- whatsapp.ts: +provider CALLMEBOT (100% gratis tanpa daftar akun; GET api.callmebot.com/whatsapp.php?phone=%2B62xxx&text=…&apikey=…); WA_PROVIDERS kini FONNTE|WABLAS|CALLMEBOT|CUSTOM
+- FIX penting post(): gateway bisa balas HTTP 200 dgn teks polos "ERROR: …" (CallMeBot) — kini dideteksi gagal, bukan salah catat SENT (strip tag HTML di detail)
+- Preset DB (bun + prisma): EmailSetting enabled=true, recipients=persis 2 Gmail sekretariat, 5 saklar ON; WhatsAppSetting provider=CALLMEBOT, target=6281222345856, enabled=true, 2 saklar ON
+- admin-whatsapp.tsx: opsi "CallMeBot (Gratis)" di dropdown provider + help text instruksi aktivasi + label kolom "API Key CallMeBot"
+- admin-notifications.tsx: +AdminNotificationSetupChecklist (Task 61) — kartu checklist 5 item dgn status live (SIAP hijau / MENUNGGU amber + langkah persis): email penerima ✓, SMTP App Password ✗, nomor WA ✓, gateway token ✗ (instruksi CallMeBot dinamis pakai nomor user), saklar aktif ✓; badge "3/5 SIAP"; dimount paling atas grup kartu notifikasi di admin-view
+- Verifikasi nyata: dummy API key → respons ASLI api.callmebot.com "ERROR: apikey can not be empty or it has an invalid format" → dicatat FAILED dgn detail bersih (pipeline + URL + nomor tujuan terbukti benar)
+- Log audit dibersihkan (hapus 1 entri SENT salah label pra-fix) → regenerasi 2 entri TEST akurat; stats final 0 terkirim / 2 gagal (menunggu kredensial)
+- Agent Browser: checklist "3/5 SIAP" render benar (2 Gmail tampil, +6281222345856 tampil, instruksi CallMeBot lengkap); dropdown WA = "CallMeBot (Gratis)"; 0 console error; mobile 390px tanpa overflow
+- Screenshot: /tmp/task61-checklist.png
+
+Stage Summary:
+- KONFIGURASI TERPASANG: 2 email sekretariat terkunci di konfigurasi (siap kirim begitu App Password diisi), WA gateway gratis CallMeBot terpilih + nomor +6281222345856 terpasang, kedua channel AKTIF
+- Sisa 2 langkah yang HANYA bisa user lakukan (keamanan akun pribadi): (1) App Password Gmail utk SMTP, (2) API key CallMeBot — kirim WA "I enable callmebot on +6281222345856" ke +34 644 66 32 62, salin balasan
+- Checklist Setup Notifikasi di CMS menampilkan status & langkah persis; begitu 2 item itu diisi, SEMUA formulir otomatis diteruskan ke 2 email + WA tanpa konfigurasi tambahan

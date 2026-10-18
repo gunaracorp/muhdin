@@ -1,10 +1,13 @@
 /**
  * whatsapp.ts — Gateway notifikasi WhatsApp (Task 15-d).
  *
- * Mendukung 3 provider populer di Indonesia:
- *  - FONNTE  (https://fonnte.com)  — POST x-www-form-urlencoded, token via header
- *  - WABLAS  (https://wablas.com)  — POST JSON, token via query param
- *  - CUSTOM  — endpoint mandiri, POST JSON { token, target, message }
+ * Mendukung 4 provider populer di Indonesia:
+ *  - FONNTE     (https://fonnte.com)     — POST x-www-form-urlencoded, token via header
+ *  - WABLAS     (https://wablas.com)     — POST JSON, token via query param
+ *  - CALLMEBOT  (https://callmebot.com)  — 100% GRATIS tanpa daftar (Task 61):
+ *                admin kirim WA "I enable callmebot on +62xxx" ke +34 644 66 32 62,
+ *                balasan berisi API key. Kirim via GET whatsapp.php.
+ *  - CUSTOM     — endpoint mandiri, POST JSON { token, target, message }
  *
  * Semua kirim gagal-aman (tidak pernah melempar exception ke pemanggil)
  * dan memiliki timeout 10 detik agar form publik tidak menggantung.
@@ -12,7 +15,7 @@
 import { db } from "@/lib/db";
 import { logNotification } from "@/lib/email"; // Task 60 — audit log terpadu
 
-export const WA_PROVIDERS = ["FONNTE", "WABLAS", "CUSTOM"] as const;
+export const WA_PROVIDERS = ["FONNTE", "WABLAS", "CALLMEBOT", "CUSTOM"] as const;
 
 export type WaSendResult = { sent: boolean; detail: string };
 
@@ -45,7 +48,12 @@ async function post(url: string, init: RequestInit): Promise<WaSendResult> {
       return { sent: false, detail: json.reason || json.message || "Gateway menolak pesan." };
     }
   } catch {
-    /* body bukan JSON — anggap sukses (HTTP 200) */
+    /* body bukan JSON — lanjut cek teks polos */
+  }
+  // Task 61 — CallMeBot membalas HTTP 200 dengan teks polos "ERROR: …" saat
+  // apikey salah; anggap gagal agar tidak salah catat SENT.
+  if (/^\s*error/i.test(text)) {
+    return { sent: false, detail: text.replace(/<[^>]+>/g, "").slice(0, 160).trim() };
   }
   return { sent: true, detail: text.slice(0, 200) || "OK" };
 }
@@ -105,6 +113,15 @@ async function sendToTarget(
             body: JSON.stringify({ phone: target, message }),
           }
         );
+      case "CALLMEBOT": {
+        // Task 61 — CallMeBot: gratis, tanpa server, API key dari balasan WA.
+        // phone wajib format internasional dengan awalan + (%2B saat di-encode).
+        if (!token) return { sent: false, detail: "API key CallMeBot belum diisi." };
+        const url =
+          `https://api.callmebot.com/whatsapp.php?phone=%2B${encodeURIComponent(target)}` +
+          `&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(token)}`;
+        return await post(url, { method: "GET" });
+      }
       case "CUSTOM": {
         if (!apiUrl) return { sent: false, detail: "URL endpoint CUSTOM belum diisi." };
         return await post(apiUrl, {
