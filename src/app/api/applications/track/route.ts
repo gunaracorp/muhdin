@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     return ok({
       found: true,
       ticketCode: app.ticketCode,
+      queueNumber: app.queueNumber, // Task 53 — nomor urut tampil di halaman lacak
       orgName: app.orgName,
       type: app.type,
       status: app.status,

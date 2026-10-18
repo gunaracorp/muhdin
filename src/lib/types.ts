@@ -280,6 +280,7 @@ export interface AuditLogItem {
 export interface TrackResult {
   found: boolean;
   ticketCode: string;
+  queueNumber?: number | null; // Task 53 — nomor urut pendaftaran realtime
   orgName: string;
   type: string;
   status: string;

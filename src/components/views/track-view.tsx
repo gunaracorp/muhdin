@@ -222,13 +222,24 @@ export function TrackView() {
                 </div>
 
                 <div className="p-6 sm:p-7 space-y-6">
-                  <dl className="grid gap-4 sm:grid-cols-3">
+                  <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     <div>
                       <dt className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                         {t("track.labelType")}
                       </dt>
                       <dd className="mt-1 text-sm font-bold">{typeLabel(result.type, t)}</dd>
                     </div>
+                    {/* Task 53 — nomor urut pendaftaran realtime */}
+                    {typeof result.queueNumber === "number" && result.queueNumber > 0 && (
+                      <div>
+                        <dt className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                          {t("liveReg.trackQueueLabel")}
+                        </dt>
+                        <dd className="mt-1 text-sm font-extrabold tabular-nums text-gold-deep" dir="ltr">
+                          #{result.queueNumber}
+                        </dd>
+                      </div>
+                    )}
                     <div>
                       <dt className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                         {t("track.labelSubmitted")}

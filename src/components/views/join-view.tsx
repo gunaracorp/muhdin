@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useT } from "@/lib/i18n";
 import { PromoSlotLine, dispatchPromoRefresh } from "@/components/site/slot-counter"; // Task 44 — kuota live
+import { QueueSuccessCard } from "@/components/site/live-slot-board"; // Task 53 — nomor urut realtime
 import { MEMBER_TYPES, PARTNERS } from "@/lib/constants";
 
 const PROCESS_STEPS = [
@@ -54,6 +55,7 @@ export function JoinView() {
   const [ticket, setTicket] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [copyFail, setCopyFail] = useState(false);
+  const [queue, setQueue] = useState<number | null>(null); // Task 53 — nomor urut realtime
   const [form, setForm] = useState({
     orgName: "",
     type: "PPIU",
@@ -69,12 +71,28 @@ export function JoinView() {
   const submit = async () => {
     setLoading(true);
     try {
-      const res = await apiSend<{ ticketCode?: string }>("/api/applications", "POST", form);
+      const res = await apiSend<{ ticketCode?: string; queueNumber?: number | null }>(
+        "/api/applications",
+        "POST",
+        form
+      );
       if (res?.ticketCode) {
         // Task 18-c: respons kini memuat kode tiket — tampilkan kartu sukses.
         setTicket(res.ticketCode);
         setCopied(false);
         setCopyFail(false);
+      }
+      // Task 53 — simpan nomor urut realtime & tandai slot di papan.
+      if (typeof res?.queueNumber === "number" && res.queueNumber > 0) {
+        setQueue(res.queueNumber);
+        try {
+          localStorage.setItem("muhdin-queue-number", String(res.queueNumber));
+        } catch {
+          /* penyimpanan lokal tidak tersedia */
+        }
+        window.dispatchEvent(
+          new CustomEvent<number | null>("muhdin:queue-set", { detail: res.queueNumber })
+        );
       }
       dispatchPromoRefresh(); // Task 52 — perbarui counter pendaftar gratis di seluruh situs seketika
       toast({
@@ -181,6 +199,8 @@ export function JoinView() {
                       <p className="mt-0.5 text-sm text-muted-foreground">{t("join.ticketDesc")}</p>
                     </div>
                   </div>
+                  {/* Task 53 — nomor urut realtime + konfeti */}
+                  <QueueSuccessCard queueNumber={queue} />
                   <div className="mt-5 rounded-2xl border bg-muted/40 p-5 text-center">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                       {t("join.ticketLabel")}

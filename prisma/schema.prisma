@@ -119,6 +119,7 @@ model MembershipApplication {
   message     String?
   status      String    @default("PENDING") // PENDING | APPROVED | REJECTED
   ticketCode  String    @default("") @unique // kode pelacakan publik (Task 18)
+  queueNumber Int?      @unique // nomor urut pendaftaran global, atomik & monoton (Task 53)
   reviewNote  String? // catatan verifikator (wajib saat menolak)
   reviewedBy  String? // nama akun verifikator yang memproses
   reviewedAt  DateTime?

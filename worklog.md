@@ -1685,3 +1685,29 @@ Stage Summary:
 - tsc: 0 error baru (7 pre-existing di examples/scripts/skills/mitra-dashboard); eslint bersih untuk semua file task
 - Screenshot: /tmp/p0-widget-desktop.png, /tmp/p0-darurat-mobile.png
 - Sisa P0 backlog yang tidak diminta user: Press Room (#/media) & Status Page (#/status) — menunggu persetujuan
+
+---
+Task ID: 6
+Agent: Z.ai Code (main orchestrator)
+Task: Live Queue Engine — Sistem Pendaftaran Realtime "Papan Slot" (nomor urut otomatis + broadcast socket.io) sesuai permintaan user sebelum P1
+
+Work Log:
+- Prisma: MembershipApplication + kolom `queueNumber Int? @unique`; db:push; backfill scripts/backfill-queue.mjs (5 baris lama → #1–#5 urut createdAt ASC)
+- API: POST /api/applications ditingkatkan — penugasan nomor ATOMIK (transaksi baca max+create, retry P2002 hingga 6×, monoton tanpa duplikat); respons +queueNumber; broadcast fire-and-forget ke gateway
+- API baru: GET /api/applications/live (snapshot publik PDP-aman: sequence/total/waiting/filled[n,type,city,at,status] TANPA nama org/kontak); track API +queueNumber
+- src/lib/live-gateway.ts: klien broadcast server-to-server (POST http://127.0.0.1:3004/notify, header x-mhd-secret, timeout 2 dtk, gagal-aman)
+- Mini-service BARU mini-services/registration-gateway (bun --hot, 2 listener 1 proses): port 3003 = MURNI socket.io path '/' (engine.io dengan path '/' menyita semua request HTTP berawalan '/', sehingga /health+/notify MUSTAHIL di 3003) + port 3004 internal 127.0.0.1 = POST /notify (secret) & GET /health; event "registration:new" → io.emit semua klien; handler socket "sync" mengirim kejadian terakhir ke klien baru/reconnect
+- Deps baru: socket.io@4.8.4 + socket.io-client@4.8.4 (bun add)
+- i18n: locales/live-reg.ts (liveReg.*, ~27 key × 3 locale, parity) + registrasi di dictionaries.ts (root unik — aman dari bug root-duplikat)
+- src/components/site/live-slot-board.tsx: useRegistrationLive (snapshot awal + socket.io io("/?XTransformPort=3003") + fallback polling 20 dtk + refresh visibility + event muhdin:promo-refresh; dedupe replay sync); LiveSlotBoardSection (statistik 3 kartu animasi spring, grid slot responsif 4/6/8 kolom, jendela 32 slot min 24, slot terisi gradient gold + ikon centang, slot kosong dashed, slot berikutnya ring gold, slot milik pengunjung badge "Anda" via useSyncExternalStore→localStorage muhdin-queue-number, feed aktivitas relative-time ticking); QueueSuccessCard (kartu "#N" konfeti CSS reduced-motion-safe)
+- Integrasi: daftar-view (state queue + simpan localStorage + dispatch muhdin:queue-set + QueueSuccessCard di layar sukses + LiveSlotBoardSection di bawah form); join-view (idem); track-view (stat "Nomor Urut #N", grid dl → sm:grid-cols-4); types.ts TrackResult +queueNumber
+- Lint fix: react-hooks/set-state-in-effect → myQueue dipindah ke useSyncExternalStore (subscribe muhdin:queue-set + storage)
+- Restart dev server (Prisma client lama tidak kenal kolom baru → catch fallback nol)
+- Verifikasi Agent Browser (via Caddy :81 — jalur preview user): board render 5 slot terisi + slot #2 kosong (REJECTED, jujur); badge "TERHUBUNG REALTIME" + log gateway "Klien terhubung (total 1)"; BUKTI REALTIME 2×: curl POST → #7 & #9, slot menyala + feed "baru saja" TANPA reload; alur form lengkap 5 langkah → sukses "#8" + tiket MHD-5VVEX5 + badge "Anda" di slot #8; lacak MHD-5VVEX5 → "Nomor Urut #8"; mobile 390px tanpa overflow; locale EN ("Registration Slot Board"/"Realtime connected") & AR (لوحة أماكن التسجيل, dir=rtl) berfungsi; 0 console error & 0 page error; gateway health clients:1 lastN:9
+
+Stage Summary:
+- LIVE: nomor urut otomatis atomik (#1..#9 terbukti) + papan slot realtime socket.io untuk SEMUA pengunjung + kartu sukses "#N" + feed aktivitas + tampilan "Nomor Urut" di lacak — persis permintaan "daftar dapat urutan 1, slot otomatis terisi realtime"
+- Arsitektur: Next API (source of truth) → POST 127.0.0.1:3004/notify → gateway 3003 io.emit → semua browser; fallback polling 20 dtk; gagal-aman di setiap lapisan
+- Data uji tersisa di DB (realistis utk demo): #6 Semarang PPIU, #7 Yogyakarta KBIHU, #8 Bogor PPIU (MHD-5VVEX5), #9 Madinah hotel — bisa dihapus via admin
+- Screenshot: /tmp/task53-board.png (desktop), /tmp/task53-queue-card.png, /tmp/task53-success.png
+- Prasyarat produksi: jalankan mini-services/registration-gateway (`bun run dev`); port 3004 hanya localhost

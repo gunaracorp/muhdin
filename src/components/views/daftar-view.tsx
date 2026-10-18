@@ -28,6 +28,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useT } from "@/lib/i18n";
 import { PromoSlotLine, dispatchPromoRefresh } from "@/components/site/slot-counter"; // Task 44 — kuota live
+import { LiveSlotBoardSection, QueueSuccessCard } from "@/components/site/live-slot-board"; // Task 53 — papan slot realtime
 import { REG_ROLES } from "@/lib/indonesia";
 import { cn } from "@/lib/utils";
 
@@ -191,6 +192,7 @@ export function DaftarView() {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [ticket, setTicket] = useState<string | null>(null);
+  const [queue, setQueue] = useState<number | null>(null); // Task 53 — nomor urut realtime
 
   /* Turunan dari peran terpilih */
   const role = useMemo(() => REG_ROLES.find((r) => r.code === roleCode) ?? null, [roleCode]);
@@ -375,13 +377,29 @@ export function DaftarView() {
         licenseNo: profile.licenseNo.trim() || "",
         message: buildMessage(),
       };
-      const res = await apiSend<{ ticketCode: string }>("/api/applications", "POST", body);
+      const res = await apiSend<{ ticketCode: string; queueNumber: number | null }>(
+        "/api/applications",
+        "POST",
+        body
+      );
       try {
         localStorage.setItem("muhdin-ticket", res.ticketCode);
       } catch {
         /* penyimpanan lokal tidak tersedia — kode tetap ditampilkan */
       }
       setTicket(res.ticketCode);
+      setQueue(res.queueNumber ?? null);
+      if (typeof res.queueNumber === "number" && res.queueNumber > 0) {
+        try {
+          localStorage.setItem("muhdin-queue-number", String(res.queueNumber));
+        } catch {
+          /* penyimpanan lokal tidak tersedia */
+        }
+        // Task 53 — tandai slot milik pengunjung di seluruh papan yang terbuka.
+        window.dispatchEvent(
+          new CustomEvent<number | null>("muhdin:queue-set", { detail: res.queueNumber })
+        );
+      }
       setStep(6);
       dispatchPromoRefresh(); // Task 52 — perbarui counter pendaftar gratis di seluruh situs seketika
       toast({ title: t("nusJoin.toastSuccessTitle"), description: t("nusJoin.toastSuccessDesc") });
@@ -1005,6 +1023,9 @@ export function DaftarView() {
       </h2>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{t(`${NS}.successDesc`)}</p>
 
+      {/* Task 53 — nomor urut realtime + konfeti */}
+      <QueueSuccessCard queueNumber={queue} />
+
       <div className="mt-6 rounded-2xl border bg-muted/40 p-5">
         <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
           {t(`${NS}.ticketLabel`)}
@@ -1101,6 +1122,9 @@ export function DaftarView() {
           </Reveal>
         </div>
       </section>
+
+      {/* Task 53 — papan slot pendaftaran realtime (selalu tampil di halaman daftar) */}
+      <LiveSlotBoardSection className="border-t border-border/60 bg-muted/20" />
     </div>
   );
 }

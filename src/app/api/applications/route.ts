@@ -3,6 +3,37 @@ import { db } from "@/lib/db";
 import { guardAdmin, ok, fail } from "@/lib/api-helpers";
 import { notifyMembershipApplication } from "@/lib/whatsapp";
 import { rateLimit } from "@/lib/ratelimit";
+import { broadcastRegistration } from "@/lib/live-gateway"; // Task 53 — push realtime
+
+/**
+ * Task 53 — Penugasan nomor urut ATOMIK.
+ *
+ * SQLite menserialisasi penulis, namun transaksi Prisma (deferred) tetap
+ * bisa saling menabrak pada pembacaan _max → tulis ulang nomor sama →
+ * pelanggaran UNIQUE. Strategi: baca max + create dalam SATU transaksi,
+ * dan bila konflik (P2002) ulangi hingga 6× — nomor tetap monoton tanpa
+ * celah ganda, mirip keajaiban INSERT ... SELECT max(id)+1.
+ */
+async function createWithQueueNumber(data: Parameters<typeof db.membershipApplication.create>[0]["data"]) {
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt < 6; attempt++) {
+    try {
+      return await db.$transaction(async (tx) => {
+        const agg = await tx.membershipApplication.aggregate({ _max: { queueNumber: true } });
+        const next = (agg._max.queueNumber ?? 0) + 1;
+        return tx.membershipApplication.create({ data: { ...data, queueNumber: next } });
+      });
+    } catch (e) {
+      const code = (e as { code?: string })?.code;
+      if (code === "P2002") {
+        lastErr = e;
+        continue; // tabrakan nomor — coba lagi dengan max terbaru
+      }
+      throw e;
+    }
+  }
+  throw lastErr ?? new Error("Gagal menugaskan nomor urut.");
+}
 
 // Task 18 — alfabet kode tiket: A-Z tanpa I/O + angka 2-9 (hindari salah baca).
 const TICKET_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -57,19 +88,17 @@ export async function POST(req: NextRequest) {
     }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(body.email))) return fail("Format email tidak valid.");
     const ticketCode = await generateTicketCode();
-    const app = await db.membershipApplication.create({
-      data: {
-        orgName: String(body.orgName).trim(),
-        type: String(body.type),
-        contactName: String(body.contactName).trim(),
-        email: String(body.email).trim(),
-        phone: String(body.phone).trim(),
-        city: String(body.city).trim(),
-        province: String(body.province || "").trim(),
-        licenseNo: String(body.licenseNo).trim(),
-        message: body.message ? String(body.message) : null,
-        ticketCode, // Task 18 — kode pelacakan publik
-      },
+    const app = await createWithQueueNumber({
+      orgName: String(body.orgName).trim(),
+      type: String(body.type),
+      contactName: String(body.contactName).trim(),
+      email: String(body.email).trim(),
+      phone: String(body.phone).trim(),
+      city: String(body.city).trim(),
+      province: String(body.province || "").trim(),
+      licenseNo: String(body.licenseNo).trim(),
+      message: body.message ? String(body.message) : null,
+      ticketCode, // Task 18 — kode pelacakan publik
     });
     // Task 15-d/18 — notifikasi WhatsApp (fire-and-forget, gagal-aman).
     void notifyMembershipApplication({
@@ -81,6 +110,16 @@ export async function POST(req: NextRequest) {
       city: app.city,
       licenseNo: app.licenseNo,
       ticketCode: app.ticketCode,
+    });
+    // Task 53 — push realtime ke semua pengunjung (gagal-aman).
+    const total = await db.membershipApplication.count({ where: { status: { not: "REJECTED" } } });
+    broadcastRegistration({
+      n: app.queueNumber ?? 0,
+      type: app.type,
+      city: app.city,
+      at: app.createdAt.toISOString(),
+      status: app.status,
+      total,
     });
     return ok(app, 201);
   } catch {
