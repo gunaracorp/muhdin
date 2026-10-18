@@ -22,9 +22,9 @@ import { agendaDict } from "@/lib/i18n/locales/agenda";
 import { downloadsDict } from "@/lib/i18n/locales/downloads";
 import { reportDict } from "@/lib/i18n/locales/report";
 import { branchesDict } from "@/lib/i18n/locales/branches";
-import { nusHomeDict } from "@/lib/i18n/locales/nusantara-home";
-import { nusTrustDict } from "@/lib/i18n/locales/nusantara-trust";
-import { nusJoinDict } from "@/lib/i18n/locales/nusantara-join";
+import { nusHomeDict } from "@/lib/i18n/locales/indonesia-home";
+import { nusTrustDict } from "@/lib/i18n/locales/indonesia-trust";
+import { nusJoinDict } from "@/lib/i18n/locales/indonesia-join";
 import { pengurusDict } from "@/lib/i18n/locales/pengurus";
 // Task 50 — Pusat Layanan, Perizinan & Sertifikasi (menu baru)
 import { layananDict } from "@/lib/i18n/locales/layanan";
@@ -54,7 +54,7 @@ const dicts = [
   downloadsDict,
   reportDict,
   branchesDict,
-  // Task 33 — MUHDIN NUSANTARA (Trusted Pilgrim Ecosystem)
+  // Task 33 — MUHDIN INDONESIA (Trusted Pilgrim Ecosystem)
   nusHomeDict,
   nusTrustDict,
   nusJoinDict,

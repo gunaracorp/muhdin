@@ -7,7 +7,7 @@
 2. `src/components/views/privacy-view.tsx` (167 baris) — `PrivacyView()`
 3. `src/components/views/terms-view.tsx` (130 baris) — `TermsView()`
 4. `src/components/views/dashboard-view.tsx` (520 baris) — `DashboardView()`
-5. `src/lib/i18n/locales/nusantara-trust.ts` (517 baris) — namespace `nusTrust`, 129 key × 3 bahasa (id/en/ar), parity terverifikasi via script
+5. `src/lib/i18n/locales/indonesia-trust.ts` (517 baris) — namespace `nusTrust`, 129 key × 3 bahasa (id/en/ar), parity terverifikasi via script
 
 ## Kontrak yang diharapkan orchestrator
 - Route mount di `muhdin-app.tsx`:
@@ -19,10 +19,10 @@
 - Route `daftar` dipakai sebagai CTA (`navigate("daftar")` di verify-view empty-state & dashboard REJECTED). Saat ini root route yang ada adalah `gabung` — orchestrator tinggal alias `case "daftar": case "gabung":` atau sesuaikan.
 
 ## Catatan penting: VERIFIED_DISCLAIMER_ID
-- `src/lib/nusantara.ts` saat agent 33-c bekerja **belum** mengekspor `VERIFIED_DISCLAIMER_ID` (baru berisi VERIFY_STATUSES, formatVerifyId, MEMBERSHIP_TIERS, dll).
+- `src/lib/indonesia.ts` saat agent 33-c bekerja **belum** mengekspor `VERIFIED_DISCLAIMER_ID` (baru berisi VERIFY_STATUSES, formatVerifyId, MEMBERSHIP_TIERS, dll).
 - Agar compile tidak pernah pecah, verify-view & terms-view membacanya via **namespace import + cast defensif**:
-  `import * as Nusantara from "@/lib/nusantara"; (Nusantara as { VERIFIED_DISCLAIMER_ID?: string }).VERIFIED_DISCLAIMER_ID`
-- Bila konstanta sudah ada → teks PERSIS ditampilkan (single source of truth terhormat). Bila belum → fallback `t("nusTrust.disclaimer.fallback")` (teks legal setara, 3 bahasa). Begitu orchestrator menambahkan export di nusantara.ts, TIDAK ada perubahan kode lagi yang diperlukan.
+  `import * as Indonesia from "@/lib/indonesia"; (Indonesia as { VERIFIED_DISCLAIMER_ID?: string }).VERIFIED_DISCLAIMER_ID`
+- Bila konstanta sudah ada → teks PERSIS ditampilkan (single source of truth terhormat). Bila belum → fallback `t("nusTrust.disclaimer.fallback")` (teks legal setara, 3 bahasa). Begitu orchestrator menambahkan export di indonesia.ts, TIDAK ada perubahan kode lagi yang diperlukan.
 
 ## Keputusan teknis
 - PRIVASI KERAS (ROLE 21): tipe lokal `VerifyMember` hanya mendaftar field aman (name, type, city, province, licenseNo, website, status, memberSince, updatedAt) — phone/email/rating/description tidak pernah dirender.

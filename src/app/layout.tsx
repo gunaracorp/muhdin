@@ -35,14 +35,14 @@ const kufi = Noto_Kufi_Arabic({
 
 export const metadata: Metadata = {
   title: {
-    default: "MUHDIN NUSANTARA — Trusted Pilgrim Ecosystem",
-    template: "%s | MUHDIN NUSANTARA",
+    default: "MUHDIN INDONESIA — Trusted Pilgrim Ecosystem",
+    template: "%s | MUHDIN INDONESIA",
   },
   description:
-    "MUHDIN NUSANTARA (Masyarakat Umroh Haji Digital Nusantara) — Trusted Pilgrim Ecosystem. ASOSIASI HAJI UMROH DIGITAL PERTAMA DI INDONESIA — keanggotaan 100% GRATIS, tanpa tarif biaya kepada anggota. Verifikasi, direktori penyelenggara & penyedia, akademi.",
+    "MUHDIN INDONESIA (Masyarakat Umroh Haji Digital Indonesia) — Trusted Pilgrim Ecosystem. ASOSIASI HAJI UMROH DIGITAL PERTAMA DI INDONESIA — keanggotaan 100% GRATIS, tanpa tarif biaya kepada anggota. Verifikasi, direktori penyelenggara & penyedia, akademi.",
   keywords: [
     "MUHDIN",
-    "MUHDIN Nusantara",
+    "MUHDIN Indonesia",
     "Trusted Pilgrim Ecosystem",
     "umroh",
     "haji",
@@ -77,16 +77,16 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
   },
   openGraph: {
-    title: "MUHDIN NUSANTARA — Trusted Pilgrim Ecosystem",
+    title: "MUHDIN INDONESIA — Trusted Pilgrim Ecosystem",
     description:
       "EKOSISTEM UMROH HAJI DIGITAL — asosiasi digital pertama di Indonesia; keanggotaan 100% gratis tanpa tarif biaya kepada anggota. One Ecosystem. One Data. One Standard. One Trust. One Journey.",
-    siteName: "MUHDIN NUSANTARA",
+    siteName: "MUHDIN INDONESIA",
     type: "website",
     locale: "id_ID",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MUHDIN NUSANTARA — Trusted Pilgrim Ecosystem",
+    title: "MUHDIN INDONESIA — Trusted Pilgrim Ecosystem",
     description:
       "Satu Ekosistem. Satu Data. Satu Standar. Satu Trust.",
   },

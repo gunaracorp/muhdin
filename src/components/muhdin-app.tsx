@@ -24,7 +24,7 @@ import { PengurusView } from "@/components/views/pengurus-view";
 // Task 50 — Pusat Layanan dinamis (#/layanan/<slug>)
 import { LayananView } from "@/components/views/layanan-view";
 import { AdminView } from "@/components/admin/admin-view";
-// Task 33 — MUHDIN NUSANTARA (Trusted Pilgrim Ecosystem)
+// Task 33 — MUHDIN INDONESIA (Trusted Pilgrim Ecosystem)
 import { DaftarView } from "@/components/views/daftar-view";
 import { VerifyView } from "@/components/views/verify-view";
 import { PrivacyView } from "@/components/views/privacy-view";

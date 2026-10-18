@@ -15,7 +15,7 @@ const esc = (s) => s.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g,
 function makePdf(title, lines) {
   const content = [
     "BT /F1 18 Tf 56 780 Td (" + esc(title) + ") Tj ET",
-    "BT /F1 9 Tf 56 762 Td (MUHDIN - Masyarakat Umroh Haji Digital Nusantara - muhdin.web.id) Tj ET",
+    "BT /F1 9 Tf 56 762 Td (MUHDIN - Masyarakat Umroh Haji Digital Indonesia - muhdin.web.id) Tj ET",
     "BT /F1 9 Tf 56 750 Td (Dokumen demo untuk pengembangan sistem) Tj ET",
     ...lines.map((l, i) => "BT /F1 11 Tf 56 " + (700 - i * 22) + " Td (" + esc(l) + ") Tj ET"),
     "BT /F1 8 Tf 56 60 Td (Dihasilkan otomatis oleh sistem MUHDIN - " + new Date().toISOString().slice(0, 10) + ") Tj ET",

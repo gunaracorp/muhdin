@@ -5,11 +5,11 @@
 
 # 🕋 MUHDIN
 
-### **MU**asyarakat **U**mroh **H**aji **D**igital **N**usantara
+### **MU**asyarakat **U**mroh **H**aji **D**igital **I**ndonesia
 
-*Portal Digital Ekosistem Umrah & Haji Indonesia — Dari Nusantara ke Tanah Suci*
-*The Digital Home for Indonesia's Umrah & Hajj Ecosystem — From the Archipelago to the Holy Land*
-*المنصة الرقمية لمنظومة العمرة والحج الإندونيسية — من الأرخبيل إلى الأرض المقدسة*
+*Portal Digital Ekosistem Umrah & Haji Indonesia — Dari Indonesia ke Tanah Suci*
+*The Digital Home for Indonesia's Umrah & Hajj Ecosystem — From Indonesia to the Holy Land*
+*المنصة الرقمية لمنظومة العمرة والحج الإندونيسية — من إندونيسيا إلى الأرض المقدسة*
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.1.3-black?logo=nextdotjs)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev)
@@ -68,7 +68,7 @@ MUHDIN bukan aplikasi yang muncul dari kehampaan. Ia berdiri di atas **empat pil
 *"The World's First Digital Hajj & Umrah Association" — أول جمعية رقمية للحج والعمرة في العالم.* Bukan sekadar slogan: kombinasi lengkapnya belum pernah ada — asosiasi nasional yang mengelola **platform digital end-to-end** (portal publik + CMS + verifikasi penyelenggara), terintegrasi **Nusuk**, berbahasa **3 bahasa termasuk RTL Arab**.
 
 **2️⃣ Pewaris Garis Pelopor PHI & IPHI 🏛️**
-**PHI — Perjalanan Haji Indonesia** dan **IPHI — Ikatan Persaudaraan Haji Indonesia** adalah penyelenggara haji & umrah **pertama di Nusantara — jauh sebelum Kementerian Agama RI berdiri (1946)**. Kami bukan pendatang; kami pewaris garis pelopor.
+**PHI — Perjalanan Haji Indonesia** dan **IPHI — Ikatan Persaudaraan Haji Indonesia** adalah penyelenggara haji & umrah **pertama di Indonesia — jauh sebelum Kementerian Agama RI berdiri (1946)**. Kami bukan pendatang; kami pewaris garis pelopor.
 
 **3️⃣ Pengurus Pusat Tokoh Nasional & Internasional 👥**
 Pengurus Pusat MUHDIN adalah tokoh nasional dan internasional yang berpengaruh di bidang haji & umrah — termasuk para arsitek blueprint penyelenggaraan ibadah. Bukan sekadar pengurus; mereka **penulis sejarah yang masih menulis**.
@@ -82,19 +82,19 @@ Pengurus Pusat MUHDIN adalah tokoh nasional dan internasional yang berpengaruh d
 
 > ### *"Kami bukan pendatang. Kami pewaris garis pelopor."*
 
-**Sebelum Kementerian Agama RI berdiri (1946)**, jamaah Nusantara telah dibimbing ke Tanah Suci oleh para pelopor: **PHI — Perjalanan Haji Indonesia** dan **IPHI — Ikatan Persaudaraan Haji Indonesia**. Di tangan tokoh-tokoh itulah **blueprint penyelenggaraan haji & umrah Indonesia** ditulis — karya abadi yang lahir **sebelum ada payung hukum**. Kini para arsitek yang sama duduk di **Pengurus Pusat MUHDIN**, dan garis pelopor itu menorehkan babak barunya: **asosiasi haji & umrah digital pertama di dunia**.
+**Sebelum Kementerian Agama RI berdiri (1946)**, jamaah Indonesia telah dibimbing ke Tanah Suci oleh para pelopor: **PHI — Perjalanan Haji Indonesia** dan **IPHI — Ikatan Persaudaraan Haji Indonesia**. Di tangan tokoh-tokoh itulah **blueprint penyelenggaraan haji & umrah Indonesia** ditulis — karya abadi yang lahir **sebelum ada payung hukum**. Kini para arsitek yang sama duduk di **Pengurus Pusat MUHDIN**, dan garis pelopor itu menorehkan babak barunya: **asosiasi haji & umrah digital pertama di dunia**.
 
 ```mermaid
 timeline
-    title Garis Sejarah Penyelenggaraan Haji dan Umrah Nusantara
-    Sebelum 1946 : PHI — Perjalanan Haji Indonesia : IPHI — Ikatan Persaudaraan Haji Indonesia : Penyelenggara haji dan umrah pertama di Nusantara
+    title Garis Sejarah Penyelenggaraan Haji dan Umrah Indonesia
+    Sebelum 1946 : PHI — Perjalanan Haji Indonesia : IPHI — Ikatan Persaudaraan Haji Indonesia : Penyelenggara haji dan umrah pertama di Indonesia
     Era Blueprint : Blueprint haji dan umrah Indonesia : Karya abadi para arsitek — lahir sebelum ada payung hukum
     2026 : MUHDIN : Asosiasi Haji dan Umrah Digital Pertama di Dunia
 ```
 
 | 📜 **Era Pelopor** | 🧭 **Era Blueprint** | 🌍 **Era Digital** |
 |:---|:---|:---|
-| **PHI & IPHI** — penyelenggara haji & umrah pertama di Nusantara, jauh sebelum Kemenag RI (1946) | **Blueprint haji & umrah Indonesia** — karya abadi para tokoh, ditulis sebelum ada payung hukum | **MUHDIN** — asosiasi haji & umrah digital pertama di dunia; warisan tradisi, wajah teknologi |
+| **PHI & IPHI** — penyelenggara haji & umrah pertama di Indonesia, jauh sebelum Kemenag RI (1946) | **Blueprint haji & umrah Indonesia** — karya abadi para tokoh, ditulis sebelum ada payung hukum | **MUHDIN** — asosiasi haji & umrah digital pertama di dunia; warisan tradisi, wajah teknologi |
 
 **Susunan inti Pengurus Pusat** (tampil di `#/tentang`):
 
@@ -766,7 +766,7 @@ for i in 1 2 3; do curl -s -o /dev/null -w "%{time_total}s\n" http://localhost:3
 | **PIHK** | Penyelenggara Ibadah Haji Khusus |
 | **KBIHU** | Konsorsium Biro Perjalanan Ibadah Haji |
 | **IPHI** | Ikatan Persaudaraan Haji Indonesia |
-| **PHI** | Perjalanan Haji Indonesia — pelopor penyelenggara haji Nusantara pra-1946 |
+| **PHI** | Perjalanan Haji Indonesia — pelopor penyelenggara haji Indonesia pra-1946 |
 | **TW** | Travel Wisata (penyelenggara wisata halal & ziarah) |
 | **Nusuk** | Platform digital resmi Kementerian Haji Arab Saudi |
 | **Tasreeh** | Izin/permit jamaah dalam ekosistem Nusuk |
@@ -817,7 +817,7 @@ Tidak. MUHDIN adalah asosiasi independen penyelenggara ibadah — pewaris garis 
 
 **4. Apa makna PHI, IPHI, dan "blueprint karya abadi"?**
 
-**PHI (Perjalanan Haji Indonesia)** dan **IPHI (Ikatan Persaudaraan Haji Indonesia)** adalah penyelenggara haji & umrah **pertama di Nusantara — sebelum Kementerian Agama RI berdiri (1946)**. **Blueprint haji & umrah Indonesia** adalah karya abadi para tokoh yang kini duduk di Pengurus Pusat MUHDIN — ditulis sebelum ada payung hukum. MUHDIN melanjutkan garis itu sebagai **asosiasi haji & umrah digital pertama di dunia**.
+**PHI (Perjalanan Haji Indonesia)** dan **IPHI (Ikatan Persaudaraan Haji Indonesia)** adalah penyelenggara haji & umrah **pertama di Indonesia — sebelum Kementerian Agama RI berdiri (1946)**. **Blueprint haji & umrah Indonesia** adalah karya abadi para tokoh yang kini duduk di Pengurus Pusat MUHDIN — ditulis sebelum ada payung hukum. MUHDIN melanjutkan garis itu sebagai **asosiasi haji & umrah digital pertama di dunia**.
 
 **5. Berapa banyak data anggota bawaan?**
 
@@ -889,7 +889,7 @@ Kami menyambut kontribusi! Alur kerjanya:
 **Developer by** — **PT Digital Bisnis Manajemen (Digiman)**
 **Support System** — **JuraganWeb**
 
-*Warisan organisasi*: garis pelopor **PHI — Perjalanan Haji Indonesia** & **IPHI — Ikatan Persaudaraan Haji Indonesia**, penyelenggara haji & umrah pertama di Nusantara.
+*Warisan organisasi*: garis pelopor **PHI — Perjalanan Haji Indonesia** & **IPHI — Ikatan Persaudaraan Haji Indonesia**, penyelenggara haji & umrah pertama di Indonesia.
 *Gambar hero & section*: AI-generated, khusus untuk MUHDIN.
 
 ### ⚖️ Disclaimer
@@ -902,12 +902,12 @@ Kami menyambut kontribusi! Alur kerjanya:
 
 ## 📄 Lisensi
 
-Projek proprietary — © 2026 **MUHDIN — Masyarakat Umroh Haji Digital Nusantara** · **muhdin.web.id** 🕋
+Projek proprietary — © 2026 **MUHDIN — Masyarakat Umroh Haji Digital Indonesia** · **muhdin.web.id** 🕋
 
 Penggunaan komersial, redistribusi, dan modifikasi memerlukan izin tertulis dari pemilik hak. Kontak: **sekretariat@muhdin.web.id**
 
 ---
 
-*Dibangun dengan 💚 untuk pelayanan Tamu Allah — dari Nusantara, untuk umat.*
+*Dibangun dengan 💚 untuk pelayanan Tamu Allah — dari Indonesia, untuk umat.*
 
 **بِسْمِ اللَّهِ تَوَكَّلْنَا** · *Innal umrah wal hajju lillah*

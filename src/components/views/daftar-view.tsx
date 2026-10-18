@@ -28,7 +28,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useT } from "@/lib/i18n";
 import { PromoSlotLine, dispatchPromoRefresh } from "@/components/site/slot-counter"; // Task 44 — kuota live
-import { REG_ROLES } from "@/lib/nusantara";
+import { REG_ROLES } from "@/lib/indonesia";
 import { cn } from "@/lib/utils";
 
 /* ---------- Konstanta lokal (mapping didefinisikan di view) ---------- */

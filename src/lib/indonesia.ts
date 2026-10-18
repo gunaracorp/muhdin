@@ -1,5 +1,5 @@
 /**
- * nusantara.ts — Konstanta platform MUHDIN NUSANTARA (Task 33, Task 35: manifesto baru).
+ * indonesia.ts — Konstanta platform MUHDIN INDONESIA (Task 33, Task 35: manifesto baru).
  *
  * Trusted Pilgrim Ecosystem — One Ecosystem. One Data. One Standard. One Trust. One Journey.
  *

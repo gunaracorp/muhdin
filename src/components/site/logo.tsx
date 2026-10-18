@@ -62,7 +62,7 @@ export function MuhdinBrand({
         </div>
         {!compact && (
           <div className={`text-[10px] font-medium mt-0.5 ${light ? "text-emerald-100/80" : "text-muted-foreground"}`}>
-            Masyarakat Umroh Haji Digital Nusantara
+            Masyarakat Umroh Haji Digital Indonesia
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-# SECURITY — Model Keamanan MUHDIN NUSANTARA
+# SECURITY — Model Keamanan MUHDIN INDONESIA
 
 Dokumen ini merangkum **implementasi keamanan yang benar-benar ada di codebase**
 (versi Node.js dan edisi PHP shared hosting), disertai checklist hardening dan

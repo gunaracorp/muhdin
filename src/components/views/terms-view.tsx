@@ -3,15 +3,15 @@
 /**
  * Task 33-c — TermsView: halaman syarat & ketentuan (route #/syarat).
  * Bagian "MUHDIN Verified & batasannya" mengutip disclaimer PERSIS dari
- * VERIFIED_DISCLAIMER_ID (src/lib/nusantara.ts) via namespace import —
+ * VERIFIED_DISCLAIMER_ID (src/lib/indonesia.ts) via namespace import —
  * fallback kamus i18n hanya bila konstanta belum didaftarkan.
  */
 import { Icon } from "@/components/site/icon";
 import { Reveal } from "@/components/site/reveal";
 import { useT } from "@/lib/i18n";
-import * as Nusantara from "@/lib/nusantara";
+import * as Indonesia from "@/lib/indonesia";
 
-const LEGAL_CONST = Nusantara as unknown as { VERIFIED_DISCLAIMER_ID?: string };
+const LEGAL_CONST = Indonesia as unknown as { VERIFIED_DISCLAIMER_ID?: string };
 
 function TermSection({
   icon,

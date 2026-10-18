@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SEED DATA MUHDIN — Masyarakat Umroh Haji Digital Nusantara
+ * SEED DATA MUHDIN — Masyarakat Umroh Haji Digital Indonesia
  * "Asosiasi di Atas Asosiasi" — titik koordinasi akses Nusuk bagi industri
  * Tagline: Bersama Melayani Tamu Allah
  * ------------------------------------------------------------
@@ -44,7 +44,7 @@ const adminPassword = hashPassword("muhdin2026");
 // ---------- 2. SITE SETTINGS ----------
 const siteSettings: { key: string; value: string }[] = [
   { key: "siteName", value: "MUHDIN" },
-  { key: "tagline", value: "Masyarakat Umroh Haji Digital Nusantara" },
+  { key: "tagline", value: "Masyarakat Umroh Haji Digital Indonesia" },
   {
     key: "heroTitle",
     value: "Transformasi Digitalisasi Umroh & Haji Indonesia 2030",
@@ -402,7 +402,7 @@ const members = [
     memberSince: 2024,
   },
   {
-    name: "Koperasi Jamaah Nusantara Sejahtera",
+    name: "Koperasi Jamaah Indonesia Sejahtera",
     type: "KBIHU",
     city: "Bandung",
     province: "Jawa Barat",
@@ -447,7 +447,7 @@ const members = [
     memberSince: 2025,
   },
   {
-    name: "PT Hikmah Wisata Nusantara",
+    name: "PT Hikmah Wisata Indonesia",
     type: "PPIU",
     city: "Makassar",
     province: "Sulawesi Selatan",
@@ -566,7 +566,7 @@ const tutorials = [
     summary:
       "Tur singkat seluruh fitur portal MUHDIN: beranda, menu navigasi, direktori anggota, hingga cara memeriksa status verifikasi penyelenggara.",
     content: [
-      "Portal MUHDIN adalah rumah digital Masyarakat Umroh Haji Digital Nusantara — asosiasi payung penyelenggara ibadah Indonesia yang diposisikan sebagai titik koordinasi tunggal akses platform Nusuk. Tutorial ini memandu Anda mengenal seluruh fitur utama portal dalam waktu kurang dari sepuluh menit.",
+      "Portal MUHDIN adalah rumah digital Masyarakat Umroh Haji Digital Indonesia — asosiasi payung penyelenggara ibadah Indonesia yang diposisikan sebagai titik koordinasi tunggal akses platform Nusuk. Tutorial ini memandu Anda mengenal seluruh fitur utama portal dalam waktu kurang dari sepuluh menit.",
       "## Halaman Utama (Beranda)",
       "Saat membuka muhdin.web.id, Anda akan disambut tagline **Bersama Melayani Tamu Allah** beserta visi Transformasi Digitalisasi Umroh dan Haji Indonesia 2030. Dari beranda Anda dapat langsung:",
       "1. Mengakses **Direktori Anggota** untuk melihat seluruh penyelenggara yang telah bergabung.",
@@ -702,7 +702,7 @@ const tutorials = [
       "1. Satu artikel satu ide besar — pecah topik kompleks menjadi seri.",
       "2. Cantumkan angka konkret: jumlah peserta, tanggal, dan nama kota.",
       "3. Tutup dengan ajakan tindakan, misalnya menghubungi sekretariat atau membaca tutorial terkait.",
-      "4. Periksa kembali penulisan nama institusi: Masyarakat Umroh Haji Digital Nusantara (MUHDIN), Nusuk, dan Kemenag.",
+      "4. Periksa kembali penulisan nama institusi: Masyarakat Umroh Haji Digital Indonesia (MUHDIN), Nusuk, dan Kemenag.",
       "## Ringkasan",
       "Dengan alur sederhana ini, tim konten dapat menerbitkan berita resmi dalam hitungan menit. Kuncinya: judul yang jelas, excerpt menarik, Markdown yang rapi, dan kategori yang tepat agar portal selalu segar dan tepercaya.",
     ].join("\n\n"),
@@ -842,7 +842,7 @@ const tutorials = [
       "Hindari membalas dari alamat pribadi; gunakan email resmi info@muhdin.web.id agar jejak komunikasi terpusat.",
       "## Mengubah Pengaturan Situs",
       "Menu **Pengaturan** memetakan SiteSetting berpasangan kunci-nilai:",
-      "- **siteName** dan **tagline**: identitas utama, misalnya MUHDIN dan Masyarakat Umroh Haji Digital Nusantara.",
+      "- **siteName** dan **tagline**: identitas utama, misalnya MUHDIN dan Masyarakat Umroh Haji Digital Indonesia.",
       "- **heroTitle** dan **heroSubtitle**: teks besar beranda; perubahan kecil di sini mengubah kesan seluruh portal — tulis dengan cermat.",
       "- **vision** dan **mission**: visi misi resmi; hanya diubah melalui keputusan pengurus.",
       "- **email, phone, address, website**: kontak resmi; pastikan selalu aktif.",
@@ -939,7 +939,7 @@ const articles = [
     excerpt:
       "Whitepaper MUHDIN Edisi 1.0 (September 2026) menegaskan posisi MUHDIN sebagai titik koordinasi tunggal akses platform Nusuk bagi industri penyelenggara ibadah Indonesia — mengubah kompetisi kacau menjadi kompetisi mutu.",
     content: [
-      "Jakarta — Masyarakat Umroh Haji Digital Nusantara (MUHDIN) menegaskan posisi strategisnya sebagai titik koordinasi tunggal akses platform Nusuk bagi industri penyelenggara ibadah Indonesia. Penegasan ini tertuang dalam Whitepaper MUHDIN Edisi 1.0 — September 2026, kertas kerja strategis yang disusun sebagai dasar konsultasi pemangku kepentingan.",
+      "Jakarta — Masyarakat Umroh Haji Digital Indonesia (MUHDIN) menegaskan posisi strategisnya sebagai titik koordinasi tunggal akses platform Nusuk bagi industri penyelenggara ibadah Indonesia. Penegasan ini tertuang dalam Whitepaper MUHDIN Edisi 1.0 — September 2026, kertas kerja strategis yang disusun sebagai dasar konsultasi pemangku kepentingan.",
       "## Posisi: Asosiasi di Atas Asosiasi",
       "MUHDIN didesain bukan sebagai pesaing pelaku industri, melainkan lapisan federasi yang menaungi PPIU, PIHK, KBIHU, IPHI, dan penyelenggara travel wisata halal-ziarah. Sebagaimana IATA bagi industri penerbangan, MUHDIN menyediakan infrastruktur bersama, standar interoperabilitas, dan penjaminan mutu — sementara setiap anggota tetap menjalankan bisnisnya masing-masing dengan identitasnya sendiri.",
       "Ketua Ummu MUHDIN, H. Ahmad Syaiful Bahri, S.E., M.M., menyatakan bahwa posisi federasi ini adalah amanah sekaligus tanggung jawab besar. Selama ini industri ibadah kita terfragmentasi: ribuan penyelenggara bekerja sendiri-sendiri, standar tidak seragam, dan jamaah kerap menjadi pihak yang paling rentan. Melalui MUHDIN, kami membangun satu tata kelola yang membuat jamaah tenang dan pelaku usaha tumbuh.",
@@ -1104,7 +1104,7 @@ const faqs = [
   {
     question: "Apa itu MUHDIN?",
     answer:
-      "MUHDIN (Masyarakat Umroh Haji Digital Nusantara) adalah asosiasi payung penyelenggara jasa ibadah Indonesia — Asosiasi di Atas Asosiasi — yang diposisikan sebagai titik koordinasi tunggal akses platform Nusuk bagi industri. MUHDIN memayungi PPIU, PIHK, KBIHU, dan mitra layanan jamaah dalam satu tata kelola terstandar dengan tagline Bersama Melayani Tamu Allah.",
+      "MUHDIN (Masyarakat Umroh Haji Digital Indonesia) adalah asosiasi payung penyelenggara jasa ibadah Indonesia — Asosiasi di Atas Asosiasi — yang diposisikan sebagai titik koordinasi tunggal akses platform Nusuk bagi industri. MUHDIN memayungi PPIU, PIHK, KBIHU, dan mitra layanan jamaah dalam satu tata kelola terstandar dengan tagline Bersama Melayani Tamu Allah.",
     category: "Umum",
     order: 1,
   },

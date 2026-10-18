@@ -1,4 +1,4 @@
-# DATABASE — Prisma & SQLite di MUHDIN NUSANTARA
+# DATABASE — Prisma & SQLite di MUHDIN INDONESIA
 
 Seluruh data MUHDIN hidup di **satu file SQLite**: `db/custom.db` (akar proyek),
 diakses melalui **Prisma ORM 6** dengan **26 model** yang didefinisikan di

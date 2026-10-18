@@ -1,12 +1,12 @@
 "use client";
 
-/* Task 33-b — Rebuild homepage MUHDIN NUSANTARA.
+/* Task 33-b — Rebuild homepage MUHDIN INDONESIA.
    Task 35 — Sinkron manifesto: hero 4 CTA, "SIAPA YANG BISA BERGABUNG?" (12),
    Verified 3 CTA + legal bold, MUHDIN+MHUTU, One Record, Supply Passport,
    Academy 8 program, Control Tower, finale "Powered by MHUTU Global Sistem".
    SPA hash-routing publik; animasi via Reveal/Stagger + CSS murni di
-   nusantara.css (reduced-motion aman). Tanpa API fetch kecuali news strip. */
-import "@/components/site/nusantara.css";
+   indonesia.css (reduced-motion aman). Tanpa API fetch kecuali news strip. */
+import "@/components/site/indonesia.css";
 
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -32,12 +32,12 @@ import {
   SUPPLY_PASSPORT_FIELDS,
   CONTROL_TOWER_ITEMS,
   ACADEMY_TOPICS,
-} from "@/lib/nusantara";
+} from "@/lib/indonesia";
 import { useT, formatDateL10n } from "@/lib/i18n";
 import type { Article } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-/* ---------- Pemetaan konstanta nusantara.ts → ikon & key kamus ---------- */
+/* ---------- Pemetaan konstanta indonesia.ts → ikon & key kamus ---------- */
 
 const FLOW_META: Record<string, { icon: string; key: string }> = {
   INDONESIA: { icon: "map-pin", key: "indonesia" },

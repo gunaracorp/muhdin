@@ -1,18 +1,18 @@
 /**
- * namespace "nusHome" — Task 33-b, disegarkan Task 35 (manifesto MUHDIN NUSANTARA).
+ * namespace "nusHome" — Task 33-b, disegarkan Task 35 (manifesto MUHDIN INDONESIA).
  * Struktur wajib: { id: { nusHome: {...} }, en: {...}, ar: {...} } — key identik di ketiganya.
  * Copy id = Bahasa Indonesia sederhana-hangat (maks 2 kalimat per deskripsi).
  * En = bahasa Inggris natural; Ar = bahasa Arab bermakna (bukan tempelan).
  * Teks yang tetap literal lintas bahasa: tagline EN, heading kemitraan EN,
  * slogan brand ("NO PROOF. NO TRUSTED INVENTORY.", "ONE PILGRIM..."), nama brand.
  */
-import { HERO_SUBTITLE } from "@/lib/nusantara";
+import { HERO_SUBTITLE } from "@/lib/indonesia";
 
 export const nusHomeDict = {
   id: {
     nusHome: {
       aria: {
-        hero: "Beranda MUHDIN NUSANTARA",
+        hero: "Beranda MUHDIN INDONESIA",
         free: "Penawaran harga keanggotaan MUHDIN",
         idea: "Empat pilar MUHDIN",
         join: "Siapa yang bisa bergabung",
@@ -155,7 +155,7 @@ export const nusHomeDict = {
         badge: "KAMPANYE 2026",
         title: "MUHDIN FOUNDING ECOSYSTEM 2026",
         message:
-          "Menjadi bagian dari 100 organisasi dan profesional pertama yang membangun fondasi ekosistem MUHDIN Nusantara.",
+          "Menjadi bagian dari 100 organisasi dan profesional pertama yang membangun fondasi ekosistem MUHDIN Indonesia.",
         cta: "DAFTAR FOUNDING MEMBER",
       },
       membership: {
@@ -297,7 +297,7 @@ export const nusHomeDict = {
         title: "GRATIS. UNTUK SEMUA ANGGOTA.",
         sub: "Keanggotaan MUHDIN sepenuhnya gratis — tanpa biaya pendaftaran, tanpa iuran, tanpa pengecualian. Kami tidak menarifkan biaya kepada anggota mana pun. Tanpa biaya tersembunyi, tanpa syarat tersembunyi.",
         compareUs: "PLATFORM ASOSIASI BIASA",
-        compareMuhdin: "MUHDIN NUSANTARA",
+        compareMuhdin: "MUHDIN INDONESIA",
         rowSignup: "Biaya pendaftaran",
         rowDues: "Iuran keanggotaan",
         otherSignup: "Rp 500 rb – Rp 25 jt",
@@ -315,6 +315,7 @@ export const nusHomeDict = {
         liveBadge: "LIVE",
         pill: "{n} PENDAFTAR TELAH BERGABUNG — GRATIS",
         title: "PENGGABUNG GRATIS — LIVE",
+        freeBadge: "GRATIS — Rp 0 SELAMANYA",
         ofTotal: "pendaftar gratis tergabung",
         ready: "Keanggotaan 100% gratis — tanpa kuota, tanpa kecualian.",
         urgency: "GRATIS untuk semua kategori anggota.",
@@ -323,7 +324,7 @@ export const nusHomeDict = {
         aria: "Penghitung live jumlah pendaftar yang bergabung gratis",
       },
       final: {
-        title: "MUHDIN NUSANTARA",
+        title: "MUHDIN INDONESIA",
         sub: "TRUSTED PILGRIM ECOSYSTEM",
         tagline: "One Ecosystem. One Data. One Standard. One Trust. One Journey.",
         poweredBy: "Powered by MHUTU Global Sistem.",
@@ -451,7 +452,7 @@ export const nusHomeDict = {
   en: {
     nusHome: {
       aria: {
-        hero: "MUHDIN NUSANTARA home",
+        hero: "MUHDIN INDONESIA home",
         free: "MUHDIN membership pricing offer",
         idea: "The four pillars of MUHDIN",
         join: "Who can join",
@@ -595,7 +596,7 @@ export const nusHomeDict = {
         badge: "2026 CAMPAIGN",
         title: "MUHDIN FOUNDING ECOSYSTEM 2026",
         message:
-          "Be part of the pioneering organizations and professionals building the foundation of the MUHDIN Nusantara ecosystem.",
+          "Be part of the pioneering organizations and professionals building the foundation of the MUHDIN Indonesia ecosystem.",
         cta: "REGISTER AS FOUNDING MEMBER",
       },
       membership: {
@@ -737,7 +738,7 @@ export const nusHomeDict = {
         title: "FREE. FOR EVERY MEMBER.",
         sub: "MUHDIN membership is completely free — no registration fee, no dues, no exceptions. We charge our members nothing. No hidden fees, no strings attached.",
         compareUs: "TYPICAL ASSOCIATION PLATFORM",
-        compareMuhdin: "MUHDIN NUSANTARA",
+        compareMuhdin: "MUHDIN INDONESIA",
         rowSignup: "Registration fee",
         rowDues: "Membership dues",
         otherSignup: "IDR 500K – 25M",
@@ -755,6 +756,7 @@ export const nusHomeDict = {
         liveBadge: "LIVE",
         pill: "{n} REGISTRANTS ALREADY JOINED — FREE",
         title: "FREE REGISTRATION — LIVE",
+        freeBadge: "FREE — Rp 0 FOREVER",
         ofTotal: "free registrants joined",
         ready: "Slots still open — claim yours before it closes!",
         urgency: "FREE for every membership category.",
@@ -763,7 +765,7 @@ export const nusHomeDict = {
         aria: "Live counter of registrants who joined for free",
       },
       final: {
-        title: "MUHDIN NUSANTARA",
+        title: "MUHDIN INDONESIA",
         sub: "TRUSTED PILGRIM ECOSYSTEM",
         tagline: "One Ecosystem. One Data. One Standard. One Trust. One Journey.",
         poweredBy: "Powered by MHUTU Global Sistem.",
@@ -891,7 +893,7 @@ export const nusHomeDict = {
   ar: {
     nusHome: {
       aria: {
-        hero: "الرئيسية — موهدين نوسنتارا",
+        hero: "الرئيسية — موهدين إندونيسيا",
         free: "عرض أسعار عضوية موهدين",
         idea: "ركائز موهدين الأربع",
         join: "من يمكنه الانضمام",
@@ -1033,7 +1035,7 @@ export const nusHomeDict = {
       founding: {
         badge: "حملة 2026",
         title: "MUHDIN FOUNDING ECOSYSTEM 2026",
-        message: "كن من أول 200 منظمة ومهني يبنون أساس منظومة موهدين نوسنتارا.",
+        message: "كن من أول 200 منظمة ومهني يبنون أساس منظومة موهدين إندونيسيا.",
         cta: "سجّل كعضو مؤسس",
       },
       membership: {
@@ -1175,7 +1177,7 @@ export const nusHomeDict = {
         title: "مجاناً. لكل عضو.",
         sub: "العضوية في موهدين مجانية بالكامل — بلا رسوم تسجيل، بلا اشتراك، بلا استثناء. نحن لا نفرض رسوماً على أي عضو. لا رسوم خفية ولا شروط خفية.",
         compareUs: "منصات الجمعيات المعتادة",
-        compareMuhdin: "موهدين نوسنتارا",
+        compareMuhdin: "موهدين إندونيسيا",
         rowSignup: "رسوم التسجيل",
         rowDues: "اشتراك العضوية",
         otherSignup: "500 ألف – 25 مليون روبية",
@@ -1193,6 +1195,7 @@ export const nusHomeDict = {
         liveBadge: "مباشر",
         pill: "{n} مسجّلاً انضموا — مجاناً",
         title: "الانضمام مجاناً — مباشرة",
+        freeBadge: "مجاناً — Rp 0 إلى الأبد",
         ofTotal: "مسجّل مجاني انضم",
         ready: "المقاعد ما زالت مفتوحة — احجز مقعدك قبل الإغلاق!",
         urgency: "أسرع — المقاعد على وشك النفاد!",
@@ -1201,7 +1204,7 @@ export const nusHomeDict = {
         aria: "عدّاد مباشر لعدد المسجلين الذين انضموا مجاناً",
       },
       final: {
-        title: "موهدين نوسنتارا",
+        title: "موهدين إندونيسيا",
         sub: "TRUSTED PILGRIM ECOSYSTEM",
         tagline: "One Ecosystem. One Data. One Standard. One Trust. One Journey.",
         poweredBy: "Powered by MHUTU Global Sistem.",

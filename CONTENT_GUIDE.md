@@ -1,4 +1,4 @@
-# CONTENT GUIDE — Panduan Konten CMS MUHDIN NUSANTARA
+# CONTENT GUIDE — Panduan Konten CMS MUHDIN INDONESIA
 
 Panduan ini untuk **admin dan editor CMS** (`#/admin`) yang mengelola artikel,
 tutorial, FAQ, testimoni, pengaturan situs, dan konten lainnya. Tujuannya satu:
@@ -8,7 +8,7 @@ menjaga suara MUHDIN tetap konsisten, profesional, dan **jujur secara hukum**.
 
 Gaya resmi MUHDIN: **profesional-hangat**.
 
-Contoh kalimat acuan (dipakai apa adanya di situs — `src/lib/nusantara.ts`,
+Contoh kalimat acuan (dipakai apa adanya di situs — `src/lib/indonesia.ts`,
 `HERO_SUBTITLE`):
 
 > "Menghubungkan penyelenggara, pelaku usaha, profesional, teknologi, dan
@@ -30,7 +30,7 @@ Ciri-cirinya:
 ## 2. Daftar Larangan Klaim
 
 Aturan emas legal-compliance MUHDIN tertulis di header
-`src/lib/nusantara.ts` (kutip persis):
+`src/lib/indonesia.ts` (kutip persis):
 
 > - Tidak ada klaim dukungan/endorsement pemerintah.
 > - MUHDIN bukan PPIU/PIHK, bukan penerbit visa, bukan penjamin keberangkatan.
@@ -58,7 +58,7 @@ hanya bisa dilakukan penyelenggara berizin atau otoritas.
 
 Setiap materi yang menampilkan anggota berlabel "Terverifikasi" / "MUHDIN
 Verified" wajib memuat makna berikut (sumber kebenaran: header
-`src/lib/nusantara.ts`, blok ATURAN EMAS — kutip persis):
+`src/lib/indonesia.ts`, blok ATURAN EMAS — kutip persis):
 
 > "MUHDIN Verified" = status verifikasi internal berbasis dokumen pada tanggal
 > verifikasi — BUKAN izin/accreditasi pemerintah.
@@ -67,7 +67,7 @@ Pemakaian minimal:
 
 - Halaman direktori anggota & detail verifikasi: makna verifikasi internal
   tersampaikan di penjelasan status (label berasal dari `VERIFY_STATUSES`
-  di `src/lib/nusantara.ts`, mis. "Terverifikasi", "Terverifikasi Terbatas").
+  di `src/lib/indonesia.ts`, mis. "Terverifikasi", "Terverifikasi Terbatas").
 - Saat mengutip/memublikasikan ulang di artikel, siaran pers, atau materi
   cetak: sisipkan kalimat disclaimer di atas apa adanya.
 - Jangan pernah menyederhanakan menjadi "disetujui pemerintah" atau
@@ -75,7 +75,7 @@ Pemakaian minimal:
 
 > Catatan teknis: konstanta bernama `VERIFIED_DISCLAIMER_ID` **tidak ada** di
 > versi kode saat ini; teks resminya hidup sebagai blok ATURAN EMAS di header
-> `src/lib/nusantara.ts`. Bila konstanta itu kelak ditambahkan, dokumentasi ini
+> `src/lib/indonesia.ts`. Bila konstanta itu kelak ditambahkan, dokumentasi ini
 > yang perlu diperbarui agar mengutipnya.
 
 ## 4. Mengelola Pengaturan Situs (Settings)

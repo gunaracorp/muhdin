@@ -9,7 +9,7 @@ export const pengurusDict = {
       eyebrow: "Tata Kelola & Kepemimpinan",
       title: "Susunan Pengurus MUHDIN",
       subtitle:
-        "Struktur kepemimpinan Masyarakat Umroh Haji Digital Nusantara — dari dewan pembina dan penasehat, dua pilar pimpinan tertinggi, hingga kepengurusan pusat dan jaringan koordinasi wilayah di seluruh Nusantara.",
+        "Struktur kepemimpinan Masyarakat Umroh Haji Digital Indonesia — dari dewan pembina dan penasehat, dua pilar pimpinan tertinggi, hingga kepengurusan pusat dan jaringan koordinasi wilayah di seluruh Indonesia.",
       statLeaders: "Tokoh Pimpinan Nasional",
       statWil: "Bakorwil Provinsi",
       statCab: "Bakorcab Kab/Kota",
@@ -42,7 +42,7 @@ export const pengurusDict = {
       },
       net: {
         eyebrow: "Jaringan Kepengurusan",
-        title: "Dari Pusat ke Seluruh Nusantara",
+        title: "Dari Pusat ke Seluruh Indonesia",
         desc: "Struktur federatif berjenjang ala asosiasi internasional — kebijakan pusat mengalir turun melalui penunjukan resmi hingga ke akar rumput.",
         ppFull: "Pimpinan tertinggi MUHDIN di tingkat nasional",
         wilTitle: "Bakorwil Provinsi",
@@ -88,7 +88,7 @@ export const pengurusDict = {
       eyebrow: "Governance & Leadership",
       title: "MUHDIN Leadership Structure",
       subtitle:
-        "The leadership structure of Masyarakat Umroh Haji Digital Nusantara — from the patron and advisor board, the two supreme leadership pillars, to the central board and a regional coordinating network across the archipelago.",
+        "The leadership structure of Masyarakat Umroh Haji Digital Indonesia — from the patron and advisor board, the two supreme leadership pillars, to the central board and a regional coordinating network across Indonesia.",
       statLeaders: "National Leaders",
       statWil: "Provincial Bakorwil",
       statCab: "Regency/City Bakorcab",
@@ -121,7 +121,7 @@ export const pengurusDict = {
       },
       net: {
         eyebrow: "Governing Network",
-        title: "From the Center to the Entire Archipelago",
+        title: "From the Center to All of Indonesia",
         desc: "A tiered federative structure in the tradition of international associations — central policy cascades through official appointments down to the grassroots.",
         ppFull: "MUHDIN's highest national leadership",
         wilTitle: "Provincial Bakorwil",
@@ -167,7 +167,7 @@ export const pengurusDict = {
       eyebrow: "الحوكمة والقيادة",
       title: "الهيكل التنظيمي لمُهدين",
       subtitle:
-        "هيكل قيادة الجمعية الرقمية للعمرة والحج نوسانتارا — من مجلس الرعاية والمستشار، عبر ركنا القيادة العليا، إلى المجلس المركزي وشبكة التنسيق الإقليمية في كامل الأرخبيل.",
+        "هيكل قيادة الجمعية الرقمية للعمرة والحج إندونيسيا — من مجلس الرعاية والمستشار، عبر ركنا القيادة العليا، إلى المجلس المركزي وشبكة التنسيق الإقليمية في كامل إندونيسيا.",
       statLeaders: "القادة الوطنيون",
       statWil: "مجلس تنسيق المقاطعات",
       statCab: "مجلس تنسيق المناطق/المدن",
@@ -199,7 +199,7 @@ export const pengurusDict = {
       },
       net: {
         eyebrow: "شبكة التنظيم",
-        title: "من المركز إلى كامل الأرخبيل",
+        title: "من المركز إلى كامل إندونيسيا",
         desc: "هيكل فيدرالي متدرج على غرار الجمعيات الدولية — سياسة المركز تتدفق عبر التعيينات الرسمية حتى القاعدة الشعبية.",
         ppFull: "القيادة العليا لمُهدين على المستوى الوطني",
         wilTitle: "مجلس تنسيق المقاطعة",

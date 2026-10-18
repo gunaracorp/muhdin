@@ -2,8 +2,8 @@
 
 export const BRAND = {
   name: "MUHDIN",
-  fullName: "MUHDIN NUSANTARA",
-  legalName: "Masyarakat Umroh Haji Digital Nusantara",
+  fullName: "MUHDIN INDONESIA",
+  legalName: "Masyarakat Umroh Haji Digital Indonesia",
   positioning: "Trusted Pilgrim Ecosystem",
   tagline: "Bersama Melayani Tamu Allah",
   taglineEn: "One Ecosystem. One Data. One Standard. One Trust. One Journey.",

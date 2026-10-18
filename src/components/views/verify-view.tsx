@@ -8,7 +8,7 @@
  * (phone, email, rating, deskripsi) sengaja TIDAK dideklarasikan di tipe lokal.
  *
  * LEGAL (ROLE 25): panel disclaimer wajib di bawah hasil — teks PERSIS dari
- * VERIFIED_DISCLAIMER_ID (src/lib/nusantara.ts) via namespace import agar
+ * VERIFIED_DISCLAIMER_ID (src/lib/indonesia.ts) via namespace import agar
  * compile tetap aman jika konstanta belum didaftarkan; fallback kamus i18n.
  */
 import { useCallback, useEffect, useState } from "react";
@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useT, formatDateL10n, formatNumberL10n } from "@/lib/i18n";
-import * as Nusantara from "@/lib/nusantara";
+import * as Indonesia from "@/lib/indonesia";
 import { cn } from "@/lib/utils";
 
 /* Whitelist field publik — jangan tambah phone/email/rating/description. */
@@ -47,10 +47,10 @@ type VerifyResponse = {
   results: VerifyMember[];
 };
 
-const { VERIFY_STATUSES } = Nusantara;
+const { VERIFY_STATUSES } = Indonesia;
 
-/** Konstanta disclaimer resmi (ROLE 25) — sumber kebenaran: nusantara.ts. */
-const LEGAL_CONST = Nusantara as unknown as { VERIFIED_DISCLAIMER_ID?: string };
+/** Konstanta disclaimer resmi (ROLE 25) — sumber kebenaran: indonesia.ts. */
+const LEGAL_CONST = Indonesia as unknown as { VERIFIED_DISCLAIMER_ID?: string };
 
 /** tone VERIFY_STATUSES → kelas Tailwind (tanpa indigo/biru). */
 const TONE_CLS: Record<string, string> = {

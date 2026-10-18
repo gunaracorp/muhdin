@@ -1,4 +1,4 @@
-# DEPLOYMENT — Panduan Deploy MUHDIN NUSANTARA
+# DEPLOYMENT — Panduan Deploy MUHDIN INDONESIA
 
 Dokumen ini menjelaskan **tiga jalur deploy yang benar-benar didukung codebase ini**.
 Semua perintah dan path di bawah diverifikasi terhadap `package.json`, `next.config.ts`,

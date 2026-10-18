@@ -4,7 +4,7 @@
  * portal anggota (#/dashboard).
  * Struktur wajib: { id: {...}, en: {...}, ar: {...} } — key identik di ketiganya.
  * Catatan legal (ROLE 25): disclaimer resmi MUHDIN Verified hidup di
- * src/lib/nusantara.ts (VERIFIED_DISCLAIMER_ID) — kamus ini hanya fallback.
+ * src/lib/indonesia.ts (VERIFIED_DISCLAIMER_ID) — kamus ini hanya fallback.
  */
 export const nusTrustDict = {
   id: {

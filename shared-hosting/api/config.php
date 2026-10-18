@@ -46,7 +46,7 @@ if (!defined('MUHDIN_CONFIG_LOADED')) {
     /* --------------------------------------------------------------------
      * IDENTITAS APLIKASI
      * ------------------------------------------------------------------ */
-    define('MUHDIN_APP_NAME', 'MUHDIN — Masyarakat Umroh Haji Digital Nusantara');
+    define('MUHDIN_APP_NAME', 'MUHDIN — Masyarakat Umroh Haji Digital Indonesia');
     define('MUHDIN_VERSION', '2.0.0');
     define('MUHDIN_EDITION', 'shared-hosting');
 
