@@ -1788,3 +1788,29 @@ Stage Summary:
 - Kredensial demo: admin@muhdin.web.id / muhdin2026.
 - Infra krusial: dev script kini memakai heap cap 1300MB (anti-OOM); dev server persisten via scripts/dev-keep.sh.
 - File baru: src/app/api/ai/chat/route.ts, src/app/api/ai/ghostwrite/route.ts, src/components/site/ai-concierge.tsx, src/components/admin/admin-ai-studio.tsx.
+
+---
+Task ID: 3 (Halaman Detail Lengkap v4.1)
+Agent: Z.ai Code — Polymath Master Sage
+Task: Permintaan owner "jangan pelit buatkan halaman sendiri-sendiri setiap ada layanan dan lain lain" — setiap entitas wajib punya halaman detail sendiri.
+
+Work Log:
+- Audit arsitektur: layanan sudah punya halaman dinamis (#/layanan/<slug>, 21 slug dari MENU_NODES); yang BELUM punya halaman: anggota, pengurus, agenda, galeri, cabang daerah (DPD), FAQ, dan peta situs.
+- Membuat modul blok bersama src/components/views/detail-shell.tsx (DetailHero forest-deep berpola islami + BackButton, InfoRow, DetailSectionHead, RelatedLinkCard, WaCtaButton, DetailLoading/NotFound) — bahasa visual konsisten dengan view lama.
+- 7 HALAMAN BARU:
+  1. member-detail.tsx — #/anggota/<id>: badge TERVERIFIKASI, rating bintang, izin, monogram, kontak (WA/telp/email/web), tips aman, anggota satu provinsi.
+  2. pengurus-detail.tsx — #/pengurus/<id>: foto/monogram, jabatan + mandat (i18n), navigasi prev/next antar tokoh, bidang fungsional BEMDUM.
+  3. agenda-detail.tsx — #/agenda/<id>: status (mendatang/berlangsung/telah terlaksana), Google Calendar link, Google Maps, CTA WA, agenda terkait.
+  4. gallery-detail.tsx — #/galeri/<id>: gambar besar, keterangan, kategori, tanggal unggah, navigasi prev/next, galeri terkait.
+  5. branch-pages.tsx — #/dpd (indeks semua cabang) & #/dpd/<code> (detail: kantor, PIC, WA, Maps, CTA pembentukan cabang baru).
+  6. faq-view.tsx — #/faq: pencarian real-time, filter kategori (chips), accordion 13 pertanyaan, CTA kontak.
+  7. sitemap-view.tsx — #/peta-situs: peta SEMUA halaman (25+ statis, 21 layanan by grup dari MENU_NODES, 13 ekosistem, 14 anggota, 5 tokoh, cabang, 5 agenda, 8 galeri, 10 berita, 13 tutorial — semua dari API dinamis).
+- Registrasi routing di muhdin-app.tsx (case anggota/pengurus/galeri/agenda kini bercabang ke detail; case baru dpd/faq/peta-situs).
+- KAWAT TAUtan: kartu anggota (role=link + keyboard) → detail; kartu agenda → detail; judul galeri → detail (lightbox tetap via gambar); kartu tokoh (featured + advisory) → detail; kartu cabang → #/dpd/<code>; footer quick links + FAQ/DPD/Peta Situs; tab FAQ kontak → #/faq.
+- i18n: namespace baru detail.ts (detail.common/agenda/gallery/branch/faq/sitemap, 3 bahasa) + tambahan key members.profileTitle dll (3 bahasa) + footer.quick faq/dpd/sitemap (3 bahasa) + ikon home (House) di registry.
+- Verifikasi agent-browser: 7 halaman render sempurna; klik-through daftar anggota → detail ✓; klik tokoh Gugun Gunara → #/pengurus/sekjen ✓; nol console error; lint bersih; health OK.
+
+Stage Summary:
+- Portal kini punya 60+ halaman nyata: setiap layanan, setiap anggota, setiap tokoh, setiap agenda, setiap dokumentasi, setiap cabang, FAQ, dan peta situs — semua terhubung dua arah (listing ↔ detail).
+- Fondasi siap skala "1000 halaman": setiap data baru yang masuk via CMS (anggota/artikel/tutorial/agenda/galeri/cabang) otomatis PUNYA halaman detail sendiri tanpa kode tambahan.
+- Desain konsisten (DetailShell), i18n 3 bahasa penuh untuk halaman baru, aksesibilitas (role=link, keyboard, aria), RTL-aware.

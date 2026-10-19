@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useT, formatNumberL10n } from "@/lib/i18n";
+import { navigate } from "@/hooks/use-hash-route";
 import type { GalleryItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -114,31 +115,39 @@ export function GalleryView() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((it, i) => (
                 <Reveal key={it.id} delay={Math.min(i * 0.04, 0.4)}>
-                  <button
-                    onClick={() => setActive(it)}
-                    aria-label={t("gallery.openAria", { title: it.title })}
-                    className="group w-full text-start rounded-2xl overflow-hidden border bg-card shadow-sm hover:shadow-lg transition-all"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-forest to-primary">
-                      <img
-                        src={it.imageUrl}
-                        alt={it.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <Badge className="absolute top-3 start-3 bg-gold text-forest-deep font-bold border-none text-[10px]">
-                        {catLabel(it.category, t)}
-                      </Badge>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-bold text-sm leading-snug group-hover:text-primary transition-colors line-clamp-1">
-                        {it.title}
+                  <div className="group w-full text-start rounded-2xl overflow-hidden border bg-card shadow-sm hover:shadow-lg transition-all">
+                    <button
+                      onClick={() => setActive(it)}
+                      aria-label={t("gallery.openAria", { title: it.title })}
+                      className="block w-full cursor-zoom-in"
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-forest to-primary">
+                        <img
+                          src={it.imageUrl}
+                          alt={it.title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <Badge className="absolute top-3 start-3 bg-gold text-forest-deep font-bold border-none text-[10px]">
+                          {catLabel(it.category, t)}
+                        </Badge>
+                      </div>
+                    </button>
+                    {/* v4.1 — judul menuju HALAMAN DETAIL #/galeri/<id> */}
+                    <button
+                      onClick={() => navigate(`/galeri/${it.id}`)}
+                      aria-label={`${it.title} — ${t("detail.gallery.about")}`}
+                      className="block w-full cursor-pointer p-4 text-start"
+                    >
+                      <h3 className="flex items-center justify-between gap-2 font-bold text-sm leading-snug hover:text-primary transition-colors line-clamp-1">
+                        <span className="line-clamp-1">{it.title}</span>
+                        <Icon name="chevron-right" className="h-4 w-4 shrink-0 text-primary rtl:rotate-180" aria-hidden />
                       </h3>
                       {it.caption && (
                         <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{it.caption}</p>
                       )}
-                    </div>
-                  </button>
+                    </button>
+                  </div>
                 </Reveal>
               ))}
             </div>

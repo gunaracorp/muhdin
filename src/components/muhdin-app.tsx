@@ -49,6 +49,14 @@ import { RegisterSW } from "@/components/pwa/register-sw";
 import { WaFab } from "@/components/site/wa-fab";
 // v4.0 — Sahabat MUHDIN (AI Concierge): asisten ibadah AI di semua halaman publik.
 import { SahabatMuhdin } from "@/components/site/ai-concierge";
+// v4.1 — Halaman detail lengkap (setiap entitas punya halaman sendiri)
+import { MemberDetail } from "@/components/views/member-detail";
+import { AgendaDetail } from "@/components/views/agenda-detail";
+import { GalleryDetail } from "@/components/views/gallery-detail";
+import { BranchIndex, BranchDetail } from "@/components/views/branch-pages";
+import { FaqView } from "@/components/views/faq-view";
+import { SitemapView } from "@/components/views/sitemap-view";
+import { PengurusDetail } from "@/components/views/pengurus-detail";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -168,6 +176,11 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       break;
     case "anggota":
       // Task 30 — deep-link #/anggota/verifikasi membuka tab Cek Verifikasi.
+      // v4.1 — #/anggota/<id> → HALAMAN DETAIL ANGGOTA.
+      if (route[1] && route[1] !== "verifikasi") {
+        content = <MemberDetail id={route[1]} />;
+        break;
+      }
       // key-remount agar state tab mengikuti hash terbaru.
       content = <MembersView key={`anggota-${route[1] ?? ""}`} initialTab={route[1]} />;
       break;
@@ -182,7 +195,8 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       break;
     // Task 37 — Susunan Pengurus MUHDIN (struktur organisasi internasional)
     case "pengurus":
-      content = <PengurusView />;
+      // v4.1 — #/pengurus/<id> → HALAMAN DETAIL TOKOH.
+      content = route[1] ? <PengurusDetail id={route[1]} /> : <PengurusView />;
       break;
     // Task 50 — Pusat Layanan, Perizinan & Sertifikasi (menu baru)
     case "layanan":
@@ -230,10 +244,24 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       content = <TrackView />;
       break;
     case "galeri":
-      content = <GalleryView />;
+      // v4.1 — #/galeri/<id> → HALAMAN DETAIL DOKUMENTASI.
+      content = route[1] ? <GalleryDetail id={route[1]} /> : <GalleryView />;
       break;
     case "agenda":
-      content = <AgendaView />;
+      // v4.1 — #/agenda/<id> → HALAMAN DETAIL AGENDA.
+      content = route[1] ? <AgendaDetail id={route[1]} /> : <AgendaView />;
+      break;
+    // v4.1 — Jaringan daerah: #/dpd (indeks) & #/dpd/<code> (detail cabang)
+    case "dpd":
+      content = route[1] ? <BranchDetail code={route[1]} /> : <BranchIndex />;
+      break;
+    // v4.1 — Pusat bantuan FAQ
+    case "faq":
+      content = <FaqView />;
+      break;
+    // v4.1 — Peta situs: seluruh halaman portal
+    case "peta-situs":
+      content = <SitemapView />;
       break;
     case "unduhan":
       content = <DownloadsView />;

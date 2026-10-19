@@ -7,6 +7,7 @@ import { Reveal } from "@/components/site/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useT, formatDateL10n, type Locale } from "@/lib/i18n";
+import { navigate } from "@/hooks/use-hash-route";
 import type { EventItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -47,8 +48,9 @@ function EventCard({ ev, locale, past }: { ev: EventItem; locale: Locale; past?:
   return (
     <Reveal>
       <article
+        onClick={() => navigate(`/agenda/${ev.id}`)}
         className={cn(
-          "h-full rounded-2xl border bg-card p-5 shadow-sm hover:shadow-lg transition-shadow flex gap-4",
+          "h-full cursor-pointer rounded-2xl border bg-card p-5 shadow-sm hover:shadow-lg hover:border-primary/40 transition-shadow flex gap-4",
           past && "opacity-90"
         )}
       >
@@ -97,6 +99,11 @@ function EventCard({ ev, locale, past }: { ev: EventItem; locale: Locale; past?:
               {ev.description}
             </p>
           )}
+          {/* v4.1 — tautan halaman detail agenda */}
+          <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-bold text-primary">
+            {t("detail.agenda.about")}
+            <Icon name="chevron-right" className="h-3 w-3 rtl:rotate-180" aria-hidden />
+          </span>
         </div>
       </article>
     </Reveal>

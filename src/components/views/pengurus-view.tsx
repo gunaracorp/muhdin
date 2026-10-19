@@ -112,7 +112,19 @@ function FeaturedLeader({ pid, delay }: { pid: "ketum" | "sekjen"; delay: number
   const person = PENGURUS_PERSON[pid];
   return (
     <Reveal delay={delay} className="h-full">
-      <article className="relative h-full rounded-[28px] bg-gradient-to-br from-gold via-gold/55 to-gold/20 p-[2px] shadow-[0_30px_80px_-32px_rgba(212,175,55,0.6)] transition-transform duration-300 hover:-translate-y-1">
+      <article
+        role="link"
+        tabIndex={0}
+        aria-label={`${person.name} — ${t("pengurus.title")}`}
+        onClick={() => navigate(`/pengurus/${pid}`)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            navigate(`/pengurus/${pid}`);
+          }
+        }}
+        className="relative h-full cursor-pointer rounded-[28px] bg-gradient-to-br from-gold via-gold/55 to-gold/20 p-[2px] shadow-[0_30px_80px_-32px_rgba(212,175,55,0.6)] transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      >
         <div className="relative flex h-full flex-col items-center overflow-hidden rounded-[26px] bg-card px-6 py-9 text-center sm:px-10">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-islamic-pattern-gold opacity-25" />
           <div aria-hidden className="pointer-events-none absolute -top-24 end-1/4 h-44 w-44 rounded-full bg-gold/15 blur-3xl" />
@@ -128,6 +140,11 @@ function FeaturedLeader({ pid, delay }: { pid: "ketum" | "sekjen"; delay: number
           <p className="relative mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
             {t(`pengurus.mandate.${pid}`)}
           </p>
+          {/* v4.1 — menuju halaman detail tokoh */}
+          <span className="relative mt-5 inline-flex items-center gap-1.5 rounded-full border border-gold/50 bg-gold/15 px-4 py-1.5 text-[11px] font-bold text-gold-deep dark:text-gold transition group-hover:bg-gold/25">
+            {t("detail.common.viewProfile")}
+            <Icon name="chevron-right" className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+          </span>
         </div>
       </article>
     </Reveal>
@@ -141,7 +158,19 @@ function AdvisoryCard({ pid, delay }: { pid: "pembina" | "penasehat"; delay: num
   const person = PENGURUS_PERSON[pid];
   return (
     <Reveal delay={delay} className="h-full">
-      <article className="h-full rounded-3xl border border-primary/25 bg-card p-7 text-center shadow-sm transition-shadow hover:shadow-lg sm:p-8">
+      <article
+        role="link"
+        tabIndex={0}
+        aria-label={`${person.name} — ${t("pengurus.title")}`}
+        onClick={() => navigate(`/pengurus/${pid}`)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            navigate(`/pengurus/${pid}`);
+          }
+        }}
+        className="h-full cursor-pointer rounded-3xl border border-primary/25 bg-card p-7 text-center shadow-sm transition-shadow hover:shadow-lg hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:p-8"
+      >
         <PersonPhoto person={person} size="md" />
         <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
           <Icon name={person.icon} className="h-3.5 w-3.5" aria-hidden />
@@ -151,6 +180,11 @@ function AdvisoryCard({ pid, delay }: { pid: "pembina" | "penasehat"; delay: num
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {t(`pengurus.mandate.${pid}`)}
         </p>
+        {/* v4.1 — menuju halaman detail tokoh */}
+        <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary">
+          {t("detail.common.viewProfile")}
+          <Icon name="chevron-right" className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+        </span>
       </article>
     </Reveal>
   );

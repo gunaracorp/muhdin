@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useT } from "@/lib/i18n";
+import { navigate } from "@/hooks/use-hash-route";
 import type { RegionalBranchItem } from "@/lib/types";
 
 /** "+6281316516524" → "6281316516524" (untuk link wa.me). */
@@ -102,6 +103,17 @@ export function BranchesSection() {
                       {b.description && (
                         <p className="text-xs leading-relaxed text-muted-foreground">{b.description}</p>
                       )}
+
+                      {/* v4.1 — HALAMAN DETAIL CABANG #/dpd/<code> */}
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/dpd/${b.code}`)}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-2 text-xs font-bold text-primary transition hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                      >
+                        <Icon name="landmark" className="h-3.5 w-3.5" aria-hidden />
+                        {t("detail.common.viewProfile")}
+                        <Icon name="chevron-right" className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                      </button>
 
                       {/* Kantor + alamat */}
                       {b.address && (

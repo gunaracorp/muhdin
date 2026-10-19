@@ -47,6 +47,8 @@ import { kalkulatorDict } from "@/lib/i18n/locales/kalkulator";
 import { widgetDict } from "@/lib/i18n/locales/widget";
 // Task 53 — Live Queue Engine (papan slot pendaftaran realtime)
 import { liveRegDict } from "@/lib/i18n/locales/live-reg";
+// v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
+import { detailDict } from "@/lib/i18n/locales/detail";
 
 const dicts = [
   commonDict,
@@ -92,6 +94,8 @@ const dicts = [
   widgetDict,
   // Task 53 — Live Queue Engine (papan slot pendaftaran realtime)
   liveRegDict,
+  // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
+  detailDict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

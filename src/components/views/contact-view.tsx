@@ -233,22 +233,33 @@ function FaqSection() {
     return <div className="py-12 text-center text-sm text-muted-foreground">{t("contact.faqEmpty")}</div>;
 
   return (
-    <Accordion type="single" collapsible className="space-y-3">
-      {faqs.map((f, i) => (
-        <Reveal key={f.id} delay={Math.min(i * 0.04, 0.3)}>
-          <AccordionItem value={f.id} className="rounded-xl border bg-card px-5 shadow-sm">
-            <AccordionTrigger className="text-sm font-bold text-start hover:text-primary hover:no-underline">
-              <span className="flex items-center gap-2.5">
-                <Icon name="help-circle" className="h-4 w-4 text-primary shrink-0" />
-                {f.question}
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-              {f.answer}
-            </AccordionContent>
-          </AccordionItem>
-        </Reveal>
-      ))}
-    </Accordion>
+    <div className="space-y-4">
+      <Accordion type="single" collapsible className="space-y-3">
+        {faqs.map((f, i) => (
+          <Reveal key={f.id} delay={Math.min(i * 0.04, 0.3)}>
+            <AccordionItem value={f.id} className="rounded-xl border bg-card px-5 shadow-sm">
+              <AccordionTrigger className="text-sm font-bold text-start hover:text-primary hover:no-underline">
+                <span className="flex items-center gap-2.5">
+                  <Icon name="help-circle" className="h-4 w-4 text-primary shrink-0" />
+                  {f.question}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
+                {f.answer}
+              </AccordionContent>
+            </AccordionItem>
+          </Reveal>
+        ))}
+      </Accordion>
+      {/* v4.1 — pusat bantuan lengkap di halaman sendiri */}
+      <button
+        type="button"
+        onClick={() => (window.location.hash = "#/faq")}
+        className="inline-flex w-full items-center justify-center gap-1.5 rounded-2xl border border-primary/30 bg-primary/5 px-5 py-3 text-sm font-bold text-primary transition hover:bg-primary/15"
+      >
+        {t("detail.faq.title")}
+        <Icon name="chevron-right" className="h-4 w-4 rtl:rotate-180" aria-hidden />
+      </button>
+    </div>
   );
 }

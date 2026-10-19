@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useT, formatNumberL10n } from "@/lib/i18n";
 import { MEMBER_TYPES } from "@/lib/constants";
+import { navigate } from "@/hooks/use-hash-route";
 import type { Member } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -153,7 +154,19 @@ function DirectoryTab() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((m, i) => (
             <Reveal key={m.id} delay={Math.min(i * 0.04, 0.4)}>
-              <div className="h-full rounded-2xl border bg-card p-5 shadow-sm hover:shadow-lg transition-shadow flex flex-col">
+              <div
+                role="link"
+                tabIndex={0}
+                aria-label={`${m.name} — ${t("members.profileTitle")}`}
+                onClick={() => navigate(`/anggota/${m.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate(`/anggota/${m.id}`);
+                  }
+                }}
+                className="h-full cursor-pointer rounded-2xl border bg-card p-5 shadow-sm hover:shadow-lg hover:border-primary/40 transition-shadow flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-3">
                     <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary to-forest grid place-items-center text-gold-soft font-extrabold">
@@ -199,11 +212,10 @@ function DirectoryTab() {
                     ))}
                     <span className="ms-1 text-xs font-bold">{formatNumberL10n(m.rating, locale)}</span>
                   </div>
-                  {m.phone && (
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Icon name="phone" className="h-3 w-3" /> {m.phone}
-                    </span>
-                  )}
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-primary">
+                    {t("members.profileTitle")}
+                    <Icon name="chevron-right" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 rtl:rotate-180" aria-hidden />
+                  </span>
                 </div>
               </div>
             </Reveal>

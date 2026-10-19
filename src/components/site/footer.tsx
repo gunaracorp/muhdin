@@ -57,6 +57,10 @@ const QUICK_LINKS: [path: string, key: string][] = [
   ["lapor", "lapor"],
   ["tentang", "tentang"],
   ["kontak", "kontak"],
+  // v4.1 — halaman baru: pusat bantuan, jaringan daerah, peta situs
+  ["faq", "faq"],
+  ["dpd", "dpd"],
+  ["peta-situs", "sitemap"],
 ];
 
 /** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */

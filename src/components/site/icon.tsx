@@ -21,6 +21,7 @@ import {
   PiggyBank, Code2, ClipboardCheck, FileCheck2, Pill, BookMarked, Swords,
   // Task 60 — notifikasi email
   History, AtSign,
+  House,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -60,6 +61,7 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   "chevron-down": ChevronDown,
   "arrow-right": ArrowRight,
   "copy": Copy,
+  home: House,
   search: Search,
   star: Star,
   quote: Quote,
