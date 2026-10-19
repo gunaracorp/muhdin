@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 794px 1123px; margin: 0; }
+    :root {
+      /* Cascade palette (palette.cascade, brand hue 160 override) + MUHDIN brand identity */
+      --c-bg: #faf9f5;          /* warm cream (XL tier, S<=0.08) */
+      --c-accent: #d4af37;      /* brand gold emas (XS tier) */
+      --c-accent-deep: #8a6d1c; /* readable gold for small text */
+      --c-text: #1f2321;        /* near-black green-tinted */
+      --c-muted: #6f7a74;       /* muted text */
+      --c-mid: #0b5c3f;         /* MUHDIN forest green (lines, hero) */
+      --c-mid-soft: #2c4e43;    /* M tier structural green */
+      --c-subtle: #3f4a45;      /* subtitle gray-green */
+    }
+    html, body {
+      margin: 0; padding: 0;
+      width: 794px; height: 1123px;
+      background: var(--c-bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--c-text);
+      -webkit-font-smoothing: antialiased;
+    }
+    @media screen {
+      html { height: auto; display: flex; justify-content: center; min-height: 100vh; background: var(--c-bg); }
+      body { transform-origin: top center; scale: min(1, calc(100vw / 794), calc(100vh / 1123)); margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.12); }
+    }
+    .cover {
+      width: 794px; height: 1123px; position: relative; box-sizing: border-box;
+      border: none; outline: none; box-shadow: none;
+    }
+    /* Layer 1: background grid (subtle), clipped */
+    .layer-1 {
+      position: absolute; inset: 0; overflow: hidden; z-index: 1;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(11,92,63,0.05) 0, rgba(11,92,63,0.05) 0.7px, transparent 0.7px, transparent 64px),
+        repeating-linear-gradient(90deg, rgba(11,92,63,0.05) 0, rgba(11,92,63,0.05) 0.7px, transparent 0.7px, transparent 64px);
+    }
+    /* Layer 2: ultra-thick vertical anchor line (Template 01) */
+    .layer-2 { position: absolute; inset: 0; z-index: 2; }
+    .anchor-line {
+      position: absolute;
+      left: 95px; top: 112px; bottom: 112px; width: 8px;
+      background: var(--c-mid);
+    }
+    /* Layer 3: content (absolute anchor grid) */
+    .layer-3 { position: absolute; inset: 0; z-index: 3; }
+    .kicker {
+      position: absolute; left: 175px; top: 168px;
+      font-size: 15pt; font-weight: 400; letter-spacing: 11px;
+      text-transform: uppercase; color: var(--c-accent-deep);
+      opacity: 0.85;
+    }
+    .hero {
+      position: absolute; left: 175px; top: 300px;
+      font-family: 'Playfair Display', serif;
+      font-size: 64pt; font-weight: 900; line-height: 1.15;
+      color: var(--c-mid); max-width: 560px;
+    }
+    .org-subtitle {
+      position: absolute; left: 175px; top: 432px;
+      font-size: 20pt; font-weight: 500; line-height: 1.4;
+      color: var(--c-subtle); max-width: 540px;
+    }
+    .summary {
+      position: absolute; left: 175px; top: 562px;
+      font-size: 16.5pt; font-weight: 400; line-height: 1.6;
+      color: var(--c-text); opacity: 0.85; max-width: 476px;
+    }
+    .meta {
+      position: absolute; left: 175px; top: 790px;
+      max-width: 540px;
+    }
+    .meta .m1 {
+      font-size: 18pt; font-weight: 600; color: var(--c-mid);
+      margin-bottom: 12px;
+    }
+    .meta .m2 {
+      font-size: 18pt; font-weight: 400; color: var(--c-text);
+      margin-bottom: 26px;
+    }
+    .meta .m3 {
+      font-size: 15pt; font-weight: 500; letter-spacing: 1px;
+      color: var(--c-muted);
+    }
+    .gold-tick {
+      display: inline-block; width: 34px; height: 4px;
+      background: var(--c-accent); margin-bottom: 44px;
+    }
+    .footer {
+      position: absolute; left: 175px; top: 1012px;
+      font-size: 13.5pt; font-weight: 400; letter-spacing: 1.6px;
+      text-transform: uppercase; color: var(--c-muted); opacity: 0.75;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="layer-1"></div>
+    <div class="layer-2">
+      <div class="anchor-line"></div>
+    </div>
+    <div class="layer-3">
+      <div class="kicker">WHITEPAPER</div>
+      <div class="hero">MUHDIN</div>
+      <div class="org-subtitle">Masyarakat Umroh Haji Digital Indonesia</div>
+      <div class="summary">Arsitektur 13 ekosistem layanan umroh&ndash;haji terintegrasi: konsolidasi lima mitra utama, enam pilar teknologi digital, dan peta jalan transformasi digitalisasi ibadah Indonesia menuju 2030.</div>
+      <div class="meta">
+        <div class="gold-tick"></div>
+        <div class="m1">Asosiasi di Atas Asosiasi Penyelenggara Ibadah</div>
+        <div class="m2">Operator Nusuk Indonesia</div>
+        <div class="m3">Edisi 1.0 &mdash; September 2026</div>
+      </div>
+      <div class="footer">www.muhdin.or.id &bull; Bersama Melayani Tamu Allah</div>
+    </div>
+  </div>
+</body>
+</html>

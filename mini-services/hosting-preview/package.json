@@ -1,0 +1,9 @@
+{
+  "name": "muhdin-hosting-preview",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Preview lokal edisi MUHDIN Shared Hosting (PHP built-in server meniru Apache + .htaccess). Butuh binary php di PATH (atau PHP_BIN env).",
+  "scripts": {
+    "dev": "sh -c 'PHP_BIN=${PHP_BIN:-$(command -v php || echo /home/z/tools/php/bin/php)}; exec \"$PHP_BIN\" -S 0.0.0.0:3010 -t ../../deploy/muhdin-shared-hosting ../../shared-hosting/router.php'"
+  }
+}

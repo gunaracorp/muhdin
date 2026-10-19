@@ -1,0 +1,424 @@
+generator client {
+  provider      = "prisma-client-js"
+  // Multi-platform: supaya Query Engine SQLite tetap jalan di shared hosting
+  // CloudLinux/cPanel (rhel) maupun Debian/Ubuntu (debian).
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== AUTH ====================
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  password    String
+  name        String
+  role        String    @default("ADMIN") // SUPER_ADMIN | ADMIN | EDITOR
+  isActive    Boolean   @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  sessions    Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ==================== KONTEN ====================
+
+model Article {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String
+  category  String   @default("Berita")
+  cover     String?
+  status    String   @default("PUBLISHED")
+  featured  Boolean  @default(false)
+  views     Int      @default(0)
+  author    String   @default("Tim MUHDIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ecosystem {
+  id          String   @id @default(cuid())
+  number      Int      @unique
+  name        String
+  cluster     String
+  scope       String
+  standard    String
+  icon        String   @default("hexagon")
+  color       String   @default("emerald")
+  description String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JourneyStep {
+  id       String @id @default(cuid())
+  step     Int    @unique
+  title    String
+  activity String
+  actor    String
+  output   String
+  icon     String @default("circle")
+}
+
+model Roadmap {
+  id           String @id @default(cuid())
+  phase        String
+  period       String
+  focus        String
+  deliverables String
+  order        Int    @default(0)
+}
+
+// ==================== KEANGGOTAAN ====================
+model Member {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  city        String
+  province    String
+  licenseNo   String
+  phone       String?
+  email       String?
+  website     String?
+  description String?
+  rating      Float    @default(4.5)
+  status      String   @default("TERVERIFIKASI")
+  memberSince Int      @default(2026)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  permits     NusukPermit[]
+}
+
+model MembershipApplication {
+  id          String    @id @default(cuid())
+  orgName     String
+  type        String
+  contactName String
+  email       String
+  phone       String
+  city        String
+  province    String
+  licenseNo   String
+  message     String?
+  status      String    @default("PENDING") // PENDING | APPROVED | REJECTED
+  ticketCode  String    @default("") @unique // kode pelacakan publik (Task 18)
+  queueNumber Int?      @unique // nomor urut pendaftaran global, atomik & monoton (Task 53)
+  reviewNote  String? // catatan verifikator (wajib saat menolak)
+  reviewedBy  String? // nama akun verifikator yang memproses
+  reviewedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// ==================== TUTORIAL ====================
+
+model Tutorial {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  category  String   @default("Umum")
+  level     String   @default("Pemula")
+  duration  Int      @default(10)
+  summary   String
+  content   String
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==================== KOMUNIKASI ====================
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("UNREAD")
+  createdAt DateTime @default(now())
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String   @default("Umum")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  content   String
+  rating    Int      @default(5)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+// ==================== PROFIL ====================
+
+model Management {
+  id       String @id @default(cuid())
+  name     String
+  position String
+  bio      String?
+  order    Int    @default(0)
+}
+
+/// Jaringan kepengurusan daerah — DPD/DPC & Branch Office (Task 19).
+/// Contoh: DPD Jawa Barat + Branch Office MUHDIN JABAR Tasikmalaya.
+model RegionalBranch {
+  id          String   @id @default(cuid())
+  name        String // "Dewan Pimpinan Daerah Jawa Barat"
+  code        String   @default("") // "DPD-JABAR"
+  province    String   @default("")
+  city        String   @default("")
+  officeName  String   @default("") // "Branch Office MUHDIN JABAR"
+  address     String   @default("") // alamat lengkap kantor
+  picName     String   @default("") // Person In Charge
+  picPhone    String   @default("") // format bebas, tampil + wa.me link
+  email       String?
+  description String?
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+// ==================== NUSUK INTEGRATION ====================
+
+model NusukConnection {
+  id            String         @id @default(cuid())
+  environment   String         @default("SANDBOX")
+  apiKey        String         @default("")
+  webhookSecret String         @default("")
+  status        String         @default("DISCONNECTED")
+  autoSync      Boolean        @default(true)
+  totalSyncs    Int            @default(0)
+  lastSyncAt    DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  logs          NusukSyncLog[]
+}
+
+model NusukPermit {
+  id         String   @id @default(cuid())
+  memberId   String
+  member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  type       String
+  permitNo   String   @unique
+  holderName String
+  meta       String?
+  status     String   @default("ACTIVE")
+  issuedAt   DateTime @default(now())
+  expiresAt  DateTime
+  syncedAt   DateTime @default(now())
+}
+
+model NusukSyncLog {
+  id              String          @id @default(cuid())
+  connectionId    String?
+  connection      NusukConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+  type            String
+  status          String
+  message         String
+  recordsAffected Int            @default(0)
+  durationMs      Int            @default(0)
+  createdAt       DateTime       @default(now())
+}
+
+// ==================== I18N — TRANSLASI KONTEN (Task 14) ====================
+
+/// Terjemahan konten database (EN/AR). entity = nama model sumber,
+/// entityKey = id/slug baris sumber, field = nama kolom yang diterjemahkan.
+model ContentTranslation {
+  id        String   @id @default(cuid())
+  entity    String
+  entityKey String
+  locale    String // "en" | "ar"
+  field     String
+  value     String
+  engine    String   @default("ai") // "ai" | "manual"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([entity, entityKey, locale, field])
+  @@index([entity, locale])
+  @@index([locale, entityKey])
+}
+
+// ==================== NOTIFIKASI WHATSAPP (Task 15-d) ====================
+
+/// Konfigurasi gateway WhatsApp (baris tunggal — singleton id pertama).
+/// Token tersimpan di DB lokal (bukan SiteSetting) agar tidak bocor lewat
+/// GET /api/settings yang bersifat publik.
+model WhatsAppSetting {
+  id                String    @id @default(cuid())
+  provider          String    @default("FONNTE") // FONNTE | WABLAS | CUSTOM
+  apiUrl            String    @default("") // endpoint khusus untuk CUSTOM
+  token             String    @default("")
+  target            String    @default("") // nomor admin tujuan, format 62xxx (boleh dipisah koma untuk multi-nomor)
+  enabled           Boolean   @default(false) // saklar induk notifikasi
+  notifyContact     Boolean   @default(true) // pesan kontak baru
+  notifyApplication Boolean   @default(true) // pendaftaran anggota baru
+  lastTestAt        DateTime?
+  lastTestStatus    String    @default("")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// ==================== NOTIFIKASI EMAIL (Task 60) ====================
+
+/// Konfigurasi SMTP untuk notifikasi email formulir publik (singleton).
+/// Default tujuan: asosiasi.muhdin@gmail.com & muhdin.indonesia@gmail.com.
+/// Password = Gmail App Password (bukan password login biasa).
+/// Fallback env: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS bila kolom kosong.
+model EmailSetting {
+  id                String    @id @default(cuid())
+  smtpHost          String    @default("smtp.gmail.com")
+  smtpPort          Int       @default(465)
+  smtpSecure        Boolean   @default(true) // 465 = implicit TLS; 587 = STARTTLS (secure=false)
+  smtpUser          String    @default("") // akun Gmail pengirim
+  smtpPass          String    @default("") // App Password 16 karakter
+  fromName          String    @default("MUHDIN — Portal Asosiasi")
+  recipients        String    @default("asosiasi.muhdin@gmail.com,muhdin.indonesia@gmail.com") // dipisah koma
+  enabled           Boolean   @default(false) // saklar induk kirim email nyata
+  notifyContact     Boolean   @default(true)
+  notifyApplication Boolean   @default(true)
+  notifyComplaint   Boolean   @default(true)
+  notifySubscriber  Boolean   @default(true)
+  notifyTestimonial Boolean   @default(true)
+  lastTestAt        DateTime?
+  lastTestStatus    String    @default("")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+/// Audit semua upaya notifikasi (email & WhatsApp) — agar admin dapat
+/// membuktikan bahwa setiap formulir benar-benar diteruskan ke sekretariat.
+model NotificationLog {
+  id        String   @id @default(cuid())
+  channel   String   // EMAIL | WHATSAPP
+  eventType String   // CONTACT | APPLICATION | COMPLAINT | SUBSCRIBER | TESTIMONIAL | TEST
+  status    String   // SENT | FAILED | SKIPPED
+  recipient String   @default("") // email tujuan / nomor WA
+  subject   String   @default("") // subjek email / judul event
+  detail    String   @default("") // respons gateway / alasan gagal
+  refId     String?  // id baris formulir asal (ContactMessage, MembershipApplication, dst.)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([channel, status])
+}
+
+// ==================== KELENGKAPAN PORTAL (Task 18) ====================
+
+/// Galeri kegiatan/dokumentasi — tampil di halaman publik #/galeri.
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String
+  caption   String?
+  category  String   @default("Kegiatan") // Kegiatan | Perjalanan | Manasik | Fasilitas
+  imageUrl  String
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Agenda kegiatan mendatang & lampau — #/agenda.
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  location    String
+  startsAt    DateTime
+  endsAt      DateTime?
+  category    String    @default("Kegiatan") // Kegiatan | Pelatihan | Rakernas | Safari
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+/// Pusat unduhan — formulir, panduan, dokumen resmi. #/unduhan
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("Formulir") // Formulir | Panduan | Kebijakan | Lainnya
+  fileUrl     String
+  fileType    String   @default("PDF")
+  published   Boolean  @default(true)
+  downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Pelanggan berlangganan kabar/newsletter (footer publik).
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+/// Pengaduan/laporan jamaah terhadap penyelenggara anggota. #/lapor
+model Complaint {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  targetMember  String? // nama penyelenggara yang dilaporkan (opsional)
+  category      String    @default("Pelayanan") // Pelayanan | Pembayaran | Itinerary | Lainnya
+  content       String
+  status        String    @default("UNREAD") // UNREAD | PROCESSED | CLOSED
+  responseNote  String? // tindak lanjut admin
+  respondedBy   String?
+  respondedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+/// Log aktivitas admin (jejak audit) — hanya Super Admin yang melihat.
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  userName  String   @default("sistem")
+  role      String   @default("")
+  action    String // LOGIN | APPROVE | REJECT | CREATE | UPDATE | DELETE | SYNC | EXPORT | ...
+  entity    String // Application | Member | Article | ...
+  entityId  String?
+  detail    String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entity, action])
+}

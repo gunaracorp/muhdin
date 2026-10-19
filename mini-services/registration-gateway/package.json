@@ -1,0 +1,12 @@
+{
+  "name": "muhdin-registration-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gateway realtime MUHDIN (Task 53) — menyebarkan kejadian 'registration:new' ke seluruh pengunjung papan slot via socket.io. Menerima trigger internal dari Next.js API via POST /notify.",
+  "scripts": {
+    "dev": "bun --hot index.ts"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.4"
+  }
+}
