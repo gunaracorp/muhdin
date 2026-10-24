@@ -18,7 +18,6 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { apiGet } from "@/lib/client-api";
 import { useT } from "@/lib/i18n";
 import { PROMO_SLOTS } from "@/lib/constants";
@@ -119,54 +118,6 @@ export function PromoSlotPill() {
         </span>
       )}
     </p>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Varian CARD — untuk FreeSection: angka besar + progress bar + status */
-/* ------------------------------------------------------------------ */
-export function PromoSlotCard() {
-  const { t, locale } = useT();
-  const data = usePromoCounter();
-  const taken = data?.taken ?? null;
-
-  return (
-    <div
-      className="mx-auto mt-8 w-full max-w-3xl overflow-hidden rounded-2xl border border-gold/50 bg-gradient-to-b from-gold/15 via-gold/10 to-transparent p-5 shadow-[0_0_40px_-14px_oklch(0.72_0.135_85/0.55)] sm:p-6"
-      aria-live="polite"
-      aria-label={t("nusHome.promo.aria")}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-foreground">
-          <LiveDot />
-          {t("nusHome.promo.title")}
-        </p>
-        <span className="rounded-full bg-forest-deep px-2.5 py-0.5 text-[10px] font-extrabold tracking-widest text-gold-soft">
-          {t("nusHome.promo.freeBadge")}
-        </span>
-      </div>
-
-      <div className="mt-4 flex items-end justify-center gap-3">
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            key={taken ?? "loading"}
-            initial={{ scale: 1.25, opacity: 0.4 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 320, damping: 22 }}
-            className="text-5xl font-extrabold leading-none tracking-tight tabular-nums text-gold-deep dark:text-gold sm:text-6xl"
-          >
-            {taken === null ? "—" : fmtNum(taken, locale)}
-          </motion.span>
-        </AnimatePresence>
-        <span className="pb-1 text-sm font-bold text-muted-foreground sm:text-base">
-          {t("nusHome.promo.ofTotal")}
-        </span>
-      </div>
-
-      <p className="mt-3 text-center text-xs font-bold text-muted-foreground sm:text-sm">
-        {t("nusHome.promo.ready")}
-      </p>
-    </div>
   );
 }
 

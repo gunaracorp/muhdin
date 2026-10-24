@@ -1861,3 +1861,20 @@ Stage Summary:
 - MUHDIN v5.0: 3 fitur baru produksi-siap mengikuti 100% konvensi codebase (guard RBAC, audit log, rate limit, i18n 3 bahasa, RTL-ready, tokens forest/gold).
 - Alur lengkap: jamaah booking paket → slot berkurang atomik → CMS pipeline; forum publik → moderasi CMS → tampil; kartu diterbitkan CMS → QR → verifikasi publik dengan counter.
 - File baru: 12 API + 5 view + 3 admin + 1 i18n + 1 seed + perubahan registrasi (9 file). Total ±35 titik integrasi tanpa merusak fitur lama.
+
+---
+Task ID: 6
+Agent: main (Z.ai)
+Task: Hapus section "GRATIS. UNTUK SEMUA ANGGOTA" dari beranda (permintaan user)
+
+Work Log:
+- Lacak section ke komponen FreeSection di home-view.tsx (S01-b, Task 36) + blok locale nusHome.free di indonesia-home.ts (3 bahasa)
+- Hapus FreeSection (komponen + render di HomeView) via sed line-range; file home-view.tsx 2047 → 1925 baris
+- Hapus PromoSlotCard (varian counter "PENGGABUNG GRATIS — LIVE") dari slot-counter.tsx + import framer-motion yang tidak terpakai; PromoSlotPill & PromoSlotLine tetap (dipakai hero & strip membership)
+- Hapus blok locale `free` (ID/EN/AR) + key `aria.free` di indonesia-home.ts (1333 → 1273 baris); blok `promo` dipertahankan (dipakai Pill/Line)
+- Verifikasi: eslint 0 error, reload bersih 0 console error, innerText check "PLATFORM ASOSIASI BIASA"/"GRATIS. UNTUK SEMUA ANGGOTA"/"PENGGABUNG GRATIS"/"LIHAT KEUNTUNGAN ANGGOTA" = false, urutan section kini Hero → Strip Makkah → Perjalanan, counter live varian Pill/Line masih berfungsi
+
+Stage Summary:
+- Section perbandingan biaya "GRATIS. UNTUK SEMUA ANGGOTA" vs "PLATFORM ASOSIASI BIASA" dihapus total dari beranda (semua bahasa)
+- CTA "DAFTAR GRATIS" di section lain (hero, testimoni, final) tidak tersentuh
+- Screenshot: download/homepage-free-section-removed.png

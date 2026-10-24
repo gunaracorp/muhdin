@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BRAND } from "@/lib/constants";
-import { PromoSlotCard, PromoSlotLine, PromoSlotPill } from "@/components/site/slot-counter"; // Task 44 — counter kuota live
+import { PromoSlotLine, PromoSlotPill } from "@/components/site/slot-counter"; // Task 44 — counter kuota live
 import {
   HERO_FLOW,
   PILLARS,
@@ -357,127 +357,6 @@ function HeroSection() {
             })}
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================= S01-b — DAFTAR & IURAN GRATIS (Task 36) ================= */
-function FreeSection() {
-  const { t } = useT();
-  const notes = [
-    { key: "note1", icon: "check-circle-2" },
-    { key: "note2", icon: "eye-off" },
-    { key: "note3", icon: "users" },
-  ] as const;
-  return (
-    <section
-      aria-label={t("nusHome.aria.free")}
-      className="relative overflow-hidden bg-gradient-to-b from-gold/15 via-background to-background py-16 sm:py-24"
-    >
-      <div className="absolute inset-0 bg-islamic-pattern-gold opacity-30" aria-hidden />
-      <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
-        <Reveal>
-          <Badge className="border border-lime-400/70 bg-lime-300 px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.25em] text-forest-deep shadow-[0_8px_24px_-8px_oklch(0.9_0.19_130/0.7)] sm:text-xs">
-            {t("nusHome.free.badge")}
-          </Badge>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-            {t("nusHome.free.title")}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.14}>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {t("nusHome.free.sub")}
-          </p>
-        </Reveal>
-
-        {/* Perbandingan: asosiasi biasa vs MUHDIN */}
-        <Reveal delay={0.2}>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-4 text-start md:grid-cols-2">
-            {/* Kartu platform biasa */}
-            <div className="rounded-2xl border border-dashed border-border bg-card/60 p-6">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                {t("nusHome.free.compareUs")}
-              </p>
-              <div className="mt-5 space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-muted-foreground sm:text-sm">{t("nusHome.free.rowSignup")}</span>
-                  <span className="text-sm font-bold text-muted-foreground line-through decoration-destructive/70 sm:text-base">
-                    {t("nusHome.free.otherSignup")}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-muted-foreground sm:text-sm">{t("nusHome.free.rowDues")}</span>
-                  <span className="text-sm font-bold text-muted-foreground line-through decoration-destructive/70 sm:text-base">
-                    {t("nusHome.free.otherDues")}
-                  </span>
-                </div>
-              </div>
-            </div>
-            {/* Kartu MUHDIN — Rp 0 */}
-            <div className="relative rounded-2xl border-2 border-gold bg-gradient-to-b from-gold/20 via-gold/10 to-gold/5 p-6 shadow-[0_0_40px_-12px_oklch(0.72_0.135_85/0.55)]">
-              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-foreground">
-                {t("nusHome.free.compareMuhdin")}
-              </p>
-              <div className="mt-5 space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-foreground/70 sm:text-sm">{t("nusHome.free.rowSignup")}</span>
-                  <span className="text-base font-extrabold tracking-tight text-gold-deep sm:text-lg">
-                    {t("nusHome.free.muhdinSignup")}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-foreground/70 sm:text-sm">{t("nusHome.free.rowDues")}</span>
-                  <span className="text-base font-extrabold tracking-tight text-gold-deep sm:text-lg">
-                    {t("nusHome.free.muhdinDues")}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-4 inline-flex rounded-full bg-gold px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-forest-deep">
-                {t("nusHome.free.freeLabel")}
-              </p>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Task 44→52 — kartu penghitung pendaftar GRATIS live */}
-        <Reveal delay={0.24}>
-          <PromoSlotCard />
-        </Reveal>
-
-        <Reveal delay={0.26}>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {notes.map(({ key, icon }) => (
-              <span key={key} className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-                <Icon name={icon} className="h-4 w-4 text-gold-deep" />
-                {t(`nusHome.free.${key}`)}
-              </span>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.32}>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              size="lg"
-              onClick={() => navigate("daftar")}
-              className="h-14 bg-gold px-10 text-sm font-extrabold tracking-widest text-forest-deep shadow-[0_10px_30px_-10px_oklch(0.72_0.135_85/0.7)] hover:bg-gold-soft sm:text-base"
-            >
-              {t("nusHome.free.cta")}
-              <Icon name="arrow-right" className="ms-2 h-5 w-5 icon-flip" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => navigate("gabung")}
-              className="h-14 border-gold/50 px-8 text-xs font-extrabold tracking-widest text-foreground hover:border-gold hover:bg-gold/10 sm:text-sm"
-            >
-              {t("nusHome.free.cta2")}
-            </Button>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -2011,7 +1890,6 @@ export function HomeView() {
       <HeroSection />
       {/* Task 38 — strip live ala Nusuk: jam Makkah + Hijriah + mutiara hikmah */}
       <LiveStripSection />
-      <FreeSection />
       {/* Task 38 — kartu perjalanan iman ala “رحلتك مع نسك” */}
       <JourneySection />
       <IdeaSection />
