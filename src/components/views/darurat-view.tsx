@@ -13,6 +13,8 @@ import { apiGet } from "@/lib/client-api";
 import { Icon } from "@/components/site/icon";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { TrustHero, TrustSection, TrustCallout, TrustSteps } from "@/components/views/p0-shared";
+// v6.0 — Direktori darurat live dari database (KJRI, KKI, RS, nomor darurat)
+import { SosDirectory } from "@/components/views/sos-directory";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useT } from "@/lib/i18n";
@@ -402,6 +404,9 @@ export function DaruratView() {
               {t("darurat.apps.downloadNote")}
             </p>
           </div>
+
+          {/* v6.0 — Direktori darurat live (database, dipelihara via CMS) */}
+          <SosDirectory />
 
           {/* Callout danger anti-penipuan */}
           <TrustCallout tone="danger" icon="ban" title={t("darurat.fraud.title")}>

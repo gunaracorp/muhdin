@@ -21,6 +21,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { TourPackageItem } from "@/lib/types";
 import { DetailHero, WaCtaButton } from "@/components/views/detail-shell";
+// v6.0 — AI Trip Composer (diferensiasi)
+import { TripComposer } from "@/components/views/trip-composer";
 
 const TYPES = ["UMROH", "HAJI", "ZIARAH", "WISATA_ISLAMI"] as const;
 
@@ -255,6 +257,9 @@ export function PaketView() {
               })
             )}
           </div>
+
+          {/* v6.0 — AI Trip Composer: budget → rekomendasi paket + rencana */}
+          <TripComposer />
 
           {/* Jaminan verified-only */}
           <div className="mt-12 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/5 to-gold/10 p-6 sm:p-8">

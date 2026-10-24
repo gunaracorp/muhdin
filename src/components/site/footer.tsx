@@ -65,6 +65,9 @@ const QUICK_LINKS: [path: string, key: string][] = [
   ["paket", "paket"],
   ["forum", "forum"],
   ["kartu", "kartu"],
+  // v6.0 — pusat bisnis B2B + brankas jamaah
+  ["bisnis", "bisnis"],
+  ["vault", "vault"],
 ];
 
 /** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */

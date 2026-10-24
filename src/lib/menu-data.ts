@@ -75,6 +75,8 @@ export const MENU_NODES: MenuNode[] = [
   { key: "berita", route: "berita" },
   // v5.0 — Forum diskusi jamaah (feature baru)
   { key: "forum", route: "forum" },
+  // v6.0 — Pusat Bisnis B2B (bursa kursi, vendor, muthowif, kepatuhan)
+  { key: "bisnis", route: "bisnis" },
   // SYARIKAH — pengganti "Penyedia Saudi" (instruksi manajemen)
   { key: "syariah", route: "layanan/syariah" },
   {

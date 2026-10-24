@@ -25,6 +25,8 @@ import type { TourPackageItem } from "@/lib/types";
 import {
   DetailHero, DetailSectionHead, InfoRow, DetailLoading, DetailNotFound, WaCtaButton,
 } from "@/components/views/detail-shell";
+// v6.0 — Ulasan jamaah terverifikasi (hilir)
+import { ReviewsSection } from "@/components/views/reviews-section";
 
 function rupiah(n: number): string {
   return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
@@ -333,6 +335,9 @@ export function PaketDetail({ id }: { id: string }) {
             </div>
           </div>
         </div>
+
+        {/* v6.0 — Ulasan jamaah terverifikasi */}
+        <ReviewsSection packageId={id} />
       </section>
     </div>
   );

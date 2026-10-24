@@ -1878,3 +1878,26 @@ Stage Summary:
 - Section perbandingan biaya "GRATIS. UNTUK SEMUA ANGGOTA" vs "PLATFORM ASOSIASI BIASA" dihapus total dari beranda (semua bahasa)
 - CTA "DAFTAR GRATIS" di section lain (hero, testimoni, final) tidak tersentuh
 - Screenshot: download/homepage-free-section-removed.png
+
+---
+Task ID: 7
+Agent: Z.ai (main agent) — v6.0 Ecosystem Builder
+Task: Bangun ekosistem hulu-hilir jasa haji & umrah — fitur yang tidak dimiliki kompetitor, fokus PPIU/PIHK/BPW
+
+Work Log:
+- ANALISIS: petakan gap rantai nilai hulu→hilir yang tidak ada di kompetitor (bursa kursi B2B, compliance hub, vendor network, muthowif pool, brankas dokumen, ulasan terverifikasi kartu, direktori darurat, AI trip composer).
+- DB: +7 model (Vendor, ComplianceDoc, SeatListing, Muthowif, JamaahDoc, PilgrimReview, SosPoint) + back-relations Member/TourPackage/PilgrimCard; db:push OK. (Catatan: db:push gagal 2x karena relasi "SeatOwner" belum bernama di sisi SeatListing — diperbaiki; temuan penting: output terminal memangkas "[m" dari tampilan sehingga file tampak korup padahal valid — verifikasi numerik via python bytes diperlukan.)
+- API (15 file): /api/vendors(+[id]), /api/compliance-docs(+[id], +mode=summary publik untuk skor kepatuhan), /api/seat-exchange(+[id], aksi CLAIM/DEAL/CLOSE/REOPEN), /api/muthowif(+[id]), /api/jamaah-docs(+[id], mode=public mask docNo, POST publik rateLimit 6/menit kartu ACTIVE), /api/reviews(+[id], POST publik rateLimit 5/menit + validasi kartu aktif → authorName dari kartu), /api/sos-points(+[id]), /api/trip-composer (z-ai SDK + pencocokan paket DB + fallback tanpa AI).
+- HELPER: computeLifecycle() di api-helpers (VALID/EXPIRING ≤90 hari/EXPIRED).
+- i18n: locales/fitur-v6.ts — 5 root unik (bisnis/vault/ulasan/composer/sos) × id/en/ar, parity tervalidasi runtime; navbar.items.bisnis, footer.quick.bisnis+vault, menu-data +node bisnis, dictionaries.ts registrasi.
+- PORTAL (5 file baru + 3 edit): bisnis-view (#/bisnis — 4 tab live: Bursa Kursi, Kolam Muthowif, Jaringan Vendor, Compliance Hub + skor publik), vault-view (#/vault + deep-link #/vault/<cardNo>, pengajuan dokumen), trip-composer (seksi AI di #/paket), reviews-section (paket-detail: ringkasan rating + aspek + dialog ulasan wajib kartu), sos-directory (seksi live di #/darurat, filter kategori/kota, tel: links).
+- CMS (2 file): admin-bisnis (4 tab: Vendor CRUD+verifikasi, Kepatuhan CRUD+verifikasi+badge kedaluwarsa, Bursa pipeline CLAIM/DEAL/CLOSE/REOPEN, Muthowif CRUD) + admin-jamaah-ops (3 tab: Brankas verifikasi, Ulasan moderasi, SOS CRUD); roles.ts +bisnis/+jamaahops; admin-view +2 menu.
+- SEED: prisma/seed-fitur-v6.ts idempoten — 12 vendor, 8 dok kepatuhan (2 expiring/1 expired), 6 bursa (OPEN/RESERVED/DEAL/WANTED), 7 muthowif, 10 dok brankas (1 expired/2 expiring/2 pending/1 rejected), 8 ulasan (7 approved), 14 titik darurat (KJRI/KKI/RS/911-999-997). Bug fix: create muthowif tanpa kolom note.
+- INSIDEN: dev server 500 semua endpoint v6 → klien Prisma stale di proses next dev lama → kill paksa + restart via dev-keep.sh → semua hijau.
+- VERIFIKASI: lint penuh 0 error; API: publik GET 11 vendor/4 bursa/7 muthowif/14 SOS/summary 4 anggota (5 valid/2 expiring/1 expired), RBAC 401 × 2, POST review kartu valid→PENDING, kartu palsu→ditolak, POST jamaah-doc→PENDING, trip-composer AI match+plan OK; E2E browser: #/bisnis 4 tab + skor kepatuhan (83 dst.), #/vault/<cardNo> + pengajuan form sukses, composer AI hasil #1+Rencana&Tips, ulasan dialog kirim sukses, #/darurat direktori live, CMS login + 2 modul baru (badge pending, pipeline, moderasi Setujui sukses), EN locale spot-check, mobile 390px tanpa scroll horizontal, console 0 error, footer OK.
+- CLEANUP: data uji E2E dihapus (2 ulasan, 1 dok); screenshot download/v6-bisnis-{desktop,mobile,full}.png.
+
+Stage Summary:
+- MUHDIN v6.0: ekosistem hulu-hilir produksi-siap — 7 model, 15 API, 3 halaman portal baru + 3 integrasi seksi, 2 modul CMS (7 tab), i18n 3 bahasa, seed realistis.
+- Diferensiasi kompetitor yang kini live: Bursa Kursi B2B antar PPIU/PIHK/BPW, Compliance Hub dengan skor kepatuhan publik, Ulasan Terverifikasi Kartu (mustahil ulasan palsu), AI Trip Composer, Brankas Jamaah dengan alert kedaluwarsa, Direktori Darurat Tanah Suci terkurasi.
+- Semua mengikuti konvensi codebase: guardRole, ok/fail, logAudit, rateLimit, useT, CrudManager-style CMS, tokens forest/gold.

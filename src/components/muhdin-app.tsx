@@ -63,6 +63,9 @@ import { PaketDetail } from "@/components/views/paket-detail";
 import { ForumView } from "@/components/views/forum-view";
 import { ForumDetail } from "@/components/views/forum-detail";
 import { KartuView } from "@/components/views/kartu-view";
+// v6.0 — Ekosistem hulu-hilir: Pusat Bisnis B2B + Brankas Jamaah
+import { BisnisView } from "@/components/views/bisnis-view";
+import { VaultView } from "@/components/views/vault-view";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -276,6 +279,14 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v5.0 — Kartu jamaah digital: #/kartu & #/kartu/<cardNo> (target QR)
     case "kartu":
       content = <KartuView key={route[1] ?? "lookup"} initialCardNo={route[1]} />;
+      break;
+    // v6.0 — Pusat Bisnis B2B: bursa kursi, vendor, muthowif, kepatuhan
+    case "bisnis":
+      content = <BisnisView />;
+      break;
+    // v6.0 — Brankas Jamaah: #/vault & #/vault/<cardNo> (target lanjutan QR)
+    case "vault":
+      content = <VaultView key={route[1] ?? "lookup"} />;
       break;
     // v4.1 — Peta situs: seluruh halaman portal
     case "peta-situs":

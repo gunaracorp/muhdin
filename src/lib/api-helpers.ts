@@ -51,3 +51,20 @@ export function parseIntOr<T>(value: string | null, fallback: T): number | T {
   const n = parseInt(value, 10);
   return Number.isNaN(n) ? fallback : n;
 }
+
+/**
+ * v6.0 — siklus hidup dokumen berdasarkan tanggal kedaluwarsa.
+ * EXPIRED (lewat) | EXPIRING (≤90 hari) | VALID (jauh / tanpa expiry).
+ */
+export function computeLifecycle(expiresAt: Date | string | null | undefined): {
+  lifecycle: string;
+  daysLeft: number | null;
+} {
+  if (!expiresAt) return { lifecycle: "VALID", daysLeft: null };
+  const exp = new Date(expiresAt);
+  if (Number.isNaN(exp.getTime())) return { lifecycle: "VALID", daysLeft: null };
+  const daysLeft = Math.ceil((exp.getTime() - Date.now()) / 86400000);
+  if (daysLeft < 0) return { lifecycle: "EXPIRED", daysLeft };
+  if (daysLeft <= 90) return { lifecycle: "EXPIRING", daysLeft };
+  return { lifecycle: "VALID", daysLeft };
+}

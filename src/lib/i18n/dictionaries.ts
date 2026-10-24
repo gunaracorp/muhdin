@@ -51,6 +51,8 @@ import { liveRegDict } from "@/lib/i18n/locales/live-reg";
 import { detailDict } from "@/lib/i18n/locales/detail";
 // v5.0 — Marketplace Paket, Forum Jamaah, Kartu Jamaah QR
 import { fiturV5Dict } from "@/lib/i18n/locales/fitur-v5";
+// v6.0 — Ekosistem Hulu-Hilir
+import { fiturV6Dict } from "@/lib/i18n/locales/fitur-v6";
 
 const dicts = [
   commonDict,
@@ -100,6 +102,8 @@ const dicts = [
   detailDict,
   // v5.0 — Marketplace Paket (#/paket), Forum Jamaah (#/forum), Kartu Jamaah (#/kartu)
   fiturV5Dict,
+  // v6.0 — Ekosistem Hulu-Hilir (Pusat Bisnis, Brankas Jamaah, Ulasan, Composer, SOS)
+  fiturV6Dict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

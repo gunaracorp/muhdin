@@ -44,6 +44,9 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   // v5.0 — Forum jamaah (moderasi) + kartu jamaah digital
   { id: "forum", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "cards", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v6.0 — Pusat Bisnis B2B (hulu) + Operasi Jamaah (proses & hilir)
+  { id: "bisnis", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
+  { id: "jamaahops", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "subscribers", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "faqs", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "testimonials", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },

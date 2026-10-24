@@ -506,3 +506,125 @@ export interface PilgrimCardItem {
   lastScanAt: string | null;
   createdAt: string;
 }
+
+// ==================== V6.0 — EKOSISTEM HULU-HILIR ====================
+
+export interface VendorItem {
+  id: string;
+  name: string;
+  category: string;
+  city: string;
+  country: string;
+  contact: string;
+  phone: string;
+  email: string | null;
+  website: string | null;
+  services: string;
+  rating: number;
+  verified: boolean;
+  status: string;
+  note: string | null;
+  createdAt: string;
+}
+
+export interface ComplianceDocItem {
+  id: string;
+  memberId: string;
+  member?: { id: string; name: string; type: string; city: string; licenseNo: string; status: string };
+  kind: string;
+  docNo: string;
+  issuedBy: string;
+  issuedAt: string | null;
+  expiresAt: string | null;
+  fileUrl: string | null;
+  verified: boolean;
+  note: string | null;
+  /** dihitung server: VALID | EXPIRING (≤90 hari) | EXPIRED */
+  lifecycle: string;
+  daysLeft: number | null;
+  createdAt: string;
+}
+
+export interface SeatListingItem {
+  id: string;
+  memberId: string;
+  member?: { id: string; name: string; type: string; city: string; licenseNo: string; status: string };
+  packageId: string | null;
+  pkg?: { id: string; title: string; type: string; city: string } | null;
+  side: string;
+  seats: number;
+  pricePerSeat: number;
+  departureDate: string | null;
+  route: string;
+  note: string | null;
+  status: string;
+  takerMemberId: string | null;
+  taker?: { id: string; name: string } | null;
+  takerNote: string | null;
+  createdAt: string;
+}
+
+export interface MuthowifItem {
+  id: string;
+  fullName: string;
+  certNo: string;
+  agency: string;
+  languages: string;
+  specialties: string;
+  experienceYears: number;
+  phone: string;
+  rating: number;
+  availability: string;
+  memberId: string | null;
+  member?: { id: string; name: string; city: string } | null;
+  createdAt: string;
+}
+
+export interface JamaahDocItem {
+  id: string;
+  pilgrimCardId: string;
+  card?: { id: string; cardNo: string; fullName: string; groupName: string; status: string } | null;
+  kind: string;
+  docNo: string;
+  issueDate: string | null;
+  expiryDate: string | null;
+  fileUrl: string | null;
+  verifyStatus: string;
+  note: string | null;
+  /** dihitung server: VALID | EXPIRING (≤90 hari) | EXPIRED */
+  lifecycle: string;
+  daysLeft: number | null;
+  createdAt: string;
+}
+
+export interface PilgrimReviewItem {
+  id: string;
+  packageId: string;
+  pkg?: { id: string; title: string; type: string } | null;
+  cardNo: string;
+  authorName: string;
+  rating: number;
+  hotelRate: number;
+  transportRate: number;
+  guideRate: number;
+  body: string;
+  status: string;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
+  createdAt: string;
+}
+
+export interface SosPointItem {
+  id: string;
+  category: string;
+  name: string;
+  city: string;
+  country: string;
+  address: string;
+  phone: string;
+  phone2: string | null;
+  hours: string;
+  note: string | null;
+  featured: boolean;
+  createdAt: string;
+}

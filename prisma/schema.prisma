@@ -88,24 +88,29 @@ model Roadmap {
 
 // ==================== KEANGGOTAAN ====================
 model Member {
-  id          String   @id @default(cuid())
-  name        String
-  type        String
-  city        String
-  province    String
-  licenseNo   String
-  phone       String?
-  email       String?
-  website     String?
-  description String?
-  rating      Float    @default(4.5)
-  status      String   @default("TERVERIFIKASI")
-  memberSince Int      @default(2026)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  permits     NusukPermit[]
-  packages    TourPackage[]
-  cards       PilgrimCard[]
+  id             String          @id @default(cuid())
+  name           String
+  type           String
+  city           String
+  province       String
+  licenseNo      String
+  phone          String?
+  email          String?
+  website        String?
+  description    String?
+  rating         Float           @default(4.5)
+  status         String          @default("TERVERIFIKASI")
+  memberSince    Int             @default(2026)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  permits        NusukPermit[]
+  packages       TourPackage[]
+  cards          PilgrimCard[]
+  // v6.0 — ekosistem hulu-hilir
+  complianceDocs ComplianceDoc[]
+  seatListings   SeatListing[]   @relation("SeatOwner")
+  seatTakes      SeatListing[]   @relation("SeatTaker")
+  muthowifs      Muthowif[]      @relation("MuthowifAffiliation")
 }
 
 model MembershipApplication {
@@ -120,7 +125,7 @@ model MembershipApplication {
   licenseNo   String
   message     String?
   status      String    @default("PENDING") // PENDING | APPROVED | REJECTED
-  ticketCode  String    @default("") @unique // kode pelacakan publik (Task 18)
+  ticketCode  String    @unique @default("") // kode pelacakan publik (Task 18)
   queueNumber Int?      @unique // nomor urut pendaftaran global, atomik & monoton (Task 53)
   reviewNote  String? // catatan verifikator (wajib saat menolak)
   reviewedBy  String? // nama akun verifikator yang memproses
@@ -182,11 +187,11 @@ model Testimonial {
 // ==================== PROFIL ====================
 
 model Management {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
   position String
   bio      String?
-  order    Int    @default(0)
+  order    Int     @default(0)
 }
 
 /// Jaringan kepengurusan daerah — DPD/DPC & Branch Office (Task 19).
@@ -246,15 +251,15 @@ model NusukPermit {
 }
 
 model NusukSyncLog {
-  id              String          @id @default(cuid())
+  id              String           @id @default(cuid())
   connectionId    String?
   connection      NusukConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
   type            String
   status          String
   message         String
-  recordsAffected Int            @default(0)
-  durationMs      Int            @default(0)
-  createdAt       DateTime       @default(now())
+  recordsAffected Int              @default(0)
+  durationMs      Int              @default(0)
+  createdAt       DateTime         @default(now())
 }
 
 // ==================== I18N — TRANSLASI KONTEN (Task 14) ====================
@@ -328,13 +333,13 @@ model EmailSetting {
 /// membuktikan bahwa setiap formulir benar-benar diteruskan ke sekretariat.
 model NotificationLog {
   id        String   @id @default(cuid())
-  channel   String   // EMAIL | WHATSAPP
-  eventType String   // CONTACT | APPLICATION | COMPLAINT | SUBSCRIBER | TESTIMONIAL | TEST
-  status    String   // SENT | FAILED | SKIPPED
+  channel   String // EMAIL | WHATSAPP
+  eventType String // CONTACT | APPLICATION | COMPLAINT | SUBSCRIBER | TESTIMONIAL | TEST
+  status    String // SENT | FAILED | SKIPPED
   recipient String   @default("") // email tujuan / nomor WA
   subject   String   @default("") // subjek email / judul event
   detail    String   @default("") // respons gateway / alasan gagal
-  refId     String?  // id baris formulir asal (ContactMessage, MembershipApplication, dst.)
+  refId     String? // id baris formulir asal (ContactMessage, MembershipApplication, dst.)
   createdAt DateTime @default(now())
 
   @@index([createdAt])
@@ -394,19 +399,19 @@ model Subscriber {
 
 /// Pengaduan/laporan jamaah terhadap penyelenggara anggota. #/lapor
 model Complaint {
-  id            String    @id @default(cuid())
-  name          String
-  email         String
-  phone         String?
-  targetMember  String? // nama penyelenggara yang dilaporkan (opsional)
-  category      String    @default("Pelayanan") // Pelayanan | Pembayaran | Itinerary | Lainnya
-  content       String
-  status        String    @default("UNREAD") // UNREAD | PROCESSED | CLOSED
-  responseNote  String? // tindak lanjut admin
-  respondedBy   String?
-  respondedAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  targetMember String? // nama penyelenggara yang dilaporkan (opsional)
+  category     String    @default("Pelayanan") // Pelayanan | Pembayaran | Itinerary | Lainnya
+  content      String
+  status       String    @default("UNREAD") // UNREAD | PROCESSED | CLOSED
+  responseNote String? // tindak lanjut admin
+  respondedBy  String?
+  respondedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 /// Log aktivitas admin (jejak audit) — hanya Super Admin yang melihat.
@@ -430,41 +435,43 @@ model AuditLog {
 /// Paket perjalanan ibadah yang ditawarkan anggota terverifikasi — #/paket.
 /// Harga dalam IDR per jamaah; slot berkurang otomatis saat ada booking baru.
 model TourPackage {
-  id            String    @id @default(cuid())
+  id            String           @id @default(cuid())
   memberId      String
-  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  member        Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
   title         String
-  type          String    @default("UMROH") // UMROH | HAJI | ZIARAH | WISATA_ISLAMI
-  city          String    @default("") // kota keberangkatan
+  type          String           @default("UMROH") // UMROH | HAJI | ZIARAH | WISATA_ISLAMI
+  city          String           @default("") // kota keberangkatan
   description   String
-  price         Int       @default(0) // IDR per jamaah
-  durationDays  Int       @default(9)
+  price         Int              @default(0) // IDR per jamaah
+  durationDays  Int              @default(9)
   departureDate DateTime?
-  slots         Int       @default(40)
-  slotsTaken    Int       @default(0)
-  hotelMakkah   String    @default("")
-  hotelMadinah  String    @default("")
-  airline       String    @default("")
-  status        String    @default("PUBLISHED") // PUBLISHED | DRAFT | CLOSED
-  featured      Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  slots         Int              @default(40)
+  slotsTaken    Int              @default(0)
+  hotelMakkah   String           @default("")
+  hotelMadinah  String           @default("")
+  airline       String           @default("")
+  status        String           @default("PUBLISHED") // PUBLISHED | DRAFT | CLOSED
+  featured      Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
   bookings      PackageBooking[]
+  reviews       PilgrimReview[]
+  seatListings  SeatListing[]
 }
 
 /// Booking/permintaan jadwal jamaah terhadap sebuah paket (pipeline panitia).
 model PackageBooking {
-  id        String       @id @default(cuid())
+  id        String      @id @default(cuid())
   packageId String
-  pkg       TourPackage  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  pkg       TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
   name      String
   phone     String
   email     String?
-  pilgrims  Int          @default(1)
+  pilgrims  Int         @default(1)
   note      String?
-  status    String       @default("NEW") // NEW | CONTACTED | CONFIRMED | CANCELLED
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  status    String      @default("NEW") // NEW | CONTACTED | CONFIRMED | CANCELLED
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 // ==================== FORUM JAMAAH (v5.0) ====================
@@ -505,20 +512,159 @@ model ForumReply {
 /// Kartu identitas jamaah digital ber-QR — terbit via CMS, verifikasi publik #/kartu.
 /// Nomor kartu dibangkitkan otomatis: MHD-JM-2026-0001 (naik berurutan).
 model PilgrimCard {
-  id         String    @id @default(cuid())
-  cardNo     String    @unique
+  id         String      @id @default(cuid())
+  cardNo     String      @unique
   fullName   String
-  phone      String    @default("")
-  type       String    @default("JAMAAH") // JAMAAH | PENDAMPING | PETUGAS
+  phone      String      @default("")
+  type       String      @default("JAMAAH") // JAMAAH | PENDAMPING | PETUGAS
   memberId   String?
-  member     Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
-  groupName  String    @default("") // nama rombongan
-  status     String    @default("ACTIVE") // ACTIVE | SUSPENDED | EXPIRED
+  member     Member?     @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  groupName  String      @default("") // nama rombongan
+  status     String      @default("ACTIVE") // ACTIVE | SUSPENDED | EXPIRED
   validUntil DateTime?
-  issuedBy   String    @default("")
+  issuedBy   String      @default("")
   note       String?
-  scans      Int       @default(0)
+  scans      Int         @default(0)
   lastScanAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  docs       JamaahDoc[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+// ==================== V6.0 — EKOSISTEM HULU-HILIR ====================
+// Rantai nilai lengkap: hulu (vendor, kepatuhan, muthowif, bursa kursi)
+// → proses (brankas dokumen, darurat) → hilir (ulasan terverifikasi, AI composer).
+
+/// Jaringan vendor ekosistem — hotel, transportasi, katering, handler Saudi,
+/// aviasi, TPA/asuransi, pembiayaan. Direktori lintas penyelenggara #/bisnis.
+model Vendor {
+  id        String   @id @default(cuid())
+  name      String
+  category  String   @default("HOTEL_MAKKAH") // HOTEL_MAKKAH | HOTEL_MADINAH | TRANSPORT | CATERING | HANDLER | AVIATION | TPA | FINANCE
+  city      String   @default("") // kota domisili (Makkah/Jeddah/Madinah/Jakarta…)
+  country   String   @default("SA") // SA | ID | lainnya
+  contact   String   @default("") // nama narahubung
+  phone     String   @default("")
+  email     String?
+  website   String?
+  services  String   @default("") // ringkasan layanan
+  rating    Float    @default(0) // 0–5, dirawat CMS
+  verified  Boolean  @default(false)
+  status    String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Dokumen kepatuhan anggota penyelenggara (PPIU/PIHK/BPW) — SIUJK, COP, PTA,
+/// SKAI, asuransi, rencana kerja. Kedaluwarsa otomatis terdeteksi (EXPIRING ≤90 hari).
+model ComplianceDoc {
+  id        String    @id @default(cuid())
+  memberId  String
+  member    Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  kind      String    @default("SIUJK") // SIUJK | COP | PTA | SKAI | ASURANSI | RENCANA_KERJA | NPWP | AKTA
+  docNo     String    @default("")
+  issuedBy  String    @default("") // penerbit (Kemenag, dll.)
+  issuedAt  DateTime?
+  expiresAt DateTime?
+  fileUrl   String?
+  verified  Boolean   @default(false)
+  note      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+/// Bursa kursi B2B antar penyelenggara — jual (OFFER) / cari (WANTED) sisa
+/// kursi rombongan. Pipeline: OPEN → RESERVED → DEAL / CLOSED.
+model SeatListing {
+  id            String       @id @default(cuid())
+  memberId      String
+  member        Member       @relation("SeatOwner", fields: [memberId], references: [id], onDelete: Cascade)
+  packageId     String?
+  pkg           TourPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  side          String       @default("OFFER") // OFFER (jual sisa kursi) | WANTED (mencari kursi)
+  seats         Int          @default(10)
+  pricePerSeat  Int          @default(0) // IDR — 0 untuk WANTED (nego)
+  departureDate DateTime?
+  route         String       @default("") // mis. Jakarta–Jeddah
+  note          String?
+  status        String       @default("OPEN") // OPEN | RESERVED | DEAL | CLOSED
+  takerMemberId String? // anggota yang mengambil (RESERVED/DEAL)
+  taker         Member?      @relation("SeatTaker", fields: [takerMemberId], references: [id], onDelete: SetNull)
+  takerNote     String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+/// Kolam muthowif/pembimbing ibadah — sertifikat, bahasa, spesialisasi, rating.
+model Muthowif {
+  id              String   @id @default(cuid())
+  fullName        String
+  certNo          String   @default("") // no. sertifikat muthowif (Kemenag/lembaga)
+  agency          String   @default("") // lembaga penerbit / afiliasi
+  languages       String   @default("ID") // CSV: ID,AR,EN
+  specialties     String   @default("") // mis. Manasik Wanita, Elderly Care
+  experienceYears Int      @default(1)
+  phone           String   @default("")
+  rating          Float    @default(0)
+  availability    String   @default("AVAILABLE") // AVAILABLE | ASSIGNED | UNAVAILABLE
+  memberId        String?
+  member          Member?  @relation("MuthowifAffiliation", fields: [memberId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+/// Brankas dokumen jamaah — paspor, visa, vaksin, tiket, asuransi menempel
+/// pada kartu jamaah. Diajukan jamaah (PENDING) → diverifikasi CMS.
+model JamaahDoc {
+  id            String      @id @default(cuid())
+  pilgrimCardId String
+  card          PilgrimCard @relation(fields: [pilgrimCardId], references: [id], onDelete: Cascade)
+  kind          String      @default("PASPOR") // PASPOR | VISA | VAKSIN | TIKET | ASURANSI | LAINNYA
+  docNo         String      @default("")
+  issueDate     DateTime?
+  expiryDate    DateTime?
+  fileUrl       String?
+  verifyStatus  String      @default("PENDING") // PENDING | VERIFIED | REJECTED
+  note          String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+/// Ulasan pasca-perjalanan TERVERIFIKASI — hanya pemegang kartu jamaah aktif
+/// yang dapat mengulas (POST memvalidasi cardNo). Moderasi CMS.
+model PilgrimReview {
+  id            String      @id @default(cuid())
+  packageId     String
+  pkg           TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  cardNo        String      @default("") // bukti keanggotaan jamaah (tidak tampil penuh di publik)
+  authorName    String
+  rating        Int         @default(5) // 1–5
+  hotelRate     Int         @default(5)
+  transportRate Int         @default(5)
+  guideRate     Int         @default(5)
+  body          String
+  status        String      @default("PENDING") // PENDING | APPROVED | REJECTED
+  reviewedBy    String?
+  reviewedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+/// Direktori layanan darurat Tanah Suci & Indonesia — KJRI, KKI, rumah sakit,
+/// nomor darurat Saudi (999 polisi / 997 ambulans). Publik #/darurat.
+model SosPoint {
+  id        String   @id @default(cuid())
+  category  String   @default("HOSPITAL") // HOSPITAL | CLINIC | EMBASSY | CONSULATE | CONSUL_HAJJ | POLICE | EMERGENCY | KKI
+  name      String
+  city      String   @default("") // Makkah | Madinah | Jeddah | Riyadh | Jakarta…
+  country   String   @default("SA") // SA | ID
+  address   String   @default("")
+  phone     String   @default("")
+  phone2    String?
+  hours     String   @default("24 jam")
+  note      String?
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
