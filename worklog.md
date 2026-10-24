@@ -1901,3 +1901,23 @@ Stage Summary:
 - MUHDIN v6.0: ekosistem hulu-hilir produksi-siap — 7 model, 15 API, 3 halaman portal baru + 3 integrasi seksi, 2 modul CMS (7 tab), i18n 3 bahasa, seed realistis.
 - Diferensiasi kompetitor yang kini live: Bursa Kursi B2B antar PPIU/PIHK/BPW, Compliance Hub dengan skor kepatuhan publik, Ulasan Terverifikasi Kartu (mustahil ulasan palsu), AI Trip Composer, Brankas Jamaah dengan alert kedaluwarsa, Direktori Darurat Tanah Suci terkurasi.
 - Semua mengikuti konvensi codebase: guardRole, ok/fail, logAudit, rateLimit, useT, CrudManager-style CMS, tokens forest/gold.
+
+---
+Task ID: 8
+Agent: Z.ai (main agent)
+Task: Hapus pesan "PROMO 200 ANGGOTA PERTAMA — pendaftaran & iuran tahun pertama GRATIS" (posisi owner: full gratis selamanya = kelebihan vs asosiasi lain)
+
+Work Log:
+- Audit menyeluruh: Task 52 sudah mengubah counter live menjadi "pendaftar gratis" (tanpa kuota); sisa pesan PROMO 200 tinggal 2 tempat — strip footer (footer.freeBadge) + Kit Promosi di Pusat Unduhan (/promo/, 3 banner PNG+HTML).
+- footer.ts ×3 bahasa: freeBadge "PROMO 200 ANGGOTA PERTAMA — pendaftaran & iuran tahun pertama GRATIS" → "GRATIS SELAMANYA — pendaftaran & iuran Rp 0 untuk semua anggota, tanpa pengecualian" (EN: "FREE FOREVER — registration & dues Rp 0 for every member, no exceptions"; AR: "مجاناً إلى الأبد — التسجيل والرسوم مجانية تماماً لكل الأعضاء، بلا استثناء"). Strip dipertahankan karena isinya kini tepat menyatakan keunggulan gratis selamanya.
+- downloads-view.tsx: hapus blok Kit Promosi (Task 35-f) yang hanya menyajikan banner PROMO 200 ber-framing kelangkaan ("SLOT TERBATAS — SISA MENIPIS") — kontradiktif dengan gratis selamanya; import Button/Icon/Reveal masih terpakai.
+- downloads.ts ×3: hapus key kitTitle/kitDesc/kitCta.
+- Hapus public/promo/ (8.5 MB: 3 PNG banner + 3 HTML sumber + CSS + index.html) — aset kampanye PROMO 200 tidak lagi valid.
+- admin-dashboard.tsx: komentar stale "PROMO 200 live" → "Pendaftar gratis live" (UI sudah benar sejak Task 52).
+- VERIFIKASI: rg "PROMO 200|200 ANGGOTA|FIRST-200|أول ٢٠٠|kit*" di src/ = hanya komentar historis + endpoint internal /api/promo/counter (counter pertumbuhan, bukan promo); eslint 0 error; browser E2E: ID "GRATIS SELAMANYA"=true & "PROMO 200"=false, EN "FREE FOREVER"=true, AR "مجاناً إلى الأبد"=true, halaman #/unduhan tanpa blok kit, console 0 error setelah reload bersih, locale dikembalikan ke ID.
+- Screenshot: download/footer-gratis-selamanya.png, download/unduhan-kit-promosi-removed.png.
+
+Stage Summary:
+- Seluruh framing "PROMO 200 ANGGOTA PERTAMA" (kuota terbatas, iuran tahun pertama gratis) hilang dari situs publik di 3 bahasa.
+- Posisi pesan kini konsisten 100%: GRATIS SELAMANYA — Rp 0 tanpa pengecualian (footer strip, hero pill, strip membership, final CTA, admin CMS).
+- Kit banner lama dihapus; bisa dirender ulang dengan tema "GRATIS SELAMANYA" bila owner menghendaki.

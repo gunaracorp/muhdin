@@ -115,30 +115,6 @@ export function DownloadsView() {
             <h1 className="mt-3 text-4xl font-extrabold tracking-tight">{t("downloads.title")}</h1>
             <p className="mt-3 max-w-2xl text-emerald-50/80">{t("downloads.subtitle")}</p>
           </Reveal>
-
-          {/* Task 35-f — Kit Promosi DAFTAR & IURAN GRATIS (banner WA/IG) */}
-          <Reveal delay={0.1}>
-            <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-gold/40 bg-gold/10 p-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-3">
-                <span className="h-10 w-10 shrink-0 rounded-xl bg-gold/20 grid place-items-center text-gold">
-                  <Icon name="megaphone" className="h-5 w-5" aria-hidden />
-                </span>
-                <div>
-                  <p className="text-sm font-extrabold text-gold-soft">{t("downloads.kitTitle")}</p>
-                  <p className="mt-0.5 max-w-xl text-xs leading-relaxed text-emerald-50/75">
-                    {t("downloads.kitDesc")}
-                  </p>
-                </div>
-              </div>
-              <Button
-                onClick={() => window.open("/promo/index.html", "_blank", "noopener,noreferrer")}
-                className="h-11 shrink-0 bg-gold text-xs font-extrabold tracking-widest text-forest-deep hover:bg-gold-soft"
-              >
-                <Icon name="megaphone" className="me-2 h-4 w-4" aria-hidden />
-                {t("downloads.kitCta")}
-              </Button>
-            </div>
-          </Reveal>
         </div>
       </section>
 

@@ -148,7 +148,7 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
         ))}
       </div>
 
-      {/* PROMO 200 live + kesehatan sistem */}
+      {/* Pendaftar gratis live + kesehatan sistem */}
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="relative overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/10 via-card to-card p-5 shadow-sm">
           <div className="flex items-center justify-between gap-3">
