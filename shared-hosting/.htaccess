@@ -1,0 +1,83 @@
+# ============================================================================
+# .htaccess — MUHDIN Shared Hosting Edition (Apache, cPanel)
+# ----------------------------------------------------------------------------
+# Rekonstruksi Task 30 (2026-09-21). Frontend statis ber-hash-routing + API PHP.
+# Unggah di ROOT public_html. Bila dipasang di subfolder (mis. /muhdin),
+# tambahkan:  RewriteBase /muhdin/  di dalam blok RewriteEngine di bawah.
+# ============================================================================
+
+Options -Indexes
+
+# ---------------------------------------------------------------------------
+# 1) API — semua /api/* diarahkan ke router PHP (semua metode HTTP)
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# RewriteBase /muhdin/
+
+RewriteRule ^api/index\.php$ - [L]
+RewriteRule ^api/(.*)$ api/index.php [QSA,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 2) Proteksi data & file sensitif
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+RewriteRule ^data/ - [F,L]
+</IfModule>
+
+<FilesMatch "\.(sqlite|sqlite3|db|php\.ini|log)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^\.">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ---------------------------------------------------------------------------
+# 3) SPA fallback — semua path non-file dilayani index.html
+#    (frontend ber-hash-routing: #/beranda, #/admin, #/nusuk, dst.)
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.html [L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 4) Header keamanan
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 5) Kompresi & cache aset statis (defensif — aman bila modul tak tersedia)
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/svg+xml "access plus 1 year"
+ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>

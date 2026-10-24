@@ -1,0 +1,34 @@
+# ============================================================
+# MUHDIN — muhdin.web.id · Konfigurasi Apache (SHARED HOSTING)
+# ------------------------------------------------------------
+# CATATAN: biasanya TIDAK perlu diubah — cPanel → Setup Node.js App
+# dengan "Application URL" = / sudah menangani routing otomatis
+# lewat Passenger. File ini disertakan sebagai cadangan & penguat
+# keamanan. Cukup biarkan ada di root folder aplikasi.
+# ============================================================
+
+# 1) Paksa HTTPS — aktifkan setelah SSL (Let's Encrypt) menyala
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 2) Header keamanan tambahan
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# 3) Sembunyikan file sensitif dari akses web
+<FilesMatch "^\.env|\.db$|\.sqlite$">
+  Require all denied
+</FilesMatch>
+
+# 4) OPSIONAL — hanya bila cPanel TIDAK otomatis memetakan aplikasi
+#    (mis. aplikasi di subfolder dan domain tidak ikut terarah).
+#    Sesuaikan path, lalu hapus tanda "#" pada 2 baris di bawah:
+# PassengerAppRoot "/home/USERNAME/muhdin-app"
+# PassengerBaseURI "/"
