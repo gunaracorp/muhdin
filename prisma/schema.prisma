@@ -104,6 +104,8 @@ model Member {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   permits     NusukPermit[]
+  packages    TourPackage[]
+  cards       PilgrimCard[]
 }
 
 model MembershipApplication {
@@ -421,4 +423,102 @@ model AuditLog {
 
   @@index([createdAt])
   @@index([entity, action])
+}
+
+// ==================== MARKETPLACE PAKET (v5.0) ====================
+
+/// Paket perjalanan ibadah yang ditawarkan anggota terverifikasi — #/paket.
+/// Harga dalam IDR per jamaah; slot berkurang otomatis saat ada booking baru.
+model TourPackage {
+  id            String    @id @default(cuid())
+  memberId      String
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  title         String
+  type          String    @default("UMROH") // UMROH | HAJI | ZIARAH | WISATA_ISLAMI
+  city          String    @default("") // kota keberangkatan
+  description   String
+  price         Int       @default(0) // IDR per jamaah
+  durationDays  Int       @default(9)
+  departureDate DateTime?
+  slots         Int       @default(40)
+  slotsTaken    Int       @default(0)
+  hotelMakkah   String    @default("")
+  hotelMadinah  String    @default("")
+  airline       String    @default("")
+  status        String    @default("PUBLISHED") // PUBLISHED | DRAFT | CLOSED
+  featured      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  bookings      PackageBooking[]
+}
+
+/// Booking/permintaan jadwal jamaah terhadap sebuah paket (pipeline panitia).
+model PackageBooking {
+  id        String       @id @default(cuid())
+  packageId String
+  pkg       TourPackage  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String
+  email     String?
+  pilgrims  Int          @default(1)
+  note      String?
+  status    String       @default("NEW") // NEW | CONTACTED | CONFIRMED | CANCELLED
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+// ==================== FORUM JAMAAH (v5.0) ====================
+
+/// Diskusi antar jamaah (tanya jawab ibadah) dengan moderasi CMS — #/forum.
+/// Thread baru masuk sebagai PENDING dan tampil publik setelah disetujui.
+model ForumThread {
+  id            String       @id @default(cuid())
+  title         String
+  body          String
+  authorName    String
+  authorContact String       @default("") // email/WA pribadi — tidak tampil publik
+  category      String       @default("Umum") // Manasik | Dokumen | Perjalanan | Akomodasi | Biaya | Lainnya
+  status        String       @default("PENDING") // PENDING | APPROVED | REJECTED | LOCKED
+  pinned        Boolean      @default(false)
+  views         Int          @default(0)
+  reviewedBy    String?
+  reviewedAt    DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  replies       ForumReply[]
+}
+
+/// Balasan diskusi — juga melalui moderasi (PENDING → APPROVED).
+model ForumReply {
+  id         String      @id @default(cuid())
+  threadId   String
+  thread     ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorName String
+  body       String
+  status     String      @default("PENDING") // PENDING | APPROVED | REJECTED
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+// ==================== KARTU JAMAAH DIGITAL (v5.0) ====================
+
+/// Kartu identitas jamaah digital ber-QR — terbit via CMS, verifikasi publik #/kartu.
+/// Nomor kartu dibangkitkan otomatis: MHD-JM-2026-0001 (naik berurutan).
+model PilgrimCard {
+  id         String    @id @default(cuid())
+  cardNo     String    @unique
+  fullName   String
+  phone      String    @default("")
+  type       String    @default("JAMAAH") // JAMAAH | PENDAMPING | PETUGAS
+  memberId   String?
+  member     Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  groupName  String    @default("") // nama rombongan
+  status     String    @default("ACTIVE") // ACTIVE | SUSPENDED | EXPIRED
+  validUntil DateTime?
+  issuedBy   String    @default("")
+  note       String?
+  scans      Int       @default(0)
+  lastScanAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }

@@ -57,6 +57,12 @@ import { BranchIndex, BranchDetail } from "@/components/views/branch-pages";
 import { FaqView } from "@/components/views/faq-view";
 import { SitemapView } from "@/components/views/sitemap-view";
 import { PengurusDetail } from "@/components/views/pengurus-detail";
+// v5.0 — Marketplace paket, forum jamaah, kartu jamaah digital
+import { PaketView } from "@/components/views/paket-view";
+import { PaketDetail } from "@/components/views/paket-detail";
+import { ForumView } from "@/components/views/forum-view";
+import { ForumDetail } from "@/components/views/forum-detail";
+import { KartuView } from "@/components/views/kartu-view";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -258,6 +264,18 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v4.1 — Pusat bantuan FAQ
     case "faq":
       content = <FaqView />;
+      break;
+    // v5.0 — Marketplace paket ibadah: #/paket & #/paket/<id>
+    case "paket":
+      content = route[1] ? <PaketDetail id={route[1]} /> : <PaketView />;
+      break;
+    // v5.0 — Forum jamaah: #/forum & #/forum/<id>
+    case "forum":
+      content = route[1] ? <ForumDetail id={route[1]} /> : <ForumView />;
+      break;
+    // v5.0 — Kartu jamaah digital: #/kartu & #/kartu/<cardNo> (target QR)
+    case "kartu":
+      content = <KartuView key={route[1] ?? "lookup"} initialCardNo={route[1]} />;
       break;
     // v4.1 — Peta situs: seluruh halaman portal
     case "peta-situs":

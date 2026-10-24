@@ -70,7 +70,11 @@ export const MENU_NODES: MenuNode[] = [
     ],
   },
   { key: "anggota", route: "anggota" },
+  // v5.0 — Marketplace paket ibadah (feature baru)
+  { key: "paket", route: "paket" },
   { key: "berita", route: "berita" },
+  // v5.0 — Forum diskusi jamaah (feature baru)
+  { key: "forum", route: "forum" },
   // SYARIKAH — pengganti "Penyedia Saudi" (instruksi manajemen)
   { key: "syariah", route: "layanan/syariah" },
   {

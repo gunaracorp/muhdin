@@ -414,3 +414,95 @@ export interface NusukSyncResult {
   recordsAffected: number;
   durationMs: number;
 }
+
+// ==================== v5.0 — MARKETPLACE / FORUM / KARTU ====================
+
+export interface MemberLite {
+  id: string;
+  name: string;
+  type: string;
+  city: string;
+  licenseNo: string;
+  status: string;
+  rating: number;
+}
+
+export interface TourPackageItem {
+  id: string;
+  memberId: string;
+  member: MemberLite;
+  title: string;
+  type: string;
+  city: string;
+  description: string;
+  price: number;
+  durationDays: number;
+  departureDate: string | null;
+  slots: number;
+  slotsTaken: number;
+  hotelMakkah: string;
+  hotelMadinah: string;
+  airline: string;
+  status: string;
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PackageBookingItem {
+  id: string;
+  packageId: string;
+  pkg?: { id: string; title: string; type: string; city: string; price: number };
+  name: string;
+  phone: string;
+  email: string | null;
+  pilgrims: number;
+  note: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ForumThreadItem {
+  id: string;
+  title: string;
+  body: string;
+  authorName: string;
+  category: string;
+  status: string;
+  pinned: boolean;
+  views: number;
+  replyCount?: number;
+  pendingReplies?: number;
+  createdAt: string;
+  updatedAt: string;
+  replies?: ForumReplyItem[];
+}
+
+export interface ForumReplyItem {
+  id: string;
+  threadId: string;
+  threadTitle?: string;
+  authorName: string;
+  body: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface PilgrimCardItem {
+  id: string;
+  cardNo: string;
+  fullName: string;
+  phone: string;
+  type: string;
+  memberId: string | null;
+  member?: { id: string; name: string; city: string } | null;
+  groupName: string;
+  status: string;
+  validUntil: string | null;
+  issuedBy: string;
+  note: string | null;
+  scans: number;
+  lastScanAt: string | null;
+  createdAt: string;
+}

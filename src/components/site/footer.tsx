@@ -61,6 +61,10 @@ const QUICK_LINKS: [path: string, key: string][] = [
   ["faq", "faq"],
   ["dpd", "dpd"],
   ["peta-situs", "sitemap"],
+  // v5.0 — marketplace, forum, kartu jamaah
+  ["paket", "paket"],
+  ["forum", "forum"],
+  ["kartu", "kartu"],
 ];
 
 /** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */

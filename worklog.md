@@ -1839,3 +1839,25 @@ Stage Summary:
 - MUHDIN v3.1.0 ter-install penuh dan berjalan: portal publik + CMS 22 modul + Nusuk Hub + AI Concierge + realtime gateway + PWA
 - Kredensial demo CMS: admin@muhdin.web.id / muhdin2026 (Super Admin), verifikator@/editor@ ...2026
 - Semua 63 endpoint API dua mesin (Node + PHP parity) siap; edisi PHP bisa dibangun via bun run hosting:build
+
+---
+Task ID: 2
+Agent: Z.ai (main agent) — v5.0 Feature Builder
+Task: Bangun 3 fitur lengkap (Marketplace Paket + Forum Jamaah + Kartu Jamaah QR) — skala Lengkap (DB+API+Portal+CMS), seed demo, i18n 3 bahasa
+
+Work Log:
+- EKSPLORASI: agent-Explore memetakan pola (hash-router, CrudManager, guardRole/ok/fail, logAudit, i18n namespaced, tokens forest/gold); dibaca: schema.prisma, admin-view, roles, muhdin-app, navbar/footer dict, menu-data, icon registry, admin-complaints (pola moderasi).
+- DB: +4 model (TourPackage, PackageBooking, ForumThread, ForumReply, PilgrimCard — 5 model) + relasi Member.packages/cards; db:push OK.
+- API (12 file baru): /api/packages (GET publik+filter, POST admin), /api/packages/[id] (GET/PUT/DELETE), /api/package-bookings (GET admin, POST publik rateLimit 6/menit + transaksi decrement slot), /api/package-bookings/[id] (PUT status + CANCELLED membebaskan slot, DELETE), /api/forum (GET approved + POST publik rateLimit → PENDING), /api/forum/[id] (GET detail+replies+views++, PUT moderasi status/pinned+reviewedBy, DELETE), /api/forum/[id]/replies (POST publik → PENDING), /api/forum-moderation (GET admin: semua thread + balasan pending), /api/forum-replies/[id] (PUT/DELETE moderasi), /api/pilgrim-cards (GET/POST admin — cardNo otomatis MHD-JM-<thn>-XXXX), /api/pilgrim-cards/[id] (PUT/DELETE), /api/pilgrim-cards/verify (GET publik rateLimit, effectiveStatus EXPIRED otomatis, scans++).
+- i18n: locales/fitur-v5.ts baru (root unik paket/forum/kartu × 3 bahasa, kartu 31 key), navbar.items.paket/forum, footer.quick.paket/forum/kartu, registrasi dictionaries.ts. (Catatan: rewrite file setelah regex python merusak struktur — divalidasi ulang via bun runtime.)
+- PORTAL (5 view baru): paket-view (statistik+filter+sort+kartu progres slot), paket-detail (DetailShell + form booking sticky + estimasi total), forum-view (filter topik + dialog diskusi baru), forum-detail (thread+replies+form balasan+banner locked), kartu-view (lookup + kartu digital gradient + QRCode react-qr-code + status efektif).
+- CMS (3 modul baru): admin-packages (Tabs Paket CRUD w/ member select + Booking pipeline NEW→CONTACTED→CONFIRMED/CANCELLED), admin-forum (Tabs Thread moderasi setujui/tolak/kunci/pin + Balasan pending), admin-pilgrim-cards (terbit kartu cardNo otomatis, dialog QR + print, bekukan/aktifkan).
+- REGISTRASI: roles.ts +4 section (packages/bookings/forum/cards), admin-view.tsx (4 menu + render), muhdin-app.tsx (case paket/forum/kartu + detail), menu-data.ts (2 node navbar), footer QUICK_LINKS +3, icon.tsx (+package, +id-card).
+- SEED: prisma/seed-fitur-v5.ts (idempoten) — 8 paket, 6 booking, 7 thread (5 approved/1 pending/1 rejected), 11 balasan (9 approved/2 pending), 8 kartu (6 aktif/1 suspended/1 expired-efektif).
+- INSIDEN & FIX: (1) regex python merusak fitur-v5.ts → rewrite penuh + validasi runtime; (2) next dev mati saat recompile besar (connection refused 000) → hidupkan via scripts/dev-keep.sh (setsid nohup, UP 6s).
+- VERIFIKASI: lint 0 error; API packages/forum/verify mengalir; verify 0001 scans 14→16, 0008 EXPIRED efektif; POST booking publik OK + slot 38→40→rollback QA; POST forum → PENDING; guard admin 401 × 3 endpoint; agent-browser: #/paket (navbar baru + statistik + kartu slot), detail + BOOKING E2E sukses (slot live 7→5, warning "hampir habis"), #/forum (5 thread approved, pending tersembunyi), #/kartu/MHD-JM-2026-0001 (kartu digital + QR + counter), CMS: Marketplace Paket (tabs+badge), Booking pipeline UI, Kartu Jamaah (7 aktif/67 scan), Forum moderasi (3 menunggu); console 0 error; health ok DB 1ms.
+
+Stage Summary:
+- MUHDIN v5.0: 3 fitur baru produksi-siap mengikuti 100% konvensi codebase (guard RBAC, audit log, rate limit, i18n 3 bahasa, RTL-ready, tokens forest/gold).
+- Alur lengkap: jamaah booking paket → slot berkurang atomik → CMS pipeline; forum publik → moderasi CMS → tampil; kartu diterbitkan CMS → QR → verifikasi publik dengan counter.
+- File baru: 12 API + 5 view + 3 admin + 1 i18n + 1 seed + perubahan registrasi (9 file). Total ±35 titik integrasi tanpa merusak fitur lama.

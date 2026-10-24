@@ -28,6 +28,10 @@ import { AdminComplaints } from "@/components/admin/admin-complaints";
 import { AdminSubscribers } from "@/components/admin/admin-subscribers";
 import { AdminAudit } from "@/components/admin/admin-audit";
 import { AdminBranches } from "@/components/admin/admin-branches";
+// v5.0 — Marketplace paket, forum jamaah, kartu jamaah digital
+import { AdminPackages } from "@/components/admin/admin-packages";
+import { AdminForum } from "@/components/admin/admin-forum";
+import { AdminPilgrimCards } from "@/components/admin/admin-pilgrim-cards";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
 import { visibleSections, ROLE_LABELS } from "@/lib/roles";
@@ -44,9 +48,13 @@ const MENU = [
   { id: "roadmap", label: "Roadmap 2026-2030", icon: "target" },
   { id: "members", label: "Direktori Anggota", icon: "grid-3x3" },
   { id: "applications", label: "Pendaftaran", icon: "user-plus" },
+  { id: "packages", label: "Marketplace Paket", icon: "package" },
+  { id: "bookings", label: "Booking Paket", icon: "clipboard-list" },
   { id: "tutorials", label: "Tutorial", icon: "graduation-cap" },
   { id: "messages", label: "Pesan Masuk", icon: "inbox" },
   { id: "complaints", label: "Pengaduan", icon: "shield-alert" },
+  { id: "forum", label: "Forum Jamaah", icon: "message-square" },
+  { id: "cards", label: "Kartu Jamaah", icon: "qr-code" },
   { id: "subscribers", label: "Pelanggan Berita", icon: "mail" },
   { id: "faqs", label: "FAQ", icon: "help-circle" },
   { id: "testimonials", label: "Testimoni", icon: "quote" },
@@ -199,6 +207,10 @@ export function AdminView() {
           {section === "roadmap" && <AdminRoadmap />}
           {section === "members" && <AdminMembers />}
           {section === "applications" && <AdminApplications />}
+          {section === "packages" && <AdminPackages />}
+          {section === "bookings" && <AdminPackages />}
+          {section === "forum" && <AdminForum />}
+          {section === "cards" && <AdminPilgrimCards />}
           {section === "tutorials" && <AdminTutorials />}
           {section === "messages" && <AdminMessages />}
           {section === "complaints" && <AdminComplaints />}

@@ -35,9 +35,15 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "roadmap", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "members", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "applications", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v5.0 — Marketplace paket + pipeline booking
+  { id: "packages", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
+  { id: "bookings", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "tutorials", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "messages", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "complaints", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v5.0 — Forum jamaah (moderasi) + kartu jamaah digital
+  { id: "forum", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  { id: "cards", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "subscribers", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "faqs", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "testimonials", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },

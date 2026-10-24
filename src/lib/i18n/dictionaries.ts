@@ -49,6 +49,8 @@ import { widgetDict } from "@/lib/i18n/locales/widget";
 import { liveRegDict } from "@/lib/i18n/locales/live-reg";
 // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
 import { detailDict } from "@/lib/i18n/locales/detail";
+// v5.0 — Marketplace Paket, Forum Jamaah, Kartu Jamaah QR
+import { fiturV5Dict } from "@/lib/i18n/locales/fitur-v5";
 
 const dicts = [
   commonDict,
@@ -96,6 +98,8 @@ const dicts = [
   liveRegDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
+  // v5.0 — Marketplace Paket (#/paket), Forum Jamaah (#/forum), Kartu Jamaah (#/kartu)
+  fiturV5Dict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

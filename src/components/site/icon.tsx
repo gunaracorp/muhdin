@@ -22,6 +22,9 @@ import {
   // Task 60 — notifikasi email
   History, AtSign,
   House,
+  // v5.0 — marketplace & kartu
+  Package,
+  IdCard,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -169,6 +172,9 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   pill: Pill,
   "book-marked": BookMarked,
   swords: Swords,
+  // v5.0 — marketplace paket & kartu jamaah
+  package: Package,
+  "id-card": IdCard,
 };
 
 export function Icon({
