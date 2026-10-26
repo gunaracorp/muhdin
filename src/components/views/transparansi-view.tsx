@@ -14,6 +14,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { apiGet } from "@/lib/client-api";
 import { formatNumberL10n, useT } from "@/lib/i18n";
 import { TrustCallout, TrustHero, TrustSection, TrustSteps } from "@/components/views/p0-shared";
+// v10 — dashboard statistik nasional live (chart recharts)
+import { StatistikNasional } from "@/components/views/statistik-nasional";
 
 /** Bentuk mentah baris /api/members (JSON array) — field publik saja. */
 type PublicMember = {
@@ -190,6 +192,11 @@ export function TransparansiView() {
                 </p>
               </div>
             )}
+          </TrustSection>
+
+          {/* 1-b. v10 — Statistik Nasional Live (dashboard publik + chart) */}
+          <TrustSection icon="pie-chart" title={t("statistik.hero.title")} desc={t("statistik.hero.subtitle")}>
+            <StatistikNasional />
           </TrustSection>
 
           {/* 2. Laporan yang Diterbitkan */}

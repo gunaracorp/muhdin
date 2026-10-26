@@ -764,6 +764,14 @@ export function Footer() {
                 <Icon name="map-pin" className="h-3 w-3 text-gold" aria-hidden />
                 {t("footer.madeIn")}
               </span>
+              {/* v10 — pill versi platform */}
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gradient-to-r from-primary/20 to-gold/10 px-3 py-1.5 text-[11px] font-bold text-gold"
+                title="MUHDIN Platform v10.0.0"
+              >
+                <Icon name="rocket" className="h-3 w-3" aria-hidden />
+                <span dir="ltr">Platform v10</span>
+              </span>
             </div>
           </div>
         </div>

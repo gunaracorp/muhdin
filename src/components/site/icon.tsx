@@ -24,6 +24,8 @@ import {
   House,
   // v5 Fase 4 — Virtual Tour 360°
   Orbit, Mountain, Umbrella, Route, Hash,
+  // v10 — upgrade platform
+  Rocket, Crown, PieChart, Users2, Command,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -133,6 +135,11 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   braces: Braces,
   terminal: Terminal,
   activity: Activity,
+  rocket: Rocket,
+  crown: Crown,
+  "pie-chart": PieChart,
+  "users-2": Users2,
+  command: Command,
   plug: PlugZap,
   scan: ScanLine,
   "radio-tower": RadioTower,

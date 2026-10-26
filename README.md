@@ -15,12 +15,33 @@
 [![React 19](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Prisma 6 + SQLite](https://img.shields.io/badge/Prisma_6-SQLite-2D3748?logo=prisma)](https://prisma.io)
+[![Prisma 8 + SQLite](https://img.shields.io/badge/Prisma_8-SQLite-2D3748?logo=prisma)](https://prisma.io)
 [![Vercel Ready](https://img.shields.io/badge/Deploy-Vercel_3_klik-black?logo=vercel)](#opsi-1-vercel)
 [![PHP Shared Hosting](https://img.shields.io/badge/PHP-tanpa_Node.js-777BB4?logo=php&logoColor=white)](#opsi-2-php-shared-hosting)
+[![Version](https://img.shields.io/badge/Platform-v10.0.0-gold?logo=rocket)](#-riwayat-versi)
 [![i18n](https://img.shields.io/badge/i18n-3_bahasa_·_RTL_sungguhan-16a34a)](#internasionalisasi)
 [![RBAC](https://img.shields.io/badge/RBAC-4_peran_·_22_modul-d97706)](#keamanan-dan-rbac)
 [![PWA](https://img.shields.io/badge/PWA-installable--offline-5A0FC8?logo=pwa)](#tema-gelap-dan-pwa)
+
+## 🏆 Riwayat Versi
+
+**v10.0.0 — Presidential Edition** (Oktober 2026)
+- 🤖 AI Concierge Pro streaming + Chatbot WhatsApp multi-gateway (satu otak, dua kanal)
+- 🪪 Paspor Haji Digital dengan verifikasi QR publik + audit trail
+- 📍 GPS Tracking rombongan real-time di peta (6 situs suci)
+- 🌐 Virtual Tour 360° interaktif — 6 situs suci, 21 hotspot trilingual
+- 📊 Statistik Nasional & Transparansi — dashboard publik live (chart pertumbuhan, provinsi, AI)
+- 🔍 Global Search (Ctrl/⌘+K) di seluruh portal
+- 🛡️ Prisma 8 engine-free (tanpa binary Rust) — install ringan, deploy cepat
+- ✨ Dashboard admin modern: KPI strip, chart AI 14 hari, log audit SUPER_ADMIN
+
+<details>
+<summary>Riwayat versi sebelumnya</summary>
+
+- **v5** — 4 fase roadmap: beranda bersih + data demo kaya, Prisma 8 + AI dua kanal, Paspor QR + GPS, Tur 360° + dashboard modern
+- **v4.x** — Sahabat MUHDIN AI Concierge, halaman detail lengkap, pusat bantuan/jaringan daerah/peta situs
+- **v3.1** — Vercel-ready penuh, tri-mode build (Vercel / Node / PHP shared hosting)
+</details>
 
 **MUHDIN v3.1.0** — satu codebase, **tiga rumah deploy**: Vercel (3 klik), shared hosting PHP murni (tanpa Node.js), dan server Node.js sendiri.
 

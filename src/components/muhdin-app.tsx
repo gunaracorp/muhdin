@@ -65,6 +65,8 @@ import { PassportVerifyView } from "@/components/views/passport-verify-view";
 import { TrackingView } from "@/components/views/tracking-view";
 // v5 Fase 4 — Virtual Tour 360°
 import { TourView } from "@/components/views/tour-view";
+// v10 — Global Search (Ctrl/⌘+K)
+import { GlobalSearch } from "@/components/site/global-search";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -336,6 +338,8 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
           <ScrollProgressBar />
           <WaFab />
           <SahabatMuhdin />
+          {/* v10 — Global Search (Ctrl/⌘+K) */}
+          <GlobalSearch />
         </>
       )}
       {isAdmin ? (

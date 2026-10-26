@@ -239,6 +239,20 @@ export function Navbar() {
           </button>
 
           <div className="hidden xl:flex items-center gap-2">
+            {/* v10 — tombol Cari global (Ctrl/⌘+K) */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.dispatchEvent(new CustomEvent("muhdin:search-open"))}
+              aria-label={t("search.aria")}
+              className="gap-1.5 text-foreground/60 hover:text-primary"
+            >
+              <Icon name="search" className="h-4 w-4" />
+              <span className="hidden 2xl:inline text-xs">{t("search.button")}</span>
+              <kbd className="hidden 2xl:inline-flex h-4 items-center rounded border border-border/60 bg-muted/60 px-1 font-mono text-[9px] text-muted-foreground" dir="ltr">
+                Ctrl K
+              </kbd>
+            </Button>
             <ThemeSwitcher />
             <LocaleSwitcher />
             <Button
@@ -280,6 +294,18 @@ export function Navbar() {
                 </nav>
                 <div className="p-4 border-t space-y-3">
                   <div className="grid grid-cols-1 gap-2">
+                    {/* v10 — Cari global di mobile */}
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setOpen(false);
+                        window.dispatchEvent(new CustomEvent("muhdin:search-open"));
+                      }}
+                    >
+                      <Icon name="search" className="h-4 w-4 me-2" />
+                      {t("search.button")}
+                    </Button>
                     <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{t("common.theme")}</p>
                     <ThemeSwitcher variant="mobile" />
                   </div>

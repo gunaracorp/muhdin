@@ -56,6 +56,9 @@ import { pasporDict } from "@/lib/i18n/locales/paspor";
 import { trackingDict } from "@/lib/i18n/locales/tracking";
 // v5 Fase 4 — Virtual Tour 360°
 import { turDict } from "@/lib/i18n/locales/tur";
+// v10 — Statistik Nasional & Transparansi + Global Search
+import { statistikDict } from "@/lib/i18n/locales/statistik";
+import { searchDict } from "@/lib/i18n/locales/search";
 
 const dicts = [
   commonDict,
@@ -108,6 +111,9 @@ const dicts = [
   trackingDict,
   // v5 Fase 4 — Virtual Tour 360° (#/tur-virtual)
   turDict,
+  // v10 — Statistik Nasional & Transparansi + Global Search
+  statistikDict,
+  searchDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
 ];
