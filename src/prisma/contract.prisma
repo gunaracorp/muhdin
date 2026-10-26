@@ -3,7 +3,7 @@
 // ==================== AUTH ====================
 
 model User {
-  id          String    @id @default(cuid())
+  id          String    @id @onCreate(cuid())
   email       String    @unique
   password    String
   name        String
@@ -11,12 +11,12 @@ model User {
   isActive    Boolean   @default(true)
   lastLoginAt DateTime?
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime  @onCreate(now()) @onUpdate(now())
   sessions    Session[]
 }
 
 model Session {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   token     String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -27,7 +27,7 @@ model Session {
 // ==================== KONTEN ====================
 
 model Article {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   title     String
   slug      String   @unique
   excerpt   String
@@ -39,11 +39,11 @@ model Article {
   views     Int      @default(0)
   author    String   @default("Tim MUHDIN")
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @onCreate(now()) @onUpdate(now())
 }
 
 model Ecosystem {
-  id          String   @id @default(cuid())
+  id          String   @id @onCreate(cuid())
   number      Int      @unique
   name        String
   cluster     String
@@ -54,11 +54,11 @@ model Ecosystem {
   description String
   image       String?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @onCreate(now()) @onUpdate(now())
 }
 
 model JourneyStep {
-  id       String @id @default(cuid())
+  id       String @id @onCreate(cuid())
   step     Int    @unique
   title    String
   activity String
@@ -68,7 +68,7 @@ model JourneyStep {
 }
 
 model Roadmap {
-  id           String @id @default(cuid())
+  id           String @id @onCreate(cuid())
   phase        String
   period       String
   focus        String
@@ -78,7 +78,7 @@ model Roadmap {
 
 // ==================== KEANGGOTAAN ====================
 model Member {
-  id          String   @id @default(cuid())
+  id          String   @id @onCreate(cuid())
   name        String
   type        String
   city        String
@@ -92,12 +92,12 @@ model Member {
   status      String   @default("TERVERIFIKASI")
   memberSince Int      @default(2026)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @onCreate(now()) @onUpdate(now())
   permits     NusukPermit[]
 }
 
 model MembershipApplication {
-  id          String    @id @default(cuid())
+  id          String    @id @onCreate(cuid())
   orgName     String
   type        String
   contactName String
@@ -114,13 +114,13 @@ model MembershipApplication {
   reviewedBy  String? // nama akun verifikator yang memproses
   reviewedAt  DateTime?
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime  @onCreate(now()) @onUpdate(now())
 }
 
 // ==================== TUTORIAL ====================
 
 model Tutorial {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   title     String
   slug      String   @unique
   category  String   @default("Umum")
@@ -132,13 +132,13 @@ model Tutorial {
   published Boolean  @default(true)
   views     Int      @default(0)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @onCreate(now()) @onUpdate(now())
 }
 
 // ==================== KOMUNIKASI ====================
 
 model ContactMessage {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   name      String
   email     String
   phone     String?
@@ -149,7 +149,7 @@ model ContactMessage {
 }
 
 model Faq {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   question  String
   answer    String
   category  String   @default("Umum")
@@ -158,7 +158,7 @@ model Faq {
 }
 
 model Testimonial {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   name      String
   role      String
   content   String
@@ -170,7 +170,7 @@ model Testimonial {
 // ==================== PROFIL ====================
 
 model Management {
-  id       String @id @default(cuid())
+  id       String @id @onCreate(cuid())
   name     String
   position String
   bio      String?
@@ -180,7 +180,7 @@ model Management {
 /// Jaringan kepengurusan daerah — DPD/DPC & Branch Office (Task 19).
 /// Contoh: DPD Jawa Barat + Branch Office MUHDIN JABAR Tasikmalaya.
 model RegionalBranch {
-  id          String   @id @default(cuid())
+  id          String   @id @onCreate(cuid())
   name        String // "Dewan Pimpinan Daerah Jawa Barat"
   code        String   @default("") // "DPD-JABAR"
   province    String   @default("")
@@ -194,11 +194,11 @@ model RegionalBranch {
   published   Boolean  @default(true)
   order       Int      @default(0)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @onCreate(now()) @onUpdate(now())
 }
 
 model SiteSetting {
-  id    String @id @default(cuid())
+  id    String @id @onCreate(cuid())
   key   String @unique
   value String
 }
@@ -206,7 +206,7 @@ model SiteSetting {
 // ==================== NUSUK INTEGRATION ====================
 
 model NusukConnection {
-  id            String         @id @default(cuid())
+  id            String         @id @onCreate(cuid())
   environment   String         @default("SANDBOX")
   apiKey        String         @default("")
   webhookSecret String         @default("")
@@ -215,12 +215,12 @@ model NusukConnection {
   totalSyncs    Int            @default(0)
   lastSyncAt    DateTime?
   createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  updatedAt     DateTime       @onCreate(now()) @onUpdate(now())
   logs          NusukSyncLog[]
 }
 
 model NusukPermit {
-  id         String   @id @default(cuid())
+  id         String   @id @onCreate(cuid())
   memberId   String
   member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
   type       String
@@ -234,7 +234,7 @@ model NusukPermit {
 }
 
 model NusukSyncLog {
-  id              String          @id @default(cuid())
+  id              String          @id @onCreate(cuid())
   connectionId    String?
   connection      NusukConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
   type            String
@@ -250,7 +250,7 @@ model NusukSyncLog {
 /// Terjemahan konten database (EN/AR). entity = nama model sumber,
 /// entityKey = id/slug baris sumber, field = nama kolom yang diterjemahkan.
 model ContentTranslation {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   entity    String
   entityKey String
   locale    String // "en" | "ar"
@@ -258,7 +258,7 @@ model ContentTranslation {
   value     String
   engine    String   @default("ai") // "ai" | "manual"
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @onCreate(now()) @onUpdate(now())
 
   @@unique([entity, entityKey, locale, field])
   @@index([entity, locale])
@@ -271,7 +271,7 @@ model ContentTranslation {
 /// Token tersimpan di DB lokal (bukan SiteSetting) agar tidak bocor lewat
 /// GET /api/settings yang bersifat publik.
 model WhatsAppSetting {
-  id                String    @id @default(cuid())
+  id                String    @id @onCreate(cuid())
   provider          String    @default("FONNTE") // FONNTE | WABLAS | CUSTOM
   apiUrl            String    @default("") // endpoint khusus untuk CUSTOM
   token             String    @default("")
@@ -282,7 +282,7 @@ model WhatsAppSetting {
   lastTestAt        DateTime?
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  updatedAt         DateTime  @onCreate(now()) @onUpdate(now())
 }
 
 // ==================== NOTIFIKASI EMAIL (Task 60) ====================
@@ -292,7 +292,7 @@ model WhatsAppSetting {
 /// Password = Gmail App Password (bukan password login biasa).
 /// Fallback env: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS bila kolom kosong.
 model EmailSetting {
-  id                String    @id @default(cuid())
+  id                String    @id @onCreate(cuid())
   smtpHost          String    @default("smtp.gmail.com")
   smtpPort          Int       @default(465)
   smtpSecure        Boolean   @default(true) // 465 = implicit TLS; 587 = STARTTLS (secure=false)
@@ -309,13 +309,13 @@ model EmailSetting {
   lastTestAt        DateTime?
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  updatedAt         DateTime  @onCreate(now()) @onUpdate(now())
 }
 
 /// Audit semua upaya notifikasi (email & WhatsApp) — agar admin dapat
 /// membuktikan bahwa setiap formulir benar-benar diteruskan ke sekretariat.
 model NotificationLog {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   channel   String   // EMAIL | WHATSAPP
   eventType String   // CONTACT | APPLICATION | COMPLAINT | SUBSCRIBER | TESTIMONIAL | TEST
   status    String   // SENT | FAILED | SKIPPED
@@ -333,7 +333,7 @@ model NotificationLog {
 
 /// Galeri kegiatan/dokumentasi — tampil di halaman publik #/galeri.
 model Gallery {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   title     String
   caption   String?
   category  String   @default("Kegiatan") // Kegiatan | Perjalanan | Manasik | Fasilitas
@@ -341,12 +341,12 @@ model Gallery {
   order     Int      @default(0)
   published Boolean  @default(true)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @onCreate(now()) @onUpdate(now())
 }
 
 /// Agenda kegiatan mendatang & lampau — #/agenda.
 model Event {
-  id          String    @id @default(cuid())
+  id          String    @id @onCreate(cuid())
   title       String
   description String
   location    String
@@ -355,12 +355,12 @@ model Event {
   category    String    @default("Kegiatan") // Kegiatan | Pelatihan | Rakernas | Safari
   published   Boolean   @default(true)
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime  @onCreate(now()) @onUpdate(now())
 }
 
 /// Pusat unduhan — formulir, panduan, dokumen resmi. #/unduhan
 model Resource {
-  id          String   @id @default(cuid())
+  id          String   @id @onCreate(cuid())
   title       String
   description String?
   category    String   @default("Formulir") // Formulir | Panduan | Kebijakan | Lainnya
@@ -369,12 +369,12 @@ model Resource {
   published   Boolean  @default(true)
   downloads   Int      @default(0)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @onCreate(now()) @onUpdate(now())
 }
 
 /// Pelanggan berlangganan kabar/newsletter (footer publik).
 model Subscriber {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   email     String   @unique
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -382,7 +382,7 @@ model Subscriber {
 
 /// Pengaduan/laporan jamaah terhadap penyelenggara anggota. #/lapor
 model Complaint {
-  id            String    @id @default(cuid())
+  id            String    @id @onCreate(cuid())
   name          String
   email         String
   phone         String?
@@ -394,12 +394,12 @@ model Complaint {
   respondedBy   String?
   respondedAt   DateTime?
   createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  updatedAt     DateTime  @onCreate(now()) @onUpdate(now())
 }
 
 /// Log aktivitas admin (jejak audit) — hanya Super Admin yang melihat.
 model AuditLog {
-  id        String   @id @default(cuid())
+  id        String   @id @onCreate(cuid())
   userId    String?
   userName  String   @default("sistem")
   role      String   @default("")
