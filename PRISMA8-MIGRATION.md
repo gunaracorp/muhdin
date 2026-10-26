@@ -10,7 +10,7 @@ diverifikasi.
 ## Target versi
 
 - Prisma ORM CLI: `8.0.0-rc.27`
-- PostgreSQL runtime/config: `@prisma/orm-postgres@8.0.0-rc.20`
+- PostgreSQL runtime/config: `@prisma/orm-postgres@8.0.0-rc.27`
 - TypeScript minimum: 5.9
 - Node minimum: 22.18 (Prisma ORM 8 compatibility)
 
