@@ -60,3 +60,22 @@ Tambahkan nilai itu sebagai environment variable di platform deployment.
 Lockfile Bun perlu di-regenerasi dengan `bun install` memakai Bun 1.3+ sebelum
 menggunakan instalasi frozen-lockfile. CI/build harus lolos sebelum PR ini
 digabung atau digunakan sebagai runtime produksi.
+
+
+## Import data dari SQLite ke PostgreSQL
+
+Setelah database PostgreSQL **kosong** dibuat dan skema V8 diterapkan:
+
+1. Backup file SQLite sumber terlebih dahulu. Sumber default adalah `db/custom.db`; bila database produksi berbeda, gunakan salinan backup yang terbaru dan set `SQLITE_SOURCE_URL` ke file tersebut.
+2. Atur `DATABASE_URL` ke database PostgreSQL tujuan. Simpan kredensial hanya dalam environment variable, bukan Git.
+3. Jalankan:
+
+```bash
+SQLITE_SOURCE_URL="file:./db/custom.db" DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB?sslmode=require" bun run db:import:sqlite
+```
+
+Skrip memindahkan semua 28 model sesuai urutan relasi, mengonversi nilai tanggal, menolak target yang sudah berisi data, dan menulis semua tabel dalam satu transaksi PostgreSQL. Jika satu operasi gagal, transaksi target dibatalkan. Skrip tidak menghapus atau mengubah SQLite sumber.
+
+Setelah impor, bandingkan jumlah baris tiap tabel sumber dan target, uji login admin serta seluruh formulir/API, dan simpan backup SQLite asli sampai verifikasi selesai. Jangan memakai seed demo setelah impor.
+
+**Penting:** kode migrasi ini belum dieksekusi terhadap database produksi karena connection string PostgreSQL tujuan tidak tersedia dalam repository. Menambahkan skrip tidak berarti data telah dipindahkan.
