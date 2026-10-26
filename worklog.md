@@ -1974,3 +1974,23 @@ Stage Summary:
 - gunaracorp/muhdin main = versi MUHDIN v5 lengkap (Prisma 8, semua fitur Fase 1-4) — siap deploy ulang di platform "Deploy from GitHub".
 - Rollback tersedia: branch pre-v5-backup-20261027 (main lama) & backup-muhdin-remote-20261020.
 - Catatan keamanan: owner sebaiknya revoke token ini setelah push (token pernah lewat chat).
+
+---
+Task ID: 9 (v10.0.0 Presidential Edition — upgrade versi + 2 flagship + QA presidisial + push)
+Agent: Z.ai Code — Master Polymath · Sage Universal · Ultimate Problem Solver
+Task: Owner minta upgrade v4 → v10 (akan dicek presiden). Role: master polymath/sage/ultimate problem solver.
+
+Work Log:
+- VERSIONING: package.json 3.1.0 → 10.0.0; manifest.webmanifest dibersihkan dari sisa promo "GRATIS/TERMURAH" + name "MUHDIN v10"; footer pill emas "Platform v10"; README badge Prisma 6 → Prisma 8 + seksi "Riwayat Versi v10.0.0 Presidential Edition".
+- FLAGSHIP 1 (Statistik Nasional): API PUBLIK baru /api/stats/public — agregat non-PII cache memori 5 menit (anggota per provinsi top10, pertumbuhan kumulatif 12 bulan, komposisi tipe, konten, paspor per status, GPS, tur, AI 14 hari). View baru statistik-nasional.tsx (4 chart recharts hijau-emas: bar provinsi horizontal, area pertumbuhan, pie tipe, stacked bar AI) disisipkan ke #/transparansi sebagai TrustSection. i18n namespace statistik.* 3 bahasa penuh. FIX: field Event startsAt (bukan date), Testimonial published (bukan approved), status member TERVERIFIKASI (bukan VERIFIED).
+- FLAGSHIP 2 (Global Search): /api/search di-upgrade 3 → 6 entitas (artikel, tutorial, ekosistem + anggota TERVERIFIKASI, agenda, FAQ) dengan href hash langsung + rate limit 30/menit. Komponen global-search.tsx: Dialog+Command cmdk shouldFilter=false (CommandDialog shadcn tak meneruskan props — ditemukan saat E2E: cmdk menyarikan hasil server hingga 0 item), debounce 250ms + AbortController, quick links 8 tujuan, hotkey Ctrl/⌘+K, event "muhdin:search-open" dari tombol navbar desktop + mobile. footer.quick +4 key (beranda/anggota/berita/statistik) 3 bahasa. Icon registry +Rocket/Crown/PieChart/Users2/Command (key kutip-ganda untuk kebab-case).
+- AUDIT: modul Log Aktivitas CMS ternyata SUDAH ADA (admin-audit.tsx + /api/audit + roles SUPER_ADMIN) — diverifikasi, tidak perlu kerja baru.
+- QA PRESIDENSIAL: eslint 13 file 0 error 0 warning; API stats & search curl ✓ (53 terverifikasi, 10 provinsi, paspor 20 aktif, AI 5 sesi, GPS 9/12); E2E browser: Ctrl+K buka → ketik "haji" → 10 hasil 4 grup → klik → #/anggota/<id> detail render ✓; #/transparansi 4 chart + KPI ✓; i18n: ID ✓ EN ✓ AR dir=rtl + teks Arab + 4 chart ✓ (temuan "gagal" awal = salah metodologi tes: ?lang= tak didukung — locale via cookie muhdin-locale; string pengecekan salah bahasa); MOBILE iPhone 14 (Playwright devices): 5 route (beranda/transparansi/paspor/tracking/tur) overflow-x FALSE semua 390px ✓ — skrip scripts/v10-mobile-check.cjs; BUILD PRODUKSI hijau (Compiled ✓ 59 halaman + standalone); dev server pulih.
+- KENDALA DISELESAIKAN: OOM build pertama (dev server 2GB + build 2GB > RAM 4GB) → kill dev dulu; pkill pola berbunyi diri sendiri → bracket-regex "next dev -p 300[0]".
+- PUSH: commit a6b99e0 "v10.0.0 Presidential Edition" → GitHub main fast-forward 8377745..a6b99e0 ✓ (token lama masih valid, tanpa force).
+
+Stage Summary:
+- MUHDIN v10.0.0 live di GitHub main — siap deploy ulang platform & siap pemeriksaan presiden.
+- 2 flagship baru: Statistik Nasional publik (data hidup, 4 chart, 3 bahasa) + Global Search Ctrl+K 6 entitas.
+- Verifikasi penuh: lint 0/0, build hijau, E2E desktop-mobile, ID/EN/AR+RTL, 0 overflow.
+- Screenshot: /tmp/v10-statistik-final.png, /tmp/v10-mob-*.png, /tmp/v10-transparansi-ar-mobile.png
