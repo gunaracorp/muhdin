@@ -97,8 +97,9 @@
     "z-ai-web-dev-sdk": "^0.0.18",
     "zod": "^4.0.2",
     "zustand": "^5.0.6",
-    "@prisma/orm-postgres": "8.0.0-rc.20",
-    "dotenv": "^17.2.3"
+    "@prisma/orm-postgres": "8.0.0-rc.27",
+    "dotenv": "^17.2.3",
+    "temporal-polyfill": "1.0.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
