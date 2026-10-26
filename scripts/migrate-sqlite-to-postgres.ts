@@ -1,3 +1,4 @@
+import "temporal-polyfill/full/global";
 import { PrismaClient } from "@prisma/client";
 import postgres from "@prisma/orm-postgres/runtime";
 import type { Contract } from "../src/prisma/contract.d";
@@ -75,7 +76,7 @@ function normalizeForPostgres(row: Record<string, unknown>): Record<string, unkn
   return Object.fromEntries(
     Object.entries(row).map(([key, value]) => [
       key,
-      value instanceof Date ? value.toISOString() : value,
+      value instanceof Date ? Temporal.Instant.from(value.toISOString()) : value,
     ]),
   );
 }
