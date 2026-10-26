@@ -9,7 +9,7 @@
  * ============================================================
  */
 
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "../scripts/_db";
 import { scryptSync, randomBytes } from "node:crypto";
 
 // Fallback agar seed dapat dijalankan langsung dari akar proyek
@@ -17,7 +17,7 @@ if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "file:/home/z/my-project/db/custom.db";
 }
 
-const prisma = new PrismaClient();
+const prisma = makeDb()
 
 // ---------- Helper ----------
 function slugify(input: string): string {

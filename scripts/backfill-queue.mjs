@@ -7,9 +7,9 @@
  *
  * Jalankan: bun scripts/backfill-queue.mjs
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 
-const db = new PrismaClient();
+const db = makeDb()
 
 async function main() {
   const pending = await db.membershipApplication.findMany({

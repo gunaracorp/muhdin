@@ -3,9 +3,9 @@
  * Idempoten: aman dijalankan berulang (replace Management, upsert Bakorwil JABAR).
  * Jalankan: bun scripts/update-management.mjs
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 
-const db = new PrismaClient();
+const db = makeDb()
 
 /** Susunan pengurus inti — data resmi dari pengurus (Task 28). */
 const PENGURUS = [

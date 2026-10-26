@@ -1850,3 +1850,29 @@ Stage Summary:
 - BERANDA BERSIH: semua blok promo GRATIS + counter pendaftar dihapus sesuai catatan owner; diganti trust strip premium 3 bahasa (non-promo, non-volatile).
 - DATA KAYA: 57 anggota / 30 berita / 12 agenda / 16 galeri / 15 testimoni / 10 DPD — siap review & demo.
 - Fase 2-4 terjadwal: (2) AI Concierge Pro + Chatbot WA, (3) Paspor QR + GPS Tracking, (4) Virtual Tour 360° + Dashboard Admin modern.
+
+---
+Task ID: 3 (Fase 2 Roadmap v5 — Prisma v8 + AI Concierge Pro + WhatsApp AI Chatbot)
+Agent: Z.ai Code — Master Polymath Sage (46-Council)
+Task: Perintah owner "lanjut fase 2 - lalu pastikan prisma io versi 8 biar mudah kita installnya". Owner menegaskan: langsung v8 tanpa membantah.
+
+Work Log:
+- PRISMA v8 (penuh, tanpa engine Rust): CLI + client + adapter diselaraskan di 8.1.0-dev.9 (CLI 8.0.0-rc.27 menghasilkan kode gaya lama yang tidak kompatibel client 8.x — ditemukan via error "runtime/library not found"; solusi: pasangan sejajar 8.1.0-dev.9). @prisma/client v8 stabil belum ada di npm (hanya 8.1.0-dev.x) — ini jalur v8 yang benar & konsisten.
+- MIGRASI KONFIG v8: prisma.config.ts BARU (dotenv + defineConfig + datasource.url — v8 melarang url di schema.prisma); schema generator → "prisma-client" (output src/generated/prisma, runtime nodejs); datasource db tanpa url.
+- MIGRASI KODE: src/lib/db.ts ditulis ulang (PrismaBetterSqlite3 adapter + resolver path self-healing dipertahankan); 11 file import @prisma/client → generated/helper (scripts/_db.ts makeDb()); next.config.ts (serverExternalPackages better-sqlite3+adapter; tracing includes → src/generated/prisma/**); eslint ignore src/generated/** + prisma.config.ts; package.json disinkronkan (prisma/@prisma/client/adapter 8.1.0-dev.9, better-sqlite3 13.0.3, dotenv 17.4.2).
+- CATATAN RUNTIME: better-sqlite3 TIDAK didukung runtime Bun (oven-sh/bun#4290) — produksi jalan di Node (next dev = node v24) ✓; skrip lepas kini via npx tsx. Smoke test akhir: health DB 1-2ms, 53 members, homepage 200, bun install bersih + postinstall sukses (tujuan "mudah install" tercapai — tanpa unduhan engine, install jauh lebih ringan).
+- SCHEMA BARU (db push 37ms): model AiChatLog (channel PORTAL|WHATSAPP, locale, question, answer, userHash SHA-256, latencyMs — privasi-aman, index createdAt & channel) + WhatsAppSetting +botEnabled +botWebhookSecret.
+- AI BRAIN (src/lib/ai-brain.ts, otak bersama 2 kanal): konteks HIDUP dari DB (57 member, 53 terverifikasi, 35 provinsi, 13 ekosistem, 3 agenda terdekat, 3 berita terbaru, 6 FAQ) cache 5 menit; prompt identitas trilingual v4 dipertahankan + aturan kanal (PORTAL: markdown ringan+tautan internal; WHATSAPP: teks polos gaya WA ≤110 kata); streamBrain() streaming + fallback askBrain(); toWhatsAppText() (**→*, [link]→teks, heading→polos); detectLocale() ar/en/id; logChat().
+- CONCIERGE PRO (/api/ai/chat): streaming SSE (data:{delta}/{done,latencyMs,firstMs}, fallback {reply}), rate limit 12/menit, log AiChatLog; panel ai-concierge.tsx → Pro (badge PRO FAB+header, pembaca SSE dengan kursor emas berkedip, disclaimer, chips baru, riwayat localStorage tetap).
+- WHATSAPP AI CHATBOT: /api/whatsapp/webhook (GET verifikasi Cloud API hub.challenge vs botWebhookSecret; POST parser 4 format: Cloud API/Wablas/Fonnte/generic; anti-duplikat + rate limit 8/menit/pengirim + session memory 8 pesan 30 menit; balasan via gateway yang sama — sendBotReply() baru di lib/whatsapp.ts, CallMeBot ditolak sopan; pemrosesan berat via after() agar gateway tak timeout); /api/whatsapp/bot (otak tester publik, 20/menit).
+- HALAMAN PUBLIK #/whatsapp-ai: panel chat gaya WhatsApp (frame hijau, bubble, typing, chips) memanggil otak ASLI bot; panduan aktifasi 3 langkah (gateway→webhook→saklar); daftar kemampuan; CTA wa.me resmi. Registrasi: muhdin-app.tsx case "whatsapp-ai", footer QUICK_LINKS+footer.quick.waai (3 bahasa), sitemap STATIC_PAGES.
+- CMS (admin-whatsapp.tsx): seksi Chatbot AI PRO — saklar Bot Aktif, URL webhook readonly + tombol salin, rahasia webhook (password, masked); API /api/whatsapp GET/PUT +bot fields; types.ts WhatsAppConfig diperluas. Uji PUT persist ✓ (updatedAt segar).
+- i18n: namespace baru waai.* (hero/chat/steps/features/cta) 3 bahasa penuh.
+- BUG DIPERBAIKI: (1) sanitize belum diekspor → import error webhook+bot; (2) bot tester tidak menyertakan pesan user → API 400 "messages 参数非法"; (3) client tidak diregenerate setelah model baru + cache Turbopack → AiChatLog 0 baris (regenerate + pkill next dev + restart → 2 kanal terlog).
+- VERIFIKASI: lint 0 error 0 warning; curl SSE mengalir (done:true, latency 3-7s) dengan jawaban data hidup ("53 organisasi, 35 provinsi, Aceh–Papua"); webhook GET health+POST generic+Cloud API format ✓; agent-browser desktop: buka panel Pro → tanya → jawaban "53" muncul via streaming ✓; #/whatsapp-ai tanya-jawab ✓ (teks polos gaya WA); CMS login → Pengaturan → seksi Chatbot AI + simpan ✓; iPhone 14: nol overflow horizontal (home & wa-ai), tanya-jawab mobile ✓; nol error konsol; screenshot /tmp/fase2-{home,concierge,waai,waai-chat,cms-wa,waai-mobile,waai-mobile-chat}.png; DB final: AiChatLog terisi (PORTAL+WHATSAPP), WhatsAppSetting bot fields ✓.
+
+Stage Summary:
+- PRISMA v8 LENGKAP: CLI+client+adapter 8.1.0-dev.9 (garis v8, tanpa binary engine — `bun install` ringan & cepat; tinggal geser ke v8 stabil saat rilis tanpa ubah kode).
+- FITUR FASE 2 HIDUP: Concierge Pro streaming dengan konteks DB nyata + Chatbot AI WhatsApp multi-gateway (Cloud API/Fonnte/Wablas/generic) — satu otak, dua kanal, terlog untuk analitik.
+- Entri baru owner: #/whatsapp-ai (demo + panduan), CMS → Pengaturan → Chatbot AI (saklar, webhook URL, rahasia).
+- Fase 3-4 terjadwal: (3) Paspor QR + GPS Tracking, (4) Virtual Tour 360° + modernisasi dashboard.

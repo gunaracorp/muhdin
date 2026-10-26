@@ -5,9 +5,9 @@
  *    Jawa Barat disamakan persis dengan teks resmi owner.
  * Idempotent: upsert by key/code.
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 
-const db = new PrismaClient();
+const db = makeDb()
 
 const SETTINGS: Record<string, string> = {
   whatsapp: "0811 1116 5165",

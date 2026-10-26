@@ -201,6 +201,10 @@ export interface WhatsAppConfig {
   notifyApplication: boolean;
   hasToken: boolean;
   tokenMasked: string;
+  // v5 Fase 2 — chatbot AI WhatsApp
+  botEnabled: boolean;
+  botSecretSet: boolean;
+  botSecretMasked: string;
   lastTestAt: string | null;
   lastTestStatus: string;
 }

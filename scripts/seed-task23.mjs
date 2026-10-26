@@ -5,9 +5,9 @@
  *
  * Jalankan: bun scripts/seed-task23.mjs
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 
-const prisma = new PrismaClient();
+const prisma = makeDb()
 
 const ARTICLES = [
   {

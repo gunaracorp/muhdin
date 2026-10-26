@@ -49,6 +49,8 @@ import { widgetDict } from "@/lib/i18n/locales/widget";
 import { liveRegDict } from "@/lib/i18n/locales/live-reg";
 // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
 import { detailDict } from "@/lib/i18n/locales/detail";
+// v5 Fase 2 — Halaman WhatsApp AI Chatbot (#/whatsapp-ai)
+import { waaiDict } from "@/lib/i18n/locales/waai";
 
 const dicts = [
   commonDict,
@@ -94,6 +96,8 @@ const dicts = [
   widgetDict,
   // Task 53 — Live Queue Engine (papan slot pendaftaran realtime)
   liveRegDict,
+  // v5 Fase 2 — WhatsApp AI Chatbot (#/whatsapp-ai)
+  waaiDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
 ];

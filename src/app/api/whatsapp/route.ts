@@ -28,6 +28,10 @@ export async function GET() {
       notifyApplication: cfg.notifyApplication,
       hasToken: Boolean(cfg.token),
       tokenMasked: mask(cfg.token),
+      // v5 Fase 2 — chatbot AI WhatsApp
+      botEnabled: cfg.botEnabled,
+      botSecretSet: Boolean(cfg.botWebhookSecret),
+      botSecretMasked: mask(cfg.botWebhookSecret),
       lastTestAt: cfg.lastTestAt,
       lastTestStatus: cfg.lastTestStatus,
     });
@@ -68,6 +72,12 @@ export async function PUT(req: NextRequest) {
           body.notifyApplication !== undefined ? Boolean(body.notifyApplication) : cfg.notifyApplication,
         // Kosong = tetap pakai token lama (agar tidak perlu ketik ulang saat edit).
         token: body.token !== undefined && String(body.token).trim() !== "" ? String(body.token).trim() : cfg.token,
+        // v5 Fase 2 — chatbot AI: saklar + rahasia webhook (kosong = tetap).
+        botEnabled: body.botEnabled !== undefined ? Boolean(body.botEnabled) : cfg.botEnabled,
+        botWebhookSecret:
+          body.botWebhookSecret !== undefined && String(body.botWebhookSecret).trim() !== ""
+            ? String(body.botWebhookSecret).trim()
+            : cfg.botWebhookSecret,
       },
     });
 
@@ -80,6 +90,9 @@ export async function PUT(req: NextRequest) {
       notifyApplication: updated.notifyApplication,
       hasToken: Boolean(updated.token),
       tokenMasked: mask(updated.token),
+      botEnabled: updated.botEnabled,
+      botSecretSet: Boolean(updated.botWebhookSecret),
+      botSecretMasked: mask(updated.botWebhookSecret),
       lastTestAt: updated.lastTestAt,
       lastTestStatus: updated.lastTestStatus,
     });

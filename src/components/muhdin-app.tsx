@@ -56,6 +56,8 @@ import { GalleryDetail } from "@/components/views/gallery-detail";
 import { BranchIndex, BranchDetail } from "@/components/views/branch-pages";
 import { FaqView } from "@/components/views/faq-view";
 import { SitemapView } from "@/components/views/sitemap-view";
+// v5 Fase 2 — WhatsApp AI Chatbot (#/whatsapp-ai)
+import { WaAiView } from "@/components/views/wa-ai-view";
 import { PengurusDetail } from "@/components/views/pengurus-detail";
 
 function LoadingSplash() {
@@ -262,6 +264,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v4.1 — Peta situs: seluruh halaman portal
     case "peta-situs":
       content = <SitemapView />;
+      break;
+    // v5 Fase 2 — WhatsApp AI Chatbot (demo otak bot + panduan gateway)
+    case "whatsapp-ai":
+      content = <WaAiView />;
       break;
     case "unduhan":
       content = <DownloadsView />;

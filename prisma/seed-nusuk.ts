@@ -3,10 +3,10 @@
  * tutorial, FAQ, dan pengaturan situs terkait Nusuk. Idempoten (aman diulang).
  * Jalankan: bun prisma/seed-nusuk.ts
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "../scripts/_db";
 import { ensureConnection, buildPermitNo, ELIGIBILITY, PERMIT_CATALOG } from "../src/lib/nusuk-engine";
 
-const db = new PrismaClient();
+const db = makeDb()
 const DAY = 86400000;
 
 function slugify(text: string) {

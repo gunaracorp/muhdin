@@ -6,7 +6,7 @@
  * PUT/DELETE [id]: Super Admin / Admin.
  */
 import { NextRequest } from "next/server";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import { guardRole, ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";

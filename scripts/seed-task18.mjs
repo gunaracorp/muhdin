@@ -2,9 +2,9 @@
  * seed-task18.mjs — data demo untuk fitur Task 18 (idempotent: bersihkan lalu isi).
  * Galeri memakai gambar lokal yang sudah ada di public/images/.
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 
-const db = new PrismaClient();
+const db = makeDb()
 
 const days = (n) => new Date(Date.now() + n * 24 * 60 * 60 * 1000);
 

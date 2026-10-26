@@ -29,14 +29,15 @@ const nextConfig: NextConfig = {
   // Ramah shared hosting: tanpa header "X-Powered-By", respons di-gzip.
   poweredByHeader: false,
   compress: true,
-  // Wajib untuk shared hosting & Vercel: pastikan seluruh Query Engine Prisma
-  // (multi-platform: debian + rhel/CloudLinux/Vercel) dan file database SQLite
-  // ikut ter-bundle, sehingga folder node_modules maupun .env tidak dibutuhkan
-  // pada saat runtime.
+  // Prisma v8 (Rust-free): native modul adapter SQLite tidak boleh di-bundle.
+  serverExternalPackages: ["better-sqlite3", "@prisma/adapter-better-sqlite3"],
+  // Wajib untuk shared hosting & Vercel: client v8 ter-generate (src/generated,
+  // tanpa binary engine) dan file database SQLite ikut ter-bundle, sehingga
+  // folder node_modules maupun .env tidak dibutuhkan pada saat runtime.
   outputFileTracingIncludes: isStatic
     ? undefined
     : {
-        "/**": ["./node_modules/.prisma/**", "./db/custom.db"],
+        "/**": ["./src/generated/prisma/**", "./db/custom.db"],
       },
 };
 

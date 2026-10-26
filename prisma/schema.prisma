@@ -1,13 +1,17 @@
+// v8 — generator baru "prisma-client" (Rust-free, tanpa unduhan engine,
+// sehingga instalasi jauh lebih ringan & cepat di semua lingkungan,
+// termasuk shared hosting CloudLinux/cPanel maupun Debian/Ubuntu).
+// Output ditulis ke src/generated/prisma.
 generator client {
-  provider      = "prisma-client-js"
-  // Multi-platform: supaya Query Engine SQLite tetap jalan di shared hosting
-  // CloudLinux/cPanel (rhel) maupun Debian/Ubuntu (debian).
-  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  runtime  = "nodejs"
 }
 
+// v8 — URL koneksi dipindah ke prisma.config.ts (datasource) dan
+// adapter better-sqlite3 di PrismaClient constructor (src/lib/db.ts).
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 // ==================== AUTH ====================
@@ -289,6 +293,9 @@ model WhatsAppSetting {
   enabled           Boolean   @default(false) // saklar induk notifikasi
   notifyContact     Boolean   @default(true) // pesan kontak baru
   notifyApplication Boolean   @default(true) // pendaftaran anggota baru
+  // v5 Fase 2 — Chatbot AI WhatsApp (webhook /api/whatsapp/webhook)
+  botEnabled        Boolean   @default(true) // saklar balasan otomatis AI
+  botWebhookSecret  String    @default("") // rahasia bersama verifikasi webhook (header X-Webhook-Token)
   lastTestAt        DateTime?
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())
@@ -421,4 +428,23 @@ model AuditLog {
 
   @@index([createdAt])
   @@index([entity, action])
+}
+
+// ==================== AI FASE 2 (v5) ====================
+
+/// Log percakapan AI (Concierge Pro & Chatbot WhatsApp) — fondasi analitik
+/// Fase 2: volume pertanyaan, topik populer, pantauan kualitas jawaban.
+/// Privasi: TIDAK menyimpan identitas pribadi — pengirim di-hash (SHA-256).
+model AiChatLog {
+  id        String   @id @default(cuid())
+  channel   String   @default("PORTAL") // PORTAL | WHATSAPP
+  locale    String   @default("id") // id | en | ar
+  question  String
+  answer    String   @default("")
+  userHash  String   @default("") // hash pengirim (IP / nomor WA) — bukan identitas mentah
+  latencyMs Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([channel, createdAt])
 }

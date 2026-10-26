@@ -11,7 +11,7 @@
  *
  * Jalankan: bun scripts/task34-whitepaper-sync.ts
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 import { existsSync } from "node:fs";
 import path from "node:path";
 
@@ -25,7 +25,7 @@ if (process.env.DATABASE_URL.startsWith("file:")) {
   }
 }
 
-const prisma = new PrismaClient();
+const prisma = makeDb()
 
 const NEW_ARTICLE_TITLE =
   "MUHDIN Diposisikan sebagai Titik Koordinasi Akses Nusuk bagi Industri Ibadah";

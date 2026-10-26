@@ -3,12 +3,12 @@
  * Idempoten: setiap item diperiksa dulu (licenseNo/slug/kode/judul) — skip bila sudah ada.
  * Jalankan: bun scripts/seed-v5/run.ts
  */
-import { PrismaClient } from "@prisma/client";
+import { makeDb } from "./_db";
 import { NEW_MEMBERS } from "./members";
 import { NEW_ARTICLES } from "./articles";
 import { NEW_EVENTS, NEW_GALLERY, NEW_TESTIMONIALS, NEW_BRANCHES } from "./misc";
 
-const db = new PrismaClient();
+const db = makeDb()
 
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");

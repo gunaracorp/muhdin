@@ -1,19 +1,15 @@
 "use client";
 
 /**
- * SahabatMUHDIN (v4.0) — AI Concierge: asisten ibadah pribadi jamaah.
+ * SahabatMUHDIN Pro (v5 Fase 2) — AI Concierge dengan streaming.
  *
- * Gelembung melayang di atas WaFab (bottom-24 end-5) yang membuka panel
- * chat "Sahabat MUHDIN". Mesin AI hidup di server (POST /api/ai/chat,
- * z-ai-web-dev-sdk) — klien hanya mengirim riwayat & locale.
- *
- * Fitur:
- * - Tiga bahasa (id/en/ar) mengikuti LocaleProvider; panel RTL-aware.
- * - Saran cepat (chips) per bahasa + sapaan pembuka.
- * - Riwayat chat tersimpan di localStorage (muhdin-ai-chat, 20 pesan).
- * - Indikator mengetik, tombol bersihkan riwayat, aksesibilitas penuh
- *   (aria, esc untuk menutup, fokus input otomatis).
- * - Hydration-aman: dirender dari MuhdinApp hanya setelah mount.
+ * Upgrade dari v4:
+ *  - STREAMING: jawaban mengalir langsung (SSE dari /api/ai/chat) — teks
+ *    tumbuh token-per-token dengan kursor berkedip, bukan menunggu utuh.
+ *  - Badge "PRO" di header; disclaimer ringan di bawah input.
+ *  - Tetap 3 bahasa (id/en/ar) mengikuti LocaleProvider, RTL-aware.
+ *  - Riwayat tersimpan localStorage (muhdin-ai-chat, 20 pesan).
+ *  - Aksesibilitas penuh (aria, esc, fokus otomatis), hydration-aman.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -31,38 +27,42 @@ const MAX_STORED = 20;
 const COPY = {
   id: {
     title: "Sahabat MUHDIN",
-    subtitle: "Asisten AI Haji & Umrah — online 24 jam",
+    subtitle: "Concierge Pro — pintar & online 24 jam",
+    badge: "PRO",
     welcome:
-      "Assalamu'alaikum! 👋\n\nSaya **Sahabat MUHDIN**, pendamping digital perjalanan ibadah Anda. Silakan tanya apa saja seputar haji, umrah, manasik, atau layanan ekosistem MUHDIN.",
+      "Assalamu'alaikum! 👋\n\nSaya **Sahabat MUHDIN Pro**, pendamping digital perjalanan ibadah Anda. Saya paham data portal secara langsung — silakan tanya seputar haji, umrah, manasik, anggota terverifikasi, atau agenda kegiatan.",
     placeholder: "Tanya apa saja tentang haji & umrah…",
     suggestions: [
+      "Berapa anggota terverifikasi MUHDIN?",
       "Apa perbedaan haji dan umrah?",
-      "Bagaimana MUHDIN memverifikasi penyelenggara?",
       "Checklist perlengkapan umrah",
-      "Bimbingan doa saat melontar jumrah",
+      "Agenda kegiatan terdekat",
     ],
     clear: "Bersihkan percakapan",
     error: "Maaf, koneksi terganggu. Silakan coba lagi.",
+    disclaimer: "AI bisa keliru — pastikan data penting lewat halaman verifikasi resmi.",
     openAria: "Buka Sahabat MUHDIN — asisten AI",
     closeAria: "Tutup asisten AI",
     inputAria: "Tulis pertanyaan untuk Sahabat MUHDIN",
     sendAria: "Kirim pertanyaan",
-    thinking: "Sahabat MUHDIN sedang mengetik…",
+    thinking: "Sahabat MUHDIN sedang menulis…",
   },
   en: {
     title: "Sahabat MUHDIN",
-    subtitle: "AI Hajj & Umrah Assistant — online 24/7",
+    subtitle: "Concierge Pro — smart & online 24/7",
+    badge: "PRO",
     welcome:
-      "Peace be upon you! 👋\n\nI am **Sahabat MUHDIN**, your digital companion for the sacred journey. Ask me anything about hajj, umrah, rituals, or MUHDIN's ecosystem of services.",
+      "Peace be upon you! 👋\n\nI am **Sahabat MUHDIN Pro**, your digital companion for the sacred journey. I understand live portal data — ask me anything about hajj, umrah, rituals, verified members, or upcoming events.",
     placeholder: "Ask anything about hajj & umrah…",
     suggestions: [
+      "How many verified members does MUHDIN have?",
       "What is the difference between hajj and umrah?",
-      "How does MUHDIN verify organizers?",
       "Umrah packing checklist",
-      "Guidance for the stoning (jamarat) prayers",
+      "Upcoming events",
     ],
     clear: "Clear conversation",
     error: "Sorry, connection issue. Please try again.",
+    disclaimer: "AI can make mistakes — verify important info via the official verification page.",
     openAria: "Open Sahabat MUHDIN — AI assistant",
     closeAria: "Close AI assistant",
     inputAria: "Write a question for Sahabat MUHDIN",
@@ -71,18 +71,20 @@ const COPY = {
   },
   ar: {
     title: "صاحب مُهدين",
-    subtitle: "مساعد الحج والعمرة الذكي — متصل ٢٤ ساعة",
+    subtitle: "كونسيرج برو — ذكي ومتصل ٢٤ ساعة",
+    badge: "برو",
     welcome:
-      "السلام عليكم! 👋\n\nأنا **صاحب مُهدين**، رفيقكم الرقمي في رحلة الإيمان. اسألوني عن الحج والعمرة والمناسك أو خدمات منظومة مُهدين.",
+      "السلام عليكم! 👋\n\nأنا **صاحب مُهدين برو**، رفيقكم الرقمي في رحلة الإيمان. أفهم بيانات البوابة مباشرة — اسألوني عن الحج والعمرة والمناسك أو الأعضاء الموثوقين أو الفعاليات القادمة.",
     placeholder: "اسأل أي شيء عن الحج والعمرة…",
     suggestions: [
+      "كم عدد الأعضاء الموثوقين في مُهدين؟",
       "ما الفرق بين الحج والعمرة؟",
-      "كيف يوثّق مُهدين منظمي الرحلات؟",
       "قائمة تجهيزات العمرة",
-      "أدعى رمي الجمرات",
+      "الفعاليات القادمة",
     ],
     clear: "مسح المحادثة",
     error: "عذراً، حدث خلل في الاتصال. حاول مرة أخرى.",
+    disclaimer: "قد يخطئ الذكاء الاصطناعي — تحقق من المعلومات المهمة عبر صفحة التحقق الرسمية.",
     openAria: "افتح صاحب مُهدين — المساعد الذكي",
     closeAria: "إغلاق المساعد الذكي",
     inputAria: "اكتب سؤالاً لصاحب مُهدين",
@@ -132,7 +134,7 @@ export function SahabatMuhdin() {
     }
   }, [messages]);
 
-  // Auto-scroll ke bawah saat pesan baru.
+  // Auto-scroll ke bawah saat pesan baru / token mengalir.
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -153,34 +155,87 @@ export function SahabatMuhdin() {
     if (open) setTimeout(() => inputRef.current?.focus(), 250);
   }, [open]);
 
+  /** Perbarui isi gelembung asisten terakhir (dipakai saat streaming). */
+  const patchLast = useCallback((content: string) => {
+    setMessages((prev) => {
+      const copy = [...prev];
+      copy[copy.length - 1] = { role: "assistant", content };
+      return copy;
+    });
+  }, []);
+
   const send = useCallback(
     async (text: string) => {
       const question = text.trim();
       if (!question || busy) return;
 
-      const next: Msg[] = [...messages, { role: "user", content: question }].slice(-MAX_STORED);
+      const withUser: Msg[] = [...messages, { role: "user", content: question }].slice(-MAX_STORED);
+      const next: Msg[] = [...withUser, { role: "assistant", content: "" }];
       setMessages(next);
       setInput("");
       setBusy(true);
+
+      const finish = (content: string) => patchLast(content || COPY[locale].error);
 
       try {
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: next.slice(-12), locale }),
+          body: JSON.stringify({ messages: withUser.slice(-12), locale }),
         });
-        const data = await res.json().catch(() => ({}));
-        const reply: string = res.ok && data?.reply ? String(data.reply) : "";
-        setMessages((prev) =>
-          [...prev, { role: "assistant", content: reply || c.error }].slice(-MAX_STORED)
-        );
+
+        if (!res.ok || !res.body) {
+          const data = await res.json().catch(() => ({}));
+          finish(String(data?.error || "") || COPY[locale].error);
+          return;
+        }
+
+        // Baca aliran SSE: data:{"delta":"…"} … data:{"done":true}
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = "";
+        let acc = "";
+        let replied = false;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split("\n\n");
+          buf = parts.pop() ?? "";
+          for (const part of parts) {
+            const line = part.trim();
+            if (!line.startsWith("data:")) continue;
+            try {
+              const payload = JSON.parse(line.slice(5).trim()) as {
+                delta?: string;
+                reply?: string;
+              };
+              if (typeof payload.delta === "string") {
+                acc += payload.delta;
+                patchLast(acc);
+                replied = true;
+              } else if (typeof payload.reply === "string") {
+                // Fallback kompatibel: jawaban utuh.
+                acc = payload.reply;
+                patchLast(acc);
+                replied = true;
+              }
+            } catch {
+              /* baris tidak lengkap — abaikan */
+            }
+          }
+        }
+
+        if (!replied) finish("");
+        else patchLast(acc.trim() || COPY[locale].error);
       } catch {
-        setMessages((prev) => [...prev, { role: "assistant", content: c.error }].slice(-MAX_STORED));
+        finish("");
       } finally {
         setBusy(false);
       }
     },
-    [busy, messages, locale, c.error]
+    [busy, messages, locale, patchLast]
   );
 
   const isEmpty = messages.length === 0;
@@ -207,6 +262,11 @@ export function SahabatMuhdin() {
             {c.title}
           </span>
         )}
+        {!open && (
+          <span className="absolute -top-1 -start-1 grid h-5 min-w-5 place-items-center rounded-full bg-forest px-1 text-[9px] font-black tracking-widest text-gold ring-2 ring-background">
+            {c.badge}
+          </span>
+        )}
       </button>
 
       {/* ===== Panel Chat ===== */}
@@ -223,7 +283,12 @@ export function SahabatMuhdin() {
               <Icon name="sparkles" className="h-5 w-5" aria-hidden />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-extrabold tracking-wide">{c.title}</p>
+              <p className="flex items-center gap-1.5 truncate text-sm font-extrabold tracking-wide">
+                {c.title}
+                <span className="rounded-full bg-gold/25 px-1.5 py-0.5 text-[9px] font-black tracking-widest text-gold ring-1 ring-gold/40">
+                  {c.badge}
+                </span>
+              </p>
               <p className="flex items-center gap-1.5 truncate text-[11px] text-white/85">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden />
                 {c.subtitle}
@@ -251,31 +316,42 @@ export function SahabatMuhdin() {
           {/* Area pesan */}
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
             {(isEmpty ? [{ role: "assistant" as const, content: c.welcome }] : messages).map(
-              (m, i) => (
-                <div
-                  key={`${m.role}-${i}`}
-                  className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
-                >
-                  {m.role === "assistant" ? (
-                    <div className="prose-sm prose-invert max-w-[92%] rounded-2xl rounded-ss-md bg-muted/70 px-3.5 py-2.5 text-sm leading-relaxed text-foreground [&_ol]:ms-4 [&_ol]:list-decimal [&_p]:my-1 [&_strong]:text-primary [&_ul]:ms-4 [&_ul]:list-disc">
-                      <ReactMarkdown
-                        components={{
-                          p: ({ children }) => <p>{children}</p>,
-                        }}
-                      >
+              (m, i) => {
+                const streamingNow = busy && m.role === "assistant" && i === messages.length - 1;
+                return (
+                  <div
+                    key={`${m.role}-${i}`}
+                    className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
+                  >
+                    {m.role === "assistant" ? (
+                      <div className="prose-sm prose-invert max-w-[92%] rounded-2xl rounded-ss-md bg-muted/70 px-3.5 py-2.5 text-sm leading-relaxed text-foreground [&_ol]:ms-4 [&_ol]:list-decimal [&_p]:my-1 [&_strong]:text-primary [&_ul]:ms-4 [&_ul]:list-disc">
+                        {m.content ? (
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <p>{children}</p>,
+                            }}
+                          >
+                            {m.content}
+                          </ReactMarkdown>
+                        ) : null}
+                        {streamingNow && (
+                          <span
+                            className="ms-0.5 inline-block h-4 w-[2px] animate-pulse rounded-full bg-gold align-middle"
+                            aria-hidden
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <div className="max-w-[88%] whitespace-pre-wrap rounded-2xl rounded-se-md bg-gradient-to-br from-primary to-forest px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-sm">
                         {m.content}
-                      </ReactMarkdown>
-                    </div>
-                  ) : (
-                    <div className="max-w-[88%] whitespace-pre-wrap rounded-2xl rounded-se-md bg-gradient-to-br from-primary to-forest px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-sm">
-                      {m.content}
-                    </div>
-                  )}
-                </div>
-              )
+                      </div>
+                    )}
+                  </div>
+                );
+              }
             )}
 
-            {busy && (
+            {busy && messages[messages.length - 1]?.content === "" && (
               <div className="flex justify-start" aria-live="polite" aria-label={c.thinking}>
                 <div className="flex items-center gap-1.5 rounded-2xl rounded-ss-md bg-muted/70 px-4 py-3">
                   {[0, 1, 2].map((d) => (
@@ -334,6 +410,11 @@ export function SahabatMuhdin() {
               <Icon name="send" className={cn("h-4 w-4", dir === "rtl" && "-scale-x-100")} aria-hidden />
             </Button>
           </form>
+
+          {/* Disclaimer ringan */}
+          <p className="border-t border-border/60 bg-muted/40 px-4 py-1.5 text-center text-[10px] leading-snug text-muted-foreground">
+            {c.disclaimer}
+          </p>
         </div>
       )}
     </>

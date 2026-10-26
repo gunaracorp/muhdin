@@ -48,8 +48,10 @@ export function AdminWhatsAppCard() {
   const [cfg, setCfg] = useState<WhatsAppConfig | null>(null);
   const [tokenInput, setTokenInput] = useState("");
   const [showToken, setShowToken] = useState(false);
+  const [botSecretInput, setBotSecretInput] = useState("");
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
+  const webhookUrl = typeof window !== "undefined" ? `${window.location.origin}/api/whatsapp/webhook` : "/api/whatsapp/webhook";
 
   const load = useCallback(() => {
     apiGet<WhatsAppConfig>("/api/whatsapp")
@@ -85,11 +87,14 @@ export function AdminWhatsAppCard() {
         enabled: cfg.enabled,
         notifyContact: cfg.notifyContact,
         notifyApplication: cfg.notifyApplication,
+        botEnabled: cfg.botEnabled,
       };
       if (tokenInput.trim()) payload.token = tokenInput.trim();
+      if (botSecretInput.trim()) payload.botWebhookSecret = botSecretInput.trim();
       const updated = await apiSend<WhatsAppConfig>("/api/whatsapp", "PUT", payload);
       setCfg(updated);
       setTokenInput("");
+      setBotSecretInput("");
       toast({
         title: "Konfigurasi tersimpan ✓",
         description: cfg.enabled
@@ -280,6 +285,84 @@ export function AdminWhatsAppCard() {
             ) : (
               <p className="mt-1 text-muted-foreground">Belum pernah diuji.</p>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== v5 Fase 2 — Chatbot AI WhatsApp ===== */}
+      <div className="mt-4 rounded-xl border border-gold/40 bg-gradient-to-br from-gold/5 to-primary/5 p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex items-start gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gold/15 grid place-items-center text-gold-deep shrink-0">
+              <Icon name="sparkles" className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-bold flex items-center gap-2">
+                Chatbot AI WhatsApp
+                <span className="rounded-full bg-gold/20 px-1.5 py-0.5 text-[9px] font-black tracking-widest text-gold-deep ring-1 ring-gold/40">PRO</span>
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Balasan otomatis 24 jam dengan data portal hidup — otak sama dengan Concierge Pro.
+              </p>
+            </div>
+          </div>
+          <div className="sm:ml-auto flex items-center gap-2.5 shrink-0">
+            <span className="text-sm font-semibold">{cfg.botEnabled ? "Bot Aktif" : "Bot Mati"}</span>
+            <Switch
+              checked={cfg.botEnabled}
+              onCheckedChange={(v) => setCfg({ ...cfg, botEnabled: v })}
+              aria-label="Aktifkan chatbot AI WhatsApp"
+            />
+          </div>
+        </div>
+
+        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="wa-webhook">URL Webhook (isi di gateway)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="wa-webhook"
+                value={webhookUrl}
+                readOnly
+                className="font-mono text-xs bg-background"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                className="h-9 w-9 shrink-0"
+                aria-label="Salin URL webhook"
+                onClick={() => {
+                  navigator.clipboard?.writeText(webhookUrl);
+                  toast({ title: "URL webhook disalin ✓" });
+                }}
+              >
+                <Icon name="copy" className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              Mendukung WhatsApp Cloud API (Meta), Fonnte, Wablas &amp; payload generic. Panduan lengkap: halaman publik #/whatsapp-ai.
+            </p>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="wa-bot-secret">
+              Rahasia Webhook (opsional)
+              {cfg.botSecretSet && (
+                <span className="text-[11px] font-normal text-muted-foreground">(tersimpan: {cfg.botSecretMasked})</span>
+              )}
+            </Label>
+            <Input
+              id="wa-bot-secret"
+              type="password"
+              value={botSecretInput}
+              onChange={(e) => setBotSecretInput(e.target.value)}
+              placeholder={cfg.botSecretSet ? "Kosongkan untuk memakai rahasia tersimpan" : "Mis. muhdin-bot-2026"}
+              className="font-mono text-sm"
+              autoComplete="off"
+            />
+            <p className="text-[11px] text-muted-foreground">
+              Bila diisi, POST wajib menyertakan header X-Webhook-Token; dipakai juga sebagai verify_token Cloud API.
+            </p>
           </div>
         </div>
       </div>

@@ -141,6 +141,28 @@ async function sendToTarget(
 
 /* ================= TEMPLATE PESAN ================= */
 
+/**
+ * v5 Fase 2 — kirim balasan chatbot AI ke SATU nomor pengirim (bukan admin).
+ * Beda dari sendWhatsAppMessage (notifikasi): target = pengirim pesan masuk,
+ * memakai kredensial gateway yang sama. CallMeBot tidak mendukung balasan
+ * chatbot (hanya notifikasi ke nomor admin terdaftar).
+ */
+export async function sendBotReply(
+  provider: string,
+  apiUrl: string,
+  token: string,
+  target: string,
+  message: string
+): Promise<WaSendResult> {
+  if (provider === "CALLMEBOT") {
+    return {
+      sent: false,
+      detail: "CallMeBot hanya mendukung notifikasi admin — balasan chatbot tidak terkirim.",
+    };
+  }
+  return sendToTarget(provider, apiUrl, token, target, message);
+}
+
 export function waContactTemplate(m: {
   name: string;
   email: string;
