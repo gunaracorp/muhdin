@@ -3,29 +3,21 @@
   "version": "3.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=20.9.0"
   },
   "scripts": {
     "dev": "NODE_OPTIONS=--max-old-space-size=1300 next dev -p 3000 2>&1 | tee dev.log",
     "dev:clean": "rm -rf .next && next dev -p 3000 2>&1 | tee dev.log",
-    "build": "node node_modules/prisma6/build/index.js generate --config prisma6.config.ts && prisma contract emit && next build && node scripts/post-build.mjs",
-    "postinstall": "node node_modules/prisma6/build/index.js generate --config prisma6.config.ts && prisma contract emit",
+    "build": "prisma generate && next build && node scripts/post-build.mjs",
+    "postinstall": "prisma generate",
     "hosting:pack": "node scripts/pack-shared-hosting.mjs",
     "hosting:build": "node scripts/build-shared-hosting.mjs",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
-    "db:push": "node node_modules/prisma6/build/index.js db push --config prisma6.config.ts --accept-data-loss",
-    "db:generate": "prisma contract emit",
-    "db:migrate": "node node_modules/prisma6/build/index.js migrate dev --config prisma6.config.ts",
-    "db:reset": "node node_modules/prisma6/build/index.js migrate reset --config prisma6.config.ts",
-    "db:legacy:generate": "node node_modules/prisma6/build/index.js generate --config prisma6.config.ts",
-    "db:contract:emit": "prisma contract emit",
-    "db:legacy:push": "node node_modules/prisma6/build/index.js db push --config prisma6.config.ts --accept-data-loss",
-    "db:legacy:migrate": "node node_modules/prisma6/build/index.js migrate dev --config prisma6.config.ts",
-    "db:legacy:reset": "node node_modules/prisma6/build/index.js migrate reset --config prisma6.config.ts",
-    "db:import:sqlite": "bun scripts/migrate-sqlite-to-postgres.ts",
-    "db:update": "prisma db update",
-    "db:init": "prisma db init"
+    "db:push": "prisma db push --accept-data-loss",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:reset": "prisma migrate reset"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -33,7 +25,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.1.1",
     "@mdxeditor/editor": "^3.39.1",
-    "@prisma/client": "6.19.2",
+    "@prisma/client": "^6.11.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -98,10 +90,7 @@
     "vaul": "^1.1.2",
     "z-ai-web-dev-sdk": "^0.0.18",
     "zod": "^4.0.2",
-    "zustand": "^5.0.6",
-    "@prisma/orm-postgres": "8.0.0-rc.20",
-    "dotenv": "^17.2.3",
-    "temporal-polyfill": "1.0.6"
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -113,8 +102,6 @@
     "eslint-config-next": "^16.1.1",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.5",
-    "typescript": "^5.9.0",
-    "prisma": "8.0.0-rc.27",
-    "prisma6": "npm:prisma@6.19.2"
+    "typescript": "^5"
   }
 }
