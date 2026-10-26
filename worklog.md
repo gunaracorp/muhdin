@@ -1925,3 +1925,17 @@ Stage Summary:
 - FASE 4 HIDUP: Tur Virtual 360° interaktif 6 situs suci (panorama AI equirectangular, 21 hotspot trilingual, navigasi antar scene ala tur sungguhan, autorotate, fullscreen) + dashboard admin modern (strip KPI v5, chart AI Concierge 14 hari, feed pertanyaan AI, aksi cepat).
 - Entri baru: #/tur-virtual, CMS "Tur Virtual 360°", /api/tour(+view), /api/stats/insights; terhubung footer, peta situs, dashboard jamaah; trilingual + RTL penuh.
 - ROADMAP v5 TUNTAS: (1) beranda bersih + data, (2) Prisma v8 + AI Concierge Pro + WhatsApp AI, (3) Paspor QR + GPS Tracking, (4) Virtual Tour 360° + dashboard modern.
+
+---
+Task ID: 6 (Fase 4 lanjutan — Recovery server + verifikasi akses CMS)
+Agent: Z.ai Code — Master Polymath Sage (46-Council)
+Task: Laporan owner "preview hanya logo Z, tidak ada website" + permintaan kepastian akses CMS (URL login, username, password).
+
+Work Log:
+- DIAGNOSIS: port 3000 mati (curl 000) — sandbox mematikan proses background antar sesi, bukan bug aplikasi. Inilah penyebab preview hanya menampilkan halaman default (logo Z).
+- RECOVERY: bash scripts/dev-keep.sh → server UP (HTTP 200) dalam 6s.
+- VERIFIKASI MENYELURUH: homepage HTTP 200 render konten penuh (MUHDIN x92, Ekosistem, Haji); agent-browser render 25 section, 15.690 chars body, 0 error; #/admin → form login tampil; POST /api/auth/login {admin@muhdin.web.id / muhdin2026} → SUPER_ADMIN valid; browser sesi tersimpan langsung masuk CMS ADMIN PANEL, semua 22 modul terlihat (Dashboard, AI Content Studio, Paspor & GPS, Tur Virtual 360°, dst). Screenshot /tmp/cms-verify.png.
+
+Stage Summary:
+- Server pulih & website tampil normal; akses CMS dikonfirmasi: <preview-url>/#/admin dengan admin@muhdin.web.id / muhdin2026 (SUPER_ADMIN).
+- Catatan operasional untuk owner: bila preview menampilkan logo Z lagi = server sandbox tertidur → cukup minta asisten "nyalakan server" (dev-keep.sh idempoten).
