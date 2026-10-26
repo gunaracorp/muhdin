@@ -54,6 +54,8 @@ import { waaiDict } from "@/lib/i18n/locales/waai";
 // v5 Fase 3 — Paspor Haji Digital (QR) + GPS Tracking rombongan
 import { pasporDict } from "@/lib/i18n/locales/paspor";
 import { trackingDict } from "@/lib/i18n/locales/tracking";
+// v5 Fase 4 — Virtual Tour 360°
+import { turDict } from "@/lib/i18n/locales/tur";
 
 const dicts = [
   commonDict,
@@ -104,6 +106,8 @@ const dicts = [
   // v5 Fase 3 — Paspor Haji Digital (QR) + GPS Tracking rombongan
   pasporDict,
   trackingDict,
+  // v5 Fase 4 — Virtual Tour 360° (#/tur-virtual)
+  turDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
 ];

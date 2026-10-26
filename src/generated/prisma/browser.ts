@@ -191,3 +191,10 @@ export type TrackingDevice = Prisma.TrackingDeviceModel
  * dibersihkan otomatis oleh endpoint live agar DB tetap ramping.
  */
 export type GpsPing = Prisma.GpsPingModel
+/**
+ * Model TourScene
+ * Satu node panorama 360° dalam tur virtual situs suci. Hotspot (info &
+ * navigasi antar scene) disimpan sebagai JSON — fleksibel tanpa tabel anak.
+ * Nama/deskripsi trilingual juga JSON: {"id":"…","en":"…","ar":"…"}.
+ */
+export type TourScene = Prisma.TourSceneModel

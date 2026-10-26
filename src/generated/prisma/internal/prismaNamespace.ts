@@ -428,7 +428,8 @@ export const ModelName = {
   AiChatLog: 'AiChatLog',
   HajjPassport: 'HajjPassport',
   TrackingDevice: 'TrackingDevice',
-  GpsPing: 'GpsPing'
+  GpsPing: 'GpsPing',
+  TourScene: 'TourScene'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -444,7 +445,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "article" | "ecosystem" | "journeyStep" | "roadmap" | "member" | "membershipApplication" | "tutorial" | "contactMessage" | "faq" | "testimonial" | "management" | "regionalBranch" | "siteSetting" | "nusukConnection" | "nusukPermit" | "nusukSyncLog" | "contentTranslation" | "whatsAppSetting" | "emailSetting" | "notificationLog" | "gallery" | "event" | "resource" | "subscriber" | "complaint" | "auditLog" | "aiChatLog" | "hajjPassport" | "trackingDevice" | "gpsPing"
+    modelProps: "user" | "session" | "article" | "ecosystem" | "journeyStep" | "roadmap" | "member" | "membershipApplication" | "tutorial" | "contactMessage" | "faq" | "testimonial" | "management" | "regionalBranch" | "siteSetting" | "nusukConnection" | "nusukPermit" | "nusukSyncLog" | "contentTranslation" | "whatsAppSetting" | "emailSetting" | "notificationLog" | "gallery" | "event" | "resource" | "subscriber" | "complaint" | "auditLog" | "aiChatLog" | "hajjPassport" | "trackingDevice" | "gpsPing" | "tourScene"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2816,6 +2817,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TourScene: {
+      payload: Prisma.$TourScenePayload<ExtArgs>
+      fields: Prisma.TourSceneFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TourSceneFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TourSceneFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        findFirst: {
+          args: Prisma.TourSceneFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TourSceneFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        findMany: {
+          args: Prisma.TourSceneFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>[]
+        }
+        create: {
+          args: Prisma.TourSceneCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        createMany: {
+          args: Prisma.TourSceneCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TourSceneCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>[]
+        }
+        delete: {
+          args: Prisma.TourSceneDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        update: {
+          args: Prisma.TourSceneUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        deleteMany: {
+          args: Prisma.TourSceneDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TourSceneUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TourSceneUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>[]
+        }
+        upsert: {
+          args: Prisma.TourSceneUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourScenePayload>
+        }
+        aggregate: {
+          args: Prisma.TourSceneAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTourScene>
+        }
+        groupBy: {
+          args: Prisma.TourSceneGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourSceneGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TourSceneCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourSceneCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3365,6 +3440,25 @@ export const GpsPingScalarFieldEnum = {
 export type GpsPingScalarFieldEnum = (typeof GpsPingScalarFieldEnum)[keyof typeof GpsPingScalarFieldEnum]
 
 
+export const TourSceneScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  site: 'site',
+  image: 'image',
+  name: 'name',
+  description: 'description',
+  initialView: 'initialView',
+  hotspots: 'hotspots',
+  order: 'order',
+  active: 'active',
+  viewCount: 'viewCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TourSceneScalarFieldEnum = (typeof TourSceneScalarFieldEnum)[keyof typeof TourSceneScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3604,6 +3698,7 @@ export type GlobalOmitConfig = {
   hajjPassport?: Prisma.HajjPassportOmit
   trackingDevice?: Prisma.TrackingDeviceOmit
   gpsPing?: Prisma.GpsPingOmit
+  tourScene?: Prisma.TourSceneOmit
 }
 
 /* Types for Logging */

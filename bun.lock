@@ -10,6 +10,9 @@
         "@dnd-kit/utilities": "^3.2.2",
         "@hookform/resolvers": "^5.1.1",
         "@mdxeditor/editor": "^3.39.1",
+        "@photo-sphere-viewer/autorotate-plugin": "^5.15.1",
+        "@photo-sphere-viewer/core": "^5.15.1",
+        "@photo-sphere-viewer/markers-plugin": "^5.15.1",
         "@prisma/adapter-better-sqlite3": "8.1.0-dev.9",
         "@prisma/client": "8.1.0-dev.9",
         "@radix-ui/react-accordion": "^1.2.11",
@@ -478,6 +481,12 @@
     "@parcel/watcher-win32-ia32": ["@parcel/watcher-win32-ia32@2.5.4", "https://registry.npmjs.com/@parcel/watcher-win32-ia32/-/watcher-win32-ia32-2.5.4.tgz", { "os": "win32", "cpu": "ia32" }, "sha512-vQN+KIReG0a2ZDpVv8cgddlf67J8hk1WfZMMP7sMeZmJRSmEax5xNDNWKdgqSe2brOKTQQAs3aCCUal2qBHAyg=="],
 
     "@parcel/watcher-win32-x64": ["@parcel/watcher-win32-x64@2.5.4", "https://registry.npmjs.com/@parcel/watcher-win32-x64/-/watcher-win32-x64-2.5.4.tgz", { "os": "win32", "cpu": "x64" }, "sha512-3A6efb6BOKwyw7yk9ro2vus2YTt2nvcd56AuzxdMiVOxL9umDyN5PKkKfZ/gZ9row41SjVmTVQNWQhaRRGpOKw=="],
+
+    "@photo-sphere-viewer/autorotate-plugin": ["@photo-sphere-viewer/autorotate-plugin@5.15.1", "", { "peerDependencies": { "@photo-sphere-viewer/core": "5.15.1" } }, "sha512-qmiDUqsj9Kok2CQwh7Jvt78z/+o79nIgNUQMWV5Itg9iNV40qhGxzNjHfTCwRaVel+0heHNWMpd4VWmn0rv3Og=="],
+
+    "@photo-sphere-viewer/core": ["@photo-sphere-viewer/core@5.15.1", "", { "dependencies": { "three": "^0.185.1" } }, "sha512-nhJviczUB1xiAT/I7mGba9iDIw7DvsiK34hbR9t7kIrg9MySG33uA+a4QUk2dEOP5PjcKMj58wod8I/dQ7ePiw=="],
+
+    "@photo-sphere-viewer/markers-plugin": ["@photo-sphere-viewer/markers-plugin@5.15.1", "", { "peerDependencies": { "@photo-sphere-viewer/core": "5.15.1" } }, "sha512-57WiHy8fcQfwid9x07ADiQJGxzcFxclbR2yIqeggzfPDguwJlCKwX5tj8brTRqwouUiHpkb80QWxHByxt45LcA=="],
 
     "@prisma/adapter-better-sqlite3": ["@prisma/adapter-better-sqlite3@8.1.0-dev.9", "", { "dependencies": { "@prisma/driver-adapter-utils": "8.1.0-dev.9", "better-sqlite3": "^12.6.0" } }, "sha512-NyYv/OJN9dHlUQiPbnOYqd6RJL6LrouqMOCM2UJV9EUjhz+RXwAx9d+8DT9SniXzV3E76QyuFm1OCX8tXhrLcg=="],
 
@@ -1970,6 +1979,8 @@
     "tar-fs": ["tar-fs@2.1.5", "", { "dependencies": { "chownr": "^1.1.1", "mkdirp-classic": "^0.5.2", "pump": "^3.0.0", "tar-stream": "^2.1.4" } }, "sha512-OboTd8mmMhZDNPV+UjQcK9yKAatXu2aJ+r1w4im1Otd4M4fl2hwvdoXUxIYHFTHWK/3y3FarBP70v3vwmGlOxw=="],
 
     "tar-stream": ["tar-stream@2.2.0", "", { "dependencies": { "bl": "^4.0.3", "end-of-stream": "^1.4.1", "fs-constants": "^1.0.0", "inherits": "^2.0.3", "readable-stream": "^3.1.1" } }, "sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ=="],
+
+    "three": ["three@0.185.1", "", {}, "sha512-5aojFCXKwnjBRZvUnt3WFfEcvUJgkN5LlijRFN95hMy8WVkG4I0QNcJE+OuWvuJ0bOdStrbfXn0pkd6/QyiAlg=="],
 
     "tiny-invariant": ["tiny-invariant@1.3.3", "https://registry.npmjs.com/tiny-invariant/-/tiny-invariant-1.3.3.tgz", {}, "sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg=="],
 

@@ -494,3 +494,69 @@ html[dir="rtl"] pre {
     animation: none;
   }
 }
+
+/* ===== v5 Fase 4 — Virtual Tour 360° marker (di dalam kanvas PSV) ===== */
+.tour-hs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 148px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.tour-hs-ic {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  color: #ffffff;
+  background: rgba(11, 92, 63, 0.55);
+  border: 2px solid rgba(212, 175, 55, 0.9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0.5);
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, background 0.2s ease;
+  animation: tour-pulse 2.4s ease-out infinite;
+}
+.tour-hs:hover .tour-hs-ic {
+  transform: scale(1.12);
+  background: rgba(11, 92, 63, 0.8);
+}
+.tour-hs-info .tour-hs-ic {
+  background: rgba(212, 175, 55, 0.35);
+  animation: none;
+}
+.tour-hs-lb {
+  max-width: 148px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  pointer-events: none;
+}
+@keyframes tour-pulse {
+  0% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0.55); }
+  70% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 16px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+/* Navbar PSV menyatu dengan tema hijau-emas */
+.psv-navbar {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+}
+.psv-button {
+  color: #fff;
+}
+.psv-zoom-range {
+  accent-color: #d4a017;
+}

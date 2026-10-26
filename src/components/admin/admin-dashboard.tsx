@@ -1,12 +1,14 @@
 "use client";
 
 /**
- * Task 48 — AdminDashboard supercharged:
- *  - Hero sapaan waktu-nyata (hydration aman — dihitung setelah mount)
- *  - 10 kartu KPI (tetap, klik → navigasi seksi)
- *  - BARU: kartu live Pendaftar Gratis (/api/promo/counter, bar progres) — Task 52
- *  - BARU: strip kesehatan sistem (/api/health — DB + latensi + status Nusuk ringkas)
- *  - Status integrasi Nusuk + 2 chart recharts + 2 daftar terbaru (dipertahankan)
+ * AdminDashboard — v5 Fase 4 (modernisasi dashboard admin):
+ *  - Hero sapaan + 3 aksi cepat (verifikasi pendaftaran, paspor & GPS, tur virtual)
+ *  - STRIP BARU v5: Paspor Aktif · GPS Online · Sesi AI · Kunjungan Tur
+ *    (satu endpoint baru /api/stats/insights — data hidup dari DB)
+ *  - 10 kartu KPI inti (tetap, klik → navigasi seksi)
+ *  - CHART BARU: Sesi AI Concierge 14 hari (stacked: Portal vs WhatsApp) + latensi
+ *  - Kesehatan sistem + status Nusuk + 2 chart inti (dipertahankan)
+ *  - FEED BARU: pertanyaan AI terbaru (kanal, locale, latensi)
  * Catatan: CMS admin konsisten berbahasa Indonesia (konvensi Task 15/33).
  */
 import { useEffect, useState } from "react";
@@ -15,15 +17,27 @@ import { Icon } from "@/components/site/icon";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminBadge } from "@/components/admin/crud-manager";
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { AdminStats, MembershipApplication, ContactMessage, NusukPublicData } from "@/lib/types";
 
 const PIE_COLORS = ["#0b5c3f", "#d4a017", "#3e8e68", "#8a6d1f", "#5db08c", "#b5cc4e"];
 
-/** Respons /api/promo/counter (publik). */
-type PromoCounter = { total: number; taken: number; remaining: number; closed: boolean };
 /** Respons /api/health. */
 type Health = { ok: boolean; service: string; checks: Record<string, { ok: boolean; latencyMs?: number }> & Record<string, unknown> };
+/** Respons /api/stats/insights (v5 Fase 4). */
+type Insights = {
+  chat: {
+    total: number;
+    today: number;
+    avgLatencyMs: number;
+    byDay: { date: string; label: string; portal: number; whatsapp: number }[];
+    byLocale: { locale: string; count: number }[];
+    recent: { question: string; channel: string; locale: string; createdAt: string; latencyMs: number }[];
+  };
+  passport: { active: number; expired: number; verifications: number };
+  tracking: { online: number; total: number };
+  tour: { views: number; scenes: number };
+};
 
 function greetingOf(h: number): string {
   if (h >= 4 && h < 11) return "Selamat pagi";
@@ -34,7 +48,7 @@ function greetingOf(h: number): string {
 
 export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void }) {
   const [stats, setStats] = useState<AdminStats | null>(null);
-  const [promo, setPromo] = useState<PromoCounter | null>(null);
+  const [insights, setInsights] = useState<Insights | null>(null);
   const [health, setHealth] = useState<Health | null>(null);
   const [error, setError] = useState("");
   const [greeting, setGreeting] = useState("");
@@ -42,7 +56,7 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
 
   useEffect(() => {
     apiGet<AdminStats>("/api/stats").then(setStats).catch((e) => setError(e.message));
-    apiGet<PromoCounter>("/api/promo/counter").then(setPromo).catch(() => setPromo(null));
+    apiGet<Insights>("/api/stats/insights").then(setInsights).catch(() => setInsights(null));
     apiGet<Health>("/api/health").then(setHealth).catch(() => setHealth(null));
     // Sapaan & tanggal dihitung setelah mount via defer satu tick (pola React
     // codebase) — hydration aman sekaligus memenuhi aturan set-state-in-effect.
@@ -71,7 +85,7 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
       <div className="space-y-5">
         <Skeleton className="h-36 rounded-2xl" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 14 }).map((_, i) => (
             <Skeleton key={i} className="h-28 rounded-2xl" />
           ))}
         </div>
@@ -92,8 +106,6 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
     { label: "Testimoni", value: stats.testimonials, icon: "quote", section: "testimonials", tone: "text-gold-deep bg-gold/15" },
   ];
 
-  const promoPct = promo && promo.total > 0 ? Math.min(100, (promo.taken / promo.total) * 100) : 0;
-
   return (
     <div className="space-y-6">
       {/* Welcome — sapaan waktu-nyata */}
@@ -107,7 +119,7 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
               {greeting ? `${greeting}, Admin! 👋` : "Assalamu'alaikum, Admin! 👋"}
             </h2>
             <p className="mt-1 text-sm text-emerald-50/85">
-              Ringkasan aktivitas ekosistem MUHDIN hari ini — Bersama Melayani Tamu Allah.
+              Ringkasan aktivitas ekosistem MUHDIN v5 — Bersama Melayani Tamu Allah.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:ml-auto">
@@ -115,15 +127,69 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
               <Icon name="user-plus" className="mr-1.5 h-4 w-4" />
               Verifikasi Pendaftaran
             </Button>
-            <Button size="sm" variant="outline" className="border-white/30 text-white hover:bg-white/10" onClick={() => onNavigate("nusuk")}>
-              <Icon name="satellite" className="mr-1.5 h-4 w-4" />
-              Kelola Nusuk
+            <Button size="sm" variant="outline" className="border-white/30 text-white hover:bg-white/10" onClick={() => onNavigate("passport")}>
+              <Icon name="wallet-cards" className="mr-1.5 h-4 w-4" />
+              Paspor & GPS
+            </Button>
+            <Button size="sm" variant="outline" className="border-white/30 text-white hover:bg-white/10" onClick={() => onNavigate("tour")}>
+              <Icon name="orbit" className="mr-1.5 h-4 w-4" />
+              Tur Virtual
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Stat cards */}
+      {/* ===== STRIP v5 — fitur futuristik (data hidup /api/stats/insights) ===== */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          {
+            label: "Paspor Digital Aktif",
+            value: insights?.passport.active,
+            sub: insights ? `${insights.passport.verifications.toLocaleString("id-ID")} verifikasi QR` : "…",
+            icon: "wallet-cards",
+            section: "passport",
+            tone: "bg-gold/15 text-gold-deep",
+          },
+          {
+            label: "Perangkat GPS Online",
+            value: insights ? `${insights.tracking.online}/${insights.tracking.total}` : undefined,
+            sub: "rombongan terpantau real-time",
+            icon: "satellite",
+            section: "passport",
+            tone: "bg-primary/10 text-primary",
+          },
+          {
+            label: "Sesi AI Concierge",
+            value: insights?.chat.total,
+            sub: insights ? `+${insights.chat.today} hari ini · rata-rata ${insights.chat.avgLatencyMs} ms` : "…",
+            icon: "brain-circuit",
+            section: "ai-studio",
+            tone: "bg-gold/15 text-gold-deep",
+          },
+          {
+            label: "Kunjungan Tur Virtual",
+            value: insights?.tour.views,
+            sub: insights ? `${insights.tour.scenes} scene panorama 360°` : "…",
+            icon: "orbit",
+            section: "tour",
+            tone: "bg-primary/10 text-primary",
+          },
+        ].map((c) => (
+          <button key={c.label} onClick={() => onNavigate(c.section)} className="rounded-2xl border border-gold/30 bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-md">
+            <div className="flex items-center justify-between">
+              <span className={`grid h-10 w-10 place-items-center rounded-xl ${c.tone}`}>
+                <Icon name={c.icon} className="h-5 w-5" />
+              </span>
+              <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[9px] font-black tracking-widest text-gold-deep">v5</span>
+            </div>
+            <p className="mt-3 text-2xl font-extrabold tabular-nums">{c.value ?? "—"}</p>
+            <p className="text-xs font-bold">{c.label}</p>
+            <p className="text-[11px] text-muted-foreground">{c.sub}</p>
+          </button>
+        ))}
+      </div>
+
+      {/* Stat cards inti */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (
           <button
@@ -148,38 +214,35 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
         ))}
       </div>
 
-      {/* PROMO 200 live + kesehatan sistem */}
+      {/* Chart AI Concierge + kesehatan sistem */}
       <div className="grid gap-5 lg:grid-cols-2">
-        <div className="relative overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/10 via-card to-card p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-gold-deep">
-                <Icon name="megaphone" className="h-3.5 w-3.5" />
-                PENDAFTAR GRATIS BERGABUNG
-              </p>
-              <p className="mt-1.5 text-3xl font-black tracking-tight" dir="ltr">
-                {promo ? promo.taken.toLocaleString("id-ID") : "—"}
-                <span className="ms-1.5 text-sm font-bold text-muted-foreground">pendaftar</span>
-              </p>
+        <div className="rounded-2xl border bg-card p-5 shadow-sm">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <h3 className="flex items-center gap-2 text-sm font-bold">
+              <Icon name="brain-circuit" className="h-4 w-4 text-gold-deep" />
+              Sesi AI Concierge — 14 Hari
+            </h3>
+            <div className="flex gap-2 text-[10px] font-bold">
+              <span className="rounded-full bg-primary/10 px-2 py-1 text-primary">Portal</span>
+              <span className="rounded-full bg-gold/15 px-2 py-1 text-gold-deep">WhatsApp</span>
             </div>
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gold/15 text-gold-deep">
-              <Icon name="tag" className="h-6 w-6" />
-            </span>
           </div>
-          <div className="mt-3 h-3 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow={Math.round(promoPct)} aria-valuemin={0} aria-valuemax={100}>
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-soft transition-all duration-700"
-              style={{ width: `${promoPct}%` }}
-            />
+          <div className="h-60">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={insights?.chat.byDay ?? []}>
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.08} />
+                <XAxis dataKey="label" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} interval={1} />
+                <YAxis allowDecimals={false} tick={{ fontSize: 10 }} tickLine={false} axisLine={false} width={28} />
+                <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", fontSize: 12 }} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Bar dataKey="portal" name="Portal" stackId="ai" fill="#0b5c3f" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="whatsapp" name="WhatsApp" stackId="ai" fill="#d4a017" radius={[5, 5, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
-          <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-            <span>
-              {promo ? `Keanggotaan 100% gratis — tanpa kuota` : "Memuat data…"}
-            </span>
-            <button className="font-bold text-primary hover:underline" onClick={() => onNavigate("applications")}>
-              Lihat Pendaftar →
-            </button>
-          </div>
+          <p className="mt-2 text-center text-[11px] text-muted-foreground">
+            {insights ? `Total ${insights.chat.total.toLocaleString("id-ID")} sesi · hari ini ${insights.chat.today} · latensi rata-rata ${insights.chat.avgLatencyMs} ms` : "Memuat data AI…"}
+          </p>
         </div>
 
         <div className="rounded-2xl border bg-card p-5 shadow-sm">
@@ -211,6 +274,18 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
                 {stats.pendingApplications}
               </p>
               <p className="text-[10px] text-muted-foreground">Antrean Verifikasi</p>
+            </div>
+          </div>
+          {/* Mini insight AI locale */}
+          <div className="mt-4 border-t pt-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Bahasa Pengguna AI</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(insights?.chat.byLocale ?? []).map((l) => (
+                <span key={l.locale} className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-bold">
+                  {l.locale.toUpperCase()} <span className="text-muted-foreground">· {l.count}</span>
+                </span>
+              ))}
+              {!insights && <span className="text-xs text-muted-foreground">Memuat…</span>}
             </div>
           </div>
         </div>
@@ -262,7 +337,7 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
       </div>
 
       {/* Recent lists */}
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-3">
         <RecentList
           title="Pesan Masuk Terbaru"
           icon="inbox"
@@ -283,6 +358,17 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (s: string) => void
             title: `${a.orgName} (${a.type})`,
             subtitle: `${a.city} · ${formatDateTime(a.createdAt)}`,
             badge: a.status,
+          }))}
+        />
+        <RecentList
+          title="Pertanyaan AI Terbaru"
+          icon="brain-circuit"
+          action={() => onNavigate("ai-studio")}
+          items={(insights?.chat.recent ?? []).map((c, i) => ({
+            id: `${i}-${c.createdAt}`,
+            title: c.question.length > 64 ? `${c.question.slice(0, 64)}…` : c.question,
+            subtitle: `${c.channel === "WHATSAPP" ? "WhatsApp" : "Portal"} · ${c.locale.toUpperCase()} · ${formatDateTime(c.createdAt)}`,
+            badge: c.channel === "WHATSAPP" ? "WA" : "PORTAL",
           }))}
         />
       </div>

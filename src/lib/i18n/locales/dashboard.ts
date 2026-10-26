@@ -149,6 +149,8 @@ export const dashDict = {
       quickPasporDesc: "E-paspor dengan QR — siap ditunjukkan saat verifikasi.",
       quickGps: "GPS Rombongan",
       quickGpsDesc: "Pantau posisi rombongan Anda di Tanah Suci secara real-time.",
+      quickTur: "Tur Virtual 360°",
+      quickTurDesc: "Jelajahi situs suci dalam panorama interaktif sebelum berangkat.",
       jFooterNote: "Portal personal — seluruh data Anda hanya tersimpan di perangkat ini.",
 
       /* ---------- MITRA — LOGIN ---------- */
@@ -354,6 +356,8 @@ export const dashDict = {
       quickPasporDesc: "E-passport with QR — ready to show at verification.",
       quickGps: "Group GPS",
       quickGpsDesc: "Track your group's position in the Holy Land in real time.",
+      quickTur: "Virtual Tour 360°",
+      quickTurDesc: "Explore the holy sites in an interactive panorama before you depart.",
       jFooterNote: "Personal portal — all your data stays on this device only.",
 
       /* ---------- PARTNER — LOGIN ---------- */
@@ -559,6 +563,8 @@ export const dashDict = {
       quickPasporDesc: "جواز إلكتروني مع QR — جاهز للعرض عند التحقق.",
       quickGps: "تتبع المجموعة",
       quickGpsDesc: "تتبّع موقع مجموعتك في الأرض المقدسة في الوقت الفعلي.",
+      quickTur: "جولة افتراضية 360°",
+      quickTurDesc: "استكشف المواقع المقدسة في بانوراما تفاعلية قبل الانطلاق.",
       jFooterNote: "بوابة شخصية — جميع بياناتك تبقى على هذا الجهاز فقط.",
 
       /* ---------- الشريك — الدخول ---------- */

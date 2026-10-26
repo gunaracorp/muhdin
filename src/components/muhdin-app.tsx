@@ -63,6 +63,8 @@ import { PengurusDetail } from "@/components/views/pengurus-detail";
 import { PasporView } from "@/components/views/paspor-view";
 import { PassportVerifyView } from "@/components/views/passport-verify-view";
 import { TrackingView } from "@/components/views/tracking-view";
+// v5 Fase 4 — Virtual Tour 360°
+import { TourView } from "@/components/views/tour-view";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -283,6 +285,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       break;
     case "tracking":
       content = <TrackingView />;
+      break;
+    // v5 Fase 4 — Virtual Tour 360° situs suci
+    case "tur-virtual":
+      content = <TourView />;
       break;
     case "unduhan":
       content = <DownloadsView />;

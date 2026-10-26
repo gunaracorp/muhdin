@@ -22,6 +22,8 @@ import {
   // Task 60 — notifikasi email
   History, AtSign,
   House,
+  // v5 Fase 4 — Virtual Tour 360°
+  Orbit, Mountain, Umbrella, Route, Hash,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -92,6 +94,11 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   "external-link": ExternalLink,
   award: Award,
   "moon-star": MoonStar,
+  orbit: Orbit,
+  mountain: Mountain,
+  umbrella: Umbrella,
+  route: Route,
+  hash: Hash,
   "grid-3x3": Grid3X3,
   boxes: Boxes,
   "file-text": FileText,

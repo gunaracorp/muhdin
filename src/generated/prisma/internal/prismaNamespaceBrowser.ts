@@ -82,7 +82,8 @@ export const ModelName = {
   AiChatLog: 'AiChatLog',
   HajjPassport: 'HajjPassport',
   TrackingDevice: 'TrackingDevice',
-  GpsPing: 'GpsPing'
+  GpsPing: 'GpsPing',
+  TourScene: 'TourScene'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -609,6 +610,25 @@ export const GpsPingScalarFieldEnum = {
 } as const
 
 export type GpsPingScalarFieldEnum = (typeof GpsPingScalarFieldEnum)[keyof typeof GpsPingScalarFieldEnum]
+
+
+export const TourSceneScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  site: 'site',
+  image: 'image',
+  name: 'name',
+  description: 'description',
+  initialView: 'initialView',
+  hotspots: 'hotspots',
+  order: 'order',
+  active: 'active',
+  viewCount: 'viewCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TourSceneScalarFieldEnum = (typeof TourSceneScalarFieldEnum)[keyof typeof TourSceneScalarFieldEnum]
 
 
 export const SortOrder = {

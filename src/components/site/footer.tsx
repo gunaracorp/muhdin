@@ -66,6 +66,8 @@ const QUICK_LINKS: [path: string, key: string][] = [
   // v5 Fase 3 — Paspor Haji Digital + GPS Tracking
   ["paspor", "paspor"],
   ["tracking", "track"],
+  // v5 Fase 4 — Virtual Tour 360°
+  ["tur-virtual", "tur"],
 ];
 
 /** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */

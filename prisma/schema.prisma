@@ -521,3 +521,26 @@ model GpsPing {
 
   @@index([deviceId, recordedAt])
 }
+
+// ==================== v5 FASE 4 — VIRTUAL TOUR 360° ====================
+
+/// Satu node panorama 360° dalam tur virtual situs suci. Hotspot (info &
+/// navigasi antar scene) disimpan sebagai JSON — fleksibel tanpa tabel anak.
+/// Nama/deskripsi trilingual juga JSON: {"id":"…","en":"…","ar":"…"}.
+model TourScene {
+  id          String   @id @default(cuid())
+  slug        String   @unique // makkah | madinah | mina | arafah | muzdalifah | jeddah
+  site        String   @default("MAKKAH") // MAKKAH | MADINAH | MINA | ARAFAH | MUZDALIFAH | JEDDAH
+  image       String // path publik, mis. /tour/makkah.jpg
+  name        String // JSON trilingual
+  description String // JSON trilingual
+  initialView String   @default("{}") // {"yaw":0,"pitch":0,"hfov":100}
+  hotspots    String   @default("[]") // [{type,yaw,pitch,target?,title?,text?,icon?}]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, order])
+}
