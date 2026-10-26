@@ -1,0 +1,42 @@
+name: Prisma ORM 8 bootstrap
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "package.json"
+      - "bun.lock"
+      - "prisma.config.ts"
+      - "prisma6.config.ts"
+      - "src/prisma/**"
+      - ".github/workflows/prisma8-bootstrap.yml"
+  push:
+    branches: [upgrade/prisma-8]
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    name: Install and emit Prisma ORM 8 contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.18.0"
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.4"
+      - name: Install dependencies and regenerate lockfile if needed
+        run: bun install
+      - name: Emit Prisma ORM 8 contract
+        run: bun run db:contract:emit
+      - name: Verify generated artifacts
+        run: |
+          test -s src/prisma/contract.json
+          test -s src/prisma/contract.d.ts
+          echo "Prisma ORM 8 contract artifacts generated."
