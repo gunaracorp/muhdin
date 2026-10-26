@@ -40,3 +40,8 @@ jobs:
           test -s src/prisma/contract.json
           test -s src/prisma/contract.d.ts
           echo "Prisma ORM 8 contract artifacts generated."
+      - name: Type-check SQLite import utility
+        run: >-
+          bunx tsc --noEmit --module esnext --moduleResolution bundler
+          --target es2022 --skipLibCheck --esModuleInterop --resolveJsonModule
+          scripts/migrate-sqlite-to-postgres.ts
