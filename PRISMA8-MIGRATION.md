@@ -53,6 +53,7 @@ Tambahkan nilai itu sebagai environment variable di platform deployment.
 ## Perintah
 
 - `npm run db:contract:emit`: emit artefak kontrak V8.
+- `npm run db:update`: terapkan/update kontrak ke database PostgreSQL yang ditunjuk `DATABASE_URL`; periksa target dan backup sebelum menjalankan.
 - `npm run db:legacy:generate`: generate client lama untuk rute yang belum dipindahkan.
 - `npm run db:legacy:push`: sinkron schema SQLite lama; tidak untuk produksi tanpa backup.
 - `npm run db:legacy:migrate`: migrasi SQLite lama.
