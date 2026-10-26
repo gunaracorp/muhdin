@@ -22,7 +22,8 @@
     "db:contract:emit": "prisma contract emit",
     "db:legacy:push": "node node_modules/prisma6/build/index.js db push --config prisma6.config.ts --accept-data-loss",
     "db:legacy:migrate": "node node_modules/prisma6/build/index.js migrate dev --config prisma6.config.ts",
-    "db:legacy:reset": "node node_modules/prisma6/build/index.js migrate reset --config prisma6.config.ts"
+    "db:legacy:reset": "node node_modules/prisma6/build/index.js migrate reset --config prisma6.config.ts",
+    "db:import:sqlite": "bun scripts/migrate-sqlite-to-postgres.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
