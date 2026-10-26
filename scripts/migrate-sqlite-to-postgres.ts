@@ -1,31 +1,30 @@
-import "temporal-polyfill/full/global";
+import { Temporal } from "temporal-polyfill";
 import { PrismaClient } from "@prisma/client";
 import postgres from "@prisma/orm-postgres/runtime";
+import { contractFromJson } from "@prisma/orm-postgres/static";
 import type { Contract } from "../src/prisma/contract.d";
 import contractJson from "../src/prisma/contract.json" with { type: "json" };
 
 /**
  * One-time, backup-first import from the repository's legacy SQLite DB into an
- * already-migrated, empty PostgreSQL database. Does not drop or truncate data.
+ * already-migrated, empty PostgreSQL database. This never drops/truncates data.
  *
- * Env:
- *   SQLITE_SOURCE_URL=file:./db/custom.db (or the path to a backup SQLite file)
- *   DATABASE_URL=postgresql://... (target PostgreSQL; never commit credentials)
+ * SQLITE_SOURCE_URL=file:./db/custom.db
+ * DATABASE_URL=postgresql://... (target database; never commit credentials)
  *
- * All target writes run in one PostgreSQL transaction. A non-empty target is
- * rejected to avoid duplicate inserts or accidental overwrites.
+ * Target rows are inserted atomically in a transaction. The target must be
+ * empty; use a fresh PostgreSQL database to avoid duplicate inserts/overwrites.
  */
 const sourceUrl = process.env.SQLITE_SOURCE_URL ?? "file:./db/custom.db";
 const targetUrl = process.env.DATABASE_URL;
 
 if (!targetUrl || !/^postgres(?:ql)?:\/\//i.test(targetUrl)) {
-  throw new Error(
-    "DATABASE_URL must be the target PostgreSQL URL. Keep the SQLite source in SQLITE_SOURCE_URL.",
-  );
+  throw new Error("DATABASE_URL must be the target PostgreSQL URL.");
 }
 
 const source = new PrismaClient({ datasourceUrl: sourceUrl });
-const target = postgres<Contract>({ contractJson, url: targetUrl });
+const contract = contractFromJson<Contract>(contractJson);
+const target = postgres({ contract, url: targetUrl });
 
 type SourceDelegate = {
   findMany: () => Promise<Record<string, unknown>[]>;
@@ -39,6 +38,7 @@ type TargetCollection = {
 const sourceTables = source as unknown as Record<string, SourceDelegate>;
 const modelNames = [
   "User",
+  "Session",
   "Article",
   "Ecosystem",
   "JourneyStep",
@@ -65,7 +65,6 @@ const modelNames = [
   "Subscriber",
   "Complaint",
   "AuditLog",
-  "Session",
 ] as const;
 
 function sourceDelegateName(model: string): string {
@@ -82,57 +81,48 @@ function normalizeForPostgres(row: Record<string, unknown>): Record<string, unkn
 }
 
 async function main(): Promise<void> {
-  const counts: Record<string, number> = {};
-  const targetTables = target.orm.public as unknown as Record<string, TargetCollection>;
-
-  // Read the SQLite snapshot without modifying it.
   const sourceRows: Record<string, Record<string, unknown>[]> = {};
+
+  // Fully read the SQLite source before writing anything to PostgreSQL.
   for (const model of modelNames) {
     const delegate = sourceTables[sourceDelegateName(model)];
     if (!delegate || typeof delegate.findMany !== "function") {
-      throw new Error(`Legacy SQLite model delegate is missing: ${model}`);
+      throw new Error(`Legacy SQLite delegate missing for model: ${model}`);
     }
     sourceRows[model] = (await delegate.findMany()).map(normalizeForPostgres);
   }
 
-  // Single transaction means either every table imports or none of them do.
+  const counts: Record<string, number> = {};
   await target.transaction(async (tx) => {
-    const txTables = tx.orm.public as unknown as Record<string, TargetCollection>;
+    const tables = tx.orm.public as unknown as Record<string, TargetCollection>;
 
+    // Refuse to mix with any existing rows; never automatically wipe target.
     for (const model of modelNames) {
-      const existing = await txTables[model].limit(1).all();
-      if (existing.length > 0) {
-        throw new Error(
-          `Target table ${model} is not empty. Import stopped without intentionally deleting or overwriting anything. Use a new empty PostgreSQL database.`,
-        );
+      if ((await tables[model].limit(1).all()).length > 0) {
+        throw new Error(`Target table ${model} is not empty. Import aborted.`);
       }
     }
 
+    // Insert parent rows before dependent rows to respect relations.
     for (const model of modelNames) {
       const rows = sourceRows[model];
-      const collection = txTables[model];
-      for (let start = 0; start < rows.length; start += 250) {
-        await collection.createAll(rows.slice(start, start + 250));
+      for (let offset = 0; offset < rows.length; offset += 250) {
+        await tables[model].createAll(rows.slice(offset, offset + 250));
       }
       counts[model] = rows.length;
     }
   });
 
-  const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
   console.log("SQLite → PostgreSQL import completed.");
   console.log(`Models imported: ${Object.keys(counts).length}`);
-  console.log(`Rows imported: ${total}`);
-  for (const [model, count] of Object.entries(counts)) {
-    console.log(`  ${model}: ${count}`);
-  }
+  console.log(`Rows imported: ${Object.values(counts).reduce((sum, value) => sum + value, 0)}`);
+  for (const [model, count] of Object.entries(counts)) console.log(`  ${model}: ${count}`);
 }
 
 try {
   await main();
 } catch (error) {
-  // Never log connection strings. The thrown error is limited to operation
-  // context; provider errors can still be useful for diagnosis.
-  console.error("SQLite → PostgreSQL import failed; target transaction was rolled back.");
+  console.error("SQLite → PostgreSQL import failed; the PostgreSQL transaction was rolled back.");
   console.error(error instanceof Error ? error.message : "Unknown migration error");
   process.exitCode = 1;
 } finally {
