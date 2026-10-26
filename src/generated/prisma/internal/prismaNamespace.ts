@@ -425,7 +425,10 @@ export const ModelName = {
   Subscriber: 'Subscriber',
   Complaint: 'Complaint',
   AuditLog: 'AuditLog',
-  AiChatLog: 'AiChatLog'
+  AiChatLog: 'AiChatLog',
+  HajjPassport: 'HajjPassport',
+  TrackingDevice: 'TrackingDevice',
+  GpsPing: 'GpsPing'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -441,7 +444,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "article" | "ecosystem" | "journeyStep" | "roadmap" | "member" | "membershipApplication" | "tutorial" | "contactMessage" | "faq" | "testimonial" | "management" | "regionalBranch" | "siteSetting" | "nusukConnection" | "nusukPermit" | "nusukSyncLog" | "contentTranslation" | "whatsAppSetting" | "emailSetting" | "notificationLog" | "gallery" | "event" | "resource" | "subscriber" | "complaint" | "auditLog" | "aiChatLog"
+    modelProps: "user" | "session" | "article" | "ecosystem" | "journeyStep" | "roadmap" | "member" | "membershipApplication" | "tutorial" | "contactMessage" | "faq" | "testimonial" | "management" | "regionalBranch" | "siteSetting" | "nusukConnection" | "nusukPermit" | "nusukSyncLog" | "contentTranslation" | "whatsAppSetting" | "emailSetting" | "notificationLog" | "gallery" | "event" | "resource" | "subscriber" | "complaint" | "auditLog" | "aiChatLog" | "hajjPassport" | "trackingDevice" | "gpsPing"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2591,6 +2594,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HajjPassport: {
+      payload: Prisma.$HajjPassportPayload<ExtArgs>
+      fields: Prisma.HajjPassportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HajjPassportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HajjPassportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        findFirst: {
+          args: Prisma.HajjPassportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HajjPassportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        findMany: {
+          args: Prisma.HajjPassportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>[]
+        }
+        create: {
+          args: Prisma.HajjPassportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        createMany: {
+          args: Prisma.HajjPassportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HajjPassportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>[]
+        }
+        delete: {
+          args: Prisma.HajjPassportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        update: {
+          args: Prisma.HajjPassportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        deleteMany: {
+          args: Prisma.HajjPassportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HajjPassportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HajjPassportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>[]
+        }
+        upsert: {
+          args: Prisma.HajjPassportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HajjPassportPayload>
+        }
+        aggregate: {
+          args: Prisma.HajjPassportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHajjPassport>
+        }
+        groupBy: {
+          args: Prisma.HajjPassportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HajjPassportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HajjPassportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HajjPassportCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrackingDevice: {
+      payload: Prisma.$TrackingDevicePayload<ExtArgs>
+      fields: Prisma.TrackingDeviceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrackingDeviceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrackingDeviceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        findFirst: {
+          args: Prisma.TrackingDeviceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrackingDeviceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        findMany: {
+          args: Prisma.TrackingDeviceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>[]
+        }
+        create: {
+          args: Prisma.TrackingDeviceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        createMany: {
+          args: Prisma.TrackingDeviceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrackingDeviceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>[]
+        }
+        delete: {
+          args: Prisma.TrackingDeviceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        update: {
+          args: Prisma.TrackingDeviceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        deleteMany: {
+          args: Prisma.TrackingDeviceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrackingDeviceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrackingDeviceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>[]
+        }
+        upsert: {
+          args: Prisma.TrackingDeviceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrackingDevicePayload>
+        }
+        aggregate: {
+          args: Prisma.TrackingDeviceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrackingDevice>
+        }
+        groupBy: {
+          args: Prisma.TrackingDeviceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrackingDeviceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrackingDeviceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrackingDeviceCountAggregateOutputType> | number
+        }
+      }
+    }
+    GpsPing: {
+      payload: Prisma.$GpsPingPayload<ExtArgs>
+      fields: Prisma.GpsPingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GpsPingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GpsPingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        findFirst: {
+          args: Prisma.GpsPingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GpsPingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        findMany: {
+          args: Prisma.GpsPingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>[]
+        }
+        create: {
+          args: Prisma.GpsPingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        createMany: {
+          args: Prisma.GpsPingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GpsPingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>[]
+        }
+        delete: {
+          args: Prisma.GpsPingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        update: {
+          args: Prisma.GpsPingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        deleteMany: {
+          args: Prisma.GpsPingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GpsPingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GpsPingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>[]
+        }
+        upsert: {
+          args: Prisma.GpsPingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GpsPingPayload>
+        }
+        aggregate: {
+          args: Prisma.GpsPingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGpsPing>
+        }
+        groupBy: {
+          args: Prisma.GpsPingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GpsPingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GpsPingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GpsPingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3084,6 +3309,62 @@ export const AiChatLogScalarFieldEnum = {
 export type AiChatLogScalarFieldEnum = (typeof AiChatLogScalarFieldEnum)[keyof typeof AiChatLogScalarFieldEnum]
 
 
+export const HajjPassportScalarFieldEnum = {
+  id: 'id',
+  passportNo: 'passportNo',
+  holderName: 'holderName',
+  type: 'type',
+  gender: 'gender',
+  nationality: 'nationality',
+  rombongan: 'rombongan',
+  memberId: 'memberId',
+  status: 'status',
+  issuedAt: 'issuedAt',
+  expiresAt: 'expiresAt',
+  verificationCount: 'verificationCount',
+  lastVerifiedAt: 'lastVerifiedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HajjPassportScalarFieldEnum = (typeof HajjPassportScalarFieldEnum)[keyof typeof HajjPassportScalarFieldEnum]
+
+
+export const TrackingDeviceScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  groupName: 'groupName',
+  leader: 'leader',
+  pax: 'pax',
+  memberId: 'memberId',
+  site: 'site',
+  lat: 'lat',
+  lng: 'lng',
+  speedKph: 'speedKph',
+  heading: 'heading',
+  battery: 'battery',
+  status: 'status',
+  lastPingAt: 'lastPingAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrackingDeviceScalarFieldEnum = (typeof TrackingDeviceScalarFieldEnum)[keyof typeof TrackingDeviceScalarFieldEnum]
+
+
+export const GpsPingScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  lat: 'lat',
+  lng: 'lng',
+  speedKph: 'speedKph',
+  recordedAt: 'recordedAt'
+} as const
+
+export type GpsPingScalarFieldEnum = (typeof GpsPingScalarFieldEnum)[keyof typeof GpsPingScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3320,6 +3601,9 @@ export type GlobalOmitConfig = {
   complaint?: Prisma.ComplaintOmit
   auditLog?: Prisma.AuditLogOmit
   aiChatLog?: Prisma.AiChatLogOmit
+  hajjPassport?: Prisma.HajjPassportOmit
+  trackingDevice?: Prisma.TrackingDeviceOmit
+  gpsPing?: Prisma.GpsPingOmit
 }
 
 /* Types for Logging */

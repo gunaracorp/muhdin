@@ -196,3 +196,22 @@ export type AuditLog = Prisma.AuditLogModel
  * Privasi: TIDAK menyimpan identitas pribadi — pengirim di-hash (SHA-256).
  */
 export type AiChatLog = Prisma.AiChatLogModel
+/**
+ * Model HajjPassport
+ * Paspor Haji & Umrah Digital — identitas jamaah yang dapat diverifikasi
+ * publik lewat pemindaian QR (#/verifikasi-paspor/<nomor>).
+ * Nomor paspor: PH-HAJ-2026-0001 (haji) / PH-UMR-2026-0001 (umrah).
+ */
+export type HajjPassport = Prisma.HajjPassportModel
+/**
+ * Model TrackingDevice
+ * Perangkat GPS rombongan — satu baris per rombongan/kendaraan; kolom
+ * lat/lng/speed menyimpan posisi TERAKHIR (di-refresh setiap ping masuk).
+ */
+export type TrackingDevice = Prisma.TrackingDeviceModel
+/**
+ * Model GpsPing
+ * Riwayat ping GPS (jejak perjalanan rombongan) — Pings lebih tua dari 3 jam
+ * dibersihkan otomatis oleh endpoint live agar DB tetap ramping.
+ */
+export type GpsPing = Prisma.GpsPingModel

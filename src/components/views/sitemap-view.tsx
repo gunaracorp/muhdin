@@ -49,6 +49,9 @@ const STATIC_PAGES: { path: string; icon: string; labelKey?: string; labelId: st
   { path: "/dpd", icon: "landmark", labelKey: "navbar.items.dpd", labelId: "Jaringan Daerah" },
   // v5 Fase 2 — WhatsApp AI Chatbot
   { path: "/whatsapp-ai", icon: "message-circle", labelId: "WhatsApp AI" },
+  // v5 Fase 3 — Paspor Haji Digital + GPS Tracking
+  { path: "/paspor", icon: "wallet-cards", labelId: "Paspor Haji Digital" },
+  { path: "/tracking", icon: "satellite", labelId: "Pemantauan GPS Rombongan" },
   { path: "/privasi", icon: "shield-ellipsis", labelKey: "navbar.items.privasi", labelId: "Kebijakan Privasi" },
   { path: "/syarat", icon: "scale", labelKey: "navbar.items.syarat", labelId: "Syarat & Ketentuan" },
   { path: "/peta-situs", icon: "map", labelId: "Peta Situs" },

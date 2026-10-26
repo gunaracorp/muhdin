@@ -301,6 +301,8 @@ export type MemberWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   permits?: Prisma.NusukPermitListRelationFilter
+  passports?: Prisma.HajjPassportListRelationFilter
+  devices?: Prisma.TrackingDeviceListRelationFilter
 }
 
 export type MemberOrderByWithRelationInput = {
@@ -320,6 +322,8 @@ export type MemberOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   permits?: Prisma.NusukPermitOrderByRelationAggregateInput
+  passports?: Prisma.HajjPassportOrderByRelationAggregateInput
+  devices?: Prisma.TrackingDeviceOrderByRelationAggregateInput
 }
 
 export type MemberWhereUniqueInput = Prisma.AtLeast<{
@@ -342,6 +346,8 @@ export type MemberWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   permits?: Prisma.NusukPermitListRelationFilter
+  passports?: Prisma.HajjPassportListRelationFilter
+  devices?: Prisma.TrackingDeviceListRelationFilter
 }, "id">
 
 export type MemberOrderByWithAggregationInput = {
@@ -405,6 +411,8 @@ export type MemberCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   permits?: Prisma.NusukPermitCreateNestedManyWithoutMemberInput
+  passports?: Prisma.HajjPassportCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceCreateNestedManyWithoutMemberInput
 }
 
 export type MemberUncheckedCreateInput = {
@@ -424,6 +432,8 @@ export type MemberUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   permits?: Prisma.NusukPermitUncheckedCreateNestedManyWithoutMemberInput
+  passports?: Prisma.HajjPassportUncheckedCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceUncheckedCreateNestedManyWithoutMemberInput
 }
 
 export type MemberUpdateInput = {
@@ -443,6 +453,8 @@ export type MemberUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   permits?: Prisma.NusukPermitUpdateManyWithoutMemberNestedInput
+  passports?: Prisma.HajjPassportUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUpdateManyWithoutMemberNestedInput
 }
 
 export type MemberUncheckedUpdateInput = {
@@ -462,6 +474,8 @@ export type MemberUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   permits?: Prisma.NusukPermitUncheckedUpdateManyWithoutMemberNestedInput
+  passports?: Prisma.HajjPassportUncheckedUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUncheckedUpdateManyWithoutMemberNestedInput
 }
 
 export type MemberCreateManyInput = {
@@ -587,6 +601,11 @@ export type MemberScalarRelationFilter = {
   isNot?: Prisma.MemberWhereInput
 }
 
+export type MemberNullableScalarRelationFilter = {
+  is?: Prisma.MemberWhereInput | null
+  isNot?: Prisma.MemberWhereInput | null
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -609,6 +628,38 @@ export type MemberUpdateOneRequiredWithoutPermitsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutPermitsInput, Prisma.MemberUpdateWithoutPermitsInput>, Prisma.MemberUncheckedUpdateWithoutPermitsInput>
 }
 
+export type MemberCreateNestedOneWithoutPassportsInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutPassportsInput, Prisma.MemberUncheckedCreateWithoutPassportsInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutPassportsInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberUpdateOneWithoutPassportsNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutPassportsInput, Prisma.MemberUncheckedCreateWithoutPassportsInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutPassportsInput
+  upsert?: Prisma.MemberUpsertWithoutPassportsInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutPassportsInput, Prisma.MemberUpdateWithoutPassportsInput>, Prisma.MemberUncheckedUpdateWithoutPassportsInput>
+}
+
+export type MemberCreateNestedOneWithoutDevicesInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutDevicesInput, Prisma.MemberUncheckedCreateWithoutDevicesInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutDevicesInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberUpdateOneWithoutDevicesNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutDevicesInput, Prisma.MemberUncheckedCreateWithoutDevicesInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutDevicesInput
+  upsert?: Prisma.MemberUpsertWithoutDevicesInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutDevicesInput, Prisma.MemberUpdateWithoutDevicesInput>, Prisma.MemberUncheckedUpdateWithoutDevicesInput>
+}
+
 export type MemberCreateWithoutPermitsInput = {
   id?: string
   name: string
@@ -625,6 +676,8 @@ export type MemberCreateWithoutPermitsInput = {
   memberSince?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  passports?: Prisma.HajjPassportCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceCreateNestedManyWithoutMemberInput
 }
 
 export type MemberUncheckedCreateWithoutPermitsInput = {
@@ -643,6 +696,8 @@ export type MemberUncheckedCreateWithoutPermitsInput = {
   memberSince?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  passports?: Prisma.HajjPassportUncheckedCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceUncheckedCreateNestedManyWithoutMemberInput
 }
 
 export type MemberCreateOrConnectWithoutPermitsInput = {
@@ -677,6 +732,8 @@ export type MemberUpdateWithoutPermitsInput = {
   memberSince?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  passports?: Prisma.HajjPassportUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUpdateManyWithoutMemberNestedInput
 }
 
 export type MemberUncheckedUpdateWithoutPermitsInput = {
@@ -695,6 +752,200 @@ export type MemberUncheckedUpdateWithoutPermitsInput = {
   memberSince?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  passports?: Prisma.HajjPassportUncheckedUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUncheckedUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberCreateWithoutPassportsInput = {
+  id?: string
+  name: string
+  type: string
+  city: string
+  province: string
+  licenseNo: string
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  description?: string | null
+  rating?: number
+  status?: string
+  memberSince?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  permits?: Prisma.NusukPermitCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceCreateNestedManyWithoutMemberInput
+}
+
+export type MemberUncheckedCreateWithoutPassportsInput = {
+  id?: string
+  name: string
+  type: string
+  city: string
+  province: string
+  licenseNo: string
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  description?: string | null
+  rating?: number
+  status?: string
+  memberSince?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  permits?: Prisma.NusukPermitUncheckedCreateNestedManyWithoutMemberInput
+  devices?: Prisma.TrackingDeviceUncheckedCreateNestedManyWithoutMemberInput
+}
+
+export type MemberCreateOrConnectWithoutPassportsInput = {
+  where: Prisma.MemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.MemberCreateWithoutPassportsInput, Prisma.MemberUncheckedCreateWithoutPassportsInput>
+}
+
+export type MemberUpsertWithoutPassportsInput = {
+  update: Prisma.XOR<Prisma.MemberUpdateWithoutPassportsInput, Prisma.MemberUncheckedUpdateWithoutPassportsInput>
+  create: Prisma.XOR<Prisma.MemberCreateWithoutPassportsInput, Prisma.MemberUncheckedCreateWithoutPassportsInput>
+  where?: Prisma.MemberWhereInput
+}
+
+export type MemberUpdateToOneWithWhereWithoutPassportsInput = {
+  where?: Prisma.MemberWhereInput
+  data: Prisma.XOR<Prisma.MemberUpdateWithoutPassportsInput, Prisma.MemberUncheckedUpdateWithoutPassportsInput>
+}
+
+export type MemberUpdateWithoutPassportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  province?: Prisma.StringFieldUpdateOperationsInput | string
+  licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  memberSince?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  permits?: Prisma.NusukPermitUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUncheckedUpdateWithoutPassportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  province?: Prisma.StringFieldUpdateOperationsInput | string
+  licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  memberSince?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  permits?: Prisma.NusukPermitUncheckedUpdateManyWithoutMemberNestedInput
+  devices?: Prisma.TrackingDeviceUncheckedUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberCreateWithoutDevicesInput = {
+  id?: string
+  name: string
+  type: string
+  city: string
+  province: string
+  licenseNo: string
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  description?: string | null
+  rating?: number
+  status?: string
+  memberSince?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  permits?: Prisma.NusukPermitCreateNestedManyWithoutMemberInput
+  passports?: Prisma.HajjPassportCreateNestedManyWithoutMemberInput
+}
+
+export type MemberUncheckedCreateWithoutDevicesInput = {
+  id?: string
+  name: string
+  type: string
+  city: string
+  province: string
+  licenseNo: string
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  description?: string | null
+  rating?: number
+  status?: string
+  memberSince?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  permits?: Prisma.NusukPermitUncheckedCreateNestedManyWithoutMemberInput
+  passports?: Prisma.HajjPassportUncheckedCreateNestedManyWithoutMemberInput
+}
+
+export type MemberCreateOrConnectWithoutDevicesInput = {
+  where: Prisma.MemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.MemberCreateWithoutDevicesInput, Prisma.MemberUncheckedCreateWithoutDevicesInput>
+}
+
+export type MemberUpsertWithoutDevicesInput = {
+  update: Prisma.XOR<Prisma.MemberUpdateWithoutDevicesInput, Prisma.MemberUncheckedUpdateWithoutDevicesInput>
+  create: Prisma.XOR<Prisma.MemberCreateWithoutDevicesInput, Prisma.MemberUncheckedCreateWithoutDevicesInput>
+  where?: Prisma.MemberWhereInput
+}
+
+export type MemberUpdateToOneWithWhereWithoutDevicesInput = {
+  where?: Prisma.MemberWhereInput
+  data: Prisma.XOR<Prisma.MemberUpdateWithoutDevicesInput, Prisma.MemberUncheckedUpdateWithoutDevicesInput>
+}
+
+export type MemberUpdateWithoutDevicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  province?: Prisma.StringFieldUpdateOperationsInput | string
+  licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  memberSince?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  permits?: Prisma.NusukPermitUpdateManyWithoutMemberNestedInput
+  passports?: Prisma.HajjPassportUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUncheckedUpdateWithoutDevicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  province?: Prisma.StringFieldUpdateOperationsInput | string
+  licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  memberSince?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  permits?: Prisma.NusukPermitUncheckedUpdateManyWithoutMemberNestedInput
+  passports?: Prisma.HajjPassportUncheckedUpdateManyWithoutMemberNestedInput
 }
 
 
@@ -704,10 +955,14 @@ export type MemberUncheckedUpdateWithoutPermitsInput = {
 
 export type MemberCountOutputType = {
   permits: number
+  passports: number
+  devices: number
 }
 
 export type MemberCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   permits?: boolean | MemberCountOutputTypeCountPermitsArgs
+  passports?: boolean | MemberCountOutputTypeCountPassportsArgs
+  devices?: boolean | MemberCountOutputTypeCountDevicesArgs
 }
 
 /**
@@ -725,6 +980,20 @@ export type MemberCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type MemberCountOutputTypeCountPermitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NusukPermitWhereInput
+}
+
+/**
+ * MemberCountOutputType without action
+ */
+export type MemberCountOutputTypeCountPassportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HajjPassportWhereInput
+}
+
+/**
+ * MemberCountOutputType without action
+ */
+export type MemberCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrackingDeviceWhereInput
 }
 
 
@@ -745,6 +1014,8 @@ export type MemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   permits?: boolean | Prisma.Member$permitsArgs<ExtArgs>
+  passports?: boolean | Prisma.Member$passportsArgs<ExtArgs>
+  devices?: boolean | Prisma.Member$devicesArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
@@ -805,6 +1076,8 @@ export type MemberSelectScalar = {
 export type MemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "city" | "province" | "licenseNo" | "phone" | "email" | "website" | "description" | "rating" | "status" | "memberSince" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
 export type MemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   permits?: boolean | Prisma.Member$permitsArgs<ExtArgs>
+  passports?: boolean | Prisma.Member$passportsArgs<ExtArgs>
+  devices?: boolean | Prisma.Member$devicesArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -814,6 +1087,8 @@ export type $MemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Member"
   objects: {
     permits: Prisma.$NusukPermitPayload<ExtArgs>[]
+    passports: Prisma.$HajjPassportPayload<ExtArgs>[]
+    devices: Prisma.$TrackingDevicePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1226,6 +1501,8 @@ readonly fields: MemberFieldRefs;
 export interface Prisma__MemberClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   permits<T extends Prisma.Member$permitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$permitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NusukPermitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passports<T extends Prisma.Member$passportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$passportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HajjPassportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  devices<T extends Prisma.Member$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrackingDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1682,6 +1959,54 @@ export type Member$permitsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.NusukPermitScalarFieldEnum | Prisma.NusukPermitScalarFieldEnum[]
+}
+
+/**
+ * Member.passports
+ */
+export type Member$passportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HajjPassport
+   */
+  select?: Prisma.HajjPassportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HajjPassport
+   */
+  omit?: Prisma.HajjPassportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HajjPassportInclude<ExtArgs> | null
+  where?: Prisma.HajjPassportWhereInput
+  orderBy?: Prisma.HajjPassportOrderByWithRelationInput | Prisma.HajjPassportOrderByWithRelationInput[]
+  cursor?: Prisma.HajjPassportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HajjPassportScalarFieldEnum | Prisma.HajjPassportScalarFieldEnum[]
+}
+
+/**
+ * Member.devices
+ */
+export type Member$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrackingDevice
+   */
+  select?: Prisma.TrackingDeviceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrackingDevice
+   */
+  omit?: Prisma.TrackingDeviceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrackingDeviceInclude<ExtArgs> | null
+  where?: Prisma.TrackingDeviceWhereInput
+  orderBy?: Prisma.TrackingDeviceOrderByWithRelationInput | Prisma.TrackingDeviceOrderByWithRelationInput[]
+  cursor?: Prisma.TrackingDeviceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrackingDeviceScalarFieldEnum | Prisma.TrackingDeviceScalarFieldEnum[]
 }
 
 /**

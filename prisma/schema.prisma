@@ -108,6 +108,9 @@ model Member {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   permits     NusukPermit[]
+  // v5 Fase 3 — Paspor Haji Digital + GPS Tracking rombongan
+  passports   HajjPassport[]
+  devices     TrackingDevice[]
 }
 
 model MembershipApplication {
@@ -447,4 +450,74 @@ model AiChatLog {
 
   @@index([createdAt])
   @@index([channel, createdAt])
+}
+
+// ==================== v5 FASE 3 — PASPOR HAJI DIGITAL (QR) ====================
+
+/// Paspor Haji & Umrah Digital — identitas jamaah yang dapat diverifikasi
+/// publik lewat pemindaian QR (#/verifikasi-paspor/<nomor>).
+/// Nomor paspor: PH-HAJ-2026-0001 (haji) / PH-UMR-2026-0001 (umrah).
+model HajjPassport {
+  id                String    @id @default(cuid())
+  passportNo        String    @unique
+  holderName        String
+  type              String    @default("UMRAH") // HAJI | UMRAH
+  gender            String    @default("M") // M | F
+  nationality       String    @default("IDN")
+  rombongan         String? // nama rombongan / kelompok terbang
+  memberId          String?
+  member            Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  status            String    @default("ACTIVE") // ACTIVE | EXPIRED | REVOKED | LOST
+  issuedAt          DateTime  @default(now())
+  expiresAt         DateTime
+  verificationCount Int       @default(0)
+  lastVerifiedAt    DateTime?
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([status])
+  @@index([memberId])
+}
+
+// ==================== v5 FASE 3 — GPS TRACKING ROMBONGAN ====================
+
+/// Perangkat GPS rombongan — satu baris per rombongan/kendaraan; kolom
+/// lat/lng/speed menyimpan posisi TERAKHIR (di-refresh setiap ping masuk).
+model TrackingDevice {
+  id         String   @id @default(cuid())
+  code       String   @unique // GPS-001
+  groupName  String
+  leader     String
+  pax        Int      @default(40) // jumlah jamaah dalam rombongan
+  memberId   String?
+  member     Member?  @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  site       String   @default("MAKKAH") // MAKKAH | MADINAH | JEDDAH | MINA | ARAFAH | MUZDALIFAH
+  lat        Float
+  lng        Float
+  speedKph   Float    @default(0)
+  heading    Float    @default(0) // derajat 0-359
+  battery    Int      @default(90) // persen baterai perangkat
+  status     String   @default("ONLINE") // ONLINE | IDLE | OFFLINE
+  lastPingAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  pings      GpsPing[]
+
+  @@index([site])
+  @@index([status])
+}
+
+/// Riwayat ping GPS (jejak perjalanan rombongan) — Pings lebih tua dari 3 jam
+/// dibersihkan otomatis oleh endpoint live agar DB tetap ramping.
+model GpsPing {
+  id         String         @id @default(cuid())
+  deviceId   String
+  device     TrackingDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  lat        Float
+  lng        Float
+  speedKph   Float          @default(0)
+  recordedAt DateTime       @default(now())
+
+  @@index([deviceId, recordedAt])
 }

@@ -28,6 +28,8 @@ import { AdminComplaints } from "@/components/admin/admin-complaints";
 import { AdminSubscribers } from "@/components/admin/admin-subscribers";
 import { AdminAudit } from "@/components/admin/admin-audit";
 import { AdminBranches } from "@/components/admin/admin-branches";
+// v5 Fase 3 — Paspor Haji Digital (QR) + Perangkat GPS rombongan
+import { AdminPassport } from "@/components/admin/admin-passport";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
 import { visibleSections, ROLE_LABELS } from "@/lib/roles";
@@ -52,6 +54,7 @@ const MENU = [
   { id: "testimonials", label: "Testimoni", icon: "quote" },
   { id: "management", label: "Struktur Organisasi", icon: "users" },
   { id: "branches", label: "Jaringan Daerah (DPD)", icon: "landmark" },
+  { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
   { id: "settings", label: "Pengaturan Situs", icon: "settings" },
   { id: "translator", label: "Penerjemah Cerdas", icon: "languages" },
   { id: "gallery", label: "Galeri Kegiatan", icon: "instagram" },
@@ -207,6 +210,7 @@ export function AdminView() {
           {section === "testimonials" && <AdminTestimonials />}
           {section === "management" && <AdminManagement />}
           {section === "branches" && <AdminBranches />}
+          {section === "passport" && <AdminPassport />}
           {section === "settings" && (
             <>
               <AdminSettings />

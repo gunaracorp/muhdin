@@ -59,6 +59,10 @@ import { SitemapView } from "@/components/views/sitemap-view";
 // v5 Fase 2 — WhatsApp AI Chatbot (#/whatsapp-ai)
 import { WaAiView } from "@/components/views/wa-ai-view";
 import { PengurusDetail } from "@/components/views/pengurus-detail";
+// v5 Fase 3 — Paspor Haji Digital (QR) + GPS Tracking rombongan
+import { PasporView } from "@/components/views/paspor-view";
+import { PassportVerifyView } from "@/components/views/passport-verify-view";
+import { TrackingView } from "@/components/views/tracking-view";
 
 function LoadingSplash() {
   const { t } = useT();
@@ -268,6 +272,17 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v5 Fase 2 — WhatsApp AI Chatbot (demo otak bot + panduan gateway)
     case "whatsapp-ai":
       content = <WaAiView />;
+      break;
+    // v5 Fase 3 — Paspor Haji Digital + verifikasi QR + GPS Tracking
+    case "paspor":
+      content = <PasporView />;
+      break;
+    case "verifikasi-paspor":
+      // QR mendarat di #/verifikasi-paspor/PH-XXX-TTTT-0000 → auto-verifikasi.
+      content = <PassportVerifyView code={route[1]} />;
+      break;
+    case "tracking":
+      content = <TrackingView />;
       break;
     case "unduhan":
       content = <DownloadsView />;

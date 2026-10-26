@@ -79,7 +79,10 @@ export const ModelName = {
   Subscriber: 'Subscriber',
   Complaint: 'Complaint',
   AuditLog: 'AuditLog',
-  AiChatLog: 'AiChatLog'
+  AiChatLog: 'AiChatLog',
+  HajjPassport: 'HajjPassport',
+  TrackingDevice: 'TrackingDevice',
+  GpsPing: 'GpsPing'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -550,6 +553,62 @@ export const AiChatLogScalarFieldEnum = {
 } as const
 
 export type AiChatLogScalarFieldEnum = (typeof AiChatLogScalarFieldEnum)[keyof typeof AiChatLogScalarFieldEnum]
+
+
+export const HajjPassportScalarFieldEnum = {
+  id: 'id',
+  passportNo: 'passportNo',
+  holderName: 'holderName',
+  type: 'type',
+  gender: 'gender',
+  nationality: 'nationality',
+  rombongan: 'rombongan',
+  memberId: 'memberId',
+  status: 'status',
+  issuedAt: 'issuedAt',
+  expiresAt: 'expiresAt',
+  verificationCount: 'verificationCount',
+  lastVerifiedAt: 'lastVerifiedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HajjPassportScalarFieldEnum = (typeof HajjPassportScalarFieldEnum)[keyof typeof HajjPassportScalarFieldEnum]
+
+
+export const TrackingDeviceScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  groupName: 'groupName',
+  leader: 'leader',
+  pax: 'pax',
+  memberId: 'memberId',
+  site: 'site',
+  lat: 'lat',
+  lng: 'lng',
+  speedKph: 'speedKph',
+  heading: 'heading',
+  battery: 'battery',
+  status: 'status',
+  lastPingAt: 'lastPingAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrackingDeviceScalarFieldEnum = (typeof TrackingDeviceScalarFieldEnum)[keyof typeof TrackingDeviceScalarFieldEnum]
+
+
+export const GpsPingScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  lat: 'lat',
+  lng: 'lng',
+  speedKph: 'speedKph',
+  recordedAt: 'recordedAt'
+} as const
+
+export type GpsPingScalarFieldEnum = (typeof GpsPingScalarFieldEnum)[keyof typeof GpsPingScalarFieldEnum]
 
 
 export const SortOrder = {

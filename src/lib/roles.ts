@@ -43,6 +43,8 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "testimonials", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "management", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "branches", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
+  // v5 Fase 3 — Paspor & GPS (verifikator boleh melihat untuk pengecekan)
+  { id: "passport", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "settings", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "translator", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "gallery", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },

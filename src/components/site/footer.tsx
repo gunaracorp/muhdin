@@ -63,6 +63,9 @@ const QUICK_LINKS: [path: string, key: string][] = [
   ["peta-situs", "sitemap"],
   // v5 Fase 2 — WhatsApp AI Chatbot
   ["whatsapp-ai", "waai"],
+  // v5 Fase 3 — Paspor Haji Digital + GPS Tracking
+  ["paspor", "paspor"],
+  ["tracking", "track"],
 ];
 
 /** Task 52 (P0) — kolom "Tata Kelola & Kepercayaan": 8 halaman infrastruktur kepercayaan. */

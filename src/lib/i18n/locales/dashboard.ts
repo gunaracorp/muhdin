@@ -145,6 +145,10 @@ export const dashDict = {
       quickTrackDesc: "Pantau status pendaftaran penyelenggara Anda.",
       quickKontak: "Hubungi Kami",
       quickKontakDesc: "Kantor pusat, DPD, dan kanal resmi MUHDIN.",
+      quickPaspor: "Paspor Digital",
+      quickPasporDesc: "E-paspor dengan QR — siap ditunjukkan saat verifikasi.",
+      quickGps: "GPS Rombongan",
+      quickGpsDesc: "Pantau posisi rombongan Anda di Tanah Suci secara real-time.",
       jFooterNote: "Portal personal — seluruh data Anda hanya tersimpan di perangkat ini.",
 
       /* ---------- MITRA — LOGIN ---------- */
@@ -346,6 +350,10 @@ export const dashDict = {
       quickTrackDesc: "Follow your provider's application status.",
       quickKontak: "Contact Us",
       quickKontakDesc: "Head office, regional boards, and official channels.",
+      quickPaspor: "Digital Passport",
+      quickPasporDesc: "E-passport with QR — ready to show at verification.",
+      quickGps: "Group GPS",
+      quickGpsDesc: "Track your group's position in the Holy Land in real time.",
       jFooterNote: "Personal portal — all your data stays on this device only.",
 
       /* ---------- PARTNER — LOGIN ---------- */
@@ -547,6 +555,10 @@ export const dashDict = {
       quickTrackDesc: "تابع حالة طلب منظمك.",
       quickKontak: "اتصل بنا",
       quickKontakDesc: "المقر الرئيسي والفروع والقنوات الرسمية.",
+      quickPaspor: "الجواز الرقمي",
+      quickPasporDesc: "جواز إلكتروني مع QR — جاهز للعرض عند التحقق.",
+      quickGps: "تتبع المجموعة",
+      quickGpsDesc: "تتبّع موقع مجموعتك في الأرض المقدسة في الوقت الفعلي.",
       jFooterNote: "بوابة شخصية — جميع بياناتك تبقى على هذا الجهاز فقط.",
 
       /* ---------- الشريك — الدخول ---------- */

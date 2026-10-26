@@ -766,6 +766,8 @@ export function JamaahDashboard() {
                 <h2 className="text-sm font-extrabold uppercase tracking-wider text-muted-foreground">{t("dash.quickTitle")}</h2>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   {[
+                    { icon: "wallet-cards", label: t("dash.quickPaspor"), desc: t("dash.quickPasporDesc"), go: () => navigate("paspor") },
+                    { icon: "satellite", label: t("dash.quickGps"), desc: t("dash.quickGpsDesc"), go: () => navigate("tracking") },
                     { icon: "shield-alert", label: t("dash.quickLapor"), desc: t("dash.quickLaporDesc"), go: () => navigate("lapor") },
                     { icon: "keyround", label: t("dash.quickTrack"), desc: t("dash.quickTrackDesc"), go: () => navigate("dashboard/mitra") },
                     { icon: "phone", label: t("dash.quickKontak"), desc: t("dash.quickKontakDesc"), go: () => navigate("kontak") },

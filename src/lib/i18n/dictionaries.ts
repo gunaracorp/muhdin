@@ -51,6 +51,9 @@ import { liveRegDict } from "@/lib/i18n/locales/live-reg";
 import { detailDict } from "@/lib/i18n/locales/detail";
 // v5 Fase 2 — Halaman WhatsApp AI Chatbot (#/whatsapp-ai)
 import { waaiDict } from "@/lib/i18n/locales/waai";
+// v5 Fase 3 — Paspor Haji Digital (QR) + GPS Tracking rombongan
+import { pasporDict } from "@/lib/i18n/locales/paspor";
+import { trackingDict } from "@/lib/i18n/locales/tracking";
 
 const dicts = [
   commonDict,
@@ -98,6 +101,9 @@ const dicts = [
   liveRegDict,
   // v5 Fase 2 — WhatsApp AI Chatbot (#/whatsapp-ai)
   waaiDict,
+  // v5 Fase 3 — Paspor Haji Digital (QR) + GPS Tracking rombongan
+  pasporDict,
+  trackingDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
 ];
