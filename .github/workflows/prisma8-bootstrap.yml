@@ -51,8 +51,10 @@ jobs:
           test -s src/prisma/contract.json
           test -s src/prisma/contract.d.ts
           echo "Prisma ORM 8 contract artifacts generated."
-      - name: Type-check SQLite import utility
+      - name: Validate contract with the PostgreSQL runtime
+        run: bun scripts/validate-prisma8-contract.ts
+      - name: Type-check Prisma ORM 8 client and SQLite import utility
         run: >-
           bunx tsc --noEmit --module esnext --moduleResolution bundler
           --target es2022 --skipLibCheck --esModuleInterop --resolveJsonModule
-          scripts/migrate-sqlite-to-postgres.ts
+          src/prisma/db.ts scripts/migrate-sqlite-to-postgres.ts
