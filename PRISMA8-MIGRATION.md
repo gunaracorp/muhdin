@@ -53,19 +53,20 @@ Tambahkan nilai itu sebagai environment variable di platform deployment.
 ## Perintah
 
 - `npm run db:contract:emit`: emit artefak kontrak V8.
-- `npm run db:update`: terapkan/update kontrak ke database PostgreSQL yang ditunjuk `DATABASE_URL`; periksa target dan backup sebelum menjalankan.
+- `npm run db:init`: buat tabel awal dari kontrak pada database PostgreSQL kosong.
+- `npm run db:update`: terapkan perubahan kontrak pada database yang sudah memiliki tabel; periksa target dan backup sebelum menjalankan.
 - `npm run db:legacy:generate`: generate client lama untuk rute yang belum dipindahkan.
 - `npm run db:legacy:push`: sinkron schema SQLite lama; tidak untuk produksi tanpa backup.
 - `npm run db:legacy:migrate`: migrasi SQLite lama.
 
-Lockfile Bun perlu di-regenerasi dengan `bun install` memakai Bun 1.3+ sebelum
-menggunakan instalasi frozen-lockfile. CI/build harus lolos sebelum PR ini
-digabung atau digunakan sebagai runtime produksi.
+Lockfile Bun pada branch migrasi sudah diregenerasi oleh CI dengan Bun 1.3.4. CI memvalidasi instalasi, contract emit, pemuatan kontrak melalui runtime PostgreSQL dan type-check dua berkas V8 terkait. Pemeriksaan ini belum menggantikan build dan test seluruh aplikasi.
 
 
 ## Import data dari SQLite ke PostgreSQL
 
-Setelah database PostgreSQL **kosong** dibuat dan skema V8 diterapkan:
+Setelah membuat database PostgreSQL kosong, jalankan `bun run db:init` untuk membuat tabel awal dari kontrak V8. Jangan jalankan terhadap database yang telah berisi data. Untuk database yang sudah memakai kontrak sebelumnya, gunakan `bun run db:update` setelah backup dan peninjauan.
+
+Setelah tabel kosong selesai dibuat:
 
 1. Backup file SQLite sumber terlebih dahulu. Sumber default adalah `db/custom.db`; bila database produksi berbeda, gunakan salinan backup yang terbaru dan set `SQLITE_SOURCE_URL` ke file tersebut.
 2. Atur `DATABASE_URL` ke database PostgreSQL tujuan. Simpan kredensial hanya dalam environment variable, bukan Git.
