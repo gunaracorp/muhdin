@@ -1939,3 +1939,20 @@ Work Log:
 Stage Summary:
 - Server pulih & website tampil normal; akses CMS dikonfirmasi: <preview-url>/#/admin dengan admin@muhdin.web.id / muhdin2026 (SUPER_ADMIN).
 - Catatan operasional untuk owner: bila preview menampilkan logo Z lagi = server sandbox tertidur → cukup minta asisten "nyalakan server" (dev-keep.sh idempoten).
+
+---
+Task ID: 7 (Push ke GitHub — perbaiki package.json + smoke test build produksi)
+Agent: Z.ai Code — Master Polymath Sage (46-Council)
+Task: Owner minta push ke GitHub (platform deploy "Deploy from GitHub" menolak repo karena terdeteksi prisma ^6.11.1; deploy butuh Prisma 8).
+
+Work Log:
+- AKAR MASALAH: package.json punya ENTRI GANDA "prisma" — dependencies masih "^6.11.1" (sisa template awal, inilah yang dideteksi platform) + devDependencies "8.1.0-dev.9" ( hasil migrasi Fase 2). Diperbaiki: hapus entri ^6.11.1 dari dependencies; kini hanya satu "prisma": "8.1.0-dev.9" di devDependencies.
+- Riset npm dist-tags: prisma CLI latest = 8.0.0-rc.27, @prisma/client latest = 7.10.1 / dev = 8.1.0-dev.9 → pasangan sejajar 8.1.0-dev.9 (CLI+client+adapter) tetap pilihan benar (garis v8, kompatibel penuh).
+- bun install ulang: no changes, postinstall prisma generate 8.1.0-dev.9 sukses (268ms).
+- SMOKE TEST BUILD PRODUKSI: percobaan pertama OOM-killed (RAM sandbox 4GB; dev server pegang 2GB) → kill dev server → rebuild NODE_OPTIONS=1536mb → SUKSES: ✓ Compiled 26.2s, 59 halaman statis, semua 60+ route API, standalone + post-build OK. Dev server di-restart setelahnya (HTTP 200).
+- CATATAN DEPLOY: .env hanya berisi DATABASE_URL (aman); src/generated/prisma ter-commit (client siap bahkan sebelum generate); db/custom.db 1.17MB ter-commit (data demo ikut); next.config VERCEL-aware; post-build.mjs exit 0 di mode Vercel.
+- Penghalang push: tidak ada kredensial GitHub di sandbox (tanpa gh CLI/netrc/ssh key/token env) → menunggu PAT dari owner untuk git push ke gunaracorp/muhdin main.
+
+Stage Summary:
+- Repo SIAP PUSH ke GitHub: package.json kini konsisten Prisma 8 (8.1.0-dev.9), build produksi terbukti hijau end-to-end, data demo & generated client ikut ter-commit.
+- Menunggu Personal Access Token GitHub (scope repo) dari owner untuk eksekusi git push.
