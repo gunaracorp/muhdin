@@ -1,0 +1,91 @@
+==============================================================================
+ MUHDIN — SHARED HOSTING EDITION (PHP + SQLite, TANPA Node.js)
+ Instalasi 5 Menit di cPanel / Shared Hosting Apache
+==============================================================================
+Versi paket : mengikuti package.json proyek (lihat RELEASE-INFO.txt bila ada)
+Backend     : PHP 7.4+ (PDO SQLite) — murni PHP bawaan
+Frontend    : HTML/JS/CSS statis ber-hash-routing (PWA ready)
+Database    : SQLite — data/muhdin.sqlite (sudah terisi data demo)
+Dependensi  : TIDAK ADA. Tanpa Node.js, tanpa Composer, tanpa MySQL.
+
+------------------------------------------------------------------------------
+1. SYARAT HOSTING
+------------------------------------------------------------------------------
+- PHP 7.4 atau lebih baru (disarankan 8.1+) dengan ekstensi bawaan:
+  * pdo_sqlite  → WAJIB (bawaan cPanel, biasanya sudah aktif)
+  * curl, json, mbstring, openssl, hash → WAJIB (hampir selalu aktif)
+- Apache dengan mod_rewrite (bawaan cPanel).
+- Cek cepat: buat file info.php berisi <?php phpinfo(); lalu buka di browser,
+  pastikan "pdo_sqlite" muncul. Hapus info.php setelahnya.
+
+------------------------------------------------------------------------------
+2. LANGKAH UNGGAH (±5 MENIT)
+------------------------------------------------------------------------------
+1. Masuk cPanel → File Manager → masuk ke folder public_html.
+2. Unggah muhdin-shared-hosting-vX.Y.Z.zip ke public_html.
+3. Klik kanan zip → Extract. Selesai — buka domain Anda di browser.
+4. (Opsional) Jika dipasang di SUBFOLDER (mis. domain.com/muhdin):
+   edit .htaccess, hapus tanda # pada baris "RewriteBase /muhdin/"
+   dan sesuaikan nama foldernya.
+5. (Opsional) HTTPS otomatis: cPanel biasanya mengaktifkan AutoSSL.
+   Bila perlu redirect, tambahkan aturan redirect HTTPS di .htaccess.
+
+------------------------------------------------------------------------------
+3. AKUN DEMO (login #/admin)
+------------------------------------------------------------------------------
+  SUPER_ADMIN : admin@muhdin.web.id       / muhdin2026
+  EDITOR      : editor@muhdin.web.id      / editor2026
+  VERIFIKATOR : verifikator@muhdin.web.id / verifikator2026
+
+PENTING — KEAMANAN:
+- WAJIB ganti password ketiga akun demo segera setelah login pertama
+  (menu CMS → Profil/Pengaturan → Ganti Password).
+- Password dihash bcrypt oleh PHP. Akun yang dibuat melalui edisi Node.js
+  (hash scrypt) tidak dapat diverifikasi PHP — reset passwordnya lewat CMS
+  oleh SUPER_ADMIN agar ter-hash ulang dengan bcrypt.
+
+------------------------------------------------------------------------------
+4. STRUKTUR PAKET
+------------------------------------------------------------------------------
+  index.html            → frontend statis (SPA hash routing)
+  assets/               → JS/CSS hasil build Next.js
+  airlines/             → logo 76 maskapai
+  icons/ manifest.json / sw.js / robots.txt / sitemap.xml
+  api/                  → backend PHP
+    ├─ index.php        → router (63 endpoint, paritas kontrak API Node)
+    ├─ config.php       → konfigurasi
+    ├─ lib.php          → pustaka inti (sesi, guard RBAC, rate limit, WA, dst)
+    ├─ nusuk.php        → mesin Nusuk (katalog izin, sync, webhook)
+    └─ routes-*.php     → modul rute per domain
+  data/muhdin.sqlite    → database SQLite (backup file ini secara rutin!)
+  .htaccess             → routing API + SPA fallback + proteksi data
+
+------------------------------------------------------------------------------
+5. FITUR YANG AKTIF DI EDISI PHP
+------------------------------------------------------------------------------
+- Seluruh portal publik (beranda, ekosistem, direktori, berita, tutorial,
+  agenda, galeri, sumber daya, FAQ, testimoni, pelacakan jamaah, pendaftaran)
+- CMS penuh sesuai peran (SUPER_ADMIN/ADMIN/VERIFIKATOR/EDITOR), audit log
+- Verifikasi keanggotaan + tiket MHD-XXXXXX + notifikasi WhatsApp (3 provider)
+- Integrasi Nusuk (koneksi sandbox, katalog izin, sync, webhook, metrics)
+- Pencarian, RSS, export CSV, terjemahan konten EN/AR dari cache
+  (tanpa terjemahan AI otomatis — fitur AI hanya ada di edisi Node.js)
+- PWA installable + offline
+
+------------------------------------------------------------------------------
+6. TROUBLESHOOTING
+------------------------------------------------------------------------------
+- Halaman 500            → cek versi PHP (min 7.4) & aktifkan pdo_sqlite;
+                           lihat error log cPanel.
+- Halaman putih / 404 API→ pastikan .htaccess ikut terunggah (File Manager
+                           kadang menyembunyikan dotfile — aktifkan
+                           "Show Hidden Files").
+- "Terlalu banyak percobaan" (429) → rate limit aktif (5 percobaan/menit);
+                           tunggu 1 menit.
+- Lupa password semua akun → bila Anda masih punya akses File Manager,
+                           hubungi developer untuk reset terkontrol.
+- Backup                 → unduh salinan data/muhdin.sqlite secara berkala;
+                           semua konten CMS tersimpan di file itu.
+
+Selamat melayani Tamu Allah. — MUHDIN, asosiasi haji & umrah digital
+pertama di dunia.
