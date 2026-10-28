@@ -166,7 +166,7 @@ export function EcosystemView({ focusNumber }: { focusNumber?: string }) {
           if (o) return;
           setPicked(null);
           // Bersihkan deep-link agar refresh tidak membuka dialog lagi.
-          if (window.location.hash.includes("/ekosistem/")) navigate("ekosistem");
+          if (window.location.pathname.startsWith("/ekosistem/")) navigate("ekosistem");
         }}
       >
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto scrollbar-thin">

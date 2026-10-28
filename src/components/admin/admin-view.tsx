@@ -39,40 +39,57 @@ import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const MENU = [
-  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard" },
-  { id: "ai-studio", label: "AI Content Studio", icon: "sparkles" },
-  { id: "nusuk", label: "Integrasi Nusuk", icon: "satellite" },
-  { id: "articles", label: "Berita & Artikel", icon: "newspaper" },
-  { id: "ecosystems", label: "13 Ekosistem", icon: "boxes" },
-  { id: "journey", label: "Alur Perjalanan", icon: "workflow" },
-  { id: "roadmap", label: "Roadmap 2026-2030", icon: "target" },
-  { id: "members", label: "Direktori Anggota", icon: "grid-3x3" },
-  { id: "applications", label: "Pendaftaran", icon: "user-plus" },
-  { id: "tutorials", label: "Tutorial", icon: "graduation-cap" },
-  { id: "messages", label: "Pesan Masuk", icon: "inbox" },
-  { id: "complaints", label: "Pengaduan", icon: "shield-alert" },
-  { id: "subscribers", label: "Pelanggan Berita", icon: "mail" },
-  { id: "faqs", label: "FAQ", icon: "help-circle" },
-  { id: "testimonials", label: "Testimoni", icon: "quote" },
-  { id: "management", label: "Struktur Organisasi", icon: "users" },
-  { id: "branches", label: "Jaringan Daerah (DPD)", icon: "landmark" },
-  { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
-  { id: "tour", label: "Tur Virtual 360°", icon: "orbit" },
-  { id: "settings", label: "Pengaturan Situs", icon: "settings" },
-  { id: "translator", label: "Penerjemah Cerdas", icon: "languages" },
-  { id: "gallery", label: "Galeri Kegiatan", icon: "instagram" },
-  { id: "agenda", label: "Agenda Kegiatan", icon: "calendar" },
-  { id: "resources", label: "Pusat Unduhan", icon: "download" },
-  { id: "audit", label: "Log Aktivitas", icon: "activity" },
-  { id: "users", label: "Kelola Admin", icon: "user-cog" },
+  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard", group: "Ikhtisar" },
+  { id: "ai-studio", label: "AI Content Studio", icon: "sparkles", group: "Layanan Digital" },
+  { id: "nusuk", label: "Integrasi Nusuk", icon: "satellite", group: "Layanan Digital" },
+  { id: "articles", label: "Berita & Artikel", icon: "newspaper", group: "Konten & Media" },
+  { id: "ecosystems", label: "13 Ekosistem", icon: "boxes", group: "Ekosistem & Anggota" },
+  { id: "journey", label: "Alur Perjalanan", icon: "workflow", group: "Konten & Media" },
+  { id: "roadmap", label: "Roadmap 2026-2030", icon: "target", group: "Konten & Media" },
+  { id: "members", label: "Direktori Anggota", icon: "grid-3x3", group: "Ekosistem & Anggota" },
+  { id: "applications", label: "Pendaftaran", icon: "user-plus", group: "Ekosistem & Anggota" },
+  { id: "tutorials", label: "Tutorial", icon: "graduation-cap", group: "Konten & Media" },
+  { id: "messages", label: "Pesan Masuk", icon: "inbox", group: "Komunikasi" },
+  { id: "complaints", label: "Pengaduan", icon: "shield-alert", group: "Komunikasi" },
+  { id: "subscribers", label: "Pelanggan Berita", icon: "mail", group: "Komunikasi" },
+  { id: "faqs", label: "FAQ", icon: "help-circle", group: "Konten & Media" },
+  { id: "testimonials", label: "Testimoni", icon: "quote", group: "Konten & Media" },
+  { id: "management", label: "Struktur Organisasi", icon: "users", group: "Ekosistem & Anggota" },
+  { id: "branches", label: "Jaringan Daerah (DPD)", icon: "landmark", group: "Ekosistem & Anggota" },
+  { id: "passport", label: "Paspor & GPS", icon: "wallet-cards", group: "Layanan Digital" },
+  { id: "tour", label: "Tur Virtual 360°", icon: "orbit", group: "Layanan Digital" },
+  { id: "settings", label: "Pengaturan Situs", icon: "settings", group: "Sistem" },
+  { id: "translator", label: "Penerjemah Cerdas", icon: "languages", group: "Layanan Digital" },
+  { id: "gallery", label: "Galeri Kegiatan", icon: "instagram", group: "Konten & Media" },
+  { id: "agenda", label: "Agenda Kegiatan", icon: "calendar", group: "Konten & Media" },
+  { id: "resources", label: "Pusat Unduhan", icon: "download", group: "Konten & Media" },
+  { id: "audit", label: "Log Aktivitas", icon: "activity", group: "Sistem" },
+  { id: "users", label: "Kelola Admin", icon: "user-cog", group: "Sistem" },
 ];
 
-export function AdminView() {
+/** v10 — urutan kelompok menu sidebar (26 modul, 6 kelompok). */
+const GROUP_ORDER = [
+  "Ikhtisar",
+  "Konten & Media",
+  "Ekosistem & Anggota",
+  "Layanan Digital",
+  "Komunikasi",
+  "Sistem",
+] as const;
+
+export function AdminView({ initialSection }: { initialSection?: string }) {
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [checking, setChecking] = useState(true);
-  const [section, setSection] = useState("dashboard");
+  const [section, setSectionState] = useState(() => initialSection ?? "dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [menuQuery, setMenuQuery] = useState("");
+
+  // v10 — ganti seksi + sinkron URL (deep-linkable, tombol back berfungsi).
+  const setSection = useCallback((s: string) => {
+    setSectionState(s);
+    navigate(s === "dashboard" ? "admin" : `admin/${s}`);
+  }, []);
 
   const check = useCallback(() => {
     apiGet<{ user: User | null }>("/api/auth/me")
@@ -111,33 +128,67 @@ export function AdminView() {
   const menu = MENU.filter((m) => allowed.has(m.id));
   const activeSection = allowed.has(section) ? section : "dashboard";
 
+  // v10 — filter modul sidebar + pengelompokan.
+  const q = menuQuery.trim().toLowerCase();
+  const menuFiltered = q ? menu.filter((m) => m.label.toLowerCase().includes(q)) : menu;
+
   const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="p-5 border-b">
         <MuhdinBrand compact />
         <p className="text-[10px] text-muted-foreground mt-1.5 uppercase tracking-wider font-semibold">
-          CMS Admin Panel
+          CMS Admin Panel · v10
         </p>
       </div>
+      <div className="px-3 pt-3">
+        <div className="relative">
+          <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            value={menuQuery}
+            onChange={(e) => setMenuQuery(e.target.value)}
+            placeholder="Cari modul (26)..."
+            className="h-9 pl-8 pr-3 text-xs rounded-lg bg-background/60"
+            aria-label="Cari modul admin"
+          />
+        </div>
+      </div>
       <nav className="flex-1 overflow-y-auto scrollbar-thin p-3 space-y-0.5" aria-label="Menu admin">
-        {menu.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => {
-              setSection(m.id);
-              setSidebarOpen(false);
-            }}
-            className={cn(
-              "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all",
-              activeSection === m.id
-                ? "bg-gradient-to-r from-primary to-forest text-white shadow-md"
-                : "text-foreground/70 hover:bg-primary/10 hover:text-primary"
-            )}
-          >
-            <Icon name={m.icon} className="h-4 w-4 shrink-0" />
-            {m.label}
-          </button>
-        ))}
+        {GROUP_ORDER.map((g) => {
+          const items = menuFiltered.filter((m) => m.group === g);
+          if (!items.length) return null;
+          return (
+            <div key={g} className="mb-1.5">
+              {!q && (
+                <p className="px-3 pt-2 pb-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground/80">
+                  {g}
+                </p>
+              )}
+              {items.map((m) => (
+                <button
+                  key={m.id}
+                  onClick={() => {
+                    setSection(m.id);
+                    setSidebarOpen(false);
+                  }}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all",
+                    activeSection === m.id
+                      ? "bg-gradient-to-r from-primary to-forest text-white shadow-md"
+                      : "text-foreground/70 hover:bg-primary/10 hover:text-primary"
+                  )}
+                >
+                  <Icon name={m.icon} className="h-4 w-4 shrink-0" />
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          );
+        })}
+        {menuFiltered.length === 0 && (
+          <p className="px-3 py-8 text-center text-xs text-muted-foreground">
+            Tidak ada modul yang cocok.
+          </p>
+        )}
       </nav>
       <div className="p-4 border-t space-y-2">
         <div className="flex items-center gap-2.5 px-1">
@@ -181,7 +232,9 @@ export function AdminView() {
             <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)} aria-label="Buka menu admin">
               <Icon name="menu" className="h-5 w-5" />
             </Button>
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="hidden md:inline text-xs font-semibold text-muted-foreground">Admin</span>
+              <span className="hidden md:inline text-muted-foreground/40" aria-hidden>/</span>
               <Icon name={current?.icon || "layout-dashboard"} className="h-5 w-5 text-primary shrink-0" />
               <h1 className="font-extrabold text-lg truncate">{current?.label || "Dashboard"}</h1>
             </div>
@@ -234,7 +287,7 @@ export function AdminView() {
         </main>
 
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground pb-[max(1rem,env(safe-area-inset-bottom))]">
-          MUHDIN CMS v1.0 — Bersama Melayani Tamu Allah
+          MUHDIN CMS v10.0 — Real-Route Edition · Bersama Melayani Tamu Allah
         </footer>
       </div>
     </div>

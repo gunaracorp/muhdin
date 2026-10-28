@@ -11,6 +11,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { apiGet } from "@/lib/client-api";
+import { navigate } from "@/hooks/use-hash-route";
 import { Icon } from "@/components/site/icon";
 import { Badge } from "@/components/ui/badge";
 import { useT, formatDateL10n } from "@/lib/i18n";
@@ -85,7 +86,7 @@ export function GalleryDetail({ id }: { id: string }) {
               {prev ? (
                 <button
                   type="button"
-                  onClick={() => (window.location.hash = `#/galeri/${prev.id}`)}
+                  onClick={() => navigate(`galeri/${prev.id}`)}
                   className="group flex items-center gap-2 rounded-2xl border bg-card p-3.5 text-start shadow-sm transition hover:shadow-md"
                 >
                   <Icon name="chevron-right" className="h-4 w-4 shrink-0 rotate-180 text-primary rtl:rotate-0" aria-hidden />
@@ -100,7 +101,7 @@ export function GalleryDetail({ id }: { id: string }) {
               {next ? (
                 <button
                   type="button"
-                  onClick={() => (window.location.hash = `#/galeri/${next.id}`)}
+                  onClick={() => navigate(`galeri/${next.id}`)}
                   className="group flex items-center justify-end gap-2 rounded-2xl border bg-card p-3.5 text-end shadow-sm transition hover:shadow-md"
                 >
                   <span className="min-w-0">
@@ -150,7 +151,7 @@ export function GalleryDetail({ id }: { id: string }) {
 
             <button
               type="button"
-              onClick={() => (window.location.hash = "#/galeri")}
+              onClick={() => navigate("galeri")}
               className="flex w-full items-center justify-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/15"
             >
               <Icon name="instagram" className="h-4 w-4" aria-hidden />

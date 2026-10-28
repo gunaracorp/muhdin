@@ -1994,3 +1994,48 @@ Stage Summary:
 - 2 flagship baru: Statistik Nasional publik (data hidup, 4 chart, 3 bahasa) + Global Search Ctrl+K 6 entitas.
 - Verifikasi penuh: lint 0/0, build hijau, E2E desktop-mobile, ID/EN/AR+RTL, 0 overflow.
 - Screenshot: /tmp/v10-statistik-final.png, /tmp/v10-mob-*.png, /tmp/v10-transparansi-ar-mobile.png
+
+---
+Task ID: 9
+Agent: main-agent (Z.ai)
+Task: Menyiapkan naskah demo 5 menit untuk Presiden RI (urutan halaman + poin bicara)
+
+Work Log:
+- Membaca worklog.md (Task 1-8) untuk konteks; memuat skill docx lengkap (SKILL.md, routes/create.md, scenes/copywriting.md, references/common-rules.md, references/docx-js-core.md)
+- Riset struktur aktual portal agar naskah 100% akurat: src/lib/menu-data.ts (menu: Beranda, 13 Layanan Bisnis, Pengurus, Perizinan, Sertifikasi, Anggota, Berita, Syariah, Paspor, Transportasi, Vaksin, Kepercayaan), src/components/views/home-view.tsx (18 section homepage), src/lib/i18n/locales/indonesia-home.ts (teks hero, 4 pilar Connect/Verify/Collaborate/Integrate, MUHDIN Verified, keanggotaan gratis 12 kategori, 30+ provinsi, supply passport "No proof no trusted inventory", One Pilgrim One Journey One Record, MHUTU), modul admin (16 modul CMS)
+- Verifikasi server hidup (HTTP 200 localhost:3000)
+- Menulis scripts/demo-script-presiden.js (docx-js, scene copywriting: tanpa cover/TOC, line 400 untuk teks bicara, font profile B Calibri/YaHei, palet hijau MUHDIN)
+- Konten naskah: 8 segmen (Hero 0:00-0:35 > The Idea 4 pilar > Verified & Keanggotaan > 13 Layanan > Kepercayaan/Transparansi > Direktori Anggota > Admin CMS > One Record & Penutup), total teks bicara ~700 kata (140 kata/menit formal), tiap segmen berisi baris AKSI DEMONSTRATOR + teks BICARA + penanda ritme
+- Dilengkapi: tabel ringkasan eksekusi, checklist persiapan 30 menit (8 langkah termasuk "jangan login di depan Presiden"), peta alur tabel (waktu/halaman/pesan), tabel antisipasi 5 pertanyaan Presiden + jawaban inti, aturan emas & rencana cadangan (fallback video/hotspot)
+- Generate DOCX (19.4 KB, 8 halaman) -> download/Naskah-Demo-5-Menit-Presiden-MUHDIN.docx
+- postcheck.py: 8/9 lulus, 0 error, 1 warning line-spacing (disengaja: scene copywriting pakai line 400 utk bicara, 320 utk tabel/marker)
+- Verifikasi visual via LibreOffice->PDF->PNG (8 halaman): layout, tabel, header/footer, highlight warna semua benar
+
+Stage Summary:
+- Deliverable: /home/z/my-project/download/Naskah-Demo-5-Menit-Presiden-MUHDIN.docx (8 halaman)
+- Skrip generator tersimpan: scripts/demo-script-presiden.js (dapat diedit utk revisi)
+- Alur demo final: Beranda Hero -> 4 Pilar -> Verified+Gratis -> 13 Layanan -> Transparansi -> Direktori -> Admin CMS -> One Record/Penutup
+- Angka klaim diambil dari konten portal asli (13 layanan, 12 kategori, 30+ provinsi, 3 bahasa, UU PDP) - aman dari inkonsistensi saat ditanya
+
+---
+Task ID: 10
+Agent: main-agent (Z.ai)
+Task: v10 — Hapus hash routing (#) → real-path routes + Upgrade Admin CMS full power
+
+Work Log:
+- Riset routing lama: satu hook (use-hash-route.ts) + satu switch (muhdin-app.tsx) + 8 titik hash manual; 47 file sudah lewat navigate()
+- REWRITE src/hooks/use-hash-route.ts: useHashRoute() kini baca pathname asli via usePathname() (SSR-aman, tanpa hydration mismatch); navigate() → router.push Next.js (SPA); registerAppRouter() diikat dari MuhdinApp; listener hashchange sebagai jaring pengaman produser hash tercecer
+- ROUTE REAL: src/app/page.tsx diganti src/app/[[...slug]]/page.tsx (catch-all) + generateMetadata per rute (39 judul halaman ID, noindex utk admin/dashboard) — SSR kini menyajikan konten+title tiap halaman (sebelumnya semua = homepage HTML)
+- MIGRASI LINK LAMA: skrip inline pra-hidrasi di layout.tsx (history.replaceState #/x → /x tanpa reload) + jaring pengaman migrateLegacyHash() di MuhdinApp (reload bersih bila skrip tidak jalan) — QR code/bookmark/hash lama tetap berfungsi
+- FIX 8 TITIK HASH: contact-view (2), gallery-detail (3), member-detail (1), daftar-view, dashboard-view, footer (socialHref fallback), ecosystem-view (cek dialog close), hapus efek replaceState "#/beranda" legacy
+- ADMIN CMS v10: URL sinkron /admin/<seksi> (26 modul deep-linkable, key-remount pola MembersView — fix lint set-state-in-effect); sidebar dikelompokkan 6 grup (Ikhtisar/Konten & Media/Ekosistem & Anggota/Layanan Digital/Komunikasi/Sistem) + filter pencarian modul; breadcrumb Admin/<Modul>; footer v10.0; BUG DITEMUKAN+DIPERBAIKI: branch isAdmin render <AdminView /> tanpa props sehingga deep-link tak pernah sampai → kini {content} dari switch
+- SITEMAP v10: 44 URL nyata + prioritas (sebelumnya hanya 1 URL root karena hash)
+- VERIFIKASI E2E agent-browser: / 200; klik menu → /anggota (tanpa #); legacy /#/faq → /faq otomatis; /admin login → dashboard; klik modul → /admin/messages sinkron; tombol back → /admin/articles benar; deep-link /admin/articles → "Berita & Artikel"; homepage visual utuh
+- Lint bersih; build produksi SUKSES (kill dev dulu anti-OOM, post-build standalone OK); dev server restart, smoke test 5 route 200
+
+Stage Summary:
+- URL kini profesional tanpa #: /beranda, /layanan/syariah, /anggota, /berita, /regulasi, /admin/users, dst.
+- Tautan lama ber-hash migrasi otomatis (3 lapis: skrip pra-hidrasi, reload bersih, listener hashchange)
+- Admin CMS: 26 modul URL nyata deep-linkable + sidebar 6 grup + filter modul + breadcrumb
+- SEO: title unik per halaman via generateMetadata, noindex admin, sitemap 44 URL
+- Backward compat: hash lama tetap jalan (QR paspor, bookmark, materi cetak)

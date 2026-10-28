@@ -2,7 +2,14 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { useHashRoute, navigate, useScrollToTopOnRoute } from "@/hooks/use-hash-route";
+import { useRouter } from "next/navigation";
+import {
+  useHashRoute,
+  navigate,
+  useScrollToTopOnRoute,
+  registerAppRouter,
+  migrateLegacyHash,
+} from "@/hooks/use-hash-route";
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { HomeView } from "@/components/views/home-view";
@@ -155,8 +162,15 @@ function NotFound() {
 }
 
 export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en" | "ar" }) {
+  const nextRouter = useRouter();
   const route = useHashRoute();
   const root = route[0] || "beranda";
+
+  // v10 — navigate() kini memakai router Next.js (URL nyata, transisi SPA).
+  useEffect(() => {
+    registerAppRouter(nextRouter);
+    return () => registerAppRouter(null);
+  }, [nextRouter]);
   const isAdmin = root === "admin";
   // Task 35-d — ScrollProgress (framer-motion) memanggil useId internal saat SSR
   // sehingga seluruh ID Radix setelahnya (switcher Navbar) tidak sinkron saat
@@ -166,9 +180,12 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
 
   useScrollToTopOnRoute([root, route[1]]);
 
+  // v10 — Jaring pengaman: bila skrip pra-hidrasi tidak berjalan (mis. export
+  // statis) dan hash legacy masih ada, muat ulang bersih ke path nyata.
   useEffect(() => {
-    if (!window.location.hash) {
-      window.history.replaceState(null, "", "#/beranda");
+    const target = migrateLegacyHash();
+    if (target) {
+      window.location.replace(window.location.pathname + window.location.search);
     }
   }, []);
 
@@ -324,7 +341,9 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       content = <WidgetView />;
       break;
     case "admin":
-      content = <AdminView />;
+      // v10 — deep-link URL nyata: /admin/<seksi> membuka modul langsung.
+      // key-remount agar state seksi mengikuti URL terbaru (pola MembersView).
+      content = <AdminView key={`admin-${route[1] ?? ""}`} initialSection={route[1]} />;
       break;
     default:
       content = <NotFound />;
@@ -343,9 +362,9 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
         </>
       )}
       {isAdmin ? (
-        <div className="min-h-screen bg-muted/40 flex flex-col">
-          <AdminView />
-        </div>
+        // v10 — content = <AdminView initialSection={route[1]} /> dari switch
+        // (deep-link /admin/<seksi> kini benar-benar sampai ke CMS).
+        <div className="min-h-screen bg-muted/40 flex flex-col">{content}</div>
       ) : (
         <div className="min-h-screen flex flex-col bg-background">
           <Navbar />

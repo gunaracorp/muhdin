@@ -122,6 +122,14 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${amiri.variable} ${kufi.variable} antialiased bg-background text-foreground`}
       >
+        {/* v10 — Migrasi tautan lama #/x/y → /x/y SEBELUM hidrasi, sehingga
+            router Next.js membaca URL nyata sejak awal (tanpa reload). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var h=location.hash;if(h&&h.indexOf('#/')===0){history.replaceState(null,'',h.slice(1));}}catch(e){}",
+          }}
+        />
         <ThemeProvider>
           {children}
           <Toaster />

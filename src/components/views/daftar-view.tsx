@@ -927,8 +927,11 @@ export function DaftarView() {
           <span className="text-xs leading-relaxed sm:text-sm">
             {t(`${NS}.consentBefore`)}{" "}
             <a
-              href="#/privasi"
-              target="_self"
+              href="/privasi"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("privasi");
+              }}
               className="font-bold text-primary underline underline-offset-2 hover:text-gold-deep"
             >
               {t(`${NS}.consentLink`)}

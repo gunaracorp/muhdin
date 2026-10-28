@@ -536,7 +536,7 @@ export function Footer() {
   /** URL sosmed asli dari CMS; fallback ke halaman kontak bila belum diisi. */
   const socialHref = (settingKey: string): string => {
     const raw = settings?.[settingKey]?.trim();
-    if (!raw) return "#/kontak";
+    if (!raw) return "/kontak";
     if (settingKey === "whatsapp") return `https://wa.me/${waDigits(raw)}`;
     return /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
   };
@@ -595,6 +595,11 @@ export function Footer() {
                       href={href}
                       target={external ? "_blank" : undefined}
                       rel={external ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (external) return;
+                        e.preventDefault();
+                        navigate(href);
+                      }}
                       aria-label={key.charAt(0).toUpperCase() + key.slice(1)}
                       className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-emerald-100/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/50 hover:bg-gold/15 hover:text-gold hover:shadow-[0_8px_20px_-6px_rgba(212,175,55,0.4)]"
                     >

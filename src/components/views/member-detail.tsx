@@ -12,6 +12,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { apiGet } from "@/lib/client-api";
+import { navigate } from "@/hooks/use-hash-route";
 import { Icon } from "@/components/site/icon";
 import { Badge } from "@/components/ui/badge";
 import { useT, type Locale } from "@/lib/i18n";
@@ -208,7 +209,7 @@ export function MemberDetail({ id }: { id: string }) {
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{t("members.tipBody")}</p>
               <button
                 type="button"
-                onClick={() => (window.location.hash = "#/verifikasi")}
+                onClick={() => navigate("verifikasi")}
                 className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
               >
                 {t("members.verifyCta")}

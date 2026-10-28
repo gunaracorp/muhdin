@@ -465,7 +465,11 @@ export function DashboardView() {
               </h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-3">
                 <a
-                  href="#/anggota"
+                  href="/anggota"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("anggota");
+                  }}
                   className="group rounded-2xl border bg-card p-4 shadow-sm transition-shadow hover:shadow-md"
                 >
                   <Icon name="users" className="h-5 w-5 text-primary" aria-hidden />

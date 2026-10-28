@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { apiGet, apiSend } from "@/lib/client-api";
+import { navigate } from "@/hooks/use-hash-route";
 import { Icon } from "@/components/site/icon";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { Button } from "@/components/ui/button";
@@ -57,7 +58,7 @@ const CONTACT_CARDS: {
     value: "Kanal Prioritas 24/7",
     titleKey: "contact.cardFraudTitle",
     descKey: "contact.cardFraudDesc",
-    href: "#/lapor",
+    href: "/lapor",
   },
 ];
 
@@ -86,6 +87,11 @@ export function ContactView() {
             {CONTACT_CARDS.map((c, i) => (
               <Reveal key={c.titleKey} delay={i * 0.06}>
                 <a
+                  onClick={(e) => {
+                    if (c.external) return;
+                    e.preventDefault();
+                    navigate(c.href);
+                  }}
                   href={c.href}
                   target={c.external ? "_blank" : undefined}
                   rel={c.external ? "noopener noreferrer" : undefined}
@@ -254,7 +260,7 @@ function FaqSection() {
       {/* v4.1 — pusat bantuan lengkap di halaman sendiri */}
       <button
         type="button"
-        onClick={() => (window.location.hash = "#/faq")}
+        onClick={() => navigate("faq")}
         className="inline-flex w-full items-center justify-center gap-1.5 rounded-2xl border border-primary/30 bg-primary/5 px-5 py-3 text-sm font-bold text-primary transition hover:bg-primary/15"
       >
         {t("detail.faq.title")}
