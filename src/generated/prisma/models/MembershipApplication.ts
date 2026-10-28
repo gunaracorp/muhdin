@@ -45,6 +45,7 @@ export type MembershipApplicationMinAggregateOutputType = {
   province: string | null
   licenseNo: string | null
   message: string | null
+  referralCode: string | null
   status: string | null
   ticketCode: string | null
   queueNumber: number | null
@@ -66,6 +67,7 @@ export type MembershipApplicationMaxAggregateOutputType = {
   province: string | null
   licenseNo: string | null
   message: string | null
+  referralCode: string | null
   status: string | null
   ticketCode: string | null
   queueNumber: number | null
@@ -87,6 +89,7 @@ export type MembershipApplicationCountAggregateOutputType = {
   province: number
   licenseNo: number
   message: number
+  referralCode: number
   status: number
   ticketCode: number
   queueNumber: number
@@ -118,6 +121,7 @@ export type MembershipApplicationMinAggregateInputType = {
   province?: true
   licenseNo?: true
   message?: true
+  referralCode?: true
   status?: true
   ticketCode?: true
   queueNumber?: true
@@ -139,6 +143,7 @@ export type MembershipApplicationMaxAggregateInputType = {
   province?: true
   licenseNo?: true
   message?: true
+  referralCode?: true
   status?: true
   ticketCode?: true
   queueNumber?: true
@@ -160,6 +165,7 @@ export type MembershipApplicationCountAggregateInputType = {
   province?: true
   licenseNo?: true
   message?: true
+  referralCode?: true
   status?: true
   ticketCode?: true
   queueNumber?: true
@@ -268,6 +274,7 @@ export type MembershipApplicationGroupByOutputType = {
   province: string
   licenseNo: string
   message: string | null
+  referralCode: string | null
   status: string
   ticketCode: string
   queueNumber: number | null
@@ -312,6 +319,7 @@ export type MembershipApplicationWhereInput = {
   province?: Prisma.StringFilter<"MembershipApplication"> | string
   licenseNo?: Prisma.StringFilter<"MembershipApplication"> | string
   message?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
+  referralCode?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
   status?: Prisma.StringFilter<"MembershipApplication"> | string
   ticketCode?: Prisma.StringFilter<"MembershipApplication"> | string
   queueNumber?: Prisma.IntNullableFilter<"MembershipApplication"> | number | null
@@ -333,6 +341,7 @@ export type MembershipApplicationOrderByWithRelationInput = {
   province?: Prisma.SortOrder
   licenseNo?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   ticketCode?: Prisma.SortOrder
   queueNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,6 +368,7 @@ export type MembershipApplicationWhereUniqueInput = Prisma.AtLeast<{
   province?: Prisma.StringFilter<"MembershipApplication"> | string
   licenseNo?: Prisma.StringFilter<"MembershipApplication"> | string
   message?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
+  referralCode?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
   status?: Prisma.StringFilter<"MembershipApplication"> | string
   reviewNote?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
   reviewedBy?: Prisma.StringNullableFilter<"MembershipApplication"> | string | null
@@ -378,6 +388,7 @@ export type MembershipApplicationOrderByWithAggregationInput = {
   province?: Prisma.SortOrder
   licenseNo?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   ticketCode?: Prisma.SortOrder
   queueNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -407,6 +418,7 @@ export type MembershipApplicationScalarWhereWithAggregatesInput = {
   province?: Prisma.StringWithAggregatesFilter<"MembershipApplication"> | string
   licenseNo?: Prisma.StringWithAggregatesFilter<"MembershipApplication"> | string
   message?: Prisma.StringNullableWithAggregatesFilter<"MembershipApplication"> | string | null
+  referralCode?: Prisma.StringNullableWithAggregatesFilter<"MembershipApplication"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"MembershipApplication"> | string
   ticketCode?: Prisma.StringWithAggregatesFilter<"MembershipApplication"> | string
   queueNumber?: Prisma.IntNullableWithAggregatesFilter<"MembershipApplication"> | number | null
@@ -428,6 +440,7 @@ export type MembershipApplicationCreateInput = {
   province: string
   licenseNo: string
   message?: string | null
+  referralCode?: string | null
   status?: string
   ticketCode?: string
   queueNumber?: number | null
@@ -449,6 +462,7 @@ export type MembershipApplicationUncheckedCreateInput = {
   province: string
   licenseNo: string
   message?: string | null
+  referralCode?: string | null
   status?: string
   ticketCode?: string
   queueNumber?: number | null
@@ -470,6 +484,7 @@ export type MembershipApplicationUpdateInput = {
   province?: Prisma.StringFieldUpdateOperationsInput | string
   licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ticketCode?: Prisma.StringFieldUpdateOperationsInput | string
   queueNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -491,6 +506,7 @@ export type MembershipApplicationUncheckedUpdateInput = {
   province?: Prisma.StringFieldUpdateOperationsInput | string
   licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ticketCode?: Prisma.StringFieldUpdateOperationsInput | string
   queueNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -512,6 +528,7 @@ export type MembershipApplicationCreateManyInput = {
   province: string
   licenseNo: string
   message?: string | null
+  referralCode?: string | null
   status?: string
   ticketCode?: string
   queueNumber?: number | null
@@ -533,6 +550,7 @@ export type MembershipApplicationUpdateManyMutationInput = {
   province?: Prisma.StringFieldUpdateOperationsInput | string
   licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ticketCode?: Prisma.StringFieldUpdateOperationsInput | string
   queueNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -554,6 +572,7 @@ export type MembershipApplicationUncheckedUpdateManyInput = {
   province?: Prisma.StringFieldUpdateOperationsInput | string
   licenseNo?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ticketCode?: Prisma.StringFieldUpdateOperationsInput | string
   queueNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -575,6 +594,7 @@ export type MembershipApplicationCountOrderByAggregateInput = {
   province?: Prisma.SortOrder
   licenseNo?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   ticketCode?: Prisma.SortOrder
   queueNumber?: Prisma.SortOrder
@@ -600,6 +620,7 @@ export type MembershipApplicationMaxOrderByAggregateInput = {
   province?: Prisma.SortOrder
   licenseNo?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   ticketCode?: Prisma.SortOrder
   queueNumber?: Prisma.SortOrder
@@ -621,6 +642,7 @@ export type MembershipApplicationMinOrderByAggregateInput = {
   province?: Prisma.SortOrder
   licenseNo?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
   ticketCode?: Prisma.SortOrder
   queueNumber?: Prisma.SortOrder
@@ -656,6 +678,7 @@ export type MembershipApplicationSelect<ExtArgs extends runtime.Types.Extensions
   province?: boolean
   licenseNo?: boolean
   message?: boolean
+  referralCode?: boolean
   status?: boolean
   ticketCode?: boolean
   queueNumber?: boolean
@@ -677,6 +700,7 @@ export type MembershipApplicationSelectCreateManyAndReturn<ExtArgs extends runti
   province?: boolean
   licenseNo?: boolean
   message?: boolean
+  referralCode?: boolean
   status?: boolean
   ticketCode?: boolean
   queueNumber?: boolean
@@ -698,6 +722,7 @@ export type MembershipApplicationSelectUpdateManyAndReturn<ExtArgs extends runti
   province?: boolean
   licenseNo?: boolean
   message?: boolean
+  referralCode?: boolean
   status?: boolean
   ticketCode?: boolean
   queueNumber?: boolean
@@ -719,6 +744,7 @@ export type MembershipApplicationSelectScalar = {
   province?: boolean
   licenseNo?: boolean
   message?: boolean
+  referralCode?: boolean
   status?: boolean
   ticketCode?: boolean
   queueNumber?: boolean
@@ -729,7 +755,7 @@ export type MembershipApplicationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MembershipApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orgName" | "type" | "contactName" | "email" | "phone" | "city" | "province" | "licenseNo" | "message" | "status" | "ticketCode" | "queueNumber" | "reviewNote" | "reviewedBy" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["membershipApplication"]>
+export type MembershipApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orgName" | "type" | "contactName" | "email" | "phone" | "city" | "province" | "licenseNo" | "message" | "referralCode" | "status" | "ticketCode" | "queueNumber" | "reviewNote" | "reviewedBy" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["membershipApplication"]>
 
 export type $MembershipApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MembershipApplication"
@@ -745,6 +771,7 @@ export type $MembershipApplicationPayload<ExtArgs extends runtime.Types.Extensio
     province: string
     licenseNo: string
     message: string | null
+    referralCode: string | null
     status: string
     ticketCode: string
     queueNumber: number | null
@@ -1186,6 +1213,7 @@ export interface MembershipApplicationFieldRefs {
   readonly province: Prisma.FieldRef<"MembershipApplication", 'String'>
   readonly licenseNo: Prisma.FieldRef<"MembershipApplication", 'String'>
   readonly message: Prisma.FieldRef<"MembershipApplication", 'String'>
+  readonly referralCode: Prisma.FieldRef<"MembershipApplication", 'String'>
   readonly status: Prisma.FieldRef<"MembershipApplication", 'String'>
   readonly ticketCode: Prisma.FieldRef<"MembershipApplication", 'String'>
   readonly queueNumber: Prisma.FieldRef<"MembershipApplication", 'Int'>

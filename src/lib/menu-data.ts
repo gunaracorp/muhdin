@@ -104,6 +104,18 @@ export const MENU_NODES: MenuNode[] = [
       { slug: "vaksin-flu", icon: "heart-pulse" },
     ],
   },
+  // v11 — dropdown LAYANAN ANGGOTA: Keanggotaan Power Pack (benchmark Nusuk.sa)
+  {
+    key: "layananAnggota",
+    group: "layananAnggota",
+    groupIcon: "wallet-cards",
+    children: [
+      { slug: "kartu-anggota", icon: "wallet-cards", route: "kartu-anggota" },
+      { slug: "academy", icon: "graduation-cap", route: "academy" },
+      { slug: "benefit", icon: "gift", route: "benefit" },
+      { slug: "booking", icon: "calendar-check", route: "booking" },
+    ],
+  },
   // Task 52 (P0) — dropdown KEPERCAYAAN: infrastruktur kepercayaan publik.
   // Sub-item menuju route hash kustom (bukan #/layanan/<slug>).
   {

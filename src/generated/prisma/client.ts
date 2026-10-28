@@ -222,3 +222,51 @@ export type GpsPing = Prisma.GpsPingModel
  * Nama/deskripsi trilingual juga JSON: {"id":"…","en":"…","ar":"…"}.
  */
 export type TourScene = Prisma.TourSceneModel
+/**
+ * Model MemberCard
+ * KTA Digital — kartu tanda anggota digital ber-QR dengan tier, poin
+ * loyalty, dan kode referal. Terbit untuk Member berstatus TERVERIFIKASI.
+ */
+export type MemberCard = Prisma.MemberCardModel
+/**
+ * Model PointLedger
+ * Buku besar poin — setiap perubahan saldo tercatat (audit-friendly).
+ */
+export type PointLedger = Prisma.PointLedgerModel
+/**
+ * Model AcademyCourse
+ * Kursus Manasik Academy — e-learning trilingual + quiz + sertifikat.
+ */
+export type AcademyCourse = Prisma.AcademyCourseModel
+/**
+ * Model AcademyEnrollment
+ * Pendaftaran peserta kursus + progres quiz.
+ */
+export type AcademyEnrollment = Prisma.AcademyEnrollmentModel
+/**
+ * Model Certificate
+ * Sertifikat digital ber-QR — terbit otomatis saat peserta lulus quiz.
+ */
+export type Certificate = Prisma.CertificateModel
+/**
+ * Model ServiceSlot
+ * Slot layanan terjadwal (kelas manasik, klinik vaksin, konsultasi syariah)
+ * — pola booking ala Nusuk Rawdah: kapasitas terbatas per sesi.
+ */
+export type ServiceSlot = Prisma.ServiceSlotModel
+/**
+ * Model SlotBooking
+ * Booking peserta untuk sebuah slot — kode unik + QR + status check-in.
+ */
+export type SlotBooking = Prisma.SlotBookingModel
+/**
+ * Model Benefit
+ * Katalog benefit mitra ekosistem — gratis (pointsCost 0) atau ditebus
+ * dengan poin KTA.
+ */
+export type Benefit = Prisma.BenefitModel
+/**
+ * Model BenefitRedemption
+ * Tebusan benefit oleh pemegang KTA (poin dipotong saat redeem).
+ */
+export type BenefitRedemption = Prisma.BenefitRedemptionModel

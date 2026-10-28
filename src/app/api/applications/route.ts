@@ -99,6 +99,7 @@ export async function POST(req: NextRequest) {
       province: String(body.province || "").trim(),
       licenseNo: String(body.licenseNo).trim(),
       message: body.message ? String(body.message) : null,
+      referralCode: body.referralCode ? String(body.referralCode).trim().toUpperCase() : null, // v11
       ticketCode, // Task 18 — kode pelacakan publik
     });
     // Task 15-d/18 — notifikasi WhatsApp (fire-and-forget, gagal-aman).

@@ -2057,3 +2057,28 @@ Stage Summary:
 - GitHub gunaracorp/muhdin main kini = v10.1.0: URL profesional tanpa #, Admin CMS v10 deep-linkable 26 modul, sitemap 44 URL, naskah demo Presiden (DOCX 8 halaman + generator)
 - Siap untuk platform deploy (Vercel/dst) yang membaca dari GitHub
 - Prosedur keamanan token tetap: inline sekali pakai, tidak pernah disimpan di file/config
+
+---
+Task ID: 12
+Agent: main-agent (Z.ai)
+Task: v11 — Keanggotaan Power Pack (benchmark fitur Nusuk.sa) — SELESAI
+
+Work Log:
+- Riset Nusuk.sa (Kemenhaji KSA): e-permit QR, booking slot Rawdah, manasik guidance, wallet, kartu identitas, multilingual → gap analysis vs portal
+- Audit menyeluruh (Explore agent): 34 model Prisma, 39 route registry, 26 modul admin — konfirmasi 0 implementasi: wallet/poin, KTA, sertifikat, manasik-terstruktur, referral, benefit, booking slot
+- SCHEMA +8 model: MemberCard (KTA-2026-NNNNN, tier KLASIK<300≤VERIFIED<800≤PLATINUM, poin, referralCode MHD-REF-8HEX), PointLedger (buku besar, balanceAfter audit), AcademyCourse (trilingual JSON + quiz JSON + passScore + rewardPoints), AcademyEnrollment, Certificate (SERT-2026-NNNNNNNN), ServiceSlot (3 layanan, kapasitas/sesi), SlotBooking (BKG-2026-NNNNNNNN), Benefit + BenefitRedemption (BNF); Member.card/Benefits relasi + MembershipApplication.referralCode
+- LIB src/lib/membership.ts: tierFor, generateCardNo/ReferralCode/Serial, awardPoints (transaction: ledger + tier recompute), issueCardForMember (idempoten), issueMissingCards, findCardByReferral
+- API 11 route baru: /api/cards (GET leaderboard|lookup|admin, POST issue-missing, PATCH set-status|adjust-points), /api/cards/verify (publik, counter), /api/academy/courses (CRUD admin + publik trilingual parse; quiz publik ditutup), /api/academy/enroll (POST idempoten + GET semi-privat menyertakan quiz hanya utk peserta), /api/academy/quiz (grading → lulus = Certificate otomatis + poin bila email = member email), /api/certificates/verify, /api/slots (+book: kapasitas-check transactional, GET status by code), /api/bookings (checkin/cancel + koreksi kuota), /api/benefits (+redeem: validasi 5 lapis, deduct poin transactional) — semua ok/fail/guardRole/rateLimit/logAudit
+- REFERRAL: applications POST menerima referralCode; PUT approve → issueCardForMember otomatis + awardPoints +100 REFERRAL ke perujuk (fire-and-forget, tak memblokir approval)
+- UI 6 view baru: kartu-anggota-view (kartu gradient per-tier + QR react-qr-code + progress tier + buku besar + leaderboard + aturan poin + referal), academy-view (filter kategori, enroll, quiz radio, hasil + kode sertifikat), booking-view (tab 3 layanan, kuota sisa, dialog booking, sukses QR kode, cek status), benefit-view (filter 6 kategori, badge poin/gratis, redeem KTA), kta-verify-view + certificate-verify-view (auto-verifikasi QR)
+- ADMIN +3 modul (admin-membership.tsx): Academy (statistik, toggle kursus, pendaftar+sertifikat), Booking (buat slot, daftar slot, check-in/batal), Benefits (CRUD benefit, tebusan, penyesuaian poin KTA); MENU + SECTION_ROLES
+- REGISTRY: menu dropdown baru "LAYANAN ANGGOTA" (kartu-anggota/academy/benefit/booking, label 3 bahasa), TITLES +6 slug, switch muhdin-app +6 case (deep-link verifikasi-kta/<no> & verifikasi-sertifikat/<code>), sitemap 50 URL; FIX QR paspor kini path nyata (bukan #/legacy)
+- i18n keanggotaan.ts: 7 namespace (mcard/mboard/acad/book/benef/ktav/certv) × 3 bahasa lengkap
+- SEED scripts/seed-membership.ts (idempoten): 53 KTA + variasi poin + 1 PLATINUM demo, 6 kursus (manasik umrah/haji, muthowif, fiqh wanita, digital marketing, first-aid) dgn quiz, 2 pendaftar+sertifikat demo, 7 slot (Jakarta/Surabaya/Bandung/Makassar), 8 benefit mitra
+- BUG DITEMUKAN+DIPERBAIKI: seed double-encode tril(...c.title) spread string per-karakter → judul render "{"; seed diubah (c.title langsung), data corrupt dibersihkan + re-seed
+- VERIFIKASI: lint 0/0; API smoke 12/12 = 200; E2E browser (lookup KTA render kartu+poin+ledger+leaderboard; enroll→quiz UI (jalur gagal)→API jawaban benar (skor 100)→sertifikat SERT-2026-22120003; booking BKG-2026-08940001; redeem BNF-2026-85620001 (800→600 poin); admin 3 modul deep-link data live; menu LAYANAN ANGGOTA tampil; verifikasi KTA & sertifikat auto OK; mobile 390px no-overflow; 0 console error); build produksi hijau + restart + 8 route 200
+
+Stage Summary:
+- Deliverable v11.0.0: 8 model + 11 API + 6 halaman publik + 3 modul admin + referral otomatis + seed — paritas konsep dengan Nusuk.sa untuk sisi keanggotaan
+- Poin mengalir otomatis: terbit +50, referal disetujui +100, lulus academy +30, redeem -cost; tier KLASIK/VERIFIED/PLATINUM recompute otomatis
+- Kredensial demo: KTA-2026-00003 (PLATINUM, 800 poin), sertifikat SERT-2026-10010001, login admin tetap

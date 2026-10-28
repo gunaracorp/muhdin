@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { guardRole, ok, fail } from "@/lib/api-helpers";
 import { logAudit } from "@/lib/audit"; // Task 18
+// v11 — Keanggotaan Power Pack: KTA otomatis + hadiah poin referal
+import { issueCardForMember, awardPoints, findCardByReferral, POINT_RULES } from "@/lib/membership";
 
 /**
  * Task 17 — Verifikasi keanggotaan.
@@ -32,21 +34,34 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ id: string 
       });
       // Buat anggota otomatis dari pendaftaran yang disetujui
       const existing = await db.member.findFirst({ where: { licenseNo: app.licenseNo } });
-      if (!existing) {
-        await db.member.create({
-          data: {
-            name: app.orgName,
-            type: app.type,
-            city: app.city,
-            province: app.province,
-            licenseNo: app.licenseNo,
-            phone: app.phone,
-            email: app.email,
-            status: "TERVERIFIKASI",
-            memberSince: new Date().getFullYear(),
-            description: app.message,
-          },
-        });
+      const member = existing
+        ? existing
+        : await db.member.create({
+            data: {
+              name: app.orgName,
+              type: app.type,
+              city: app.city,
+              province: app.province,
+              licenseNo: app.licenseNo,
+              phone: app.phone,
+              email: app.email,
+              status: "TERVERIFIKASI",
+              memberSince: new Date().getFullYear(),
+              description: app.message,
+            },
+          });
+      // v11 — KTA Digital otomatis untuk anggota baru + hadiah poin perujuk.
+      // Fire-and-forget: kegagalan fitur baru tidak boleh memblokir approval.
+      try {
+        await issueCardForMember(member.id);
+        if (app.referralCode) {
+          const referrer = await findCardByReferral(app.referralCode);
+          if (referrer && referrer.memberId !== member.id) {
+            await awardPoints(referrer.id, POINT_RULES.REFERRAL, "REFERRAL", `Perujuk pendaftaran ${app.orgName}`);
+          }
+        }
+      } catch {
+        /* biarkan approve tetap sukses */
       }
       // Task 18 — jejak audit persetujuan.
       void logAudit(req, { action: "APPROVE", entity: "Application", entityId: id, detail: `Setujui ${app.orgName}` });

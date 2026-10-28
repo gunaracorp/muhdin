@@ -18,6 +18,8 @@ import {
   AdminMessages, AdminApplications, AdminNusuk, AdminSettings, AdminTranslator,
 } from "@/components/admin/admin-sections";
 import { AdminUsers } from "@/components/admin/admin-users";
+// v11 — Keanggotaan Power Pack (Academy, Booking, Benefits)
+import { AdminAcademy, AdminBooking, AdminBenefits } from "@/components/admin/admin-membership";
 import { AdminWhatsAppCard } from "@/components/admin/admin-whatsapp";
 import { AdminEmailCard, AdminNotificationLog, AdminNotificationSetupChecklist } from "@/components/admin/admin-notifications";
 import { AdminBell } from "@/components/admin/admin-bell";
@@ -57,6 +59,10 @@ const MENU = [
   { id: "management", label: "Struktur Organisasi", icon: "users", group: "Ekosistem & Anggota" },
   { id: "branches", label: "Jaringan Daerah (DPD)", icon: "landmark", group: "Ekosistem & Anggota" },
   { id: "passport", label: "Paspor & GPS", icon: "wallet-cards", group: "Layanan Digital" },
+  // v11 — Keanggotaan Power Pack
+  { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap", group: "Layanan Digital" },
+  { id: "booking", label: "Booking & Slot", icon: "calendar-check", group: "Layanan Digital" },
+  { id: "benefits", label: "Benefit & Poin KTA", icon: "gift", group: "Ekosistem & Anggota" },
   { id: "tour", label: "Tur Virtual 360°", icon: "orbit", group: "Layanan Digital" },
   { id: "settings", label: "Pengaturan Situs", icon: "settings", group: "Sistem" },
   { id: "translator", label: "Penerjemah Cerdas", icon: "languages", group: "Layanan Digital" },
@@ -267,6 +273,10 @@ export function AdminView({ initialSection }: { initialSection?: string }) {
           {section === "management" && <AdminManagement />}
           {section === "branches" && <AdminBranches />}
           {section === "passport" && <AdminPassport />}
+          {/* v11 — Keanggotaan Power Pack */}
+          {section === "academy" && <AdminAcademy />}
+          {section === "booking" && <AdminBooking />}
+          {section === "benefits" && <AdminBenefits />}
           {section === "tour" && <AdminTour />}
           {section === "settings" && (
             <>

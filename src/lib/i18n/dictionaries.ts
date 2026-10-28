@@ -59,6 +59,8 @@ import { turDict } from "@/lib/i18n/locales/tur";
 // v10 — Statistik Nasional & Transparansi + Global Search
 import { statistikDict } from "@/lib/i18n/locales/statistik";
 import { searchDict } from "@/lib/i18n/locales/search";
+// v11 — Keanggotaan Power Pack (KTA Digital, Academy, Booking, Benefit)
+import { keanggotaanDict } from "@/lib/i18n/locales/keanggotaan";
 
 const dicts = [
   commonDict,
@@ -116,6 +118,8 @@ const dicts = [
   searchDict,
   // v4.1 — Halaman detail (anggota/agenda/galeri/dpd/faq/peta-situs)
   detailDict,
+  // v11 — Keanggotaan Power Pack
+  keanggotaanDict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

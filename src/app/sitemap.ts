@@ -32,6 +32,13 @@ const ROUTES: Array<[string, number]> = [
   ["pdp", 0.6],
   ["darurat", 0.6],
   ["verifikasi", 0.8],
+  // v11 — Keanggotaan Power Pack
+  ["kartu-anggota", 0.8],
+  ["academy", 0.8],
+  ["benefit", 0.7],
+  ["booking", 0.7],
+  ["verifikasi-kta", 0.6],
+  ["verifikasi-sertifikat", 0.6],
   ["daftar", 0.9],
   ["gabung", 0.7],
   ["galeri", 0.6],

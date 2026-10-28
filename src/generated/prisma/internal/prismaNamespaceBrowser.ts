@@ -83,7 +83,16 @@ export const ModelName = {
   HajjPassport: 'HajjPassport',
   TrackingDevice: 'TrackingDevice',
   GpsPing: 'GpsPing',
-  TourScene: 'TourScene'
+  TourScene: 'TourScene',
+  MemberCard: 'MemberCard',
+  PointLedger: 'PointLedger',
+  AcademyCourse: 'AcademyCourse',
+  AcademyEnrollment: 'AcademyEnrollment',
+  Certificate: 'Certificate',
+  ServiceSlot: 'ServiceSlot',
+  SlotBooking: 'SlotBooking',
+  Benefit: 'Benefit',
+  BenefitRedemption: 'BenefitRedemption'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -219,6 +228,7 @@ export const MembershipApplicationScalarFieldEnum = {
   province: 'province',
   licenseNo: 'licenseNo',
   message: 'message',
+  referralCode: 'referralCode',
   status: 'status',
   ticketCode: 'ticketCode',
   queueNumber: 'queueNumber',
@@ -629,6 +639,160 @@ export const TourSceneScalarFieldEnum = {
 } as const
 
 export type TourSceneScalarFieldEnum = (typeof TourSceneScalarFieldEnum)[keyof typeof TourSceneScalarFieldEnum]
+
+
+export const MemberCardScalarFieldEnum = {
+  id: 'id',
+  cardNo: 'cardNo',
+  memberId: 'memberId',
+  tier: 'tier',
+  points: 'points',
+  referralCode: 'referralCode',
+  status: 'status',
+  verificationCount: 'verificationCount',
+  lastVerifiedAt: 'lastVerifiedAt',
+  issuedAt: 'issuedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MemberCardScalarFieldEnum = (typeof MemberCardScalarFieldEnum)[keyof typeof MemberCardScalarFieldEnum]
+
+
+export const PointLedgerScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  delta: 'delta',
+  reason: 'reason',
+  note: 'note',
+  balanceAfter: 'balanceAfter',
+  createdAt: 'createdAt'
+} as const
+
+export type PointLedgerScalarFieldEnum = (typeof PointLedgerScalarFieldEnum)[keyof typeof PointLedgerScalarFieldEnum]
+
+
+export const AcademyCourseScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  summary: 'summary',
+  category: 'category',
+  level: 'level',
+  durationMin: 'durationMin',
+  modules: 'modules',
+  quiz: 'quiz',
+  passScore: 'passScore',
+  rewardPoints: 'rewardPoints',
+  icon: 'icon',
+  color: 'color',
+  order: 'order',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AcademyCourseScalarFieldEnum = (typeof AcademyCourseScalarFieldEnum)[keyof typeof AcademyCourseScalarFieldEnum]
+
+
+export const AcademyEnrollmentScalarFieldEnum = {
+  id: 'id',
+  courseSlug: 'courseSlug',
+  name: 'name',
+  email: 'email',
+  score: 'score',
+  status: 'status',
+  certificateId: 'certificateId',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type AcademyEnrollmentScalarFieldEnum = (typeof AcademyEnrollmentScalarFieldEnum)[keyof typeof AcademyEnrollmentScalarFieldEnum]
+
+
+export const CertificateScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  holderName: 'holderName',
+  courseSlug: 'courseSlug',
+  courseTitle: 'courseTitle',
+  score: 'score',
+  issuedAt: 'issuedAt',
+  verificationCount: 'verificationCount',
+  lastVerifiedAt: 'lastVerifiedAt'
+} as const
+
+export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
+
+
+export const ServiceSlotScalarFieldEnum = {
+  id: 'id',
+  service: 'service',
+  title: 'title',
+  city: 'city',
+  venue: 'venue',
+  startsAt: 'startsAt',
+  durationMin: 'durationMin',
+  capacity: 'capacity',
+  booked: 'booked',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceSlotScalarFieldEnum = (typeof ServiceSlotScalarFieldEnum)[keyof typeof ServiceSlotScalarFieldEnum]
+
+
+export const SlotBookingScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  slotId: 'slotId',
+  name: 'name',
+  phone: 'phone',
+  pax: 'pax',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  checkedInAt: 'checkedInAt'
+} as const
+
+export type SlotBookingScalarFieldEnum = (typeof SlotBookingScalarFieldEnum)[keyof typeof SlotBookingScalarFieldEnum]
+
+
+export const BenefitScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  partnerName: 'partnerName',
+  memberId: 'memberId',
+  category: 'category',
+  description: 'description',
+  discountText: 'discountText',
+  pointsCost: 'pointsCost',
+  quota: 'quota',
+  claimed: 'claimed',
+  validUntil: 'validUntil',
+  active: 'active',
+  icon: 'icon',
+  color: 'color',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BenefitScalarFieldEnum = (typeof BenefitScalarFieldEnum)[keyof typeof BenefitScalarFieldEnum]
+
+
+export const BenefitRedemptionScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  benefitId: 'benefitId',
+  cardId: 'cardId',
+  holderName: 'holderName',
+  status: 'status',
+  createdAt: 'createdAt',
+  usedAt: 'usedAt'
+} as const
+
+export type BenefitRedemptionScalarFieldEnum = (typeof BenefitRedemptionScalarFieldEnum)[keyof typeof BenefitRedemptionScalarFieldEnum]
 
 
 export const SortOrder = {

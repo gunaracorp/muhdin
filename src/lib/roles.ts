@@ -45,6 +45,10 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "branches", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   // v5 Fase 3 — Paspor & GPS (verifikator boleh melihat untuk pengecekan)
   { id: "passport", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v11 — Keanggotaan Power Pack
+  { id: "academy", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
+  { id: "booking", roles: ["SUPER_ADMIN", "ADMIN"] },
+  { id: "benefits", roles: ["SUPER_ADMIN", "ADMIN"] },
   // v5 Fase 4 — Tur Virtual 360° (kelola scene panorama)
   { id: "tour", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "settings", roles: ["SUPER_ADMIN", "ADMIN"] },

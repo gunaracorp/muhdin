@@ -52,6 +52,12 @@ const TITLES: Record<string, string> = {
   sehat: "Kesehatan Jamaah",
   kalkulator: "Kalkulator Biaya",
   widget: "Widget Portal",
+  "kartu-anggota": "KTA Digital — Kartu Tanda Anggota",
+  academy: "Manasik Academy",
+  booking: "Booking Layanan",
+  benefit: "Benefit Mitra Anggota",
+  "verifikasi-kta": "Verifikasi KTA Digital",
+  "verifikasi-sertifikat": "Verifikasi Sertifikat Digital",
   admin: "Admin CMS",
 };
 

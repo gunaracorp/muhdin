@@ -5,7 +5,7 @@ import { fail } from "@/lib/api-helpers";
 
 /**
  * v5 Fase 3 — Gambar QR paspor (PNG) untuk dicetak di kartu e-paspor.
- * Isi QR: URL verifikasi publik (#/verifikasi-paspor/<nomor>) sehingga
+ * Isi QR: URL verifikasi publik (/verifikasi-paspor/<nomor>) sehingga
  * petugas cukup memindai dengan kamera ponsel apa pun.
  * Konten deterministik per nomor → aman di-cache 24 jam.
  */
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ no: string 
     const cached = cache.get(passportNo);
     if (cached) return png(cached);
 
-    const target = `${req.nextUrl.origin}/#/verifikasi-paspor/${passportNo}`;
+    const target = `${req.nextUrl.origin}/verifikasi-paspor/${passportNo}`;
     const buf = await QRCode.toBuffer(target, {
       type: "png",
       width: 512,

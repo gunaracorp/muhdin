@@ -111,6 +111,9 @@ model Member {
   // v5 Fase 3 — Paspor Haji Digital + GPS Tracking rombongan
   passports   HajjPassport[]
   devices     TrackingDevice[]
+  // v11 — Keanggotaan Power Pack
+  card        MemberCard?
+  benefits    Benefit[]
 }
 
 model MembershipApplication {
@@ -124,6 +127,8 @@ model MembershipApplication {
   province    String
   licenseNo   String
   message     String?
+  // v11 — kode referal KTA (opsional) — approve menghadiahkan poin ke perujuk
+  referralCode String?
   status      String    @default("PENDING") // PENDING | APPROVED | REJECTED
   ticketCode  String    @default("") @unique // kode pelacakan publik (Task 18)
   queueNumber Int?      @unique // nomor urut pendaftaran global, atomik & monoton (Task 53)
@@ -543,4 +548,184 @@ model TourScene {
   updatedAt   DateTime @updatedAt
 
   @@index([active, order])
+}
+
+// ==================== v11 — KEANGGOTAAN POWER PACK ====================
+// Benchmark Nusuk.sa (Kementerian Haji KSA): e-permit QR, booking slot,
+// wallet/poin, kartu identitas digital, manasik guidance, sertifikat.
+
+/// KTA Digital — kartu tanda anggota digital ber-QR dengan tier, poin
+/// loyalty, dan kode referal. Terbit untuk Member berstatus TERVERIFIKASI.
+model MemberCard {
+  id                String    @id @default(cuid())
+  cardNo            String    @unique // KTA-2026-00001
+  memberId          String    @unique
+  member            Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  tier              String    @default("KLASIK") // KLASIK | VERIFIED | PLATINUM
+  points            Int       @default(0)
+  referralCode      String    @unique // MHD-REF-XXXXXX
+  status            String    @default("ACTIVE") // ACTIVE | SUSPENDED
+  verificationCount Int       @default(0)
+  lastVerifiedAt    DateTime?
+  issuedAt          DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  ledger            PointLedger[]
+  redemptions       BenefitRedemption[]
+
+  @@index([tier])
+  @@index([status])
+}
+
+/// Buku besar poin — setiap perubahan saldo tercatat (audit-friendly).
+model PointLedger {
+  id           String     @id @default(cuid())
+  cardId       String
+  card         MemberCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  delta        Int // +50 REGISTER, +100 REFERRAL, +30 ACADEMY, -cost REDEEM
+  reason       String // REGISTER | REFERRAL | ACADEMY | BOOKING | REDEEM | ADMIN
+  note         String?
+  balanceAfter Int
+  createdAt    DateTime   @default(now())
+
+  @@index([cardId, createdAt])
+}
+
+/// Kursus Manasik Academy — e-learning trilingual + quiz + sertifikat.
+model AcademyCourse {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String // JSON trilingual {"id","en","ar"}
+  summary      String // JSON trilingual
+  category     String   @default("MANASIK") // MANASIK | KOMPETENSI | SYARIAH | DIGITAL
+  level        String   @default("DASAR") // DASAR | MENENGAH | LANJUT
+  durationMin  Int      @default(60)
+  modules      Int      @default(4)
+  quiz         String   @default("[]") // JSON [{q,options[4],answer}]
+  passScore    Int      @default(70)
+  rewardPoints Int      @default(30)
+  icon         String   @default("book-open")
+  color        String   @default("emerald")
+  order        Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  enrollments  AcademyEnrollment[]
+
+  @@index([active, order])
+}
+
+/// Pendaftaran peserta kursus + progres quiz.
+model AcademyEnrollment {
+  id            String        @id @default(cuid())
+  courseSlug    String
+  course        AcademyCourse @relation(fields: [courseSlug], references: [slug], onDelete: Cascade)
+  name          String
+  email         String
+  score         Int?
+  status        String        @default("ONGOING") // ONGOING | COMPLETED | FAILED
+  certificateId String?       @unique
+  certificate   Certificate?  @relation(fields: [certificateId], references: [id], onDelete: SetNull)
+  startedAt     DateTime      @default(now())
+  completedAt   DateTime?
+
+  @@index([courseSlug, status])
+  @@index([email])
+}
+
+/// Sertifikat digital ber-QR — terbit otomatis saat peserta lulus quiz.
+model Certificate {
+  id                String             @id @default(cuid())
+  code              String             @unique // SERT-2026-00001
+  holderName        String
+  courseSlug        String
+  courseTitle       String // snapshot judul kursus saat terbit
+  score             Int
+  issuedAt          DateTime           @default(now())
+  verificationCount Int                @default(0)
+  lastVerifiedAt    DateTime?
+  enrollment        AcademyEnrollment?
+
+  @@index([courseSlug])
+}
+
+/// Slot layanan terjadwal (kelas manasik, klinik vaksin, konsultasi syariah)
+/// — pola booking ala Nusuk Rawdah: kapasitas terbatas per sesi.
+model ServiceSlot {
+  id          String        @id @default(cuid())
+  service     String // KELAS_MANASIK | KONSULTASI_SYARIAH | KLINIK_VAKSIN
+  title       String
+  city        String
+  venue       String
+  startsAt    DateTime
+  durationMin Int           @default(90)
+  capacity    Int           @default(30)
+  booked      Int           @default(0)
+  active      Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  bookings    SlotBooking[]
+
+  @@index([service, startsAt])
+  @@index([active])
+}
+
+/// Booking peserta untuk sebuah slot — kode unik + QR + status check-in.
+model SlotBooking {
+  id          String      @id @default(cuid())
+  code        String      @unique // BKG-XXXXXX
+  slotId      String
+  slot        ServiceSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  name        String
+  phone       String
+  pax         Int         @default(1)
+  status      String      @default("BOOKED") // BOOKED | CHECKED_IN | CANCELLED
+  notes       String?
+  createdAt   DateTime    @default(now())
+  checkedInAt DateTime?
+
+  @@index([slotId, status])
+  @@index([phone])
+}
+
+/// Katalog benefit mitra ekosistem — gratis (pointsCost 0) atau ditebus
+/// dengan poin KTA.
+model Benefit {
+  id           String              @id @default(cuid())
+  title        String
+  partnerName  String
+  memberId     String?
+  member       Member?             @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  category     String              @default("LAINNYA") // HOTEL | TRANSPORT | VAKSIN | UMRAH_PAKET | EDUKASI | LAINNYA
+  description  String
+  discountText String              @default("")
+  pointsCost   Int                 @default(0)
+  quota        Int?
+  claimed      Int                 @default(0)
+  validUntil   DateTime?
+  active       Boolean             @default(true)
+  icon         String              @default("gift")
+  color        String              @default("emerald")
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  redemptions  BenefitRedemption[]
+
+  @@index([active, category])
+}
+
+/// Tebusan benefit oleh pemegang KTA (poin dipotong saat redeem).
+model BenefitRedemption {
+  id         String     @id @default(cuid())
+  code       String     @unique // BNF-XXXXXX
+  benefitId  String
+  benefit    Benefit    @relation(fields: [benefitId], references: [id], onDelete: Cascade)
+  cardId     String
+  card       MemberCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  holderName String
+  status     String     @default("ISSUED") // ISSUED | USED | EXPIRED
+  createdAt  DateTime   @default(now())
+  usedAt     DateTime?
+
+  @@index([benefitId, status])
+  @@index([cardId])
 }
