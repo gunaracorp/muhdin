@@ -2039,3 +2039,21 @@ Stage Summary:
 - Admin CMS: 26 modul URL nyata deep-linkable + sidebar 6 grup + filter modul + breadcrumb
 - SEO: title unik per halaman via generateMetadata, noindex admin, sitemap 44 URL
 - Backward compat: hash lama tetap jalan (QR paspor, bookmark, materi cetak)
+
+---
+Task ID: 11
+Agent: main-agent (Z.ai)
+Task: Push ke GitHub gunaracorp/muhdin — v10.1.0 (Task 9-10) — SELESAI
+
+Work Log:
+- Kondisi awal: repo git lokal sandbox ternyata sudah di-reinit (3 commit auto-checkpoint, tanpa remote) — namun worklog memuat Task 10 lengkap (real-path routes + Admin CMS v10) yang belum pernah ter-push; remote main masih f5842f4 (v10.0.0)
+- Recon: git remote add origin + fetch origin main → diff origin/main vs HEAD = 529 file mode-noise + 19 file konten nyata (Task 9-10)
+- Sanity commit: backup branch lokal (backup-local-20261028) → core.filemode=false → reset mixed ke origin/main → add -A → staged tepat 19 file tanpa noise mode → commit 90409cd "v10.1.0: real-path routes (tanpa #) + Admin CMS v10 + Naskah Demo Presiden (Task 9-10)" PERSIS di atas origin/main (fast-forward mungkin, tanpa force)
+- Token: PAT lama (Task 8) tidak tersimpan by-design → minta PAT baru owner; verifikasi via GitHub API (full_name gunaracorp/muhdin, push=true, admin=true)
+- PUSH: f5842f4..90409cd main -> main FAST-FORWARD (tanpa force, history remote utuh 100%)
+- Verifikasi: ls-remote main == 90409cd ✓; .git/config URL polos tanpa token (dipakai inline saja) ✓; size-pack 21.87 MiB (aman batas GitHub) ✓; dev server hidup — / dan /anggota (rute real v10) HTTP 200 ✓
+
+Stage Summary:
+- GitHub gunaracorp/muhdin main kini = v10.1.0: URL profesional tanpa #, Admin CMS v10 deep-linkable 26 modul, sitemap 44 URL, naskah demo Presiden (DOCX 8 halaman + generator)
+- Siap untuk platform deploy (Vercel/dst) yang membaca dari GitHub
+- Prosedur keamanan token tetap: inline sekali pakai, tidak pernah disimpan di file/config
