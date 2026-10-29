@@ -1060,6 +1060,7 @@ export type RoadmapCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data used to create many Roadmaps.
    */
   data: Prisma.RoadmapCreateManyInput | Prisma.RoadmapCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1078,6 +1079,7 @@ export type RoadmapCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * The data used to create many Roadmaps.
    */
   data: Prisma.RoadmapCreateManyInput | Prisma.RoadmapCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -8,10 +8,11 @@ generator client {
   runtime  = "nodejs"
 }
 
-// v8 — URL koneksi dipindah ke prisma.config.ts (datasource) dan
-// adapter better-sqlite3 di PrismaClient constructor (src/lib/db.ts).
+// v11.1 — Migrasi ke Prisma Postgres (cloud, pooled.db.prisma.io).
+// URL koneksi di prisma.config.ts / .env (DATABASE_URL), adapter @prisma/adapter-pg
+// di PrismaClient constructor (src/lib/db.ts). Arsip SQLite lama: db/custom.db.
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ==================== AUTH ====================
@@ -301,6 +302,10 @@ model WhatsAppSetting {
   enabled           Boolean   @default(false) // saklar induk notifikasi
   notifyContact     Boolean   @default(true) // pesan kontak baru
   notifyApplication Boolean   @default(true) // pendaftaran anggota baru
+  // v11.1 — kejadian Layanan Anggota (Keanggotaan Power Pack)
+  notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
+  notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
+  notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
   // v5 Fase 2 — Chatbot AI WhatsApp (webhook /api/whatsapp/webhook)
   botEnabled        Boolean   @default(true) // saklar balasan otomatis AI
   botWebhookSecret  String    @default("") // rahasia bersama verifikasi webhook (header X-Webhook-Token)
@@ -331,6 +336,10 @@ model EmailSetting {
   notifyComplaint   Boolean   @default(true)
   notifySubscriber  Boolean   @default(true)
   notifyTestimonial Boolean   @default(true)
+  // v11.1 — kejadian Layanan Anggota (Keanggotaan Power Pack)
+  notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
+  notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
+  notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
   lastTestAt        DateTime?
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())

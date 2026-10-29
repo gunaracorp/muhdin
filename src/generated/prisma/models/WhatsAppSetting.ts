@@ -35,6 +35,9 @@ export type WhatsAppSettingMinAggregateOutputType = {
   enabled: boolean | null
   notifyContact: boolean | null
   notifyApplication: boolean | null
+  notifyAcademy: boolean | null
+  notifyBooking: boolean | null
+  notifyBenefit: boolean | null
   botEnabled: boolean | null
   botWebhookSecret: string | null
   lastTestAt: Date | null
@@ -52,6 +55,9 @@ export type WhatsAppSettingMaxAggregateOutputType = {
   enabled: boolean | null
   notifyContact: boolean | null
   notifyApplication: boolean | null
+  notifyAcademy: boolean | null
+  notifyBooking: boolean | null
+  notifyBenefit: boolean | null
   botEnabled: boolean | null
   botWebhookSecret: string | null
   lastTestAt: Date | null
@@ -69,6 +75,9 @@ export type WhatsAppSettingCountAggregateOutputType = {
   enabled: number
   notifyContact: number
   notifyApplication: number
+  notifyAcademy: number
+  notifyBooking: number
+  notifyBenefit: number
   botEnabled: number
   botWebhookSecret: number
   lastTestAt: number
@@ -88,6 +97,9 @@ export type WhatsAppSettingMinAggregateInputType = {
   enabled?: true
   notifyContact?: true
   notifyApplication?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   botEnabled?: true
   botWebhookSecret?: true
   lastTestAt?: true
@@ -105,6 +117,9 @@ export type WhatsAppSettingMaxAggregateInputType = {
   enabled?: true
   notifyContact?: true
   notifyApplication?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   botEnabled?: true
   botWebhookSecret?: true
   lastTestAt?: true
@@ -122,6 +137,9 @@ export type WhatsAppSettingCountAggregateInputType = {
   enabled?: true
   notifyContact?: true
   notifyApplication?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   botEnabled?: true
   botWebhookSecret?: true
   lastTestAt?: true
@@ -212,6 +230,9 @@ export type WhatsAppSettingGroupByOutputType = {
   enabled: boolean
   notifyContact: boolean
   notifyApplication: boolean
+  notifyAcademy: boolean
+  notifyBooking: boolean
+  notifyBenefit: boolean
   botEnabled: boolean
   botWebhookSecret: string
   lastTestAt: Date | null
@@ -250,6 +271,9 @@ export type WhatsAppSettingWhereInput = {
   enabled?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   notifyContact?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   notifyApplication?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyAcademy?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyBooking?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyBenefit?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   botEnabled?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   botWebhookSecret?: Prisma.StringFilter<"WhatsAppSetting"> | string
   lastTestAt?: Prisma.DateTimeNullableFilter<"WhatsAppSetting"> | Date | string | null
@@ -267,6 +291,9 @@ export type WhatsAppSettingOrderByWithRelationInput = {
   enabled?: Prisma.SortOrder
   notifyContact?: Prisma.SortOrder
   notifyApplication?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   botEnabled?: Prisma.SortOrder
   botWebhookSecret?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -287,6 +314,9 @@ export type WhatsAppSettingWhereUniqueInput = Prisma.AtLeast<{
   enabled?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   notifyContact?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   notifyApplication?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyAcademy?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyBooking?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
+  notifyBenefit?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   botEnabled?: Prisma.BoolFilter<"WhatsAppSetting"> | boolean
   botWebhookSecret?: Prisma.StringFilter<"WhatsAppSetting"> | string
   lastTestAt?: Prisma.DateTimeNullableFilter<"WhatsAppSetting"> | Date | string | null
@@ -304,6 +334,9 @@ export type WhatsAppSettingOrderByWithAggregationInput = {
   enabled?: Prisma.SortOrder
   notifyContact?: Prisma.SortOrder
   notifyApplication?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   botEnabled?: Prisma.SortOrder
   botWebhookSecret?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -327,6 +360,9 @@ export type WhatsAppSettingScalarWhereWithAggregatesInput = {
   enabled?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
   notifyContact?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
   notifyApplication?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
+  notifyAcademy?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
+  notifyBooking?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
+  notifyBenefit?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
   botEnabled?: Prisma.BoolWithAggregatesFilter<"WhatsAppSetting"> | boolean
   botWebhookSecret?: Prisma.StringWithAggregatesFilter<"WhatsAppSetting"> | string
   lastTestAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WhatsAppSetting"> | Date | string | null
@@ -344,6 +380,9 @@ export type WhatsAppSettingCreateInput = {
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: string
   lastTestAt?: Date | string | null
@@ -361,6 +400,9 @@ export type WhatsAppSettingUncheckedCreateInput = {
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: string
   lastTestAt?: Date | string | null
@@ -378,6 +420,9 @@ export type WhatsAppSettingUpdateInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyApplication?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botWebhookSecret?: Prisma.StringFieldUpdateOperationsInput | string
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -395,6 +440,9 @@ export type WhatsAppSettingUncheckedUpdateInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyApplication?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botWebhookSecret?: Prisma.StringFieldUpdateOperationsInput | string
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -412,6 +460,9 @@ export type WhatsAppSettingCreateManyInput = {
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: string
   lastTestAt?: Date | string | null
@@ -429,6 +480,9 @@ export type WhatsAppSettingUpdateManyMutationInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyApplication?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botWebhookSecret?: Prisma.StringFieldUpdateOperationsInput | string
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -446,6 +500,9 @@ export type WhatsAppSettingUncheckedUpdateManyInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyApplication?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   botWebhookSecret?: Prisma.StringFieldUpdateOperationsInput | string
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -463,6 +520,9 @@ export type WhatsAppSettingCountOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notifyContact?: Prisma.SortOrder
   notifyApplication?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   botEnabled?: Prisma.SortOrder
   botWebhookSecret?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
@@ -480,6 +540,9 @@ export type WhatsAppSettingMaxOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notifyContact?: Prisma.SortOrder
   notifyApplication?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   botEnabled?: Prisma.SortOrder
   botWebhookSecret?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
@@ -497,6 +560,9 @@ export type WhatsAppSettingMinOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notifyContact?: Prisma.SortOrder
   notifyApplication?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   botEnabled?: Prisma.SortOrder
   botWebhookSecret?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
@@ -516,6 +582,9 @@ export type WhatsAppSettingSelect<ExtArgs extends runtime.Types.Extensions.Inter
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: boolean
   lastTestAt?: boolean
@@ -533,6 +602,9 @@ export type WhatsAppSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: boolean
   lastTestAt?: boolean
@@ -550,6 +622,9 @@ export type WhatsAppSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: boolean
   lastTestAt?: boolean
@@ -567,6 +642,9 @@ export type WhatsAppSettingSelectScalar = {
   enabled?: boolean
   notifyContact?: boolean
   notifyApplication?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   botEnabled?: boolean
   botWebhookSecret?: boolean
   lastTestAt?: boolean
@@ -575,7 +653,7 @@ export type WhatsAppSettingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WhatsAppSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "apiUrl" | "token" | "target" | "enabled" | "notifyContact" | "notifyApplication" | "botEnabled" | "botWebhookSecret" | "lastTestAt" | "lastTestStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["whatsAppSetting"]>
+export type WhatsAppSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "apiUrl" | "token" | "target" | "enabled" | "notifyContact" | "notifyApplication" | "notifyAcademy" | "notifyBooking" | "notifyBenefit" | "botEnabled" | "botWebhookSecret" | "lastTestAt" | "lastTestStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["whatsAppSetting"]>
 
 export type $WhatsAppSettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WhatsAppSetting"
@@ -589,6 +667,9 @@ export type $WhatsAppSettingPayload<ExtArgs extends runtime.Types.Extensions.Int
     enabled: boolean
     notifyContact: boolean
     notifyApplication: boolean
+    notifyAcademy: boolean
+    notifyBooking: boolean
+    notifyBenefit: boolean
     botEnabled: boolean
     botWebhookSecret: string
     lastTestAt: Date | null
@@ -1026,6 +1107,9 @@ export interface WhatsAppSettingFieldRefs {
   readonly enabled: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
   readonly notifyContact: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
   readonly notifyApplication: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
+  readonly notifyAcademy: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
+  readonly notifyBooking: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
+  readonly notifyBenefit: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
   readonly botEnabled: Prisma.FieldRef<"WhatsAppSetting", 'Boolean'>
   readonly botWebhookSecret: Prisma.FieldRef<"WhatsAppSetting", 'String'>
   readonly lastTestAt: Prisma.FieldRef<"WhatsAppSetting", 'DateTime'>
@@ -1242,6 +1326,7 @@ export type WhatsAppSettingCreateManyArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many WhatsAppSettings.
    */
   data: Prisma.WhatsAppSettingCreateManyInput | Prisma.WhatsAppSettingCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1260,6 +1345,7 @@ export type WhatsAppSettingCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    * The data used to create many WhatsAppSettings.
    */
   data: Prisma.WhatsAppSettingCreateManyInput | Prisma.WhatsAppSettingCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

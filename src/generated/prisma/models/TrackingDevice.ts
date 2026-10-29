@@ -747,6 +747,7 @@ export type TrackingDeviceCreateOrConnectWithoutMemberInput = {
 
 export type TrackingDeviceCreateManyMemberInputEnvelope = {
   data: Prisma.TrackingDeviceCreateManyMemberInput | Prisma.TrackingDeviceCreateManyMemberInput[]
+  skipDuplicates?: boolean
 }
 
 export type TrackingDeviceUpsertWithWhereUniqueWithoutMemberInput = {
@@ -1776,6 +1777,7 @@ export type TrackingDeviceCreateManyArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many TrackingDevices.
    */
   data: Prisma.TrackingDeviceCreateManyInput | Prisma.TrackingDeviceCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1794,6 +1796,7 @@ export type TrackingDeviceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * The data used to create many TrackingDevices.
    */
   data: Prisma.TrackingDeviceCreateManyInput | Prisma.TrackingDeviceCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

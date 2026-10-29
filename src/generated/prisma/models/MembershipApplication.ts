@@ -1432,6 +1432,7 @@ export type MembershipApplicationCreateManyArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many MembershipApplications.
    */
   data: Prisma.MembershipApplicationCreateManyInput | Prisma.MembershipApplicationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1450,6 +1451,7 @@ export type MembershipApplicationCreateManyAndReturnArgs<ExtArgs extends runtime
    * The data used to create many MembershipApplications.
    */
   data: Prisma.MembershipApplicationCreateManyInput | Prisma.MembershipApplicationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -1,53 +1,42 @@
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { copyFileSync, existsSync, mkdirSync } from "node:fs";
-import path from "node:path";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { config as dotenvConfig } from "dotenv";
 
 /**
- * v8 — PrismaClient dengan driver adapter better-sqlite3 (arsitektur
- * Rust-free: query compiler TypeScript, TANPA unduhan binary engine).
- * Hasilnya: `bun install` jauh lebih ringan & cepat di semua lingkungan.
+ * v11.1 — PrismaClient dengan driver adapter @prisma/adapter-pg.
  *
- * Resolusi path database saat runtime — self-healing & Vercel-ready.
+ * Sumber data kini Prisma Postgres (cloud, pooled.db.prisma.io) —
+ * semua pendaftaran/notifikasi tersimpan permanen di Postgres, aman
+ * terhadap restart/redeploy sandbox (SQLite lokal hanya arsip).
  *
- * Urutan keputusan:
- * 1. Di Vercel/serverless (filesystem read-only, kecuali /tmp):
- *    salin database SQLite yang ter-bundle (db/custom.db) ke /tmp
- *    lalu gunakan salinan itu (SQLite butuh akses tulis meski hanya membaca).
- * 2. Hormati DATABASE_URL eksplisit (.env / env var) SELAMA file-nya nyata ada.
- *    Path warisan yang tidak ada (mis. path absolut komputer lain) diabaikan
- *    dengan anggun — inilah yang membuat deploy berpindah mesin tetap hidup.
- * 3. Lokal/VPS: gunakan db/custom.db di root proyek (path absolut dari cwd).
+ * dotenv override:true — .env SELALU menang atas env var warisan
+ * sandbox/server. Kasus nyata (Task 13): container membawa
+ * DATABASE_URL=file:... lama dari boot, sehingga tanpa override runtime
+ * salah menyambung. Di Vercel/.env tidak ada → override no-op, env
+ * dashboard tetap dipakai.
  *
- * Catatan: berjalan di Node.js (runtime Next.js). Di bawah runtime Bun,
- * native modul better-sqlite3 belum didukung (oven-sh/bun#4290) —
- * skrip lepas gunakan `npx tsx` / Node, bukan `bun run`.
+ * Arsitektur Rust-free tetap: query compiler TypeScript + adapter,
+ * tanpa unduhan binary engine.
  */
-function resolveDatabasePath(): string {
-  const bundled = path.join(process.cwd(), 'db', 'custom.db')
+dotenvConfig({ override: true });
 
-  if (process.env.VERCEL === '1') {
-    const tmpDb = '/tmp/muhdin.db'
-    try {
-      mkdirSync('/tmp', { recursive: true })
-      if (existsSync(bundled)) copyFileSync(bundled, tmpDb)
-    } catch {
-      // biarkan adapter yang melaporkan bila /tmp tak tersedia
-    }
-    if (existsSync(tmpDb)) return tmpDb
+const PG_URL = (process.env.DATABASE_URL || "").trim();
+
+function resolvePgConfig(): { connectionString: string; ssl: { rejectUnauthorized: false }; max: number } {
+  if (PG_URL.startsWith("postgres://") || PG_URL.startsWith("postgresql://")) {
+    return {
+      connectionString: PG_URL,
+      // Prisma Postgres mewajibkan SSL. verify-full bawaan pg kadang gagal
+      // pada CA sandbox — samakan semantik dengan sslmode=require Prisma.
+      ssl: { rejectUnauthorized: false },
+      max: 10, // pool kecil cukup untuk workload portal
+    };
   }
-
-  const explicit = process.env.DATABASE_URL
-  if (explicit) {
-    if (!explicit.startsWith('file:')) return explicit // provider lain — serahkan ke adapter
-    const candidate = explicit.slice('file:'.length)
-    const abs = path.isAbsolute(candidate)
-      ? candidate
-      : path.resolve(process.cwd(), candidate)
-    if (existsSync(abs)) return abs
-  }
-
-  return bundled
+  // Belum ada URL Postgres yang sah — jangan biarkan proses hidup dengan
+  // koneksi salah sasaran: lempar pesan yang bisa ditindaklanjuti.
+  throw new Error(
+    "DATABASE_URL Postgres belum diatur. Isi .env (lihat .env.example) atau env var deployment dengan postgres://…@pooled.db.prisma.io:5432/postgres?sslmode=require"
+  );
 }
 
 const globalForPrisma = globalThis as unknown as {
@@ -57,8 +46,8 @@ const globalForPrisma = globalThis as unknown as {
 export const db =
   globalForPrisma.prisma ??
   new PrismaClient({
-    // Driver adapter SQLite — wajib di v8 (tanpa engine Rust).
-    adapter: new PrismaBetterSqlite3({ url: resolveDatabasePath() }),
+    // Driver adapter Postgres — wajib di v8 (tanpa engine Rust).
+    adapter: new PrismaPg(resolvePgConfig()),
     // Query logging hanya di development agar log produksi/Vercel bersih.
     log: process.env.NODE_ENV === 'development' ? ['query'] : [],
   })

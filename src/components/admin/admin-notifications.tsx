@@ -80,6 +80,9 @@ export function AdminEmailCard() {
         notifyComplaint: cfg.notifyComplaint,
         notifySubscriber: cfg.notifySubscriber,
         notifyTestimonial: cfg.notifyTestimonial,
+        notifyAcademy: cfg.notifyAcademy,
+        notifyBooking: cfg.notifyBooking,
+        notifyBenefit: cfg.notifyBenefit,
       };
       if (passInput.trim()) payload.smtpPass = passInput.trim();
       const updated = await apiSend<EmailConfig>("/api/email-settings", "PUT", payload);
@@ -122,6 +125,9 @@ export function AdminEmailCard() {
     { key: "notifyComplaint" as const, icon: "siren", title: "Pengaduan Jamaah", desc: "Laporan dari halaman Posko Pengaduan." },
     { key: "notifySubscriber" as const, icon: "newspaper", title: "Langganan Newsletter", desc: "Pendaftar kabar via footer portal." },
     { key: "notifyTestimonial" as const, icon: "star", title: "Testimoni Baru", desc: "Testimoni jamaah yang menunggu moderasi." },
+    { key: "notifyAcademy" as const, icon: "graduation-cap", title: "Akademi (Kursus & Sertifikat)", desc: "Pendaftaran kursus + kelulusan ber-sertifikat QR." },
+    { key: "notifyBooking" as const, icon: "calendar", title: "Booking Slot Layanan", desc: "Kelas manasik, konsultasi syariah, klinik vaksin (BKG)." },
+    { key: "notifyBenefit" as const, icon: "award", title: "Tebus Benefit Mitra", desc: "Penukaran poin KTA ke benefit mitra (BNF)." },
   ];
 
   return (

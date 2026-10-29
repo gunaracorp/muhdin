@@ -1060,6 +1060,7 @@ export type FaqCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * The data used to create many Faqs.
    */
   data: Prisma.FaqCreateManyInput | Prisma.FaqCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1078,6 +1079,7 @@ export type FaqCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many Faqs.
    */
   data: Prisma.FaqCreateManyInput | Prisma.FaqCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

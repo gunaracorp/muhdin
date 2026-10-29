@@ -559,6 +559,7 @@ export type AcademyEnrollmentCreateOrConnectWithoutCourseInput = {
 
 export type AcademyEnrollmentCreateManyCourseInputEnvelope = {
   data: Prisma.AcademyEnrollmentCreateManyCourseInput | Prisma.AcademyEnrollmentCreateManyCourseInput[]
+  skipDuplicates?: boolean
 }
 
 export type AcademyEnrollmentUpsertWithWhereUniqueWithoutCourseInput = {
@@ -1450,6 +1451,7 @@ export type AcademyEnrollmentCreateManyArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many AcademyEnrollments.
    */
   data: Prisma.AcademyEnrollmentCreateManyInput | Prisma.AcademyEnrollmentCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1468,6 +1470,7 @@ export type AcademyEnrollmentCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * The data used to create many AcademyEnrollments.
    */
   data: Prisma.AcademyEnrollmentCreateManyInput | Prisma.AcademyEnrollmentCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

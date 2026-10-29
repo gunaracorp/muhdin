@@ -199,6 +199,10 @@ export interface WhatsAppConfig {
   enabled: boolean;
   notifyContact: boolean;
   notifyApplication: boolean;
+  // v11.1 — kejadian Layanan Anggota
+  notifyAcademy: boolean;
+  notifyBooking: boolean;
+  notifyBenefit: boolean;
   hasToken: boolean;
   tokenMasked: string;
   // v5 Fase 2 — chatbot AI WhatsApp
@@ -223,6 +227,10 @@ export interface EmailConfig {
   notifyComplaint: boolean;
   notifySubscriber: boolean;
   notifyTestimonial: boolean;
+  // v11.1 — kejadian Layanan Anggota
+  notifyAcademy: boolean;
+  notifyBooking: boolean;
+  notifyBenefit: boolean;
   hasPass: boolean;
   passMasked: string;
   envFallback: boolean;

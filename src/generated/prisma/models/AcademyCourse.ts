@@ -1578,6 +1578,7 @@ export type AcademyCourseCreateManyArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many AcademyCourses.
    */
   data: Prisma.AcademyCourseCreateManyInput | Prisma.AcademyCourseCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1596,6 +1597,7 @@ export type AcademyCourseCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * The data used to create many AcademyCourses.
    */
   data: Prisma.AcademyCourseCreateManyInput | Prisma.AcademyCourseCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

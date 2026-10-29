@@ -1275,6 +1275,7 @@ export type CertificateCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many Certificates.
    */
   data: Prisma.CertificateCreateManyInput | Prisma.CertificateCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1293,6 +1294,7 @@ export type CertificateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many Certificates.
    */
   data: Prisma.CertificateCreateManyInput | Prisma.CertificateCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

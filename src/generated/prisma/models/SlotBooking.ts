@@ -544,6 +544,7 @@ export type SlotBookingCreateOrConnectWithoutSlotInput = {
 
 export type SlotBookingCreateManySlotInputEnvelope = {
   data: Prisma.SlotBookingCreateManySlotInput | Prisma.SlotBookingCreateManySlotInput[]
+  skipDuplicates?: boolean
 }
 
 export type SlotBookingUpsertWithWhereUniqueWithoutSlotInput = {
@@ -1378,6 +1379,7 @@ export type SlotBookingCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many SlotBookings.
    */
   data: Prisma.SlotBookingCreateManyInput | Prisma.SlotBookingCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1396,6 +1398,7 @@ export type SlotBookingCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many SlotBookings.
    */
   data: Prisma.SlotBookingCreateManyInput | Prisma.SlotBookingCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

@@ -1313,6 +1313,7 @@ export type RegionalBranchCreateManyArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many RegionalBranches.
    */
   data: Prisma.RegionalBranchCreateManyInput | Prisma.RegionalBranchCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1331,6 +1332,7 @@ export type RegionalBranchCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * The data used to create many RegionalBranches.
    */
   data: Prisma.RegionalBranchCreateManyInput | Prisma.RegionalBranchCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

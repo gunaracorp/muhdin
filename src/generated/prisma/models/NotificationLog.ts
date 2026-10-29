@@ -1101,6 +1101,7 @@ export type NotificationLogCreateManyArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many NotificationLogs.
    */
   data: Prisma.NotificationLogCreateManyInput | Prisma.NotificationLogCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1119,6 +1120,7 @@ export type NotificationLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    * The data used to create many NotificationLogs.
    */
   data: Prisma.NotificationLogCreateManyInput | Prisma.NotificationLogCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -1648,6 +1648,7 @@ export type MemberCardCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data used to create many MemberCards.
    */
   data: Prisma.MemberCardCreateManyInput | Prisma.MemberCardCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1666,6 +1667,7 @@ export type MemberCardCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many MemberCards.
    */
   data: Prisma.MemberCardCreateManyInput | Prisma.MemberCardCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

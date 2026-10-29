@@ -1088,6 +1088,7 @@ export type JourneyStepCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many JourneySteps.
    */
   data: Prisma.JourneyStepCreateManyInput | Prisma.JourneyStepCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1106,6 +1107,7 @@ export type JourneyStepCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many JourneySteps.
    */
   data: Prisma.JourneyStepCreateManyInput | Prisma.JourneyStepCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -4,6 +4,8 @@ import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
 import { logAudit } from "@/lib/audit";
 import { awardPoints, generateSerial } from "@/lib/membership";
+import { notifyBenefit } from "@/lib/whatsapp"; // v11.1 — notifikasi WA
+import { notifyEmailBenefit } from "@/lib/email"; // v11.1 — notifikasi email
 
 /**
  * v11 — Tebus benefit dengan KTA Digital.
@@ -78,6 +80,24 @@ export async function POST(req: NextRequest) {
       entity: "BenefitRedemption",
       entityId: code,
       detail: `${card.cardNo} → ${benefit.title}`,
+    });
+
+    // v11.1 — teruskan penebusan ke sekretariat (email + WA), gagal-aman.
+    void notifyBenefit({
+      code,
+      holderName: card.member.name,
+      cardNo: card.cardNo,
+      benefitTitle: benefit.title,
+      pointsCost: benefit.pointsCost,
+    });
+    void notifyEmailBenefit({
+      code,
+      benefitTitle: benefit.title,
+      cardNo: card.cardNo,
+      holderName: card.member.name,
+      pointsCost: benefit.pointsCost,
+      createdAt: redemption.createdAt,
+      refId: redemption.id,
     });
 
     const pointsLeft = card.points - benefit.pointsCost;

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
 import { generateSerial } from "@/lib/membership";
+import { notifyBooking } from "@/lib/whatsapp"; // v11.1 — notifikasi WA
+import { notifyEmailBooking } from "@/lib/email"; // v11.1 — notifikasi email
 
 /**
  * v11 — Booking slot layanan.
@@ -38,6 +40,31 @@ export async function POST(req: NextRequest) {
       }),
       db.serviceSlot.update({ where: { id: slotId }, data: { booked: { increment: pax } } }),
     ]);
+    // v11.1 — teruskan booking ke sekretariat (email + WA), gagal-aman.
+    void notifyBooking({
+      code,
+      name,
+      phone,
+      pax,
+      service: slot.service,
+      slotTitle: slot.title,
+      city: slot.city,
+      startsAt: slot.startsAt,
+    });
+    void notifyEmailBooking({
+      code,
+      service: slot.service,
+      slotTitle: slot.title,
+      city: slot.city,
+      venue: slot.venue,
+      startsAt: slot.startsAt,
+      name,
+      phone,
+      pax,
+      notes: booking.notes,
+      createdAt: booking.createdAt,
+      refId: booking.id,
+    });
     return ok({ booking, slot: { title: slot.title, city: slot.city, venue: slot.venue, startsAt: slot.startsAt } });
   } catch (e) {
     return fail(e instanceof Error ? e.message : "Gagal membuat booking.", 500);

@@ -52,6 +52,9 @@ export type EmailSettingMinAggregateOutputType = {
   notifyComplaint: boolean | null
   notifySubscriber: boolean | null
   notifyTestimonial: boolean | null
+  notifyAcademy: boolean | null
+  notifyBooking: boolean | null
+  notifyBenefit: boolean | null
   lastTestAt: Date | null
   lastTestStatus: string | null
   createdAt: Date | null
@@ -73,6 +76,9 @@ export type EmailSettingMaxAggregateOutputType = {
   notifyComplaint: boolean | null
   notifySubscriber: boolean | null
   notifyTestimonial: boolean | null
+  notifyAcademy: boolean | null
+  notifyBooking: boolean | null
+  notifyBenefit: boolean | null
   lastTestAt: Date | null
   lastTestStatus: string | null
   createdAt: Date | null
@@ -94,6 +100,9 @@ export type EmailSettingCountAggregateOutputType = {
   notifyComplaint: number
   notifySubscriber: number
   notifyTestimonial: number
+  notifyAcademy: number
+  notifyBooking: number
+  notifyBenefit: number
   lastTestAt: number
   lastTestStatus: number
   createdAt: number
@@ -125,6 +134,9 @@ export type EmailSettingMinAggregateInputType = {
   notifyComplaint?: true
   notifySubscriber?: true
   notifyTestimonial?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   lastTestAt?: true
   lastTestStatus?: true
   createdAt?: true
@@ -146,6 +158,9 @@ export type EmailSettingMaxAggregateInputType = {
   notifyComplaint?: true
   notifySubscriber?: true
   notifyTestimonial?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   lastTestAt?: true
   lastTestStatus?: true
   createdAt?: true
@@ -167,6 +182,9 @@ export type EmailSettingCountAggregateInputType = {
   notifyComplaint?: true
   notifySubscriber?: true
   notifyTestimonial?: true
+  notifyAcademy?: true
+  notifyBooking?: true
+  notifyBenefit?: true
   lastTestAt?: true
   lastTestStatus?: true
   createdAt?: true
@@ -275,6 +293,9 @@ export type EmailSettingGroupByOutputType = {
   notifyComplaint: boolean
   notifySubscriber: boolean
   notifyTestimonial: boolean
+  notifyAcademy: boolean
+  notifyBooking: boolean
+  notifyBenefit: boolean
   lastTestAt: Date | null
   lastTestStatus: string
   createdAt: Date
@@ -319,6 +340,9 @@ export type EmailSettingWhereInput = {
   notifyComplaint?: Prisma.BoolFilter<"EmailSetting"> | boolean
   notifySubscriber?: Prisma.BoolFilter<"EmailSetting"> | boolean
   notifyTestimonial?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyAcademy?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyBooking?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyBenefit?: Prisma.BoolFilter<"EmailSetting"> | boolean
   lastTestAt?: Prisma.DateTimeNullableFilter<"EmailSetting"> | Date | string | null
   lastTestStatus?: Prisma.StringFilter<"EmailSetting"> | string
   createdAt?: Prisma.DateTimeFilter<"EmailSetting"> | Date | string
@@ -340,6 +364,9 @@ export type EmailSettingOrderByWithRelationInput = {
   notifyComplaint?: Prisma.SortOrder
   notifySubscriber?: Prisma.SortOrder
   notifyTestimonial?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -364,6 +391,9 @@ export type EmailSettingWhereUniqueInput = Prisma.AtLeast<{
   notifyComplaint?: Prisma.BoolFilter<"EmailSetting"> | boolean
   notifySubscriber?: Prisma.BoolFilter<"EmailSetting"> | boolean
   notifyTestimonial?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyAcademy?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyBooking?: Prisma.BoolFilter<"EmailSetting"> | boolean
+  notifyBenefit?: Prisma.BoolFilter<"EmailSetting"> | boolean
   lastTestAt?: Prisma.DateTimeNullableFilter<"EmailSetting"> | Date | string | null
   lastTestStatus?: Prisma.StringFilter<"EmailSetting"> | string
   createdAt?: Prisma.DateTimeFilter<"EmailSetting"> | Date | string
@@ -385,6 +415,9 @@ export type EmailSettingOrderByWithAggregationInput = {
   notifyComplaint?: Prisma.SortOrder
   notifySubscriber?: Prisma.SortOrder
   notifyTestimonial?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -414,6 +447,9 @@ export type EmailSettingScalarWhereWithAggregatesInput = {
   notifyComplaint?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
   notifySubscriber?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
   notifyTestimonial?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
+  notifyAcademy?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
+  notifyBooking?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
+  notifyBenefit?: Prisma.BoolWithAggregatesFilter<"EmailSetting"> | boolean
   lastTestAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailSetting"> | Date | string | null
   lastTestStatus?: Prisma.StringWithAggregatesFilter<"EmailSetting"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmailSetting"> | Date | string
@@ -435,6 +471,9 @@ export type EmailSettingCreateInput = {
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: Date | string | null
   lastTestStatus?: string
   createdAt?: Date | string
@@ -456,6 +495,9 @@ export type EmailSettingUncheckedCreateInput = {
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: Date | string | null
   lastTestStatus?: string
   createdAt?: Date | string
@@ -477,6 +519,9 @@ export type EmailSettingUpdateInput = {
   notifyComplaint?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifySubscriber?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyTestimonial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,6 +543,9 @@ export type EmailSettingUncheckedUpdateInput = {
   notifyComplaint?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifySubscriber?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyTestimonial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -519,6 +567,9 @@ export type EmailSettingCreateManyInput = {
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: Date | string | null
   lastTestStatus?: string
   createdAt?: Date | string
@@ -540,6 +591,9 @@ export type EmailSettingUpdateManyMutationInput = {
   notifyComplaint?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifySubscriber?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyTestimonial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -561,6 +615,9 @@ export type EmailSettingUncheckedUpdateManyInput = {
   notifyComplaint?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifySubscriber?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notifyTestimonial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyAcademy?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notifyBenefit?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTestAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -582,6 +639,9 @@ export type EmailSettingCountOrderByAggregateInput = {
   notifyComplaint?: Prisma.SortOrder
   notifySubscriber?: Prisma.SortOrder
   notifyTestimonial?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
   lastTestStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -607,6 +667,9 @@ export type EmailSettingMaxOrderByAggregateInput = {
   notifyComplaint?: Prisma.SortOrder
   notifySubscriber?: Prisma.SortOrder
   notifyTestimonial?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
   lastTestStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -628,6 +691,9 @@ export type EmailSettingMinOrderByAggregateInput = {
   notifyComplaint?: Prisma.SortOrder
   notifySubscriber?: Prisma.SortOrder
   notifyTestimonial?: Prisma.SortOrder
+  notifyAcademy?: Prisma.SortOrder
+  notifyBooking?: Prisma.SortOrder
+  notifyBenefit?: Prisma.SortOrder
   lastTestAt?: Prisma.SortOrder
   lastTestStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -655,6 +721,9 @@ export type EmailSettingSelect<ExtArgs extends runtime.Types.Extensions.Internal
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: boolean
   lastTestStatus?: boolean
   createdAt?: boolean
@@ -676,6 +745,9 @@ export type EmailSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: boolean
   lastTestStatus?: boolean
   createdAt?: boolean
@@ -697,6 +769,9 @@ export type EmailSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: boolean
   lastTestStatus?: boolean
   createdAt?: boolean
@@ -718,13 +793,16 @@ export type EmailSettingSelectScalar = {
   notifyComplaint?: boolean
   notifySubscriber?: boolean
   notifyTestimonial?: boolean
+  notifyAcademy?: boolean
+  notifyBooking?: boolean
+  notifyBenefit?: boolean
   lastTestAt?: boolean
   lastTestStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EmailSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "smtpHost" | "smtpPort" | "smtpSecure" | "smtpUser" | "smtpPass" | "fromName" | "recipients" | "enabled" | "notifyContact" | "notifyApplication" | "notifyComplaint" | "notifySubscriber" | "notifyTestimonial" | "lastTestAt" | "lastTestStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["emailSetting"]>
+export type EmailSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "smtpHost" | "smtpPort" | "smtpSecure" | "smtpUser" | "smtpPass" | "fromName" | "recipients" | "enabled" | "notifyContact" | "notifyApplication" | "notifyComplaint" | "notifySubscriber" | "notifyTestimonial" | "notifyAcademy" | "notifyBooking" | "notifyBenefit" | "lastTestAt" | "lastTestStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["emailSetting"]>
 
 export type $EmailSettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EmailSetting"
@@ -744,6 +822,9 @@ export type $EmailSettingPayload<ExtArgs extends runtime.Types.Extensions.Intern
     notifyComplaint: boolean
     notifySubscriber: boolean
     notifyTestimonial: boolean
+    notifyAcademy: boolean
+    notifyBooking: boolean
+    notifyBenefit: boolean
     lastTestAt: Date | null
     lastTestStatus: string
     createdAt: Date
@@ -1185,6 +1266,9 @@ export interface EmailSettingFieldRefs {
   readonly notifyComplaint: Prisma.FieldRef<"EmailSetting", 'Boolean'>
   readonly notifySubscriber: Prisma.FieldRef<"EmailSetting", 'Boolean'>
   readonly notifyTestimonial: Prisma.FieldRef<"EmailSetting", 'Boolean'>
+  readonly notifyAcademy: Prisma.FieldRef<"EmailSetting", 'Boolean'>
+  readonly notifyBooking: Prisma.FieldRef<"EmailSetting", 'Boolean'>
+  readonly notifyBenefit: Prisma.FieldRef<"EmailSetting", 'Boolean'>
   readonly lastTestAt: Prisma.FieldRef<"EmailSetting", 'DateTime'>
   readonly lastTestStatus: Prisma.FieldRef<"EmailSetting", 'String'>
   readonly createdAt: Prisma.FieldRef<"EmailSetting", 'DateTime'>
@@ -1399,6 +1483,7 @@ export type EmailSettingCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many EmailSettings.
    */
   data: Prisma.EmailSettingCreateManyInput | Prisma.EmailSettingCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1417,6 +1502,7 @@ export type EmailSettingCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many EmailSettings.
    */
   data: Prisma.EmailSettingCreateManyInput | Prisma.EmailSettingCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

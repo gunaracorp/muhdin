@@ -496,6 +496,7 @@ export type BenefitRedemptionCreateOrConnectWithoutCardInput = {
 
 export type BenefitRedemptionCreateManyCardInputEnvelope = {
   data: Prisma.BenefitRedemptionCreateManyCardInput | Prisma.BenefitRedemptionCreateManyCardInput[]
+  skipDuplicates?: boolean
 }
 
 export type BenefitRedemptionUpsertWithWhereUniqueWithoutCardInput = {
@@ -555,6 +556,7 @@ export type BenefitRedemptionCreateOrConnectWithoutBenefitInput = {
 
 export type BenefitRedemptionCreateManyBenefitInputEnvelope = {
   data: Prisma.BenefitRedemptionCreateManyBenefitInput | Prisma.BenefitRedemptionCreateManyBenefitInput[]
+  skipDuplicates?: boolean
 }
 
 export type BenefitRedemptionUpsertWithWhereUniqueWithoutBenefitInput = {
@@ -1401,6 +1403,7 @@ export type BenefitRedemptionCreateManyArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many BenefitRedemptions.
    */
   data: Prisma.BenefitRedemptionCreateManyInput | Prisma.BenefitRedemptionCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1419,6 +1422,7 @@ export type BenefitRedemptionCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * The data used to create many BenefitRedemptions.
    */
   data: Prisma.BenefitRedemptionCreateManyInput | Prisma.BenefitRedemptionCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

@@ -1264,6 +1264,7 @@ export type TourSceneCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many TourScenes.
    */
   data: Prisma.TourSceneCreateManyInput | Prisma.TourSceneCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1282,6 +1283,7 @@ export type TourSceneCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many TourScenes.
    */
   data: Prisma.TourSceneCreateManyInput | Prisma.TourSceneCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -1407,6 +1407,7 @@ export type ServiceSlotCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many ServiceSlots.
    */
   data: Prisma.ServiceSlotCreateManyInput | Prisma.ServiceSlotCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1425,6 +1426,7 @@ export type ServiceSlotCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many ServiceSlots.
    */
   data: Prisma.ServiceSlotCreateManyInput | Prisma.ServiceSlotCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

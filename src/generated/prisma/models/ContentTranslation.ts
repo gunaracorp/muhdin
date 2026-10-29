@@ -1109,6 +1109,7 @@ export type ContentTranslationCreateManyArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many ContentTranslations.
    */
   data: Prisma.ContentTranslationCreateManyInput | Prisma.ContentTranslationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1127,6 +1128,7 @@ export type ContentTranslationCreateManyAndReturnArgs<ExtArgs extends runtime.Ty
    * The data used to create many ContentTranslations.
    */
   data: Prisma.ContentTranslationCreateManyInput | Prisma.ContentTranslationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

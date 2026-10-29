@@ -500,6 +500,7 @@ export type NusukPermitCreateOrConnectWithoutMemberInput = {
 
 export type NusukPermitCreateManyMemberInputEnvelope = {
   data: Prisma.NusukPermitCreateManyMemberInput | Prisma.NusukPermitCreateManyMemberInput[]
+  skipDuplicates?: boolean
 }
 
 export type NusukPermitUpsertWithWhereUniqueWithoutMemberInput = {
@@ -1334,6 +1335,7 @@ export type NusukPermitCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many NusukPermits.
    */
   data: Prisma.NusukPermitCreateManyInput | Prisma.NusukPermitCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1352,6 +1354,7 @@ export type NusukPermitCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many NusukPermits.
    */
   data: Prisma.NusukPermitCreateManyInput | Prisma.NusukPermitCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

@@ -87,6 +87,9 @@ export function AdminWhatsAppCard() {
         enabled: cfg.enabled,
         notifyContact: cfg.notifyContact,
         notifyApplication: cfg.notifyApplication,
+        notifyAcademy: cfg.notifyAcademy,
+        notifyBooking: cfg.notifyBooking,
+        notifyBenefit: cfg.notifyBenefit,
         botEnabled: cfg.botEnabled,
       };
       if (tokenInput.trim()) payload.token = tokenInput.trim();
@@ -246,6 +249,24 @@ export function AdminWhatsAppCard() {
               icon: "user-plus",
               title: "Pendaftaran Anggota Baru",
               desc: "Setiap organisasi mendaftar via halaman Gabung.",
+            },
+            {
+              key: "notifyAcademy" as const,
+              icon: "graduation-cap",
+              title: "Akademi (Kursus & Sertifikat)",
+              desc: "Pendaftaran kursus + kelulusan ber-sertifikat QR.",
+            },
+            {
+              key: "notifyBooking" as const,
+              icon: "calendar",
+              title: "Booking Slot Layanan",
+              desc: "Kelas manasik, konsultasi syariah, klinik vaksin (BKG).",
+            },
+            {
+              key: "notifyBenefit" as const,
+              icon: "award",
+              title: "Tebus Benefit Mitra",
+              desc: "Penukaran poin KTA ke benefit mitra (BNF).",
             },
           ].map((ev) => (
             <div key={ev.key} className="flex items-start gap-3 rounded-lg border bg-card p-3.5">

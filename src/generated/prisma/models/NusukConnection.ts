@@ -1332,6 +1332,7 @@ export type NusukConnectionCreateManyArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many NusukConnections.
    */
   data: Prisma.NusukConnectionCreateManyInput | Prisma.NusukConnectionCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1350,6 +1351,7 @@ export type NusukConnectionCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    * The data used to create many NusukConnections.
    */
   data: Prisma.NusukConnectionCreateManyInput | Prisma.NusukConnectionCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

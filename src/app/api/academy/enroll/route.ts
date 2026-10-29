@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
+import { notifyAcademyEnroll } from "@/lib/whatsapp"; // v11.1 — notifikasi WA
+import { notifyEmailAcademyEnroll, courseTitleTrilingual } from "@/lib/email"; // v11.1 — notifikasi email
 
 /**
  * v11 — Pendaftaran peserta kursus Academy.
@@ -33,6 +35,10 @@ export async function POST(req: NextRequest) {
     const enrollment = await db.academyEnrollment.create({
       data: { courseSlug, name, email },
     });
+    // v11.1 — teruskan ke sekretariat (email + WA), gagal-aman fire-and-forget.
+    const title = courseTitleTrilingual(course.title);
+    void notifyAcademyEnroll({ name, email, courseTitle: title });
+    void notifyEmailAcademyEnroll({ courseTitle: title, name, email, startedAt: enrollment.startedAt, refId: enrollment.id });
     return ok({ enrollment, resumed: false });
   } catch (e) {
     return fail(e instanceof Error ? e.message : "Gagal mendaftar kursus.", 500);

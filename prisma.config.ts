@@ -1,15 +1,18 @@
 // prisma.config.ts — konfigurasi Prisma v8 (wajib sejak v7).
 // Menggantikan konfigurasi lama di package.json#prisma & auto-load .env.
-// dotenv memuat DATABASE_URL dari .env untuk semua perintah CLI
-// (generate, db push, migrate). Runtime Next.js tetap memakai
-// resolver self-healing di src/lib/db.ts (adapter better-sqlite3).
-import "dotenv/config";
+// v11.1 — dotenv dipanggil dengan override:true agar .env SELALU menang
+// atas env var warisan sandbox/server (kasus nyata: DATABASE_URL=file:...
+// terbawa dari boot container sehingga CLI salah sasaran).
+// Sumber kebenaran kini Prisma Postgres cloud (.env → DATABASE_URL).
+import { config as dotenvConfig } from "dotenv";
+dotenvConfig({ override: true });
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
   datasource: {
-    // Fallback ke db/custom.db bila .env tidak ada (mis. clone bersih).
-    url: process.env.DATABASE_URL ?? "file:./db/custom.db",
+    // Clone bersih tanpa .env → gunakan URL placeholder lokal agar pesan
+    // error jelas ("connection refused"), bukan P1013 protokol salah.
+    url: process.env.DATABASE_URL ?? "postgresql://localhost:5432/postgres",
   },
 });

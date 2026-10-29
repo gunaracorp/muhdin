@@ -1212,6 +1212,7 @@ export type ComplaintCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many Complaints.
    */
   data: Prisma.ComplaintCreateManyInput | Prisma.ComplaintCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1230,6 +1231,7 @@ export type ComplaintCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many Complaints.
    */
   data: Prisma.ComplaintCreateManyInput | Prisma.ComplaintCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

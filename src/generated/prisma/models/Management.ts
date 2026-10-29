@@ -1032,6 +1032,7 @@ export type ManagementCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data used to create many Managements.
    */
   data: Prisma.ManagementCreateManyInput | Prisma.ManagementCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1050,6 +1051,7 @@ export type ManagementCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many Managements.
    */
   data: Prisma.ManagementCreateManyInput | Prisma.ManagementCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

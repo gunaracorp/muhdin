@@ -729,6 +729,7 @@ export type BenefitCreateOrConnectWithoutMemberInput = {
 
 export type BenefitCreateManyMemberInputEnvelope = {
   data: Prisma.BenefitCreateManyMemberInput | Prisma.BenefitCreateManyMemberInput[]
+  skipDuplicates?: boolean
 }
 
 export type BenefitUpsertWithWhereUniqueWithoutMemberInput = {
@@ -1758,6 +1759,7 @@ export type BenefitCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data used to create many Benefits.
    */
   data: Prisma.BenefitCreateManyInput | Prisma.BenefitCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1776,6 +1778,7 @@ export type BenefitCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * The data used to create many Benefits.
    */
   data: Prisma.BenefitCreateManyInput | Prisma.BenefitCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

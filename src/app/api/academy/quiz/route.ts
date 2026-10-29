@@ -4,6 +4,8 @@ import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
 import { logAudit } from "@/lib/audit";
 import { awardPoints, generateSerial } from "@/lib/membership";
+import { notifyCertificate } from "@/lib/whatsapp"; // v11.1 — notifikasi WA
+import { notifyEmailCertificate, courseTitleTrilingual } from "@/lib/email"; // v11.1 — notifikasi email
 
 /**
  * v11 — Submit jawaban quiz Academy → nilai → sertifikat otomatis.
@@ -89,6 +91,22 @@ export async function POST(req: NextRequest) {
         entity: "Certificate",
         entityId: code,
         detail: `${enrollment.name} — ${enrollment.courseSlug} (skor ${score})`,
+      });
+      // v11.1 — teruskan kelulusan + sertifikat ke sekretariat (email + WA).
+      void notifyCertificate({
+        name: enrollment.name,
+        courseTitle: courseTitleTrilingual(enrollment.course.title),
+        score,
+        certCode: certificate.code,
+      });
+      void notifyEmailCertificate({
+        courseTitle: courseTitleTrilingual(enrollment.course.title),
+        name: enrollment.name,
+        email: enrollment.email,
+        score,
+        certCode: certificate.code,
+        issuedAt: new Date(),
+        refId: certificate.id,
       });
     }
 

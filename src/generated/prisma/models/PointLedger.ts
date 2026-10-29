@@ -478,6 +478,7 @@ export type PointLedgerCreateOrConnectWithoutCardInput = {
 
 export type PointLedgerCreateManyCardInputEnvelope = {
   data: Prisma.PointLedgerCreateManyCardInput | Prisma.PointLedgerCreateManyCardInput[]
+  skipDuplicates?: boolean
 }
 
 export type PointLedgerUpsertWithWhereUniqueWithoutCardInput = {
@@ -1279,6 +1280,7 @@ export type PointLedgerCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many PointLedgers.
    */
   data: Prisma.PointLedgerCreateManyInput | Prisma.PointLedgerCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1297,6 +1299,7 @@ export type PointLedgerCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many PointLedgers.
    */
   data: Prisma.PointLedgerCreateManyInput | Prisma.PointLedgerCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

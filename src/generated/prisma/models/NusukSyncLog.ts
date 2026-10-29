@@ -502,6 +502,7 @@ export type NusukSyncLogCreateOrConnectWithoutConnectionInput = {
 
 export type NusukSyncLogCreateManyConnectionInputEnvelope = {
   data: Prisma.NusukSyncLogCreateManyConnectionInput | Prisma.NusukSyncLogCreateManyConnectionInput[]
+  skipDuplicates?: boolean
 }
 
 export type NusukSyncLogUpsertWithWhereUniqueWithoutConnectionInput = {
@@ -1314,6 +1315,7 @@ export type NusukSyncLogCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many NusukSyncLogs.
    */
   data: Prisma.NusukSyncLogCreateManyInput | Prisma.NusukSyncLogCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1332,6 +1334,7 @@ export type NusukSyncLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many NusukSyncLogs.
    */
   data: Prisma.NusukSyncLogCreateManyInput | Prisma.NusukSyncLogCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

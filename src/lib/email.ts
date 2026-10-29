@@ -569,3 +569,221 @@ export async function sendEmailTest(): Promise<EmailSendResult> {
     eventType: "TEST",
   });
 }
+
+/* ==================== TEMPLATE v11.1 — LAYANAN ANGGOTA ==================== */
+
+/** v11.1 — judul kursus trilingual JSON → teks tunggal yang mudah dibaca (ID dulu). */
+export function courseTitleTrilingual(raw: string): string {
+  try {
+    const p = JSON.parse(raw) as unknown;
+    if (typeof p === "string") return p;
+    if (p && typeof p === "object") {
+      const o = p as Record<string, unknown>;
+      const pick = [o.id, o.en, o.ar].find((v) => typeof v === "string" && v) as string | undefined;
+      if (pick) return pick;
+      const first = Object.values(o).find((v) => typeof v === "string" && v) as string | undefined;
+      if (first) return first;
+    }
+  } catch {
+    /* bukan JSON — pakai apa adanya */
+  }
+  return raw;
+}
+
+/** v11.1 — pendaftaran kursus Akademi (Manasik Academy). */
+export function emailAcademyTemplate(e: {
+  courseTitle: string;
+  name: string;
+  email: string;
+  startedAt: Date;
+  refId?: string;
+}) {
+  return emailShell({
+    badge: "Akademi — Pendaftaran Kursus",
+    title: `Peserta baru: ${e.name} mendaftar "${e.courseTitle}"`,
+    headline: [
+      { label: "Peserta", value: e.name },
+      { label: "Kursus", value: e.courseTitle },
+      { label: "Email", value: e.email },
+    ],
+    rows: [
+      { label: "Nama Peserta", value: e.name },
+      { label: "Email", value: e.email },
+      { label: "Kursus", value: e.courseTitle },
+      { label: "Status", value: "ONGOING — quiz belum dikerjakan" },
+      { label: "Waktu Daftar (WIB)", value: fmtWib(e.startedAt) },
+    ],
+    refId: e.refId,
+  });
+}
+
+/** v11.1 — sertifikat terbit otomatis setelah lulus quiz Akademi. */
+export function emailCertificateTemplate(c: {
+  courseTitle: string;
+  name: string;
+  email: string;
+  score: number;
+  certCode: string;
+  issuedAt: Date;
+  refId?: string;
+}) {
+  return emailShell({
+    badge: "Akademi — Sertifikat Terbit",
+    title: `${c.name} LULUS "${c.courseTitle}" (skor ${c.score}) — sertifikat ${c.certCode}`,
+    headline: [
+      { label: "Peserta", value: c.name },
+      { label: "Skor", value: `${c.score} / 100` },
+      { label: "Kode Sertifikat", value: c.certCode },
+    ],
+    rows: [
+      { label: "Nama Peserta", value: c.name },
+      { label: "Email", value: c.email },
+      { label: "Kursus", value: c.courseTitle },
+      { label: "Skor Quiz", value: `${c.score} / 100 — LULUS` },
+      { label: "Kode Sertifikat (QR)", value: c.certCode },
+      { label: "Waktu Terbit (WIB)", value: fmtWib(c.issuedAt) },
+    ],
+    refId: c.refId,
+  });
+}
+
+/** v11.1 — booking slot layanan (kelas manasik / konsultasi syariah / klinik vaksin). */
+export function emailBookingTemplate(b: {
+  code: string;
+  service: string;
+  slotTitle: string;
+  city: string;
+  venue: string;
+  startsAt: Date;
+  name: string;
+  phone: string;
+  pax: number;
+  notes?: string | null;
+  createdAt: Date;
+  refId?: string;
+}) {
+  return emailShell({
+    badge: "Booking Slot Layanan",
+    title: `Booking baru ${b.code} — ${b.name} (${b.pax} orang)`,
+    headline: [
+      { label: "Kode Booking", value: b.code },
+      { label: "Layanan", value: b.service },
+      { label: "Peserta", value: `${b.pax} orang` },
+    ],
+    rows: [
+      { label: "Kode Booking", value: b.code },
+      { label: "Nama", value: b.name },
+      { label: "Telepon / WA", value: b.phone },
+      { label: "Layanan", value: b.service },
+      { label: "Sesi", value: b.slotTitle },
+      { label: "Lokasi", value: `${b.venue}, ${b.city}` },
+      { label: "Jadwal (WIB)", value: fmtWib(b.startsAt) },
+      { label: "Jumlah Peserta", value: `${b.pax}` },
+      { label: "Catatan", value: b.notes || "—" },
+      { label: "Waktu Booking (WIB)", value: fmtWib(b.createdAt) },
+    ],
+    blocks: b.notes ? [{ label: "Catatan Pemesan", text: b.notes }] : [],
+    refId: b.refId,
+  });
+}
+
+/** v11.1 — penebusan benefit mitra dengan poin KTA. */
+export function emailBenefitTemplate(r: {
+  code: string;
+  benefitTitle: string;
+  cardNo: string;
+  holderName: string;
+  pointsCost: number;
+  createdAt: Date;
+  refId?: string;
+}) {
+  return emailShell({
+    badge: "Benefit Mitra Ditebus",
+    title: `Tebusan ${r.code} — ${r.holderName} menukar ${r.pointsCost} poin`,
+    headline: [
+      { label: "Kode Tebus", value: r.code },
+      { label: "Benefit", value: r.benefitTitle },
+      { label: "Poin Ditukar", value: `${r.pointsCost}` },
+    ],
+    rows: [
+      { label: "Kode Tebus", value: r.code },
+      { label: "Benefit", value: r.benefitTitle },
+      { label: "Pemegang KTA", value: r.holderName },
+      { label: "No. KTA", value: r.cardNo },
+      { label: "Poin Ditukar", value: `${r.pointsCost} poin` },
+      { label: "Waktu Tebus (WIB)", value: fmtWib(r.createdAt) },
+      { label: "Tindakan Mitra", value: "Verifikasi kode saat kedatangan / penukaran" },
+    ],
+    refId: r.refId,
+  });
+}
+
+/* ==================== NOTIFIER v11.1 (gagal-aman) ==================== */
+
+export async function notifyEmailAcademyEnroll(e: Parameters<typeof emailAcademyTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyAcademy) return;
+    const { html, text } = emailAcademyTemplate(e);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(`Akademi — ${e.name} mendaftar "${e.courseTitle}"`),
+      html,
+      text,
+      eventType: "ACADEMY",
+      refId: e.refId,
+    });
+  } catch {
+    /* tidak boleh mengganggu alur utama */
+  }
+}
+
+export async function notifyEmailCertificate(c: Parameters<typeof emailCertificateTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyAcademy) return;
+    const { html, text } = emailCertificateTemplate(c);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(`Sertifikat Terbit — ${c.name} lulus "${c.courseTitle}"`),
+      html,
+      text,
+      eventType: "CERTIFICATE",
+      refId: c.refId,
+    });
+  } catch {
+    /* diamkan */
+  }
+}
+
+export async function notifyEmailBooking(b: Parameters<typeof emailBookingTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyBooking) return;
+    const { html, text } = emailBookingTemplate(b);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(`Booking Slot ${b.code} — ${b.name} (${b.pax} org)`),
+      html,
+      text,
+      eventType: "BOOKING",
+      refId: b.refId,
+    });
+  } catch {
+    /* diamkan */
+  }
+}
+
+export async function notifyEmailBenefit(r: Parameters<typeof emailBenefitTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyBenefit) return;
+    const { html, text } = emailBenefitTemplate(r);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(`Tebus Benefit ${r.code} — ${r.holderName} (${r.pointsCost} poin)`),
+      html,
+      text,
+      eventType: "BENEFIT",
+      refId: r.refId,
+    });
+  } catch {
+    /* diamkan */
+  }
+}

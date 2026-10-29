@@ -690,6 +690,7 @@ export type HajjPassportCreateOrConnectWithoutMemberInput = {
 
 export type HajjPassportCreateManyMemberInputEnvelope = {
   data: Prisma.HajjPassportCreateManyMemberInput | Prisma.HajjPassportCreateManyMemberInput[]
+  skipDuplicates?: boolean
 }
 
 export type HajjPassportUpsertWithWhereUniqueWithoutMemberInput = {
@@ -1590,6 +1591,7 @@ export type HajjPassportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many HajjPassports.
    */
   data: Prisma.HajjPassportCreateManyInput | Prisma.HajjPassportCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1608,6 +1610,7 @@ export type HajjPassportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many HajjPassports.
    */
   data: Prisma.HajjPassportCreateManyInput | Prisma.HajjPassportCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

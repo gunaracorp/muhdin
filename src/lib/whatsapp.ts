@@ -13,7 +13,7 @@
  * dan memiliki timeout 10 detik agar form publik tidak menggantung.
  */
 import { db } from "@/lib/db";
-import { logNotification } from "@/lib/email"; // Task 60 — audit log terpadu
+import { logNotification, fmtWib } from "@/lib/email"; // Task 60 — audit log terpadu + format WIB (v11.1)
 
 export const WA_PROVIDERS = ["FONNTE", "WABLAS", "CALLMEBOT", "CUSTOM"] as const;
 
@@ -371,4 +371,121 @@ export async function notifyTestimonial(t: Parameters<typeof waTestimonialTempla
   } catch {
     /* diamkan */
   }
+}
+
+/* ============ TEMPLATE v11.1 — LAYANAN ANGGOTA ============ */
+
+/** v11.1 — pendaftaran kursus Akademi. */
+export function waAcademyTemplate(e: { name: string; email: string; courseTitle: string }) {
+  return [
+    "🎓 *Pendaftaran Kursus Akademi — MUHDIN*",
+    "",
+    `*Peserta:* ${e.name}`,
+    `*Email:* ${e.email}`,
+    `*Kursus:* ${e.courseTitle}`,
+    "",
+    "_Pantau via CMS MUHDIN → Akademi._",
+  ].join("\n");
+}
+
+/** v11.1 — sertifikat terbit setelah lulus quiz. */
+export function waCertificateTemplate(c: { name: string; courseTitle: string; score: number; certCode: string }) {
+  return [
+    "🏅 *Sertifikat Digital Terbit — MUHDIN*",
+    "",
+    `*Peserta:* ${c.name}`,
+    `*Kursus:* ${c.courseTitle}`,
+    `*Skor:* ${c.score}/100 — LULUS`,
+    `*Kode Sertifikat:* ${c.certCode}`,
+    "",
+    "_Verifikasi publik: portal → Verifikasi Sertifikat._",
+  ].join("\n");
+}
+
+/** v11.1 — booking slot layanan (BKG). */
+export function waBookingTemplate(b: {
+  code: string;
+  name: string;
+  phone: string;
+  pax: number;
+  service: string;
+  slotTitle: string;
+  city: string;
+  startsAt: Date;
+}) {
+  return [
+    "📅 *Booking Slot Layanan — MUHDIN*",
+    "",
+    `*Kode:* ${b.code}`,
+    `*Nama:* ${b.name}`,
+    `*Telepon:* ${b.phone}`,
+    `*Layanan:* ${b.service}`,
+    `*Sesi:* ${b.slotTitle} — ${b.city}`,
+    `*Jadwal:* ${fmtWib(b.startsAt)}`,
+    `*Peserta:* ${b.pax} orang`,
+    "",
+    "_Tinjau melalui CMS MUHDIN → Booking._",
+  ].join("\n");
+}
+
+/** v11.1 — penebusan benefit mitra dengan poin KTA (BNF). */
+export function waBenefitTemplate(r: {
+  code: string;
+  holderName: string;
+  cardNo: string;
+  benefitTitle: string;
+  pointsCost: number;
+}) {
+  return [
+    "🎁 *Tebus Benefit Mitra — MUHDIN*",
+    "",
+    `*Kode Tebus:* ${r.code}`,
+    `*Pemegang:* ${r.holderName}`,
+    `*No. KTA:* ${r.cardNo}`,
+    `*Benefit:* ${r.benefitTitle}`,
+    `*Poin Ditukar:* ${r.pointsCost}`,
+    "",
+    "_Mitra memverifikasi kode saat penukaran._",
+  ].join("\n");
+}
+
+/* ============ NOTIFIER v11.1 (gagal-aman) ============ */
+
+async function notifyWaEvent(
+  eventType: "ACADEMY" | "CERTIFICATE" | "BOOKING" | "BENEFIT",
+  message: string,
+  subject: string,
+  switchKey: "notifyAcademy" | "notifyBooking" | "notifyBenefit"
+) {
+  try {
+    const cfg = await getWhatsAppSetting();
+    if (!cfg.enabled || !cfg[switchKey]) return;
+    const res = await sendWhatsAppMessage(message);
+    await logNotification({
+      channel: "WHATSAPP",
+      eventType,
+      status: res.sent ? "SENT" : "FAILED",
+      recipient: cfg.target,
+      subject,
+      detail: res.detail,
+    });
+  } catch {
+    /* notifikasi tidak boleh mengganggu alur utama */
+  }
+}
+
+export function notifyAcademyEnroll(e: Parameters<typeof waAcademyTemplate>[0]) {
+  return notifyWaEvent("ACADEMY", waAcademyTemplate(e), `Akademi — ${e.name}`, "notifyAcademy");
+}
+
+export function notifyCertificate(c: Parameters<typeof waCertificateTemplate>[0]) {
+  return notifyWaEvent("CERTIFICATE", waCertificateTemplate(c), `Sertifikat — ${c.name}`, "notifyAcademy");
+}
+
+export function notifyBooking(b: Parameters<typeof waBookingTemplate>[0]) {
+  return notifyWaEvent("BOOKING", waBookingTemplate(b), `Booking ${b.code}`, "notifyBooking");
+}
+
+export function notifyBenefit(r: Parameters<typeof waBenefitTemplate>[0]) {
+  return notifyWaEvent("BENEFIT", waBenefitTemplate(r), `Tebus ${r.code}`, "notifyBenefit");
 }

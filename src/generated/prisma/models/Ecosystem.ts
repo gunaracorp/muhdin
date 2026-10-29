@@ -1228,6 +1228,7 @@ export type EcosystemCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many Ecosystems.
    */
   data: Prisma.EcosystemCreateManyInput | Prisma.EcosystemCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1246,6 +1247,7 @@ export type EcosystemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many Ecosystems.
    */
   data: Prisma.EcosystemCreateManyInput | Prisma.EcosystemCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

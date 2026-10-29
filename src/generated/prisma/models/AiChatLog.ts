@@ -1118,6 +1118,7 @@ export type AiChatLogCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many AiChatLogs.
    */
   data: Prisma.AiChatLogCreateManyInput | Prisma.AiChatLogCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1136,6 +1137,7 @@ export type AiChatLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many AiChatLogs.
    */
   data: Prisma.AiChatLogCreateManyInput | Prisma.AiChatLogCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

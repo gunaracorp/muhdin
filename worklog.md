@@ -2082,3 +2082,25 @@ Stage Summary:
 - Deliverable v11.0.0: 8 model + 11 API + 6 halaman publik + 3 modul admin + referral otomatis + seed — paritas konsep dengan Nusuk.sa untuk sisi keanggotaan
 - Poin mengalir otomatis: terbit +50, referal disetujui +100, lulus academy +30, redeem -cost; tier KLASIK/VERIFIED/PLATINUM recompute otomatis
 - Kredensial demo: KTA-2026-00003 (PLATINUM, 800 poin), sertifikat SERT-2026-10010001, login admin tetap
+
+---
+Task ID: 13
+Agent: main-agent (Z.ai)
+Task: v11.1 — Prisma Postgres + Notifikasi Email & WhatsApp menyeluruh — SELESAI
+
+Work Log:
+- SYNC GIT: remote lebih depan 1 commit (54d50e5 "security: remove tracked environment file" — .env tak sengaja pernah ter-track, kini dihapus + gitignore `.env*`); lokal fast-forward; commit b73c398 (root page.tsx platform) ter-push
+- FIX ROUTE CONFLICT: src/app/page.tsx (warisan platform) bertabrakan dengan catch-all [[...slug]] — Next 16 menolak boot ("same specificity as optional catch-all"); page.tsx dihapus karena logika cookie-locale-nya SUDAH ADA di catch-all; server hidup normal
+- DATABASE: pindah SQLite → Prisma Postgres cloud (pooled.db.prisma.io). Schema provider "postgresql" + @prisma/adapter-pg@8.1.0-dev.9 + pg@8.16.3; `prisma db push` sukses (42 tabel, 6.7s)
+- JEBAK ENV WARISAN: sandbox membawa DATABASE_URL=file:… lama sebagai env var proses → dotenv biasa TIDAK menimpanya; FIX: dotenv override:true di prisma.config.ts DAN src/lib/db.ts (.env selalu menang; di Vercel no-op)
+- MIGRASI DATA: scripts/migrate-sqlite-to-postgres.mjs — 42 tabel, urut topologis FK, konversi tipe (ms→timestamp UTC, 0/1→bool, json), batch 100 + fallback per-baris, reset sequence; HASIL 1954/1954 baris (100%, nol gagal); verifikasi scripts/verify-v111.mjs
+- NOTIFIKASI +4 KEJADIAN (sebelumnya 5 form publik sudah ter-wire Task 60): ACADEMY (enroll), CERTIFICATE (lulus quiz), BOOKING (slots/book → BKG), BENEFIT (redeem → BNF) — 4 template email bermerek + 4 template WA + 8 notifier gagal-aman fire-and-forget; wire ke 4 endpoint v11
+- SCHEMA +6 saklar: EmailSetting & WhatsAppSetting × notifyAcademy/notifyBooking/notifyBenefit (@default(true)); API GET/PUT email-settings & whatsapp ekspos; UI admin: 3 baris saklar baru di admin-notifications & admin-whatsapp (ikon graduation-cap/calendar/award)
+- CONFIG .env.example baru (placeholder dokumentasi); .env asli berisi DATABASE_URL Postgres (di-gitignore, TIDAK ter-commit)
+- VERIFIKASI E2E: lint 0/0; POST /api/applications → 201 (MHD-FGDHU6, urut #11); enroll akademi → 200; jalur emas BROWSER: wizard /daftar 5 langkah lengkap → "Pendaftaran berhasil dikirim" MHD-4KN6LH (urut #12); kedua kejadian tercatat di Postgres; NotificationLog membukti 2 kanal ditembak per kejadian (EMAIL + WHATSAPP); 0 error konsol; homepage & /daftar render sempurna
+
+Stage Summary:
+- Database produksi kini Prisma Postgres (persisten lintas restart/redeploy) — semua pendaftaran, booking, enrollment, redemption masuk DB otomatis
+- Pipeline notifikasi LENGKAP 9 kejadian × 2 kanal (email sekretariat + WhatsApp admin) + log audit NotificationLog; status kini "FAILED — belum dikonfigurasi" karena kredensial masih kosong
+- AKTIVASI KIRIM NYATA (tinggal isi kredensial): (1) Email — CMS → Notifikasi: akun Gmail + App Password 16 karakter; (2) WhatsApp — CMS → WhatsApp: pilih provider (FONNTE/WABLAS/CALLMEBOT gratis) + token + nomor admin 6281222345856 sudah terisi; lalu "Simpan" + "Kirim Email/WA Uji"
+- Arsip SQLite lama: db/custom.db (tidak dihapus, referensi historis)
