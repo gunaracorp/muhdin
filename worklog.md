@@ -1944,3 +1944,20 @@ Stage Summary:
 - MUHDIN v7.0: PINDAI IZIN 360° live — satu input (NIB/nomor izin/nama) membuka dossier kepatuhan: kelas usaha terdeteksi, 12 syarat a–l dinilai otomatis, skor kelengkapan, jalur naik kelas BPW→PPIU→PIHK, rekomendasi berprioritas berhuruf dengan langkah/penerbit/estimasi, dan tautan sertifikasi mitra Arofa Hajj di setiap item + panel mitra.
 - Fitur tidak dimiliki kompetitor: registri kepatuhan publik dengan deteksi otomatis "izin mati/segera berakhir/belum ada", rekomendasi berhuruf, dan deep-link hasil yang bisa dibagikan.
 - Penuhi konvensi: guardRole, ok/fail, logAudit, rateLimit, useT ×3 bahasa, tokens forest/gold, seed idempoten.
+
+## Task ID 10 — WA Resmi Tunggal +62 812-2234-5856 (ganti semua nomor WhatsApp)
+Tanggal: 2026-11-01
+
+Task: "+6281222345856 ganti semua whatsapp pakai official muhdin ini nomornya" — seluruh kanal WhatsApp MUHDIN dipusatkan ke satu nomor resmi baru.
+
+Work Log:
+- SENTERAL: BRAND.whatsappDisplay "0811 1116 5165" → "0812 2234 5856" + whatsappIntl → "6281222345856" (constants.ts) — otomatis memperbarui FAB mengapung, CTA band footer, kartu kontak, tombol WA jamaah-dashboard, layanan-view, detail-shell (semua derivasi BRAND).
+- TEKS & PROMPT AI: ai/chat (ID+EN system prompt "Sahabat MUHDIN") + ai/ghostwrite → sarankan WA resmi 0812 2234 5856; komentar wa-fab & contact-view disinkronkan.
+- i18n ×3: contact.cardPhoneDesc id/en/ar kini "0812 2234 5856 — chat …".
+- SEED + DB: seed-kontak-resmi.ts (whatsapp/phone) & prisma/seed.ts (placeholder +6281234567890 → +6281222345856); DB live SiteSetting.whatsapp="0812 2234 5856", phone="+62 812-2234-5856" → ikon sosmed footer (derivation waDigits dari DB) ikut benar. WhatsAppSetting gateway (CallMeBot) target 6281222345856 ternyata SUDAH nomor ini sejak Task 74 — tidak diubah.
+- BERES-BERES: public/promo/ (sisa aset banner PROMO 200 dgn nomor lama baked-in di PNG, tak lagi dirujuk mana pun sejak Task 8) dihapus seluruhnya.
+- SENGKARA DIPERTAHANKAN (data pihak ketiga): nomor PIC DPD Jawa Barat +6281316516524 pada kartu cabang (CMS-managed, data yang owner berikan utk PIC tsb) & nomor darurat resmi Saudi (911/999/997/998/937) — bukan kanal WA resmi MUHDIN.
+
+Stage Summary:
+- VERIFIKASI: rg nomor lama (0811/6281111/811 1116) = 0 hit di seluruh kode hidup; E2E browser — beranda 3× wa.me/6281222345856 (FAB+CTA+sosmed, salam pembuka utuh), #/kontak "0812 2234 5856" tampil & 4 link WA resmi, 0 nomor lama, 0 console error; eslint 6 file sentuh 0 error. Screenshot: download/kontak-wa-resmi-0812.png.
+- SATU KANAL RESMI: +62 812-2234-5856 kini hidup di FAB, footer (CTA + sosmed), halaman kontak, dashboard jamaah, layanan, detail anggota, prompt AI (3 bahasa), seed & CMS — konsisten dengan gateway notifikasi CallMeBot yang sudah memakai nomor yang sama.

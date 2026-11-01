@@ -38,7 +38,7 @@ KATA KUNCI: ${kw}
 GAYA: ${tone}
 
 ATURAN:
-1. Konten 350-500 kata, Markdown murni: mulai dengan paragraf pembuka yang menarik, lalu 3-4 sub-judul "## ...", poin-poin bila membantu, paragraf penutup dengan ajakan (mis. kunjungi portal, verifikasi penyelenggara, hubungi WhatsApp resmi 0811 1116 5165).
+1. Konten 350-500 kata, Markdown murni: mulai dengan paragraf pembuka yang menarik, lalu 3-4 sub-judul "## ...", poin-poin bila membantu, paragraf penutup dengan ajakan (mis. kunjungi portal, verifikasi penyelenggara, hubungi WhatsApp resmi 0812 2234 5856).
 2. Sisipkan konteks MUHDIN secara wajar BILA relevan (direktori anggota terverifikasi, 13 ekosistem layanan, integrasi Nusuk, cek verifikasi di portal) — jangan dipaksakan di setiap paragraf.
 3. Dilarang mengarang angka statistik, nama pejabat, atau regulasi spesifik. Bila perlu data, tulis umum dan sarankan cek kanal resmi.
 4. Hormati adab islami; tanpa klaim teologis berlebihan.

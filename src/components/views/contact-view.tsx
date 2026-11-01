@@ -34,7 +34,7 @@ const CONTACT_CARDS: {
     href: "mailto:info@muhdin.web.id",
   },
   {
-    // Task 40 — WhatsApp resmi MUHDIN 0811 1116 5165 (salam pembuka terisi otomatis).
+    // Task 40 → 10 — WhatsApp resmi MUHDIN 0812 2234 5856 (salam pembuka terisi otomatis).
     icon: "message-circle",
     value: BRAND.whatsappDisplay,
     titleKey: "contact.cardPhoneTitle",

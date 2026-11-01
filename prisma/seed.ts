@@ -75,7 +75,7 @@ const siteSettings: { key: string; value: string }[] = [
   { key: "youtube", value: "https://youtube.com/@muhdinofficial" },
   { key: "facebook", value: "https://facebook.com/muhdin.official" },
   { key: "twitter", value: "https://twitter.com/muhdin_official" },
-  { key: "whatsapp", value: "+6281234567890" },
+  { key: "whatsapp", value: "+6281222345856" },
 ];
 
 // ---------- 3. ECOSYSTEM (13) ----------

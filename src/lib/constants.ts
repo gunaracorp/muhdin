@@ -15,9 +15,10 @@ export const BRAND = {
   arabicMeaning: "Labbaik Allahumma Labbaik",
   motto: "Melayani dengan Amanah, Profesional, Terstandar dan Penuh Keberkahan",
   connecting: "Connecting Indonesia to The Holy Journey",
-  // Kontak resmi (Task 40) — WhatsApp official & kantor-kantor MUHDIN.
-  whatsappDisplay: "0811 1116 5165",
-  whatsappIntl: "6281111165165",
+  // Kontak resmi (Task 40 → 10) — WhatsApp official & kantor-kantor MUHDIN.
+  // Task 10: nomor WA resmi diganti ke +62 812-2234-5856 (nomor official tunggal).
+  whatsappDisplay: "0812 2234 5856",
+  whatsappIntl: "6281222345856",
   waGreeting: "Assalamu'alaikum, saya ingin bertanya tentang MUHDIN.",
   // ROLE 25 (Compliance): tanpa klaim "Operator Nusuk"/endorsement pemerintah.
   edition: "Ekosistem Penyelenggaraan Ibadah Terpercaya — Terhubung dengan jalur resmi Nusuk",

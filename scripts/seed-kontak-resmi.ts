@@ -10,8 +10,8 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 const SETTINGS: Record<string, string> = {
-  whatsapp: "0811 1116 5165",
-  phone: "+62 811-1116-5165",
+  whatsapp: "0812 2234 5856",
+  phone: "+62 812-2234-5856",
   address:
     "Kantor Jakarta — Jl. Cempaka Putih Tengah XXX No.30 7 9, RT.9/RW.7, Cemp. Putih Tim., Kec. Cemp. Putih, Kota Jakarta Pusat, DKI Jakarta 10510",
 };

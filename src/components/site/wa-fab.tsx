@@ -4,7 +4,7 @@
  * WaFab (Task 40) — tombol WhatsApp resmi mengapung (floating action button),
  * gaya situs referensi sgl.web.id: gelembung hijau membulat di sudut bawah
  * dengan denyut "online" + tooltip. Membuka wa.me nomor resmi MUHDIN
- * 0811 1116 5165 dengan salam pembuka terisi otomatis.
+ * 0812 2234 5856 dengan salam pembuka terisi otomatis.
  *
  * Hydration-aman: dirender dari MuhdinApp hanya setelah mount (gate parent,
  * pola yang sama dengan ScrollProgressBar — Task 35-d).
