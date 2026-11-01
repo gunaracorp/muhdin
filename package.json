@@ -14,6 +14,7 @@
     "hosting:build": "node scripts/build-shared-hosting.mjs",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
+    "backup": "bun scripts/backup-db.ts",
     "db:push": "prisma db push --accept-data-loss",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -99,6 +100,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bun": "^1.4.4",
     "@types/leaflet": "^1.9.22",
     "@types/nodemailer": "^8.0.2",
     "@types/qrcode": "^1.5.6",

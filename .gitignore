@@ -76,3 +76,9 @@ node_modules/
 .merge-v11/
 src/generated/
 .merge-v6/
+
+# v12.3 «AMANAH» — snapshot backup database (jangan pernah di-commit)
+/backups/
+
+# v12.3 «AMANAH» — snapshot backup database (jangan pernah di-commit)
+/backups/

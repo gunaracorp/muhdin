@@ -9,6 +9,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { hashPassword, requireSuperAdmin } from "@/lib/auth";
 import { ok, fail } from "@/lib/api-helpers";
+import { passwordIssue } from "@/lib/password-policy";
 import { ROLES } from "@/lib/roles";
 import { logAudit } from "@/lib/audit"; // Task 18
 
@@ -55,6 +56,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (body.password !== undefined && body.password !== "") {
       const password = String(body.password);
       if (password.length < 8) return fail("Password minimal 8 karakter.");
+      const policyIssue = passwordIssue(password);
+      if (policyIssue) return fail(policyIssue);
       data.password = hashPassword(password);
     }
 

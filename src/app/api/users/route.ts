@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
 import { guardSuperAdmin, ok, fail } from "@/lib/api-helpers";
 import { ROLES } from "@/lib/roles";
+import { passwordIssue } from "@/lib/password-policy";
 import { logAudit } from "@/lib/audit"; // Task 18
 
 export async function GET() {
@@ -44,6 +45,8 @@ export async function POST(req: NextRequest) {
     if (!name) return fail("Nama wajib diisi.");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return fail("Format email tidak valid.");
     if (password.length < 8) return fail("Password minimal 8 karakter.");
+    const policyIssue = passwordIssue(password);
+    if (policyIssue) return fail(policyIssue);
     if (!(ROLES as string[]).includes(role)) return fail("Peran tidak valid.");
 
     const existing = await db.user.findUnique({ where: { email } });

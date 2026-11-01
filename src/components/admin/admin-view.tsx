@@ -37,6 +37,8 @@ import { AdminBisnis } from "@/components/admin/admin-bisnis";
 import { AdminCompliance } from "@/components/admin/admin-compliance";
 // v12.2 — 99 Roadmap Upgrade
 import { AdminRoadmapItems } from "@/components/admin/admin-roadmap-items";
+// v12.3 «AMANAH» — Keamanan Akun (2FA TOTP)
+import { AdminSecurity } from "@/components/admin/admin-security";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
@@ -71,6 +73,8 @@ const MENU = [
   { id: "compliance", label: "Compliance Checker", icon: "shield-check" },
   // v12.2 — 99 Roadmap Upgrade
   { id: "roadmap99", label: "Roadmap 99 Upgrade", icon: "map" },
+  // v12.3 «AMANAH» — Keamanan Akun
+  { id: "keamanan", label: "Keamanan Akun", icon: "fingerprint" },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
   { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap" },
@@ -237,6 +241,7 @@ export function AdminView() {
           {section === "jamaahops" && <AdminJamaahOps />}
           {section === "compliance" && <AdminCompliance />}
           {section === "roadmap99" && <AdminRoadmapItems />}
+          {section === "keamanan" && <AdminSecurity />}
           {section === "tutorials" && <AdminTutorials />}
           {section === "messages" && <AdminMessages />}
           {section === "complaints" && <AdminComplaints />}
@@ -282,6 +287,8 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [needTotp, setNeedTotp] = useState(false);
+  const [totpCode, setTotpCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -290,7 +297,17 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
     setLoading(true);
     setError("");
     try {
-      const res = await apiSend<{ user: User }>("/api/auth/login", "POST", { email, password });
+      const res = await apiSend<{ user: User; needTotp?: boolean }>("/api/auth/login", "POST", {
+        email,
+        password,
+        totpCode,
+      });
+      // v12.3 «AMANAH» — akun ber-2FA diminta kode TOTP tanpa sesi dibuat.
+      if (res.needTotp) {
+        setNeedTotp(true);
+        setError("Kode autentikasi (2FA) diperlukan — buka aplikasi authenticator Anda.");
+        return;
+      }
       toast({ title: `Selamat datang, ${res.user.name}!`, description: "Anda berhasil masuk ke CMS MUHDIN." });
       onSuccess();
     } catch (err) {
@@ -375,6 +392,25 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
                 />
               </div>
             </div>
+
+            {needTotp && (
+              <div className="space-y-1.5">
+                <Label htmlFor="totp">Kode Autentikasi (2FA)</Label>
+                <div className="relative">
+                  <Icon name="fingerprint" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="totp"
+                    type="text"
+                    inputMode="numeric"
+                    value={totpCode}
+                    onChange={(e) => setTotpCode(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))}
+                    placeholder="6 digit"
+                    className="pl-9 h-11 font-mono tracking-[0.3em]"
+                    autoFocus
+                  />
+                </div>
+              </div>
+            )}
 
             {error && (
               <p className="text-sm text-destructive flex items-center gap-1.5 bg-destructive/10 rounded-lg px-3 py-2">

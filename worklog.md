@@ -2061,3 +2061,24 @@ Stage Summary:
 - E2E (agent-browser): #/tentang render seksi 99 item (99 kartu ber-kode R-xxx, 24 DONE), filter pilar Akademi → 16 kartu (R-019..) ✓, reset ✓; AR RTL + judul/label Arab ✓, EN penuh ✓, ID ✓; CMS login → modul Roadmap 99 Upgrade → tabel R-001..R-099, tambah R-100 uji round-trip (muncul) → hapus (hilang, R-099 utuh) ✓; 0 console error.
 - API smoke: GET items 200 (99 item, sebaran 24/16/59 tepat); POST anonim 401 (RBAC benar); regresi /, /api/packages, /api/academy/courses, /api/compliance/scoreboard, /api/health semua 200.
 - tsc: 0 error di seluruh file baru/tersentuh (55 error pra-eksisting tidak tersentuh, sudah tercatat sebelumnya).
+
+## Task ID 17 — Sprint Keamanan P0 Roadmap: 2FA TOTP + Lockout + Backup (v12.3.0 «AMANAH»)
+Tanggal: 2026-11-01
+
+Task: "lanjutkan aja sesuai roadmap yang ada" — eksekusi sprint pertama dari peta jalan 99 item: tiga P0 KEAMANAN/PLATFORM dituntaskan sampai DONE (loop roadmap pertama).
+
+Work Log:
+- SKEMA (+2 field User): totpSecret (base32), totpEnabled — 2FA TOTP per akun admin. db push ✓ (tetap 60 model).
+- R-074 — src/lib/totp.ts: implementasi RFC 6238 mandiri (node:crypto, nol dependensi baru): base32 encode/decode RFC 4648, HMAC-SHA1 6 digit/30 detik, verifikasi ±1 langkah timing-safe, generateTotpSecret 20 byte, otpauthUri issuer MUHDIN. API /api/auth/2fa: GET status; POST setup (secret+QR dataURL via qrcode), enable (verifikasi kode → aktif, audit), disable (verifikasi kode → hapus). Login route: akun ber-2FA tanpa kode → ok({needTotp:true}) TANPA sesi; kode salah → 401 + dihitung lockout.
+- R-075 — src/lib/password-policy.ts: min 8, wajib huruf+angka, tolak 15 sandi umum, maks 128; dipasang di 3 titik set-password (users POST, users/[id] PUT, auth/password PUT via zod refine). src/lib/password-lockout.ts: lockout per-email di memori — 5 gagal/15 menit → kunci 15 menit (password & kode 2FA salah terhitung; sukses menghapus); login route juga rate-limit 10/menit per IP (ratelimit existing); audit LOGIN_LOCKOUT.
+- R-063 — scripts/backup-db.ts (bun:sqlite): snapshot → PRAGMA integrity_check + hitung baris tabel kunci (User/Member/TourPackage/RoadmapItem/AuditLog) = drill pemulihan nyata → retensi 14 snapshot; npm script "backup"; .gitignore /backups/; contoh crontab terdokumentasi.
+- CMS: admin-security.tsx (panel 2FA: badge AKTIF/NONAKTIF, setup QR + kode manual, aktivasi 6 digit, matikan ber-konfirmasi-kode; kartu kebijakan sandi & lockout) — menu "Keamanan Akun" ikon fingerprint, roles keamanan [4 peran — kelola akun sendiri]; LoginForm diperluas: state needTotp + field kode 6 digit mono muncul saat tantangan.
+- ROADMAP LOOP: R-063/R-074/R-075 status→DONE target v12.3 (seed source + re-seed DB) → progres 24→27/99 (27%); seed-roadmap99.ts jadi sumber status terkini.
+- README.md → v12.3.0 «AMANAH»: judul, intro, seksi 🔐 v12.3, tabel skrip +backup-db, timeline. devDep @types/bun utk tipe bun:sqlite. scripts/debug-totp.ts utilitas QA (kode harian, cetak 8 char secret saja).
+
+Stage Summary:
+- E2E (agent-browser): CMS → Keamanan Akun badge NONAKTIF → setup QR (secret 32 char tampil + QR render) → kode TOTP dihitung dari secret (bun, lib sendiri) → AKTIF ✓; logout → login email+password benar → tantangan "diperlukan" + field kode muncul TANPA sesi ✓ → kode fresh → dashboard terbuka ✓; matikan 2FA ber-kode → NONAKTIF ✓ (akun demo dipulihkan); 0 console error.
+- API: lockout — 5× password salah (email uji) 401 → percobaan ke-6 423 "terkunci 15 menit", login akun lain tetap 200 (per-email) ✓; login 2FA via curl sukses buat sesi ✓; login tanpa 2FA pulih 200 ✓.
+- Lib: self-test verifyTotp(totpNow(secret)) = true; kebijakan sandi: password123/qwerty123 ditolak (umum), abcdefgh/12345678 ditolak (huruf+angka), amanah2026/Kuat#2026x LOLOS ✓.
+- Backup: 2 snapshot, integrity ok, TourPackage=8 · RoadmapItem=99 · AuditLog=28 (naik dari 25 — LOGIN_LOCKOUT + 2FA_ENABLE/DISABLE tercatat) ✓.
+- tsc: 0 error di semua file baru/tersentuh.

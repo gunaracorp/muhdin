@@ -51,6 +51,8 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "compliance", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   // v12.2 — 99 Roadmap Upgrade
   { id: "roadmap99", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
+  // v12.3 «AMANAH» — Keamanan Akun (semua peran kelola 2FA akunnya sendiri)
+  { id: "keamanan", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR", "VERIFIKATOR"] },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "academy", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },

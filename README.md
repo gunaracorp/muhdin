@@ -3,7 +3,7 @@
 
 ![MUHDIN.ID — Portal Digital Ekosistem Umrah dan Haji Indonesia](docs/assets/banner.svg)
 
-# 🕋 MUHDIN.ID — v12.2.0 «99 ROADMAP»
+# 🕋 MUHDIN.ID — v12.3.0 «AMANAH»
 
 ### **MU**asyarakat **U**mroh **H**aji **D**igital **I**ndonesia
 
@@ -24,7 +24,7 @@
 
 > 🕌 **GRATIS SELAMANYA** — pendaftaran & iuran **Rp 0** untuk semua anggota, tanpa pengecualian. Itu keunggulan MUHDIN dibanding asosiasi lain, dan seluruh portal konsisten menyampaikan satu pesan itu.
 
-**v12.2.0 «99 ROADMAP»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker** (papan kepatuhan izin ber-skor, grade A–E, risiko & tren) dan **99 Roadmap Upgrade**: peta jalan **99 item granular dalam 6 pilar** dengan prioritas P0–P3, upaya S–XL, status, dan target versi hingga v20 — filter interaktif, bar progres, dan modul CMS. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
+**v12.3.0 «AMANAH»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker** (papan kepatuhan izin ber-skor, grade A–E, risiko & tren), **99 Roadmap Upgrade** (peta jalan 99 item granular × 6 pilar hingga v20), dan sprint keamanan **«AMANAH»**: 2FA TOTP per akun admin, kebijakan sandi + lockout brute-force, dan backup terjadwal ber-drill pemulihan. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
 
 ---
 
@@ -95,6 +95,12 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 - **Compliance Center** (`#/compliance`) — ⭐ *god mode tier max*: papan kepatuhan **seluruh perusahaan registri** dihitung live oleh engine Pindai Izin 360° — **skor 0–100**, **grade A–E**, **level risiko** (RENDAH→KRITIS), **tren antar-audit**, dan **dossier drill-down** per perusahaan (checklist a–l berwarna status + rekomendasi berprioritas + tren skor) — publik & transparan
 - **Audit god-mode dari CMS** (modul *Compliance Checker*) — satu klik menilai registri penuh, menyimpan snapshot **ComplianceScore** (riwayat tren) + **temuan berprioritas** (`ComplianceFinding`, tier 0 darurat … 4 nilai tambah) + agregat **ComplianceAudit**, lalu meneruskan ringkasan ke sekretariat via **Email & WhatsApp** (saklar `notifyCompliance`)
 - **Deep-link** `#/compliance?q=<companyId>` membuka dossier langsung · menu **PERIZINAN → Compliance Center** · i18n 3 bahasa penuh
+
+### 🔐 v12.3 «AMANAH» — Sprint Keamanan (P0 Roadmap)
+- **2FA TOTP per akun admin** (`R-074`) — implementasi RFC 6238 mandiri (`node:crypto`, tanpa dependensi baru): setup **QR authenticator** + kode manual di CMS (*Keamanan Akun*), kode 6 digit/30 detik, **tantangan saat login** (tanpa sesi dibuat sebelum kode benar), verifikasi timing-safe ±1 langkah, audit `2FA_ENABLE/DISABLE`
+- **Kebijakan sandi + lockout brute-force** (`R-075`) — sandi wajib huruf+angka (dari daftar sandi umum ditolak) di semua titik set-password; **5× gagal/15 menit per email → kunci 15 menit** (kode 2FA salah ikut terhitung), rate-limit login **10×/menit per IP**, peristiwa penguncian masuk jejak audit
+- **Backup terjadwal + drill pemulihan** (`R-063`) — `bun run backup`: snapshot SQLite → **integrity_check + hitung baris tabel kunci** (pemulihan terbukti) → retensi 14 snapshot terakhir; contoh crontab produksi terdokumentasi
+- **Loop roadmap pertama tercatat**: 3 item P0 naik status → **27 selesai / 99 (27%)** di peta jalan portal
 
 ### 🗺️ v12.2 — 99 Roadmap Upgrade
 - **99 item granular, 6 pilar** — *Pengalaman Jamaah (18) · Akademi & KTA (16) · Marketplace & Bisnis (17) · Platform & Teknologi (18) · Keamanan & Kepatuhan (15) · Ekosistem & Pertumbuhan (15)* — di bawah 4 fase makro 2026-2030
@@ -300,7 +306,8 @@ docs/                       # aset & tangkapan layar
 | `prisma/seed-fitur-v5/v6/v7.ts` | Seed marketplace/forum/kartu, bisnis/SOS, pindai izin |
 | `scripts/seed-membership.ts` | KTA + poin + akademi + slot + benefit |
 | `scripts/seed-compliance.ts` | Riwayat audit + tren kepatuhan izin (ComplianceAudit/Score/Finding) |
-| `scripts/seed-roadmap99.ts` | 99 item upgrade 6 pilar (RoadmapItem — status jujur per v12.1) |
+| `scripts/seed-roadmap99.ts` | 99 item upgrade 6 pilar (RoadmapItem — status jujur per v12.3) |
+| `scripts/backup-db.ts` | Snapshot + drill pemulihan + retensi 14 terakhir (`bun run backup`) |
 | `scripts/seed-kontak-resmi.ts` | WA resmi 0812 2234 5856 + kantor resmi |
 | `scripts/migrate-sqlite-to-postgres.mjs` | Migrasi 42+ tabel → Postgres (topologis, batch) |
 | `scripts/verify-v111.mjs` | Verifikasi pasca-migrasi |
@@ -337,6 +344,7 @@ Varian API PHP murni tanpa Node (`shared-hosting/`, `PANDUAN-SHARED-HOSTING.md`,
 | **v12.0 «GABUNG»** | **Union dua garis: 56 model, semua fitur hidup, satu CMS, tiga bahasa** |
 | **v12.1 «GOD MODE»** | **God-Mode Izin Compliance Checker: scoreboard publik, grade A–E, risiko, tren antar-audit, audit CMS 1-klik, notifikasi 10×2** |
 | **v12.2 «99 ROADMAP»** | **Peta jalan 99 upgrade granular × 6 pilar: portal interaktif + filter + progres, modul CMS CRUD, API publik, seed 99 item** |
+| **v12.3 «AMANAH»** | **Sprint keamanan P0: 2FA TOTP admin, kebijakan sandi + lockout brute-force, backup terjadwal ber-drill — 27/99 roadmap selesai** |
 
 ---
 

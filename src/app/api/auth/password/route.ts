@@ -4,10 +4,16 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { ok, fail } from "@/lib/api-helpers";
 import { requireAdmin, verifyPassword, hashPassword } from "@/lib/auth";
+import { passwordIssue } from "@/lib/password-policy";
 
 const schema = z.object({
   currentPassword: z.string().min(1, "Password saat ini wajib diisi."),
-  newPassword: z.string().min(8, "Password baru minimal 8 karakter."),
+  newPassword: z
+    .string()
+    .min(8, "Password baru minimal 8 karakter.")
+    .refine((pw) => passwordIssue(pw) === null, {
+      message: "Password harus mengandung huruf dan angka, tidak terlalu umum (contoh: amanah2026).",
+    }),
 });
 
 /**
