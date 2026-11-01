@@ -73,3 +73,5 @@ node_modules/
 
 # Database lokal (runtime, berisi hash password — jangan pernah ke GitHub)
 /db/
+.merge-v11/
+src/generated/
