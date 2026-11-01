@@ -72,6 +72,7 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "agenda", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "resources", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "pdp", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  { id: "sistem", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "audit", roles: ["SUPER_ADMIN"] },
   { id: "users", roles: ["SUPER_ADMIN"] },
 ];

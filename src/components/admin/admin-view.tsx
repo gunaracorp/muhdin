@@ -40,6 +40,7 @@ import { AdminRoadmapItems } from "@/components/admin/admin-roadmap-items";
 // v12.3 «AMANAH» — Keamanan Akun (2FA TOTP)
 import { AdminSecurity } from "@/components/admin/admin-security";
 import { AdminPrivacyRequests } from "@/components/admin/admin-privacy";
+import { AdminObservability } from "@/components/admin/admin-observability";
 // v12.4 «LUNAS» — Pesanan & Invoice (checkout + payment gateway)
 import { AdminOrders } from "@/components/admin/admin-orders";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
@@ -82,6 +83,8 @@ const MENU = [
   { id: "keamanan", label: "Keamanan Akun", icon: "fingerprint" },
   // v12.5 — Permintaan PDP (R-078)
   { id: "pdp", label: "Permintaan PDP", icon: "user-cog" },
+  // v12.5 — Kesehatan Sistem (R-062)
+  { id: "sistem", label: "Kesehatan Sistem", icon: "gauge" },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
   { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap" },
@@ -273,6 +276,7 @@ export function AdminView() {
           {section === "agenda" && <AdminAgenda />}
           {section === "resources" && <AdminResources />}
           {section === "pdp" && <AdminPrivacyRequests />}
+          {section === "sistem" && <AdminObservability />}
           {section === "audit" && <AdminAudit />}
           {section === "users" && <AdminUsers meId={user.id} />}
           {/* GABUNG v11 — Power Pack */}

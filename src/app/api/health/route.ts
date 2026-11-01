@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import os from "node:os";
 import { db } from "@/lib/db";
+import { log } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,7 @@ export async function GET() {
   } catch (e) {
     dbError = (e as Error).message.slice(0, 200);
   }
+  log(dbOk ? "info" : "error", "healthcheck", { dbOk, dbLatencyMs });
 
   const payload = {
     ok: dbOk,

@@ -547,6 +547,9 @@ model ForumThread {
   authorContact String       @default("") // email/WA pribadi — tidak tampil publik
   category      String       @default("Umum") // Manasik | Dokumen | Perjalanan | Akomodasi | Biaya | Lainnya
   status        String       @default("PENDING") // PENDING | APPROVED | REJECTED | LOCKED
+  // R-082 anti-spam — skor & alasan filter otomatis (konteks moderasi)
+  spamScore     Int          @default(0)
+  spamReasons   String?
   pinned        Boolean      @default(false)
   views         Int          @default(0)
   reviewedBy    String?
@@ -564,6 +567,9 @@ model ForumReply {
   authorName String
   body       String
   status     String      @default("PENDING") // PENDING | APPROVED | REJECTED
+  // R-082 anti-spam — skor & alasan filter otomatis
+  spamScore  Int         @default(0)
+  spamReasons String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }

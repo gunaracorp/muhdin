@@ -205,8 +205,13 @@ export function AdminForum() {
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1.5">
                       <ThreadBadge status={th.status} />
-                      {th.pendingReplies > 0 && (
+                      {(th.pendingReplies ?? 0) > 0 && (
                         <Badge className="danger-solid text-[10px]">{th.pendingReplies} balasan</Badge>
+                      )}
+                      {(th.spamScore ?? 0) >= 30 && (
+                        <Badge variant="outline" className="border-gold/50 bg-gold/10 text-[10px] text-gold-deep" title={th.spamReasons || ""}>
+                          spam {th.spamScore}
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -237,6 +242,11 @@ export function AdminForum() {
                       <p className="text-xs text-muted-foreground truncate">
                         Pada thread: <b className="text-foreground/80">{r.threadTitle}</b>
                         {r.threadStatus === "LOCKED" && " (terkunci)"}
+                        {(r.spamScore ?? 0) >= 30 && (
+                          <Badge variant="outline" className="border-gold/50 bg-gold/10 text-[10px] text-gold-deep" title={r.spamReasons || ""}>
+                            spam {r.spamScore}
+                          </Badge>
+                        )}
                       </p>
                       <p className="mt-1 text-sm font-bold">{r.authorName}</p>
                     </div>
@@ -276,6 +286,7 @@ export function AdminForum() {
             <DialogDescription className="text-left">
               {viewing?.authorName} · {viewing?.category} · {viewing ? formatDateTime(viewing.createdAt) : ""}
               {viewing?.authorContact ? ` · kontak: ${viewing.authorContact}` : ""}
+              {(viewing?.spamScore ?? 0) > 0 ? ` · spam ${viewing?.spamScore}${viewing?.spamReasons ? ` (${viewing?.spamReasons})` : ""}` : ""}
             </DialogDescription>
           </DialogHeader>
           {viewing && (

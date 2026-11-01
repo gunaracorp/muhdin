@@ -36,6 +36,8 @@ export async function GET(req: NextRequest) {
         status: t.status,
         pinned: t.pinned,
         views: t.views,
+        spamScore: t.spamScore,
+        spamReasons: t.spamReasons,
         pendingReplies: t._count.replies,
         reviewedBy: t.reviewedBy,
         createdAt: t.createdAt,
@@ -48,6 +50,8 @@ export async function GET(req: NextRequest) {
         authorName: r.authorName,
         body: r.body,
         status: r.status,
+        spamScore: r.spamScore,
+        spamReasons: r.spamReasons,
         createdAt: r.createdAt,
       })),
     });

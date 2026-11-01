@@ -515,10 +515,13 @@ export interface ForumThreadItem {
   title: string;
   body: string;
   authorName: string;
+  authorContact?: string;
   category: string;
   status: string;
   pinned: boolean;
   views: number;
+  spamScore?: number;
+  spamReasons?: string | null;
   replyCount?: number;
   pendingReplies?: number;
   createdAt: string;
@@ -530,9 +533,12 @@ export interface ForumReplyItem {
   id: string;
   threadId: string;
   threadTitle?: string;
+  threadStatus?: string;
   authorName: string;
   body: string;
   status: string;
+  spamScore?: number;
+  spamReasons?: string | null;
   createdAt: string;
 }
 

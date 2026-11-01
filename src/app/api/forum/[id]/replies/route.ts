@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
+import { spamScore } from "@/lib/anti-spam";
 
 /**
  * v5.0 — Balasan diskusi (publik).
@@ -30,8 +31,21 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
       return fail("Diskusi ini telah dikunci — tidak menerima balasan baru.");
     }
 
+    // R-082 — filter anti-spam otomatis pada balasan.
+    const verdict = await spamScore({ text: replyBody, authorContact: authorName, entity: "reply" });
+    if (verdict.action === "BLOCK") {
+      return fail("Balasan terdeteksi spam oleh filter otomatis. Hindari tautan dan promosi.", 422);
+    }
+
     const reply = await db.forumReply.create({
-      data: { threadId: id, authorName, body: replyBody, status: "PENDING" },
+      data: {
+        threadId: id,
+        authorName,
+        body: replyBody,
+        status: "PENDING",
+        spamScore: verdict.score,
+        spamReasons: verdict.reasons.length ? verdict.reasons.join("; ") : null,
+      },
     });
 
     return ok(

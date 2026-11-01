@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { ok, fail } from "@/lib/api-helpers";
 import { rateLimit } from "@/lib/ratelimit";
+import { spamScore } from "@/lib/anti-spam";
 
 /**
  * v5.0 — Forum Jamaah.
@@ -66,6 +67,12 @@ export async function POST(req: NextRequest) {
     if (threadBody.length < 20) return fail("Isi diskusi minimal 20 karakter agar mudah dijawab.");
     if (authorName.length < 3) return fail("Nama Anda minimal 3 karakter.");
 
+    // R-082 — filter anti-spam otomatis sebelum masuk antrean moderasi.
+    const verdict = await spamScore({ title, text: threadBody, authorContact, entity: "thread" });
+    if (verdict.action === "BLOCK") {
+      return fail("Kiriman terdeteksi spam oleh filter otomatis. Sampaikan tanpa tautan/promosi.", 422);
+    }
+
     const thread = await db.forumThread.create({
       data: {
         title,
@@ -76,13 +83,18 @@ export async function POST(req: NextRequest) {
           ? category
           : "Lainnya",
         status: "PENDING",
+        spamScore: verdict.score,
+        spamReasons: verdict.reasons.length ? verdict.reasons.join("; ") : null,
       },
     });
 
     return ok(
       {
         id: thread.id,
-        message: "Diskusi Anda terkirim dan menunggu moderasi tim MUHDIN. Terima kasih!",
+        message:
+          verdict.action === "HOLD"
+            ? "Diskusi terkirim dan masuk antrean moderasi prioritas (tertanda filter spam). Terima kasih!"
+            : "Diskusi Anda terkirim dan menunggu moderasi tim MUHDIN. Terima kasih!",
       },
       201
     );
