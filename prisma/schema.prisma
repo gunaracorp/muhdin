@@ -86,6 +86,23 @@ model Roadmap {
   order        Int    @default(0)
 }
 
+// v12.2 «99 ROADMAP UPGRADE» — 99 item upgrade granular di bawah 4 fase makro.
+// pillar: JAMAAH | AKADEMI | BISNIS | PLATFORM | KEAMANAN | EKOSISTEM
+// priority: P0 (jalur kritis) .. P3 (nisbah) · effort: S | M | L | XL
+// status: DONE | IN_PROGRESS | PLANNED · target: versi tercatat (v12.2..v20)
+model RoadmapItem {
+  id          String @id @default(cuid())
+  code        String @unique
+  pillar      String
+  title       String
+  description String
+  priority    String @default("P2")
+  effort      String @default("M")
+  status      String @default("PLANNED")
+  target      String @default("v13")
+  order       Int    @default(0)
+}
+
 // ==================== KEANGGOTAAN ====================
 model Member {
   id             String          @id @default(cuid())

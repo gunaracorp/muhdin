@@ -3,7 +3,7 @@
 
 ![MUHDIN.ID — Portal Digital Ekosistem Umrah dan Haji Indonesia](docs/assets/banner.svg)
 
-# 🕋 MUHDIN.ID — v12.1.0 «GOD MODE»
+# 🕋 MUHDIN.ID — v12.2.0 «99 ROADMAP»
 
 ### **MU**asyarakat **U**mroh **H**aji **D**igital **I**ndonesia
 
@@ -15,7 +15,7 @@
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Prisma 6](https://img.shields.io/badge/Prisma_6-59_model-2D3748?logo=prisma)](https://prisma.io)
+[![Prisma 6](https://img.shields.io/badge/Prisma_6-60_model-2D3748?logo=prisma)](https://prisma.io)
 [![SQLite](https://img.shields.io/badge/DB-SQLite_↔_Postgres_ready-003B57?logo=sqlite)](#strategi-database)
 [![i18n](https://img.shields.io/badge/i18n-ID_·_EN_·_AR_RTL-16a34a)](#internasionalisasi)
 [![RBAC](https://img.shields.io/badge/RBAC-4_peran_·_36+_modul_CMS-d97706)](#keamanan-dan-rbac)
@@ -24,7 +24,7 @@
 
 > 🕌 **GRATIS SELAMANYA** — pendaftaran & iuran **Rp 0** untuk semua anggota, tanpa pengecualian. Itu keunggulan MUHDIN dibanding asosiasi lain, dan seluruh portal konsisten menyampaikan satu pesan itu.
 
-**v12.1.0 «GOD MODE»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker**: papan kepatuhan izin seluruh ekosistem dengan skor, grade A–E, risiko, tren antar-audit, dan notifikasi otomatis. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
+**v12.2.0 «99 ROADMAP»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker** (papan kepatuhan izin ber-skor, grade A–E, risiko & tren) dan **99 Roadmap Upgrade**: peta jalan **99 item granular dalam 6 pilar** dengan prioritas P0–P3, upaya S–XL, status, dan target versi hingga v20 — filter interaktif, bar progres, dan modul CMS. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
 
 ---
 
@@ -54,7 +54,7 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 
 | Angka | Artinya |
 | --- | --- |
-| **59 model** Prisma | Skema data terpadu hasil gabungan dua garis besar |
+| **60 model** Prisma | Skema data terpadu hasil gabungan dua garis + compliance + roadmap |
 | **40+ rute halaman** portal publik | Beranda → ekosistem → layanan digital → trust center |
 | **36+ modul CMS** | Semua konten & transaksi dikelola tanpa sentuh kode |
 | **10 kejadian notifikasi × 2 kanal** | Email sekretariat + WhatsApp admin, otomatis |
@@ -95,6 +95,13 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 - **Compliance Center** (`#/compliance`) — ⭐ *god mode tier max*: papan kepatuhan **seluruh perusahaan registri** dihitung live oleh engine Pindai Izin 360° — **skor 0–100**, **grade A–E**, **level risiko** (RENDAH→KRITIS), **tren antar-audit**, dan **dossier drill-down** per perusahaan (checklist a–l berwarna status + rekomendasi berprioritas + tren skor) — publik & transparan
 - **Audit god-mode dari CMS** (modul *Compliance Checker*) — satu klik menilai registri penuh, menyimpan snapshot **ComplianceScore** (riwayat tren) + **temuan berprioritas** (`ComplianceFinding`, tier 0 darurat … 4 nilai tambah) + agregat **ComplianceAudit**, lalu meneruskan ringkasan ke sekretariat via **Email & WhatsApp** (saklar `notifyCompliance`)
 - **Deep-link** `#/compliance?q=<companyId>` membuka dossier langsung · menu **PERIZINAN → Compliance Center** · i18n 3 bahasa penuh
+
+### 🗺️ v12.2 — 99 Roadmap Upgrade
+- **99 item granular, 6 pilar** — *Pengalaman Jamaah (18) · Akademi & KTA (16) · Marketplace & Bisnis (17) · Platform & Teknologi (18) · Keamanan & Kepatuhan (15) · Ekosistem & Pertumbuhan (15)* — di bawah 4 fase makro 2026-2030
+- **Status jujur per v12.1**: 24 *Sudah hidup* · 16 *Dikerjakan* · 59 *Direncanakan* — dengan **prioritas P0–P3**, **upaya S/M/L/XL**, dan **target versi v12.2→v20** per item
+- **Seksi portal interaktif** (`#/tentang`) — 4 kartu statistik, **bar progres 24/99**, filter pilar & status, grid kartu ber-animasi Reveal, CTA *usulkan upgrade ke-100* via WA resmi
+- **Modul CMS** (*Roadmap 99 Upgrade*) — CRUD penuh via CrudManager: kode unik `R-001…R-099`, pilar, prioritas, status, target, urutan
+- Model **RoadmapItem** + API publik `GET /api/roadmap/items` + CRUD admin · i18n 3 bahasa penuh
 
 ### 🤖 Kecerdasan Buatan
 - **Sahabat MUHDIN** — AI concierge mengapung di semua halaman publik (trilingual, tahu batas: menyarankan WA resmi & halaman verifikasi, tidak mengarang regulasi)
@@ -153,6 +160,7 @@ bun prisma/seed-fitur-v6.ts          # pusat bisnis, brankas, SOS, vendor…
 bun prisma/seed-fitur-v7.ts          # pindai izin 360°
 bun scripts/seed-membership.ts       # KTA + poin + akademi + slot + benefit
 bun scripts/seed-compliance.ts       # riwayat audit & tren kepatuhan izin (v12.1)
+bun scripts/seed-roadmap99.ts        # 99 item roadmap upgrade 6 pilar (v12.2)
 bun scripts/seed-kontak-resmi.ts     # WA resmi + kantor Jakarta/Tasikmalaya
 bun scripts/seed-resource-lengkap.mjs
 
@@ -176,7 +184,7 @@ Skrip produksi: `bun run build` (generate + next build + post-build) · `bun run
 
 ## 🗄️ Strategi Database
 
-Satu skema **59 model** (union dua garis + compliance checker), dua mode jalankan:
+Satu skema **60 model** (union dua garis + compliance checker + roadmap item), dua mode jalankan:
 
 | Mode | Provider | Cara |
 | --- | --- | --- |
@@ -212,7 +220,7 @@ Kelompok model: **Auth & RBAC** (User, Role…) · **Keanggotaan** (Member, Memb
 ┌──────▼──────┐        ┌───────▼───────┐     ┌───────▼────────┐
 │ Prisma 6    │        │ SMTP / WA     │     │ z-ai-web-dev-  │
 │ SQLite ↔ PG │        │ 4 provider    │     │ sdk (AI)       │
-│ 59 model    │        │ + webhook bot │     │ concierge/bot  │
+│ 60 model    │        │ + webhook bot │     │ concierge/bot  │
 └─────────────┘        └───────────────┘     └────────────────┘
 ```
 
@@ -274,9 +282,9 @@ src/
 │   └── api-helpers.ts audit.ts auth.ts ratelimit.ts roles.ts…
 └── generated/prisma/       # (opsional) client hasil generate
 prisma/
-├── schema.prisma           # 59 model — union dua garis + compliance checker
+├── schema.prisma           # 60 model — union dua garis + compliance checker + roadmap item
 └── seed*.ts                # seed idempoten per fitur
-scripts/                    # seed-membership, seed-compliance, kontak-resmi, migrate-sqlite-to-postgres, verify, dev-keep…
+scripts/                    # seed-membership, seed-compliance, seed-roadmap99, kontak-resmi, migrate-sqlite-to-postgres, verify, dev-keep…
 shared-hosting/             # varian PHP murni (API tanpa Node) — lihat PANDUAN-SHARED-HOSTING.md
 docs/                       # aset & tangkapan layar
 ```
@@ -292,6 +300,7 @@ docs/                       # aset & tangkapan layar
 | `prisma/seed-fitur-v5/v6/v7.ts` | Seed marketplace/forum/kartu, bisnis/SOS, pindai izin |
 | `scripts/seed-membership.ts` | KTA + poin + akademi + slot + benefit |
 | `scripts/seed-compliance.ts` | Riwayat audit + tren kepatuhan izin (ComplianceAudit/Score/Finding) |
+| `scripts/seed-roadmap99.ts` | 99 item upgrade 6 pilar (RoadmapItem — status jujur per v12.1) |
 | `scripts/seed-kontak-resmi.ts` | WA resmi 0812 2234 5856 + kantor resmi |
 | `scripts/migrate-sqlite-to-postgres.mjs` | Migrasi 42+ tabel → Postgres (topologis, batch) |
 | `scripts/verify-v111.mjs` | Verifikasi pasca-migrasi |
@@ -327,6 +336,7 @@ Varian API PHP murni tanpa Node (`shared-hosting/`, `PANDUAN-SHARED-HOSTING.md`,
 | **v11.1** | **KTA + poin + referal · Akademi + sertifikat · Booking slot · Benefit · Paspor QR · WA-AI bot · notifikasi 9×2** |
 | **v12.0 «GABUNG»** | **Union dua garis: 56 model, semua fitur hidup, satu CMS, tiga bahasa** |
 | **v12.1 «GOD MODE»** | **God-Mode Izin Compliance Checker: scoreboard publik, grade A–E, risiko, tren antar-audit, audit CMS 1-klik, notifikasi 10×2** |
+| **v12.2 «99 ROADMAP»** | **Peta jalan 99 upgrade granular × 6 pilar: portal interaktif + filter + progres, modul CMS CRUD, API publik, seed 99 item** |
 
 ---
 

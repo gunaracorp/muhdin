@@ -19,6 +19,7 @@ import {
   STAKEHOLDER_GROUPS,
 } from "@/lib/constants";
 import { BranchesSection } from "@/components/site/branches-section";
+import { Roadmap99Section } from "@/components/views/roadmap99-section";
 import { useT } from "@/lib/i18n";
 import type { ManagementMember, Roadmap, SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -409,6 +410,9 @@ export function AboutView() {
               ))}
             </div>
           )}
+
+          {/* v12.2 — 99 ROADMAP UPGRADE: 99 item granular dalam 6 pilar */}
+          <Roadmap99Section />
 
           {/* KPI Table */}
           <Reveal className="mt-14">

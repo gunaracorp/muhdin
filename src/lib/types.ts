@@ -48,6 +48,22 @@ export interface Roadmap {
   order: number;
 }
 
+// v12.2 «99 ROADMAP UPGRADE» — item upgrade granular.
+export type RoadmapPillar = "JAMAAH" | "AKADEMI" | "BISNIS" | "PLATFORM" | "KEAMANAN" | "EKOSISTEM";
+export type RoadmapStatus = "DONE" | "IN_PROGRESS" | "PLANNED";
+export interface RoadmapItem {
+  id: string;
+  code: string;
+  pillar: RoadmapPillar | string;
+  title: string;
+  description: string;
+  priority: "P0" | "P1" | "P2" | "P3" | string;
+  effort: "S" | "M" | "L" | "XL" | string;
+  status: RoadmapStatus | string;
+  target: string;
+  order: number;
+}
+
 export interface Member {
   id: string;
   name: string;

@@ -49,6 +49,8 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   { id: "jamaahops", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   // v12.1 — God-Mode Izin Compliance Checker
   { id: "compliance", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v12.2 — 99 Roadmap Upgrade
+  { id: "roadmap99", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "academy", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },

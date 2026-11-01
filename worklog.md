@@ -2042,3 +2042,22 @@ Stage Summary:
 - E2E (agent-browser): portal #/compliance render sempurna (8 baris berperingkat, Anugrah 100/A/RENDAH … Koperasi 27/E/KRITIS), dossier Lazuardi terbuka (10 BERLAKU/1 ≤90/1 KEDALUWARSA, checklist berwarna, tren 4 titik, rekomendasi), menu PERIZINAN → COMPLIANCE CENTER jalan, deep-link q= auto-open ✓, EN ✓ AR ✓ (RTL), CMS login → modul Compliance Checker → JALANKAN AUDIT (8 perusahaan, rata-rata 61, 30 temuan, notified) + riwayat expandable, 0 console error, regresi 8 rute 200.
 - API smoke: scoreboard/report publik 200; audit anonim 401 (RBAC benar); audit admin 201 (8 dinilai, 30 temuan); NotificationLog COMPLIANCE tercatat di 2 kanal (FAILED = gateway sandbox belum diset — gagal-aman benar).
 - README.md diperbarui menyeluruh ke v12.1.0 «GOD MODE» (badge 59 model, peta fitur + seksi 🛡️, notifikasi 10×2, peta API + grup Compliance, seed + timeline).
+
+## Task ID 16 — 99 Roadmap Upgrade (v12.2.0 «99 ROADMAP»)
+Tanggal: 2026-11-01
+
+Task: "lanjut buat 99 roadmap upgrade" — peta jalan 99 item upgrade granular, god-mode, di atas codebase v12.1.0.
+
+Work Log:
+- SKEMA (+1 model): RoadmapItem — code unik (R-001..R-099), pillar (JAMAAH/AKADEMI/BISNIS/PLATFORM/KEAMANAN/EKOSISTEM), title, description, priority (P0-P3), effort (S/M/L/XL), status (DONE/IN_PROGRESS/PLANNED), target versi, order. db push ✓ (59→60 model).
+- SEED: scripts/seed-roadmap99.ts — 99 item grounded ke fitur riil v12.1.0 (status jujur: 24 DONE = fitur yang benar-benar hidup seperti GPS Tracking v11/Compliance Checker v12.1/Pindai Izin v7; 16 IN_PROGRESS = dual-ready Postgres, SEO teknis, seat map; 59 PLANNED; target v12.2-v20). Idempoten refresh (deleteMany+createMany). Sebaran pilar 18/16/17/18/15/15 ✓.
+- API (2 rute baru): GET /api/roadmap/items (publik, applyEntityTranslations title/description — terjemahan inline otomatis utk teks <300 char) + POST (guardAdmin, validasi enum + kode unik 409, auto-order); PUT/DELETE /api/roadmap/items/[id] (guardAdmin, validasi enum per field).
+- PORTAL: roadmap99-section.tsx (seksi baru di #/tentang, setelah kartu fase makro, sebelum KPI) — 4 kartu statistik (total/done/inprogress/planned) + badge progres %, bar progres gradien emerald→primary 24/99 + legenda 3 status, filter chip pilar (Semua + 6 pilar ber-ikon) & status, grid kartu item (kode mono, badge status berwarna + ikon, deskripsi line-clamp, chip pilar/prioritas berwarna/effort/target gold, border emerald utk DONE), CTA "usulkan upgrade ke-100" → WA resmi 0812-2234-5856. Animasi Reveal konsisten.
+- CMS: admin-roadmap-items.tsx (CrudManager penuh: 10 field — kode, pilar select, judul, prioritas/effort/status select, target, urutan, deskripsi; kolom kode mono + judul + pilar + prio + status berwarna); menu "Roadmap 99 Upgrade" (ikon map); roles seksi roadmap99 [SUPER_ADMIN, ADMIN, EDITOR].
+- i18n: locales/fitur-v12b.ts roadmap99Dict {id,en,ar} penuh (eyebrow/badge/title/subtitle/stats/progress/filter/pillar×6/status/priority/effort/target/empty/cta); registrasi dictionaries.ts.
+- README.md → v12.2.0 «99 ROADMAP»: judul, badge 60_model, intro, tabel angka, seksi 🗺️ v12.2, perintah seed, strategi DB, pohon kode, tabel skrip, timeline versi.
+
+Stage Summary:
+- E2E (agent-browser): #/tentang render seksi 99 item (99 kartu ber-kode R-xxx, 24 DONE), filter pilar Akademi → 16 kartu (R-019..) ✓, reset ✓; AR RTL + judul/label Arab ✓, EN penuh ✓, ID ✓; CMS login → modul Roadmap 99 Upgrade → tabel R-001..R-099, tambah R-100 uji round-trip (muncul) → hapus (hilang, R-099 utuh) ✓; 0 console error.
+- API smoke: GET items 200 (99 item, sebaran 24/16/59 tepat); POST anonim 401 (RBAC benar); regresi /, /api/packages, /api/academy/courses, /api/compliance/scoreboard, /api/health semua 200.
+- tsc: 0 error di seluruh file baru/tersentuh (55 error pra-eksisting tidak tersentuh, sudah tercatat sebelumnya).

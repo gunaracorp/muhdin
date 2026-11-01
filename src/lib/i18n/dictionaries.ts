@@ -56,6 +56,8 @@ import { fiturV6Dict } from "@/lib/i18n/locales/fitur-v6";
 // v7.0 — Pindai Izin 360°
 import { scanDict } from "@/lib/i18n/locales/fitur-v7";
 import { complianceDict } from "@/lib/i18n/locales/fitur-v12";
+// v12.2 «99 ROADMAP UPGRADE» — peta jalan 99 item (root `roadmap99`)
+import { roadmap99Dict } from "@/lib/i18n/locales/fitur-v12b";
 // GABUNG v11 — WA-AI, Paspor Haji, Tracking GPS, Tur 360°, Statistik, Global Search, Keanggotaan
 import { waaiDict } from "@/lib/i18n/locales/waai";
 import { pasporDict } from "@/lib/i18n/locales/paspor";
@@ -128,6 +130,8 @@ const dicts = [
   searchDict,
   // v12.1 — God-Mode Izin Compliance Checker (#/compliance)
   complianceDict,
+  // v12.2 — 99 Roadmap Upgrade (seksi Tentang Kami)
+  roadmap99Dict,
   // GABUNG v11 — Keanggotaan Power Pack
   keanggotaanDict,
 ];
