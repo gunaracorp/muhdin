@@ -346,6 +346,38 @@ export interface AuditLogItem {
   createdAt: string;
 }
 
+/** R-094 — broadcast WA template terjadwal. */
+export interface BroadcastItem {
+  id: string;
+  title: string;
+  template: string;
+  audience: string;
+  status: string;
+  scheduledAt: string | null;
+  sentAt: string | null;
+  sentCount: number;
+  failCount: number;
+  createdBy: string | null;
+  createdAt: string;
+}
+
+/** R-047 — baris skor kualitas vendor. */
+export interface VendorScoreRow {
+  id: string;
+  name: string;
+  type: string;
+  city: string;
+  qualityScore: number | null;
+  qualityGrade: string | null;
+  qualityUpdatedAt: string | null;
+  score: number;
+  grade: string;
+  reviewCount: number;
+  avgRating: number | null;
+  complaintCount: number;
+  publishedPackages: number;
+}
+
 /** R-078 UU PDP — permintaan hak subjek data pribadi. */
 export interface PrivacyRequestItem {
   id: string;

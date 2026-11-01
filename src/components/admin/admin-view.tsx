@@ -41,6 +41,7 @@ import { AdminRoadmapItems } from "@/components/admin/admin-roadmap-items";
 import { AdminSecurity } from "@/components/admin/admin-security";
 import { AdminPrivacyRequests } from "@/components/admin/admin-privacy";
 import { AdminObservability } from "@/components/admin/admin-observability";
+import { AdminGrowth } from "@/components/admin/admin-growth";
 // v12.4 «LUNAS» — Pesanan & Invoice (checkout + payment gateway)
 import { AdminOrders } from "@/components/admin/admin-orders";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
@@ -85,6 +86,8 @@ const MENU = [
   { id: "pdp", label: "Permintaan PDP", icon: "user-cog" },
   // v12.5 — Kesehatan Sistem (R-062)
   { id: "sistem", label: "Kesehatan Sistem", icon: "gauge" },
+  // v12.5 — Broadcast WA & Skor Vendor (R-094/R-047)
+  { id: "growth", label: "Broadcast & Vendor", icon: "radio-tower" },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
   { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap" },
@@ -277,6 +280,7 @@ export function AdminView() {
           {section === "resources" && <AdminResources />}
           {section === "pdp" && <AdminPrivacyRequests />}
           {section === "sistem" && <AdminObservability />}
+          {section === "growth" && <AdminGrowth />}
           {section === "audit" && <AdminAudit />}
           {section === "users" && <AdminUsers meId={user.id} />}
           {/* GABUNG v11 — Power Pack */}

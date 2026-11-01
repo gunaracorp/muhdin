@@ -183,6 +183,27 @@ export async function applyPaid(
     }
   }
 
+  // R-013 — Poin KTA lintas layanan: order LUNAS marketplace menghasilkan
+  // poin (1 poin per Rp 10.000) bagi penyelenggara anggota pemilik paket.
+  // Gagal-aman: kegagalan poin TIDAK boleh menggagalkan pembayaran.
+  try {
+    if (order.amount > 0) {
+      const pkg = await db.tourPackage.findUnique({
+        where: { id: (await db.order.findUnique({ where: { id: order.id }, select: { packageId: true } }))?.packageId ?? "" },
+        select: { memberId: true, title: true },
+      });
+      if (pkg) {
+        const card = await db.memberCard.findUnique({ where: { memberId: pkg.memberId } });
+        if (card) {
+          const { awardPoints } = await import("@/lib/membership");
+          await awardPoints(card.id, Math.floor(order.amount / 10_000), "BOOKING", `Order ${order.number} — ${pkg.title}`);
+        }
+      }
+    }
+  } catch {
+    /* poin gagal-aman */
+  }
+
   // Notifikasi sekretariat (gagal-aman) + audit.
   void notifyOrderPaid({
     number: order.number,

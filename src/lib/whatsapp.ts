@@ -88,6 +88,20 @@ export async function sendWhatsAppMessage(message: string): Promise<WaSendResult
   }
 }
 
+/** R-094 — kirim WhatsApp ke SATU nomor penerima (broadcast opt-in). */
+export async function sendWhatsAppToNumber(phone: string, message: string): Promise<WaSendResult> {
+  try {
+    const cfg = await getWhatsAppSetting();
+    if (!cfg.enabled) return { sent: false, detail: "Notifikasi WhatsApp nonaktif." };
+    if (!cfg.token) return { sent: false, detail: "Token gateway belum diisi." };
+    const target = normalizeWaNumber(phone.trim());
+    if (target.length < 10) return { sent: false, detail: `Nomor tidak valid: ${phone}` };
+    return await sendToTarget(cfg.provider, cfg.apiUrl, cfg.token, target, message);
+  } catch (err) {
+    return { sent: false, detail: err instanceof Error ? err.message : String(err) };
+  }
+}
+
 /** Kirim ke satu nomor tujuan pada provider tertentu. */
 async function sendToTarget(
   provider: string,

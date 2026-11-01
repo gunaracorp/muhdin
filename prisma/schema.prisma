@@ -125,6 +125,10 @@ model Member {
   rating         Float           @default(4.5)
   status         String          @default("TERVERIFIKASI")
   memberSince    Int             @default(2026)
+  // R-047 — skor kualitas vendor (hitung-ulang via /api/vendor-scores)
+  qualityScore   Int?
+  qualityGrade   String? // A | B | C | D
+  qualityUpdatedAt DateTime?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   permits        NusukPermit[]
@@ -204,6 +208,22 @@ model Faq {
   category  String   @default("Umum")
   order     Int      @default(0)
   createdAt DateTime @default(now())
+}
+
+// R-094 — broadcast WhatsApp template terjadwal (audience opt-in).
+model Broadcast {
+  id          String    @id @default(cuid())
+  title       String
+  template    String // {{nama}}, {{tanggal}} diganti saat kirim
+  audience    String    @default("ALL_MEMBERS") // ALL_MEMBERS | KTA_ACTIVE | PENDING_ORDERS
+  status      String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED | CANCELLED
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  sentCount   Int       @default(0)
+  failCount   Int       @default(0)
+  createdBy   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 // R-078 UU PDP — antrean permintaan hak subjek data pribadi (akses/ekspor & penghapusan).
