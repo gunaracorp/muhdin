@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { guardRole, ok, fail, parseIntOr } from "@/lib/api-helpers";
+import { guardRole, ok, fail, parseIntOr, slugify } from "@/lib/api-helpers";
 import { logAudit } from "@/lib/audit";
 
 /**
@@ -72,6 +72,18 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ id: string 
       data.status = String(body.status);
     }
     if (body.featured !== undefined) data.featured = Boolean(body.featured);
+    // R-057 SEO — slug unik (auto bila kosong), gambar & meta deskripsi.
+    if (body.slug !== undefined || body.title !== undefined) {
+      const base = slugify(String(body.slug || data.title || existing.title)).slice(0, 80) || existing.slug || `paket-${Date.now().toString(36)}`;
+      if (base !== existing.slug) {
+        let slug = base;
+        let n = 2;
+        while (await db.tourPackage.findFirst({ where: { slug, NOT: { id } } })) slug = `${base}-${n++}`;
+        data.slug = slug;
+      }
+    }
+    if (body.image !== undefined) data.image = body.image ? String(body.image) : null;
+    if (body.metaDescription !== undefined) data.metaDescription = body.metaDescription ? String(body.metaDescription).slice(0, 160) : null;
 
     const pkg = await db.tourPackage.update({ where: { id }, data, include: { member: memberSelect } });
     void logAudit(req, { action: "UPDATE", entity: "TourPackage", entityId: id, detail: pkg.title });

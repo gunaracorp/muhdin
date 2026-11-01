@@ -24,6 +24,10 @@ export const BRAND = {
   edition: "Ekosistem Penyelenggaraan Ibadah Terpercaya — Terhubung dengan jalur resmi Nusuk",
 };
 
+// ====== SEO (Task 19 / R-057) — URL kanonik untuk metadata, sitemap & JSON-LD ======
+// Digunakan halaman landing SSR (/paket/[slug], /artikel/[slug]) dan og route.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || "https://muhdin.web.id";
+
 // ====== COUNTER PENDAFTAR GRATIS (Task 44 → 52; promo "200 anggota pertama" dihapus) ======
 // Kuota promo live: dihitung dari pendaftar valid (status != REJECTED) di DB
 // + baseTaken (seed opsional). Angka turun otomatis setiap formulir masuk.

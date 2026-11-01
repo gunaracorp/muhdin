@@ -12,6 +12,9 @@ export interface Article {
   featured: boolean;
   views: number;
   author: string;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  keywords?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -472,6 +475,9 @@ export interface TourPackageItem {
   airline: string;
   status: string;
   featured: boolean;
+  slug?: string | null;
+  image?: string | null;
+  metaDescription?: string | null;
   createdAt: string;
   updatedAt: string;
 }

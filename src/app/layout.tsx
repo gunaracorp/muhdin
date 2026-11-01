@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Plus_Jakarta_Sans, Amiri, Noto_Kufi_Arabic } from "n
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_URL, BRAND } from "@/lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,6 +65,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "MUHDIN" }],
   manifest: "/manifest.webmanifest",
+  // R-057 — basis URL kanonik untuk semua metadata & kartu share.
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -83,12 +86,15 @@ export const metadata: Metadata = {
     siteName: "MUHDIN INDONESIA",
     type: "website",
     locale: "id_ID",
+    // R-057 — kartu share dirender dinamis (next/og) dan dapat dipersonalisasi.
+    images: [{ url: "/api/og", width: 1200, height: 630, alt: "MUHDIN INDONESIA — Trusted Pilgrim Ecosystem" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "MUHDIN INDONESIA — Trusted Pilgrim Ecosystem",
     description:
       "Satu Ekosistem. Satu Data. Satu Standar. Satu Trust.",
+    images: ["/api/og"],
   },
 };
 
@@ -123,6 +129,40 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${amiri.variable} ${kufi.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
+          {/* R-057 — JSON-LD Organization + WebSite (rich result mesin pencari). */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": [
+                  {
+                    "@type": "Organization",
+                    "@id": `${SITE_URL}/#organization`,
+                    name: BRAND.fullName,
+                    legalName: BRAND.legalName,
+                    url: SITE_URL,
+                    slogan: BRAND.tagline,
+                    description: BRAND.promise,
+                    contactPoint: {
+                      "@type": "ContactPoint",
+                      telephone: `+${BRAND.whatsappIntl}`,
+                      contactType: "customer service",
+                      availableLanguage: ["id", "en", "ar"],
+                    },
+                  },
+                  {
+                    "@type": "WebSite",
+                    "@id": `${SITE_URL}/#website`,
+                    url: SITE_URL,
+                    name: BRAND.fullName,
+                    publisher: { "@id": `${SITE_URL}/#organization` },
+                    inLanguage: locale,
+                  },
+                ],
+              }),
+            }}
+          />
           {children}
           <Toaster />
         </ThemeProvider>

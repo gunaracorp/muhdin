@@ -8,6 +8,7 @@ import { Reveal } from "@/components/site/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SmartImage } from "@/components/site/smart-image";
 import ReactMarkdown from "react-markdown";
 import { useT, formatDateL10n, formatNumberL10n } from "@/lib/i18n";
 import type { Article } from "@/lib/types";
@@ -77,10 +78,11 @@ function NewsList() {
                   >
                     <div className="relative h-64 lg:h-auto overflow-hidden bg-gradient-to-br from-forest to-primary">
                       { }
-                      <img
+                      {/* R-058 — SmartImage: lazy + WebP otomatis */}
+                      <SmartImage
                         src={featured.cover || "/images/hero-kaaba.jpg"}
                         alt={featured.title}
-                        className="h-full w-full object-cover bg-gradient-to-br from-forest to-primary transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full [&>img]:bg-gradient-to-br [&>img]:from-forest [&>img]:to-primary [&>img]:transition-transform [&>img]:duration-500 group-hover:[&>img]:scale-105"
                       />
                       <Badge className="absolute top-4 start-4 bg-gold text-forest-deep font-bold border-none">
                         <Icon name="sparkles" className="h-3 w-3 me-1" /> {t("news.featuredBadge")}
@@ -139,10 +141,11 @@ function NewsList() {
                       >
                         <div className="relative h-44 overflow-hidden bg-gradient-to-br from-forest to-primary">
                           { }
-                          <img
+                          {/* R-058 — SmartImage: lazy + WebP otomatis */}
+                          <SmartImage
                             src={a.cover || "/images/hero-kaaba.jpg"}
                             alt={a.title}
-                            className="h-full w-full object-cover bg-gradient-to-br from-forest to-primary transition-transform duration-500 group-hover:scale-105"
+                            className="h-full w-full [&>img]:bg-gradient-to-br [&>img]:from-forest [&>img]:to-primary [&>img]:transition-transform [&>img]:duration-500 group-hover:[&>img]:scale-105"
                           />
                           <Badge className="absolute top-3 start-3 bg-forest-deep text-gold-soft border-none">
                             {categoryLabel(a.category)}
@@ -238,10 +241,12 @@ function NewsDetail({ slug }: { slug: string }) {
           </div>
         </Reveal>
         { }
-        <img
+        {/* R-058 — sampul detail: eager agar LCP cepat */}
+        <SmartImage
           src={article.cover || "/images/hero-kaaba.jpg"}
           alt={article.title}
-          className="mt-8 w-full h-72 sm:h-96 object-cover rounded-2xl shadow-lg"
+          className="mt-8 w-full h-72 sm:h-96 rounded-2xl shadow-lg"
+          priority
         />
         <Reveal delay={0.1}>
           <p className="mt-8 text-lg leading-relaxed text-foreground/80 border-s-4 border-gold ps-4 italic">

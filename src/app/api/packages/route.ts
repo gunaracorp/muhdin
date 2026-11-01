@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { guardRole, ok, fail, parseIntOr } from "@/lib/api-helpers";
+import { guardRole, ok, fail, parseIntOr, slugify } from "@/lib/api-helpers";
 import { logAudit } from "@/lib/audit";
 
 /**
@@ -78,6 +78,12 @@ export async function POST(req: NextRequest) {
       return fail("Tanggal keberangkatan tidak valid.");
     }
 
+    // R-057 SEO — slug landing unik otomatis dari judul bila tidak diisi.
+    const slugBase = slugify(body.slug || title).slice(0, 80) || `paket-${Date.now().toString(36)}`;
+    let slug = slugBase;
+    let n = 2;
+    while (await db.tourPackage.findUnique({ where: { slug } })) slug = `${slugBase}-${n++}`;
+
     const pkg = await db.tourPackage.create({
       data: {
         memberId,
@@ -95,6 +101,9 @@ export async function POST(req: NextRequest) {
         airline: String(body.airline || ""),
         status: ["PUBLISHED", "DRAFT", "CLOSED"].includes(String(body.status)) ? String(body.status) : "PUBLISHED",
         featured: Boolean(body.featured),
+        slug,
+        image: body.image ? String(body.image) : null,
+        metaDescription: body.metaDescription ? String(body.metaDescription).slice(0, 160) : null,
       },
       include: {
         member: {

@@ -40,19 +40,23 @@ model Session {
 // ==================== KONTEN ====================
 
 model Article {
-  id        String   @id @default(cuid())
-  title     String
-  slug      String   @unique
-  excerpt   String
-  content   String
-  category  String   @default("Berita")
-  cover     String?
-  status    String   @default("PUBLISHED")
-  featured  Boolean  @default(false)
-  views     Int      @default(0)
-  author    String   @default("Tim MUHDIN")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String
+  content         String
+  category        String   @default("Berita")
+  cover           String?
+  status          String   @default("PUBLISHED")
+  featured        Boolean  @default(false)
+  views           Int      @default(0)
+  author          String   @default("Tim MUHDIN")
+  // R-091 SEO — metadata terarah kata kunci (fallback: title/excerpt)
+  metaTitle       String?
+  metaDescription String?
+  keywords        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Ecosystem {
@@ -487,6 +491,10 @@ model TourPackage {
   airline       String           @default("")
   status        String           @default("PUBLISHED") // PUBLISHED | DRAFT | CLOSED
   featured      Boolean          @default(false)
+  // R-057 SEO — URL landing terindeks mesin pencari + kartu visual
+  slug          String?          @unique
+  image         String?
+  metaDescription String?
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
   bookings      PackageBooking[]

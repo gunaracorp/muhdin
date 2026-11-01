@@ -25,6 +25,10 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ id: string 
     if (body.featured !== undefined) data.featured = Boolean(body.featured);
     if (body.author !== undefined) data.author = String(body.author);
     if (body.slug !== undefined) data.slug = slugify(body.slug) || undefined;
+    // R-091 SEO — metadata per artikel
+    if (body.metaTitle !== undefined) data.metaTitle = body.metaTitle ? String(body.metaTitle).slice(0, 70) : null;
+    if (body.metaDescription !== undefined) data.metaDescription = body.metaDescription ? String(body.metaDescription).slice(0, 160) : null;
+    if (body.keywords !== undefined) data.keywords = body.keywords ? String(body.keywords).slice(0, 300) : null;
 
     const article = await db.article.update({ where: { id }, data });
     return ok(article);

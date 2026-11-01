@@ -63,6 +63,9 @@ export async function POST(req: NextRequest) {
         status: String(body.status || "PUBLISHED"),
         featured: Boolean(body.featured),
         author: String(body.author || "Tim MUHDIN"),
+        metaTitle: body.metaTitle ? String(body.metaTitle).slice(0, 70) : null,
+        metaDescription: body.metaDescription ? String(body.metaDescription).slice(0, 160) : null,
+        keywords: body.keywords ? String(body.keywords).slice(0, 300) : null,
       },
     });
     return ok(article, 201);

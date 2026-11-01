@@ -80,6 +80,11 @@ const nmRes = spawnSync("cp", ["-al", path.join(root, "node_modules"), path.join
 if (nmRes.status !== 0) die("cp -al node_modules gagal — jalankan manual: cp -al node_modules " + buildDir);
 // Route API Node tidak kompatibel dengan export statis — di hosting digantikan PHP.
 rmSync(path.join(buildDir, "src", "app", "api"), { recursive: true, force: true });
+// Task 19 (R-057) — landing page SEO SSR (/paket/[slug], /artikel/[slug]) memakai
+// request-time rendering: di export statis dibuang; di hosting konten tetap dapat
+// dibaca via hash SPA (#/berita/<slug>, #/paket/<id>) + backend PHP.
+rmSync(path.join(buildDir, "src", "app", "paket"), { recursive: true, force: true });
+rmSync(path.join(buildDir, "src", "app", "artikel"), { recursive: true, force: true });
 
 /* 2) Static export ----------------------------------------------------------- */
 log("Menjalankan next build (BUILD_STATIC=1 → output export) ...");

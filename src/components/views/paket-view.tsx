@@ -21,6 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { TourPackageItem } from "@/lib/types";
 import { DetailHero, WaCtaButton } from "@/components/views/detail-shell";
+import { SmartImage } from "@/components/site/smart-image";
 // v6.0 — AI Trip Composer (diferensiasi)
 import { TripComposer } from "@/components/views/trip-composer";
 
@@ -178,8 +179,17 @@ export function PaketView() {
                           navigate(`paket/${p.id}`);
                         }
                       }}
-                      className="group flex h-full cursor-pointer flex-col rounded-2xl border bg-card p-5 shadow-sm transition-all hover:shadow-lg hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all hover:shadow-lg hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                     >
+                      {/* R-057/R-058 — band gambar paket (lazy + WebP), fallback gradient */}
+                      {p.image ? (
+                        <SmartImage
+                          src={p.image}
+                          alt={p.title}
+                          className="h-28 w-full shrink-0"
+                        />
+                      ) : null}
+                      <div className="flex flex-1 flex-col p-5">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex flex-wrap gap-1.5">
                           <Badge variant="outline" className="bg-primary/10 text-[10px] font-bold text-primary border-primary/30">
@@ -251,6 +261,7 @@ export function PaketView() {
                           <Icon name="chevron-right" className="h-3.5 w-3.5" aria-hidden />
                         </span>
                       </div>
+                      </div>{/* /inner p-5 */}
                     </article>
                   </Reveal>
                 );

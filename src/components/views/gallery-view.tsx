@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { apiGet } from "@/lib/client-api";
 import { Icon } from "@/components/site/icon";
 import { Reveal } from "@/components/site/reveal";
+import { SmartImage } from "@/components/site/smart-image";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -122,11 +123,11 @@ export function GalleryView() {
                       className="block w-full cursor-zoom-in"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-forest to-primary">
-                        <img
+                        {/* R-058 — SmartImage: lazy + WebP otomatis */}
+                        <SmartImage
                           src={it.imageUrl}
                           alt={it.title}
-                          loading="lazy"
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full [&>img]:transition-transform [&>img]:duration-500 group-hover:[&>img]:scale-105"
                         />
                         <Badge className="absolute top-3 start-3 bg-gold text-forest-deep font-bold border-none text-[10px]">
                           {catLabel(it.category, t)}
@@ -161,7 +162,8 @@ export function GalleryView() {
           {active && (
             <>
               <div className="relative aspect-[4/3] bg-gradient-to-br from-forest to-primary">
-                <img src={active.imageUrl} alt={active.title} className="h-full w-full object-cover" />
+                {/* R-058 — gambar aktif lightbox: eager (langsung dilihat) */}
+                <SmartImage src={active.imageUrl} alt={active.title} className="h-full w-full" priority />
                 <Badge className="absolute top-3 start-3 bg-gold text-forest-deep font-bold border-none text-[10px]">
                   {catLabel(active.category, t)}
                 </Badge>

@@ -89,6 +89,10 @@ export function AdminArticles() {
       { key: "status", label: "Status", type: "select", options: [{ value: "PUBLISHED", label: "Terbit" }, { value: "DRAFT", label: "Draft" }], required: true },
       { key: "featured", label: "Jadikan Utama", type: "switch", hint: "Artikel utama tampil besar di halaman berita", full: true },
       { key: "content", label: "Konten (Markdown)", type: "markdown", placeholder: "## Sub-judul\n\nTulis konten di sini…" },
+      // R-091 — SEO per artikel (landing /artikel/[slug])
+      { key: "metaTitle", label: "Meta Judul (SEO)", type: "text", full: true, hint: "Maks 60 karakter; kosongkan untuk memakai judul artikel" },
+      { key: "metaDescription", label: "Meta Deskripsi (SEO)", type: "textarea", hint: "Maks 160 karakter; tampil di hasil pencarian Google" },
+      { key: "keywords", label: "Kata Kunci (SEO)", type: "text", full: true, hint: "Pisahkan dengan koma: manasik umroh, rukun umroh, …" },
     ] as FieldDef[],
     columns: [
       { key: "title", label: "Judul", render: (a: Article) => (

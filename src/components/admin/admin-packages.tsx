@@ -77,7 +77,7 @@ export function AdminPackages() {
   const [form, setForm] = useState({
     memberId: "", title: "", type: "UMROH", city: "", description: "", price: "",
     durationDays: "9", departureDate: "", slots: "40", hotelMakkah: "", hotelMadinah: "",
-    airline: "", status: "PUBLISHED", featured: false,
+    airline: "", status: "PUBLISHED", featured: false, image: "",
   });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<TourPackageItem | null>(null);
@@ -99,7 +99,7 @@ export function AdminPackages() {
     setForm({
       memberId: members[0]?.id ?? "", title: "", type: "UMROH", city: "", description: "", price: "",
       durationDays: "9", departureDate: "", slots: "40", hotelMakkah: "", hotelMadinah: "",
-      airline: "", status: "PUBLISHED", featured: false,
+      airline: "", status: "PUBLISHED", featured: false, image: "",
     });
     setEditing(null);
     setCreating(true);
@@ -111,7 +111,7 @@ export function AdminPackages() {
       price: String(p.price), durationDays: String(p.durationDays),
       departureDate: p.departureDate ? p.departureDate.slice(0, 10) : "",
       slots: String(p.slots), hotelMakkah: p.hotelMakkah, hotelMadinah: p.hotelMadinah,
-      airline: p.airline, status: p.status, featured: p.featured,
+      airline: p.airline, status: p.status, featured: p.featured, image: p.image || "",
     });
     setEditing(p);
     setCreating(true);
@@ -136,6 +136,7 @@ export function AdminPackages() {
         airline: form.airline,
         status: form.status,
         featured: form.featured,
+        image: form.image || undefined, // R-057 — kartu visual & OG share
       };
       if (editing) {
         await apiSend(`/api/packages/${editing.id}`, "PUT", payload);
@@ -471,6 +472,11 @@ export function AdminPackages() {
               <div className="space-y-1.5">
                 <Label>Hotel Madinah</Label>
                 <Input value={form.hotelMadinah} onChange={(e) => setForm({ ...form, hotelMadinah: e.target.value })} />
+              </div>
+              {/* R-057 — gambar kartu & OG share */}
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label>URL Gambar Paket (opsional)</Label>
+                <Input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="/images/masjid-nabawi.jpg" />
               </div>
             </div>
 
