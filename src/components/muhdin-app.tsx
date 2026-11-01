@@ -79,6 +79,8 @@ import { KartuView } from "@/components/views/kartu-view";
 import { BisnisView } from "@/components/views/bisnis-view";
 import { PindaiView } from "@/components/views/pindai-view"; // v7.0 — Pindai Izin 360°
 import { ComplianceView } from "@/components/views/compliance-view"; // v12.1 — God-Mode Compliance Checker
+// v12.4 «LUNAS» — Checkout & Pesanan
+import { PesananView } from "@/components/views/pesanan-view";
 import { VaultView } from "@/components/views/vault-view";
 
 function LoadingSplash() {
@@ -308,6 +310,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v12.1 — God-Mode Compliance Checker: papan kepatuhan seluruh registri
     case "compliance":
       content = <ComplianceView key={`compliance-${routeQuery}`} initialQuery={routeQuery} />;
+      break;
+    // v12.4 «LUNAS» — Lacak pesanan & invoice: #/pesanan[?no=ORD-…]
+    case "pesanan":
+      content = <PesananView key={`pesanan-${route[0] ?? ""}`} />;
       break;
     // v6.0 — Brankas Jamaah: #/vault & #/vault/<cardNo> (target lanjutan QR)
     case "vault":

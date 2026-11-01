@@ -39,6 +39,8 @@ import { AdminCompliance } from "@/components/admin/admin-compliance";
 import { AdminRoadmapItems } from "@/components/admin/admin-roadmap-items";
 // v12.3 «AMANAH» — Keamanan Akun (2FA TOTP)
 import { AdminSecurity } from "@/components/admin/admin-security";
+// v12.4 «LUNAS» — Pesanan & Invoice (checkout + payment gateway)
+import { AdminOrders } from "@/components/admin/admin-orders";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
@@ -62,6 +64,8 @@ const MENU = [
   { id: "applications", label: "Pendaftaran", icon: "user-plus" },
   { id: "packages", label: "Marketplace Paket", icon: "package" },
   { id: "bookings", label: "Booking Paket", icon: "clipboard-list" },
+  // v12.4 «LUNAS» — Pesanan & Invoice
+  { id: "orders", label: "Pesanan & Invoice", icon: "wallet" },
   { id: "tutorials", label: "Tutorial", icon: "graduation-cap" },
   { id: "messages", label: "Pesan Masuk", icon: "inbox" },
   { id: "complaints", label: "Pengaduan", icon: "shield-alert" },
@@ -235,6 +239,7 @@ export function AdminView() {
           {section === "applications" && <AdminApplications />}
           {section === "packages" && <AdminPackages />}
           {section === "bookings" && <AdminPackages />}
+          {section === "orders" && <AdminOrders />}
           {section === "forum" && <AdminForum />}
           {section === "cards" && <AdminPilgrimCards />}
           {section === "bisnis" && <AdminBisnis />}

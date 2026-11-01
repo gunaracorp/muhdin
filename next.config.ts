@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  // v12.4 «LUNAS» — pdfkit memuat font AFM via fs: jangan di-bundle.
+  serverExternalPackages: ["pdfkit"],
   // Ramah shared hosting: tanpa header "X-Powered-By", respons di-gzip.
   poweredByHeader: false,
   compress: true,
@@ -36,7 +38,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: isStatic
     ? undefined
     : {
-        "/**": ["./node_modules/.prisma/**", "./db/custom.db"],
+        "/**": ["./node_modules/.prisma/**", "./node_modules/pdfkit/**", "./db/custom.db"],
       },
 };
 

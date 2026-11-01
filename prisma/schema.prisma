@@ -1056,3 +1056,60 @@ model TrackingDevice {
   @@index([status])
 }
 
+// ==================== CHECKOUT & PEMBAYARAN (v12.4 «LUNAS») ====================
+
+/// Pesanan checkout jamaah atas sebuah paket marketplace.
+/// Data paket/penyelenggara di-SNAPSHOT (tanpa FK) agar bukti transaksi
+/// tetap utuh walaupun paket atau anggota dihapus dari katalog.
+model Order {
+  id              String    @id @default(cuid())
+  number          String    @unique // ORD-YYYYMMDD-XXXX
+  packageId       String?
+  packageTitle    String
+  memberName      String    @default("") // snapshot nama travel penyelenggara
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  quantity        Int       @default(1)
+  unitPrice       Int // IDR per jamaah saat dipesan
+  amount          Int // total = unitPrice × quantity
+  status          String    @default("PENDING") // PENDING | PAID | CANCELLED | REFUNDED | EXPIRED
+  paymentProvider String    @default("SANDBOX") // SANDBOX | MIDTRANS | XENDIT | …
+  paymentRef      String? // referensi intent dari provider
+  paidAt          DateTime?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  payments        Payment[]
+  invoice         Invoice?
+
+  @@index([status, createdAt])
+  @@index([customerPhone])
+}
+
+/// Kepala pembayaran per intent/callback provider — audit trail transaksi.
+model Payment {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider    String   @default("SANDBOX")
+  providerRef String?
+  amount      Int
+  method      String   @default("SANDBOX") // SANDBOX | QRIS | VA | EWALLET
+  status      String   @default("INITIATED") // INITIATED | SUCCESS | FAILED
+  payload     String? // JSON snapshot callback (bukti, non-PII)
+  createdAt   DateTime @default(now())
+
+  @@index([orderId])
+}
+
+/// Invoice bernomor seri — dibuat otomatis saat order LUNAS (idempoten).
+model Invoice {
+  id       String   @id @default(cuid())
+  orderId  String   @unique
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  number   String   @unique // INV-YYYYMMDD-XXXX
+  amount   Int
+  issuedAt DateTime @default(now())
+}
+

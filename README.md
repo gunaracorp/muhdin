@@ -3,7 +3,7 @@
 
 ![MUHDIN.ID — Portal Digital Ekosistem Umrah dan Haji Indonesia](docs/assets/banner.svg)
 
-# 🕋 MUHDIN.ID — v12.3.0 «AMANAH»
+# 🕋 MUHDIN.ID — v12.4.0 «LUNAS»
 
 ### **MU**asyarakat **U**mroh **H**aji **D**igital **I**ndonesia
 
@@ -15,7 +15,7 @@
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Prisma 6](https://img.shields.io/badge/Prisma_6-60_model-2D3748?logo=prisma)](https://prisma.io)
+[![Prisma 6](https://img.shields.io/badge/Prisma_6-63_model-2D3748?logo=prisma)](https://prisma.io)
 [![SQLite](https://img.shields.io/badge/DB-SQLite_↔_Postgres_ready-003B57?logo=sqlite)](#strategi-database)
 [![i18n](https://img.shields.io/badge/i18n-ID_·_EN_·_AR_RTL-16a34a)](#internasionalisasi)
 [![RBAC](https://img.shields.io/badge/RBAC-4_peran_·_36+_modul_CMS-d97706)](#keamanan-dan-rbac)
@@ -24,7 +24,7 @@
 
 > 🕌 **GRATIS SELAMANYA** — pendaftaran & iuran **Rp 0** untuk semua anggota, tanpa pengecualian. Itu keunggulan MUHDIN dibanding asosiasi lain, dan seluruh portal konsisten menyampaikan satu pesan itu.
 
-**v12.3.0 «AMANAH»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker** (papan kepatuhan izin ber-skor, grade A–E, risiko & tren), **99 Roadmap Upgrade** (peta jalan 99 item granular × 6 pilar hingga v20), dan sprint keamanan **«AMANAH»**: 2FA TOTP per akun admin, kebijakan sandi + lockout brute-force, dan backup terjadwal ber-drill pemulihan. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
+**v12.4.0 «LUNAS»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker** (papan kepatuhan ber-skor, grade A–E, risiko & tren), **99 Roadmap Upgrade** (peta jalan 99 item granular × 6 pilar hingga v20), sprint keamanan **«AMANAH»** (2FA TOTP admin, kebijakan sandi + lockout, backup terjadwal), dan sprint transaksi **«LUNAS»**: **checkout lengkap** dari katalog hingga pesanan LUNAS, **payment gateway pola adapter** dengan webhook ber-signature HMAC (provider SANDBOX aktif; Midtrans/Xendit tinggal pasang kredensial), dan **invoice PDF otomatis** ber-nomor seri + QR lacak. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
 
 ---
 
@@ -32,7 +32,7 @@
 
 1. [MUHDIN dalam 30 Detik](#-muhdin-dalam-30-detik)
 2. [Peta Fitur Lengkap](#-peta-fitur-lengkap)
-3. [Notifikasi: 10 Kejadian × 2 Kanal](#-notifikasi-10-kejadian--2-kanal)
+3. [Notifikasi: 11 Kejadian × 2 Kanal](#-notifikasi-11-kejadian--2-kanal)
 4. [Tema Gelap, PWA dan Animasi](#-tema-gelap-pwa-dan-animasi)
 5. [Jalankan Lokal](#-jalankan-lokal)
 6. [Akun Demo CMS](#-akun-demo-cms)
@@ -54,10 +54,10 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 
 | Angka | Artinya |
 | --- | --- |
-| **60 model** Prisma | Skema data terpadu hasil gabungan dua garis + compliance + roadmap |
+| **63 model** Prisma | Skema data terpadu hasil gabungan dua garis + compliance + roadmap + checkout |
 | **40+ rute halaman** portal publik | Beranda → ekosistem → layanan digital → trust center |
-| **36+ modul CMS** | Semua konten & transaksi dikelola tanpa sentuh kode |
-| **10 kejadian notifikasi × 2 kanal** | Email sekretariat + WhatsApp admin, otomatis |
+| **37+ modul CMS** | Semua konten & transaksi dikelola tanpa sentuh kode |
+| **11 kejadian notifikasi × 2 kanal** | Email sekretariat + WhatsApp admin, otomatis |
 | **3 bahasa (ID/EN/AR)** | Arab sungguhan RTL, bukan tempelan |
 | **Rp 0** | Pendaftaran & iuran — gratis selamanya |
 
@@ -96,6 +96,14 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 - **Audit god-mode dari CMS** (modul *Compliance Checker*) — satu klik menilai registri penuh, menyimpan snapshot **ComplianceScore** (riwayat tren) + **temuan berprioritas** (`ComplianceFinding`, tier 0 darurat … 4 nilai tambah) + agregat **ComplianceAudit**, lalu meneruskan ringkasan ke sekretariat via **Email & WhatsApp** (saklar `notifyCompliance`)
 - **Deep-link** `#/compliance?q=<companyId>` membuka dossier langsung · menu **PERIZINAN → Compliance Center** · i18n 3 bahasa penuh
 
+### 💳 v12.4 «LUNAS» — Sprint Transaksi (P0 Roadmap)
+- **Checkout lengkap paket** (`R-010`) — panel *Pesan & Bayar Sekarang* di halaman detail paket → **Order PENDING** bernomor `ORD-YYYYMMDD-XXXX` + intent pembayaran; validasi slot live, rate-limit, snapshot harga/paket (histori transaksi abadi tanpa FK)
+- **Payment gateway pola adapter** (`R-038`) — satu kontrak `PaymentAdapter` di `src/lib/payment.ts`; **provider SANDBOX aktif** (uji tanpa uang riil), **webhook `/api/payments/callback` ber-signature HMAC-SHA256** (`x-muhdin-signature`, timing-safe), **idempoten** (replay callback aman, invoice tak digandakan), transisi atomik `updateMany` guard anti-race — Midtrans/Xendit riil = 1 file adapter + kredensial `.env` (terdokumentasi di `.env.example`)
+- **Invoice PDF otomatis** (`R-039`) — terbit saat LUNAS bernomor seri `INV-…`: **pdfkit native** (header brand, rincian pesanan, tabel, total, **QR lacak** menuju `#/pesanan`) · diunduh jamaah via `/api/invoices/<INV>?phone=…` (verifikasi 8 digit WA) maupun admin CMS
+- **Lacak pesanan publik** (`#/pesanan`[?no=…]) — status + pembayaran + unduh invoice + **tombol bayar sandbox** (hanya mode SANDBOX, verifikasi nomor WA pemesan) · i18n 3 bahasa
+- **CMS Pesanan & Invoice** — 4 kartu statistik (total/lunas/menunggu/pendapatan), filter status, aksi *batalkan · buka · refund · unduh invoice* (RBAC SUPER_ADMIN/ADMIN/VERIFIKATOR)
+- **Notifikasi kejadian ke-11** — pesanan baru & lunas ke sekretariat via Email + WA (saklar `notifyBooking` existing) · loop roadmap kedua: 3 item P0 naik status → **30 selesai / 99 (30%)**
+
 ### 🔐 v12.3 «AMANAH» — Sprint Keamanan (P0 Roadmap)
 - **2FA TOTP per akun admin** (`R-074`) — implementasi RFC 6238 mandiri (`node:crypto`, tanpa dependensi baru): setup **QR authenticator** + kode manual di CMS (*Keamanan Akun*), kode 6 digit/30 detik, **tantangan saat login** (tanpa sesi dibuat sebelum kode benar), verifikasi timing-safe ±1 langkah, audit `2FA_ENABLE/DISABLE`
 - **Kebijakan sandi + lockout brute-force** (`R-075`) — sandi wajib huruf+angka (dari daftar sandi umum ditolak) di semua titik set-password; **5× gagal/15 menit per email → kunci 15 menit** (kode 2FA salah ikut terhitung), rate-limit login **10×/menit per IP**, peristiwa penguncian masuk jejak audit
@@ -114,7 +122,7 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 - **AI Content Studio** di CMS — redaksi artikel berbantuan AI (topik → draf 350-500 kata)
 - **Penerjemah Cerdas** — sinergi translate-engine untuk konten DB ×3 bahasa
 
-### 💬 Notifikasi: 10 Kejadian × 2 Kanal
+### 💬 Notifikasi: 11 Kejadian × 2 Kanal
 
 | Kejadian | Email | WhatsApp |
 | --- | --- | --- |
@@ -128,6 +136,7 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 | **Booking slot layanan** (v11) | ✅ | ✅ |
 | **Tebus benefit** (v11) | ✅ | ✅ |
 | **Audit kepatuhan izin** (v12.1) | ✅ | ✅ |
+| **Checkout: pesanan baru & lunas** (v12.4) | ✅ | ✅ |
 
 Provider email SMTP (App Password Gmail) + provider WA **FONNTE / WABLAS / CALLMEBOT (gratis) / CUSTOM** — semua disaklarkan per-kejadian dari CMS (Notifikasi & WhatsApp), lengkap dengan **NotificationLog** audit + tombol uji kirim.
 
@@ -190,7 +199,7 @@ Skrip produksi: `bun run build` (generate + next build + post-build) · `bun run
 
 ## 🗄️ Strategi Database
 
-Satu skema **60 model** (union dua garis + compliance checker + roadmap item), dua mode jalankan:
+Satu skema **63 model** (union dua garis + compliance checker + roadmap item + checkout/payment/invoice), dua mode jalankan:
 
 | Mode | Provider | Cara |
 | --- | --- | --- |
@@ -220,13 +229,13 @@ Kelompok model: **Auth & RBAC** (User, Role…) · **Keanggotaan** (Member, Memb
 │  │ track      │ pilgrim-    │ bookings     │ vendors/seat    │   │
 │  │ verify     │  cards      │ benefits     │ compliance docs │   │
 │  └────────────┴─────────────┴──────────────┴─────────────────┘   │
-│  Notifier gagal-aman: email.ts + whatsapp.ts (10×2 kanal)         │
+│  Notifier gagal-aman: email.ts + whatsapp.ts (11×2 kanal)         │
 └──────┬───────────────────────┬─────────────────────┬─────────────┘
        │                       │                     │
 ┌──────▼──────┐        ┌───────▼───────┐     ┌───────▼────────┐
 │ Prisma 6    │        │ SMTP / WA     │     │ z-ai-web-dev-  │
 │ SQLite ↔ PG │        │ 4 provider    │     │ sdk (AI)       │
-│ 60 model    │        │ + webhook bot │     │ concierge/bot  │
+│ 63 model    │        │ + webhook bot │     │ concierge/bot  │
 └─────────────┘        └───────────────┘     └────────────────┘
 ```
 
@@ -240,6 +249,7 @@ Semua respons konsisten `ok()` / `fail()`, audit via `logAudit`, dilindungi `gua
 | --- | --- |
 | Publik | `/api/settings` · `/api/members` (+verify) · `/api/track` · `/api/stats` (+public/insights) · `/api/rss` · `/api/search` · `/api/health` · `/api/promo/counter` · `/api/applications` (+live/track) |
 | Transaksi v6 | `/api/packages` · `/api/package-bookings` · `/api/forum` (+replies/moderation) · `/api/pilgrim-cards` (+verify) · `/api/reviews` |
+| Checkout v12.4 | `/api/checkout` (POST publik) · `/api/orders` (admin + agregat) · `/api/orders/[id]` (aksi admin) · `/api/orders/track` (publik) · `/api/payments/callback` (webhook HMAC) · `/api/payments/simulate` (sandbox) · `/api/invoices/[number]` (PDF) |
 | B2B v6 | `/api/vendors` · `/api/seat-exchange` · `/api/muthowif` · `/api/license-registry` · `/api/license-scan` · `/api/compliance-docs` · `/api/jamaah-docs` · `/api/trip-composer` · `/api/sos-points` |
 | Compliance v12.1 | `/api/compliance/scoreboard` (publik) · `/api/compliance/report?id=` (publik) · `/api/compliance/audit` (POST jalankan · GET riwayat — admin) |
 | Layanan v11 | `/api/academy` (courses/enroll/quiz) · `/api/slots` (+book) · `/api/bookings` · `/api/benefits` (+redeem) · `/api/certificates/verify` · `/api/passport` (+verify/qr/public) · `/api/cards` (+verify) · `/api/tracking` (+history) · `/api/tour` (+view) |
@@ -273,22 +283,24 @@ Semua respons konsisten `ok()` / `fail()`, audit via `logAudit`, dilindungi `gua
 ```
 src/
 ├── app/
-│   ├── api/                # 60+ route handler (lihat Peta API)
+│   ├── api/                # 67+ route handler (lihat Peta API)
 │   └── page.tsx            # shell SPA
 ├── components/
 │   ├── site/               # navbar, footer, FAB, global-search, tour-360, tracking-map…
 │   ├── views/              # 45+ halaman portal (hash-router)
-│   └── admin/              # 36+ modul CMS
+│   └── admin/              # 37+ modul CMS
 ├── lib/
 │   ├── i18n/               # index + dictionaries + locales/ (3 bahasa)
 │   ├── license-engine.ts   # ⭐ mesin dossier izin (BPW/PPIU/PIHK, checklist a–l)
+│   ├── payment.ts          # ⭐ adapter payment gateway (R-038) + webhook HMAC + applyPaid idempoten
+│   ├── invoice-pdf.ts      # ⭐ generator invoice PDF (pdfkit + QR lacak)
 │   ├── nusuk-engine.ts     # sinkronisasi & verifikasi Nusuk
 │   ├── membership.ts       # KTA, poin, referal
-│   ├── email.ts whatsapp.ts# notifier 10×2 kanal
+│   ├── email.ts whatsapp.ts# notifier 11×2 kanal
 │   └── api-helpers.ts audit.ts auth.ts ratelimit.ts roles.ts…
 └── generated/prisma/       # (opsional) client hasil generate
 prisma/
-├── schema.prisma           # 60 model — union dua garis + compliance checker + roadmap item
+├── schema.prisma           # 63 model — union dua garis + compliance + roadmap + checkout
 └── seed*.ts                # seed idempoten per fitur
 scripts/                    # seed-membership, seed-compliance, seed-roadmap99, kontak-resmi, migrate-sqlite-to-postgres, verify, dev-keep…
 shared-hosting/             # varian PHP murni (API tanpa Node) — lihat PANDUAN-SHARED-HOSTING.md
@@ -306,7 +318,7 @@ docs/                       # aset & tangkapan layar
 | `prisma/seed-fitur-v5/v6/v7.ts` | Seed marketplace/forum/kartu, bisnis/SOS, pindai izin |
 | `scripts/seed-membership.ts` | KTA + poin + akademi + slot + benefit |
 | `scripts/seed-compliance.ts` | Riwayat audit + tren kepatuhan izin (ComplianceAudit/Score/Finding) |
-| `scripts/seed-roadmap99.ts` | 99 item upgrade 6 pilar (RoadmapItem — status jujur per v12.3) |
+| `scripts/seed-roadmap99.ts` | 99 item upgrade 6 pilar (RoadmapItem — status jujur per v12.4: 30 DONE) |
 | `scripts/backup-db.ts` | Snapshot + drill pemulihan + retensi 14 terakhir (`bun run backup`) |
 | `scripts/seed-kontak-resmi.ts` | WA resmi 0812 2234 5856 + kantor resmi |
 | `scripts/migrate-sqlite-to-postgres.mjs` | Migrasi 42+ tabel → Postgres (topologis, batch) |
@@ -345,6 +357,7 @@ Varian API PHP murni tanpa Node (`shared-hosting/`, `PANDUAN-SHARED-HOSTING.md`,
 | **v12.1 «GOD MODE»** | **God-Mode Izin Compliance Checker: scoreboard publik, grade A–E, risiko, tren antar-audit, audit CMS 1-klik, notifikasi 10×2** |
 | **v12.2 «99 ROADMAP»** | **Peta jalan 99 upgrade granular × 6 pilar: portal interaktif + filter + progres, modul CMS CRUD, API publik, seed 99 item** |
 | **v12.3 «AMANAH»** | **Sprint keamanan P0: 2FA TOTP admin, kebijakan sandi + lockout brute-force, backup terjadwal ber-drill — 27/99 roadmap selesai** |
+| **v12.4 «LUNAS»** | **Sprint transaksi P0: checkout lengkap, payment gateway adapter (SANDBOX + webhook HMAC idempoten), invoice PDF ber-QR, CMS Pesanan & Invoice — 30/99 roadmap selesai** |
 
 ---
 

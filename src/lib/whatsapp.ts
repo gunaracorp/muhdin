@@ -452,7 +452,7 @@ export function waBenefitTemplate(r: {
 /* ============ NOTIFIER v11.1 (gagal-aman) ============ */
 
 async function notifyWaEvent(
-  eventType: "ACADEMY" | "CERTIFICATE" | "BOOKING" | "BENEFIT" | "COMPLIANCE",
+  eventType: "ACADEMY" | "CERTIFICATE" | "BOOKING" | "BENEFIT" | "COMPLIANCE" | "ORDER",
   message: string,
   subject: string,
   switchKey: "notifyAcademy" | "notifyBooking" | "notifyBenefit" | "notifyCompliance"
@@ -526,4 +526,36 @@ export function notifyComplianceAudit(a: Parameters<typeof waComplianceAuditTemp
     `Audit Kepatuhan — ${a.critical} kritis`,
     "notifyCompliance"
   );
+}
+
+/* ============ v12.4 «LUNAS» — CHECKOUT & PEMBAYARAN ============ */
+
+/** v12.4 — pesan WA pesanan LUNAS ke sekretariat (saklar notifyBooking). */
+export function waOrderPaidTemplate(a: {
+  number: string;
+  packageTitle: string;
+  amount: number;
+  method: string;
+  invoiceNumber: string;
+  customerName: string;
+}) {
+  const rupiah = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(a.amount);
+  return [
+    "💳 *Pesanan Lunas (Checkout) — MUHDIN*",
+    "",
+    `*Nomor Pesanan:* ${a.number}`,
+    a.packageTitle ? `*Paket:* ${a.packageTitle}` : "",
+    `*Penyusun:* ${a.customerName}`,
+    `*Nominal:* ${rupiah}`,
+    `*Metode:* ${a.method}`,
+    `*Invoice:* ${a.invoiceNumber}`,
+    "",
+    "_Invoice PDF tersedia di CMS → Pesanan & Invoice._",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+export function notifyOrderPaid(a: Parameters<typeof waOrderPaidTemplate>[0]) {
+  return notifyWaEvent("ORDER", waOrderPaidTemplate(a), `Pesanan Lunas — ${a.number}`, "notifyBooking");
 }

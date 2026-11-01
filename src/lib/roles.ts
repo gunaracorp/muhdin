@@ -38,6 +38,8 @@ export const SECTION_ROLES: { id: string; roles: Role[] }[] = [
   // v5.0 — Marketplace paket + pipeline booking
   { id: "packages", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "bookings", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
+  // v12.4 «LUNAS» — Pesanan & Invoice (checkout + payment gateway)
+  { id: "orders", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },
   { id: "tutorials", roles: ["SUPER_ADMIN", "ADMIN", "EDITOR"] },
   { id: "messages", roles: ["SUPER_ADMIN", "ADMIN"] },
   { id: "complaints", roles: ["SUPER_ADMIN", "ADMIN", "VERIFIKATOR"] },

@@ -861,3 +861,60 @@ export async function notifyEmailComplianceAudit(a: Parameters<typeof emailCompl
     /* diamkan */
   }
 }
+
+// ==================== v12.4 «LUNAS» — CHECKOUT & PEMBAYARAN ====================
+
+/**
+ * v12.4 — Pemberitahuan pesanan LUNAS (R-038 payment gateway).
+ * Terkirim ke sekretariat saat callback pembayaran sah diterima; memakai
+ * saklar existing notifyBooking (Pemesanan Paket) — tanpa skema baru.
+ */
+export function emailOrderPaidTemplate(a: {
+  number: string;
+  amount: number;
+  method: string;
+  invoiceNumber: string;
+  customerName: string;
+  packageTitle?: string;
+  refId?: string;
+}) {
+  const rupiah = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(a.amount);
+  return emailShell({
+    badge: "Pesanan Lunas (Checkout)",
+    title: `Pembayaran diterima — ${a.number}`,
+    headline: [
+      { label: "Nomor Pesanan", value: a.number },
+      { label: "Nominal", value: rupiah },
+      { label: "Metode", value: a.method },
+    ],
+    rows: [
+      { label: "Penyusun", value: a.customerName },
+      ...(a.packageTitle ? [{ label: "Paket", value: a.packageTitle }] : []),
+      { label: "Nomor Invoice", value: a.invoiceNumber },
+    ],
+    blocks: [
+      {
+        label: "Tindak Lanjut",
+        text: "Unduh invoice PDF dari CMS → Pesanan & Invoice, lalu teruskan ke penyelenggara untuk penerbitan e-tiket jamaah.",
+      },
+    ],
+    refId: a.refId,
+  });
+}
+
+export async function notifyEmailOrderPaid(a: Parameters<typeof emailOrderPaidTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyBooking) return;
+    const { html, text } = emailOrderPaidTemplate(a);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(`Pesanan Lunas — ${a.number} (${a.invoiceNumber})`),
+      html,
+      text,
+      eventType: "ORDER",
+      refId: a.refId,
+    });
+  } catch {
+    /* diamkan */
+  }
+}

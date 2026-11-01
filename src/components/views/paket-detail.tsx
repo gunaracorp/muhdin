@@ -27,6 +27,8 @@ import {
 } from "@/components/views/detail-shell";
 // v6.0 — Ulasan jamaah terverifikasi (hilir)
 import { ReviewsSection } from "@/components/views/reviews-section";
+// v12.4 «LUNAS» — Checkout langsung (R-010) + payment gateway (R-038)
+import { CheckoutPanel } from "@/components/views/checkout-panel";
 
 function rupiah(n: number): string {
   return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
@@ -211,16 +213,26 @@ export function PaketDetail({ id }: { id: string }) {
             </div>
           </div>
 
-          {/* Kolom kanan — form booking sticky */}
+          {/* Kolom kanan — checkout v12.4 + form booking sticky */}
           <div className="lg:col-span-2">
             <div className="lg:sticky lg:top-24">
-              <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/5 to-gold/10 p-6 shadow-sm">
+              {canBook && (
+                <div className="mb-6">
+                  <CheckoutPanel packageId={id} price={pkg.price} slotsLeft={left} />
+                </div>
+              )}
+              <div className="rounded-2xl border bg-card p-6 shadow-sm">
+                <h2 className="flex items-center gap-2 text-base font-extrabold">
+                  <Icon name="send" className="h-5 w-5 text-primary" aria-hidden />
+                  {t("paket.bookTitle")}
+                </h2>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t("paket.bookDesc")}</p>
                 {done ? (
                   <div className="py-6 text-center">
                     <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/15">
                       <Icon name="check-circle-2" className="h-7 w-7 text-primary" aria-hidden />
                     </div>
-                    <h2 className="mt-4 text-lg font-extrabold">{t("paket.bookSuccessTitle")}</h2>
+                    <h3 className="mt-4 text-base font-extrabold">{t("paket.bookSuccessTitle")}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{done.message}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{t("paket.bookSuccessDesc")}</p>
                     <div className="mt-5 flex flex-col gap-2">
@@ -246,12 +258,6 @@ export function PaketDetail({ id }: { id: string }) {
                   </div>
                 ) : (
                   <>
-                    <h2 className="flex items-center gap-2 text-lg font-extrabold">
-                      <Icon name="send" className="h-5 w-5 text-primary" aria-hidden />
-                      {t("paket.bookTitle")}
-                    </h2>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t("paket.bookDesc")}</p>
-
                     {canBook ? (
                       <form onSubmit={submit} className="mt-5 space-y-3.5">
                         <div className="space-y-1.5">
