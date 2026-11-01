@@ -57,6 +57,8 @@ export const MENU_NODES: MenuNode[] = [
       { slug: "pt-bpw", icon: "briefcase" },
       { slug: "ppiu", icon: "building" },
       { slug: "pihk", icon: "landmark" },
+      // v7.0 — Pindai Izin 360°: input NIB → dossier kelengkapan BPW/PPIU/PIHK
+      { slug: "pindai-izin", icon: "scan", route: "pindai" },
     ],
   },
   {

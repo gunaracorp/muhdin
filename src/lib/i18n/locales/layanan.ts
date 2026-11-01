@@ -91,6 +91,13 @@ export const layananDict = {
           p2: "Kepatuhan kuota resmi PPIHN",
           p3: "Pengawalan keberangkatan haji khusus",
         },
+        "pindai-izin": {
+          title: "PINDAI IZIN 360°",
+          desc: "Pindai kelengkapan izin perusahaan — masukkan NIB, sistem membuka dossier kelas usaha (BPW/PPIU/PIHK) dan checklist 12 syarat a–l.",
+          p1: "Deteksi otomatis kekurangan izin",
+          p2: "Rekomendasi berprioritas a–l",
+          p3: "Tertaut mitra verifikasi & sertifikasi",
+        },
         "tl": {
           title: "TL",
           desc: "Sertifikasi Tour Leader — pendamping rombongan jamaah dari keberangkatan hingga kepulangan.",
@@ -313,6 +320,13 @@ export const layananDict = {
           p2: "Compliance with the official PPIHN quota",
           p3: "Full escort for special hajj departures",
         },
+        "pindai-izin": {
+          title: "LICENSE SCAN 360°",
+          desc: "Scan company license completeness — enter a NIB and the system opens the dossier of business classes (BPW/PPIU/PIHK) with the 12-requirement checklist (a–l).",
+          p1: "Automatic license gap detection",
+          p2: "Prioritized a–l recommendations",
+          p3: "Linked to verification & certification partner",
+        },
         "tl": {
           title: "TL",
           desc: "Tour Leader certification — group companions from departure to return.",
@@ -534,6 +548,13 @@ export const layananDict = {
           p1: "ترخيص الحج الخاص من الوزارة",
           p2: "الامتثال للحصة الرسمية PPIHN",
           p3: "مرافقة كاملة لرحلات الحج الخاص",
+        },
+        "pindai-izin": {
+          title: "المسح الشامل للأرصاد ٣٦٠°",
+          desc: "امسح اكتمال أرصاد الشركة — أدخل NIB ويفتح النظام الملف الكامل للفئات (BPW/PPIU/PIHK) مع قائمة الاشتراطات الاثنتا عشرة.",
+          p1: "اكتشاف تلقائي لنواقص الأرصاد",
+          p2: "توصيات مرتبة أ–ل",
+          p3: "مرتبط بشريك التحقق والشهادات",
         },
         "tl": {
           title: "TL",

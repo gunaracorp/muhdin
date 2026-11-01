@@ -65,6 +65,7 @@ import { ForumDetail } from "@/components/views/forum-detail";
 import { KartuView } from "@/components/views/kartu-view";
 // v6.0 — Ekosistem hulu-hilir: Pusat Bisnis B2B + Brankas Jamaah
 import { BisnisView } from "@/components/views/bisnis-view";
+import { PindaiView } from "@/components/views/pindai-view"; // v7.0 — Pindai Izin 360°
 import { VaultView } from "@/components/views/vault-view";
 
 function LoadingSplash() {
@@ -155,7 +156,10 @@ function NotFound() {
 
 export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en" | "ar" }) {
   const route = useHashRoute();
-  const root = route[0] || "beranda";
+  // v7.0 — dukung deep-link query pada hash: #/pindai?q=<id> → root dibersihkan.
+  const root = (route[0] || "beranda").split("?")[0];
+  const routeQuery =
+    route[0] && route[0].includes("?") ? (new URLSearchParams(route[0].split("?")[1]).get("q") ?? "") : "";
   const isAdmin = root === "admin";
   // Task 35-d — ScrollProgress (framer-motion) memanggil useId internal saat SSR
   // sehingga seluruh ID Radix setelahnya (switcher Navbar) tidak sinkron saat
@@ -283,6 +287,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v6.0 — Pusat Bisnis B2B: bursa kursi, vendor, muthowif, kepatuhan
     case "bisnis":
       content = <BisnisView />;
+      break;
+    // v7.0 — Pindai Izin 360°: input NIB → dossier kelengkapan BPW/PPIU/PIHK
+    case "pindai":
+      content = <PindaiView key={`pindai-${routeQuery}`} initialQuery={routeQuery} />;
       break;
     // v6.0 — Brankas Jamaah: #/vault & #/vault/<cardNo> (target lanjutan QR)
     case "vault":

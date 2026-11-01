@@ -628,3 +628,28 @@ export interface SosPointItem {
   featured: boolean;
   createdAt: string;
 }
+
+// ==================== V7.0 — PINDAI IZIN 360° ====================
+
+export interface RegistryDocItem {
+  id: string;
+  companyId: string;
+  /** kunci katalog izin: NIB | AKTA | NPWP | BPW | PPIU | PPIU_AKREDITASI | PIHK | PIHK_ESCROW | IATA | MUTHOWIF_SDM | ASURANSI | DIGITAL */
+  requirementKey: string;
+  docNo: string;
+  issuedBy: string;
+  validUntil: string | null;
+}
+
+export interface RegistryCompanyItem {
+  id: string;
+  nib: string;
+  name: string;
+  legalEntity: string;
+  city: string;
+  province: string;
+  phone: string;
+  website: string | null;
+  note: string | null;
+  docs: RegistryDocItem[];
+}

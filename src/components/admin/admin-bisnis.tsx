@@ -29,7 +29,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import type { VendorItem, ComplianceDocItem, SeatListingItem, MuthowifItem } from "@/lib/types";
+import type { VendorItem, ComplianceDocItem, SeatListingItem, MuthowifItem, RegistryCompanyItem } from "@/lib/types";
+import { LICENSE_CATALOG } from "@/lib/license-catalog"; // v7.0 — katalog syarat a–l
 
 interface MemberOption { id: string; name: string; type: string; city: string; status: string }
 interface PkgOption { id: string; title: string }
@@ -45,6 +46,12 @@ const KIND_LABELS: Record<string, string> = {
   SIUJK: "SIUJK", COP: "COP", PTA: "PTA", SKAI: "SKAI", ASURANSI: "Asuransi",
   RENCANA_KERJA: "Rencana Kerja", NPWP: "NPWP", AKTA: "Akta",
 };
+
+// v7.0 — katalog syarat Pindai Izin (label huruf a–l)
+const REQ_LABELS: Record<string, string> = Object.fromEntries(
+  LICENSE_CATALOG.map((r) => [r.key, `${r.letter}) ${r.key.replace(/_/g, " ")}`])
+);
+const LEGAL_ENTITIES = ["PT", "CV", "KOPERASI", "UD", "YAYASAN"];
 
 function rupiah(n: number): string {
   return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
@@ -72,6 +79,12 @@ function emptySeat() {
 function emptyMuthowif() {
   return { fullName: "", certNo: "", agency: "", languages: "ID,AR", specialties: "", experienceYears: "3", phone: "", rating: "4.5", availability: "AVAILABLE", memberId: "" };
 }
+function emptyRegistry() {
+  return { nib: "", name: "", legalEntity: "PT", city: "", province: "", phone: "", website: "", note: "" };
+}
+function emptyRegDoc() {
+  return { requirementKey: "NIB", docNo: "", issuedBy: "", validUntil: "" };
+}
 
 export function AdminBisnis() {
   const { toast } = useToast();
@@ -82,6 +95,7 @@ export function AdminBisnis() {
   const [docs, setDocs] = useState<ComplianceDocItem[] | null>(null);
   const [seats, setSeats] = useState<SeatListingItem[] | null>(null);
   const [muthowifs, setMuthowifs] = useState<MuthowifItem[] | null>(null);
+  const [registries, setRegistries] = useState<RegistryCompanyItem[] | null>(null); // v7.0
 
   const [vendorForm, setVendorForm] = useState(emptyVendor());
   const [vendorEdit, setVendorEdit] = useState<VendorItem | null>(null);
@@ -101,7 +115,13 @@ export function AdminBisnis() {
   const [mutEdit, setMutEdit] = useState<MuthowifItem | null>(null);
   const [mutDialog, setMutDialog] = useState(false);
 
-  const [deleting, setDeleting] = useState<{ kind: "vendor" | "doc" | "seat" | "mut"; id: string; label: string } | null>(null);
+  // v7.0 — Registri Pindai Izin
+  const [regForm, setRegForm] = useState(emptyRegistry());
+  const [regDocs, setRegDocs] = useState<(typeof emptyRegDoc)[]>([emptyRegDoc()]);
+  const [regEdit, setRegEdit] = useState<RegistryCompanyItem | null>(null);
+  const [regDialog, setRegDialog] = useState(false);
+
+  const [deleting, setDeleting] = useState<{ kind: "vendor" | "doc" | "seat" | "mut" | "reg"; id: string; label: string } | null>(null);
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(() => {
@@ -109,6 +129,7 @@ export function AdminBisnis() {
     apiGet<ComplianceDocItem[]>("/api/compliance-docs").then(setDocs).catch(() => setDocs([]));
     apiGet<SeatListingItem[]>("/api/seat-exchange?status=all").then(setSeats).catch(() => setSeats([]));
     apiGet<MuthowifItem[]>("/api/muthowif").then(setMuthowifs).catch(() => setMuthowifs([]));
+    apiGet<RegistryCompanyItem[]>("/api/license-registry").then(setRegistries).catch(() => setRegistries([])); // v7.0
   }, []);
 
   useEffect(() => {
@@ -223,10 +244,32 @@ export function AdminBisnis() {
     } catch (err) { errToast("Gagal menyimpan muthowif", err); } finally { setSaving(false); }
   };
 
+  /* ===== REGISTRY PINDAI IZIN (v7.0) ===== */
+  const saveRegistry = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const docsPayload = regDocs
+        .filter((d) => d.requirementKey)
+        .map((d) => ({ requirementKey: d.requirementKey, docNo: d.docNo, issuedBy: d.issuedBy, validUntil: d.validUntil || undefined }));
+      const payload = { ...regForm, docs: docsPayload };
+      if (regEdit) {
+        await apiSend(`/api/license-registry/${regEdit.id}`, "PUT", payload);
+        toast({ title: "Perusahaan registri diperbarui ✓", description: regForm.name });
+      } else {
+        await apiSend("/api/license-registry", "POST", payload);
+        toast({ title: "Perusahaan ditambahkan ke registri ✓", description: regForm.name });
+      }
+      setRegDialog(false);
+      setRegEdit(null);
+      load();
+    } catch (err) { errToast("Gagal menyimpan registri", err); } finally { setSaving(false); }
+  };
+
   /* ===== DELETE bersama ===== */
   const doDelete = async () => {
     if (!deleting) return;
-    const path = { vendor: "vendors", doc: "compliance-docs", seat: "seat-exchange", mut: "muthowif" }[deleting.kind];
+    const path = { vendor: "vendors", doc: "compliance-docs", seat: "seat-exchange", mut: "muthowif", reg: "license-registry" }[deleting.kind];
     try {
       await apiSend(`/api/${path}/${deleting.id}`, "DELETE");
       toast({ title: "Dihapus ✓", description: deleting.label });
@@ -259,6 +302,8 @@ export function AdminBisnis() {
           <TabsTrigger value="docs" className="gap-1.5"><Icon name="file-check" className="h-3.5 w-3.5" aria-hidden /> Kepatuhan ({docs?.length ?? 0})</TabsTrigger>
           <TabsTrigger value="seats" className="gap-1.5"><Icon name="git-merge" className="h-3.5 w-3.5" aria-hidden /> Bursa Kursi ({seats?.length ?? 0})</TabsTrigger>
           <TabsTrigger value="muthowif" className="gap-1.5"><Icon name="moon-star" className="h-3.5 w-3.5" aria-hidden /> Muthowif ({muthowifs?.length ?? 0})</TabsTrigger>
+          {/* v7.0 — Registri Pindai Izin */}
+          <TabsTrigger value="registry" className="gap-1.5"><Icon name="scan" className="h-3.5 w-3.5" aria-hidden /> Registri Izin ({registries?.length ?? 0})</TabsTrigger>
         </TabsList>
 
         {/* ===== TAB VENDOR ===== */}
@@ -496,6 +541,68 @@ export function AdminBisnis() {
             </div>
           )}
         </TabsContent>
+
+        {/* ===== TAB REGISTRY PINDAI IZIN (v7.0) ===== */}
+        <TabsContent value="registry">
+          <Button onClick={() => {
+            setRegForm(emptyRegistry());
+            setRegDocs([emptyRegDoc()]);
+            setRegEdit(null);
+            setRegDialog(true);
+          }} className="mb-4 bg-gradient-to-r from-primary to-forest text-white">
+            <Icon name="plus" className="h-4 w-4 mr-1.5" aria-hidden /> Tambah Perusahaan
+          </Button>
+          {!registries ? (
+            <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 rounded-2xl" />)}</div>
+          ) : registries.length === 0 ? (
+            <div className="rounded-2xl border bg-card py-16 text-center shadow-sm">
+              <Icon name="scan" className="h-10 w-10 mx-auto text-muted-foreground/30" aria-hidden />
+              <p className="mt-3 text-sm text-muted-foreground">Belum ada perusahaan pada registri pindai.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {registries.map((r) => (
+                <div key={r.id} className="rounded-2xl border bg-card p-5 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate font-bold">{r.name}</p>
+                      <p className="font-mono text-xs text-muted-foreground" dir="ltr">NIB {r.nib}</p>
+                      <p className="text-xs text-muted-foreground">{r.legalEntity} · {r.city || "—"}{r.province ? `, ${r.province}` : ""}</p>
+                    </div>
+                    <Badge variant="outline" className="shrink-0 bg-gold/10 text-[10px] font-bold text-gold-deep border-gold/40">
+                      {r.docs.length} dokumen
+                    </Badge>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {r.docs.map((d) => (
+                      <Badge key={d.id} variant="outline" className="text-[9px] font-bold text-muted-foreground">
+                        {REQ_LABELS[d.requirementKey] ?? d.requirementKey}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Button variant="outline" size="sm" onClick={() => {
+                      setRegForm({
+                        nib: r.nib, name: r.name, legalEntity: r.legalEntity, city: r.city, province: r.province,
+                        phone: r.phone, website: r.website ?? "", note: r.note ?? "",
+                      });
+                      setRegDocs(r.docs.map((d) => ({
+                        requirementKey: d.requirementKey, docNo: d.docNo, issuedBy: d.issuedBy,
+                        validUntil: d.validUntil ? d.validUntil.slice(0, 10) : "",
+                      })));
+                      setRegEdit(r); setRegDialog(true);
+                    }}>
+                      <Icon name="pencil" className="h-3.5 w-3.5 mr-1" aria-hidden /> Ubah
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-destructive border-destructive/40 hover:bg-destructive/10 sm:ml-auto" onClick={() => setDeleting({ kind: "reg", id: r.id, label: `${r.name} (NIB ${r.nib})` })}>
+                      <Icon name="trash" className="h-3.5 w-3.5 mr-1" aria-hidden /> Hapus
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </TabsContent>
       </Tabs>
 
       {/* ===== DIALOG VENDOR ===== */}
@@ -712,6 +819,73 @@ export function AdminBisnis() {
             </div>
             <DialogFooter className="gap-2 sm:gap-0">
               <Button type="button" variant="outline" onClick={() => setMutDialog(false)}>Batal</Button>
+              <Button type="submit" disabled={saving} className="bg-gradient-to-r from-primary to-forest text-white">
+                {saving ? <><Icon name="loader-2" className="h-4 w-4 mr-1.5 animate-spin" aria-hidden /> Menyimpan…</> : <><Icon name="save" className="h-4 w-4 mr-1.5" aria-hidden /> Simpan</>}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* ===== DIALOG REGISTRY PINDAI IZIN (v7.0) ===== */}
+      <Dialog open={regDialog} onOpenChange={(o) => !o && setRegDialog(false)}>
+        <DialogContent className="sm:max-w-2xl max-h-[88vh] overflow-y-auto scrollbar-thin">
+          <DialogHeader>
+            <DialogTitle className="text-left">{regEdit ? "Ubah Perusahaan Registri" : "Tambah Perusahaan Registri"}</DialogTitle>
+            <DialogDescription className="text-left">
+              Sumber data pemindaian publik #/pindai — NIB unik. Dokumen diganti-total saat disimpan.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={saveRegistry} className="space-y-3.5">
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              <div className="space-y-1.5"><Label>NIB *</Label><Input value={regForm.nib} onChange={(e) => setRegForm({ ...regForm, nib: e.target.value })} required minLength={6} placeholder="13 digit OSS" dir="ltr" /></div>
+              <div className="space-y-1.5"><Label>Nama Perusahaan *</Label><Input value={regForm.name} onChange={(e) => setRegForm({ ...regForm, name: e.target.value })} required minLength={3} /></div>
+              <div className="space-y-1.5">
+                <Label>Bentuk Badan</Label>
+                <select value={regForm.legalEntity} onChange={(e) => setRegForm({ ...regForm, legalEntity: e.target.value })} className={selCls}>
+                  {LEGAL_ENTITIES.map((l) => <option key={l} value={l}>{l}</option>)}
+                </select>
+              </div>
+              <div className="space-y-1.5"><Label>Kota</Label><Input value={regForm.city} onChange={(e) => setRegForm({ ...regForm, city: e.target.value })} /></div>
+              <div className="space-y-1.5"><Label>Provinsi</Label><Input value={regForm.province} onChange={(e) => setRegForm({ ...regForm, province: e.target.value })} /></div>
+              <div className="space-y-1.5"><Label>Telepon</Label><Input value={regForm.phone} onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })} dir="ltr" /></div>
+            </div>
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              <div className="space-y-1.5"><Label>Website</Label><Input value={regForm.website} onChange={(e) => setRegForm({ ...regForm, website: e.target.value })} dir="ltr" /></div>
+              <div className="space-y-1.5"><Label>Catatan</Label><Input value={regForm.note} onChange={(e) => setRegForm({ ...regForm, note: e.target.value })} /></div>
+            </div>
+
+            <div className="rounded-xl border bg-muted/20 p-3">
+              <div className="flex items-center justify-between">
+                <Label className="font-extrabold">Dokumen Izin (checklist a–l)</Label>
+                <Button type="button" variant="outline" size="sm" onClick={() => setRegDocs([...regDocs, emptyRegDoc()])}>
+                  <Icon name="plus" className="h-3.5 w-3.5 mr-1" aria-hidden /> Baris
+                </Button>
+              </div>
+              <div className="mt-2 space-y-2">
+                {regDocs.map((d, i) => (
+                  <div key={i} className="grid grid-cols-1 gap-2 rounded-lg border bg-card p-2 sm:grid-cols-12">
+                    <select
+                      value={d.requirementKey}
+                      onChange={(e) => setRegDocs(regDocs.map((x, j) => (j === i ? { ...x, requirementKey: e.target.value } : x)))}
+                      className="h-9 rounded-lg border border-border bg-card px-2 text-xs sm:col-span-3"
+                    >
+                      {LICENSE_CATALOG.map((r) => <option key={r.key} value={r.key}>{r.letter}) {r.key.replace(/_/g, " ")}</option>)}
+                    </select>
+                    <Input className="h-9 text-xs sm:col-span-3" placeholder="No. dokumen" value={d.docNo} onChange={(e) => setRegDocs(regDocs.map((x, j) => (j === i ? { ...x, docNo: e.target.value } : x)))} dir="ltr" />
+                    <Input className="h-9 text-xs sm:col-span-3" placeholder="Penerbit" value={d.issuedBy} onChange={(e) => setRegDocs(regDocs.map((x, j) => (j === i ? { ...x, issuedBy: e.target.value } : x)))} />
+                    <Input className="h-9 text-xs sm:col-span-2" type="date" value={d.validUntil} onChange={(e) => setRegDocs(regDocs.map((x, j) => (j === i ? { ...x, validUntil: e.target.value } : x)))} />
+                    <Button type="button" variant="outline" size="sm" className="h-9 text-destructive sm:col-span-1" onClick={() => setRegDocs(regDocs.filter((_, j) => j !== i))} aria-label="Hapus baris">
+                      <Icon name="trash" className="h-3.5 w-3.5" aria-hidden />
+                    </Button>
+                  </div>
+                ))}
+                {regDocs.length === 0 && <p className="text-center text-xs text-muted-foreground">Tanpa dokumen — seluruh syarat akan tampak “BELUM ADA”.</p>}
+              </div>
+            </div>
+
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setRegDialog(false)}>Batal</Button>
               <Button type="submit" disabled={saving} className="bg-gradient-to-r from-primary to-forest text-white">
                 {saving ? <><Icon name="loader-2" className="h-4 w-4 mr-1.5 animate-spin" aria-hidden /> Menyimpan…</> : <><Icon name="save" className="h-4 w-4 mr-1.5" aria-hidden /> Simpan</>}
               </Button>

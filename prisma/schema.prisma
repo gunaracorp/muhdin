@@ -668,3 +668,37 @@ model SosPoint {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// ==================== V7.0 — PINDAI IZIN 360° ====================
+// Registri perusahaan (NIB → dossier kelengkapan izin BPW/PPIU/PIHK).
+// Publik memindai via #/pindai; CMS merawat registri di admin-bisnis.
+
+/// Perusahaan pada registri pemindaian — diidentifikasi NIB unik.
+model RegistryCompany {
+  id          String        @id @default(cuid())
+  nib         String        @unique // Nomor Induk Berusaha (OSS-RBA)
+  name        String
+  legalEntity String        @default("PT") // PT | CV | KOPERASI | UD | YAYASAN
+  city        String        @default("")
+  province    String        @default("")
+  phone       String        @default("")
+  website     String?
+  note        String?
+  docs        RegistryDoc[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+/// Dokumen izin/sertifikasi perusahaan — satu baris per syarat katalog
+/// (requirementKey = kunci katalog izin a–l, mis. PPIU, PPIU_AKREDITASI, IATA).
+model RegistryDoc {
+  id             String          @id @default(cuid())
+  companyId      String
+  company        RegistryCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  requirementKey String // NIB | AKTA | NPWP | BPW | PPIU | PPIU_AKREDITASI | PIHK | PIHK_ESCROW | IATA | MUTHOWIF_SDM | ASURANSI | DIGITAL
+  docNo          String          @default("")
+  issuedBy       String          @default("")
+  validUntil     DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}

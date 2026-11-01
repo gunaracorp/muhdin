@@ -53,6 +53,8 @@ import { detailDict } from "@/lib/i18n/locales/detail";
 import { fiturV5Dict } from "@/lib/i18n/locales/fitur-v5";
 // v6.0 — Ekosistem Hulu-Hilir
 import { fiturV6Dict } from "@/lib/i18n/locales/fitur-v6";
+// v7.0 — Pindai Izin 360°
+import { scanDict } from "@/lib/i18n/locales/fitur-v7";
 
 const dicts = [
   commonDict,
@@ -104,6 +106,7 @@ const dicts = [
   fiturV5Dict,
   // v6.0 — Ekosistem Hulu-Hilir (Pusat Bisnis, Brankas Jamaah, Ulasan, Composer, SOS)
   fiturV6Dict,
+  scanDict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

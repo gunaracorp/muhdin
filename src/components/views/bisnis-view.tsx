@@ -128,6 +128,28 @@ export function BisnisView() {
         </div>
       </DetailHero>
 
+      {/* v7.0 — CTA Pindai Izin 360°: pintu masuk fitur pembeda dari pusat bisnis */}
+      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 -mt-6 relative z-10">
+        <a
+          href="#/pindai"
+          className="group flex flex-col gap-3 rounded-2xl border border-gold/50 bg-gradient-to-r from-gold/15 via-card to-card p-5 shadow-lg shadow-black/5 transition hover:border-gold sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex items-start gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold/20 text-gold-deep">
+              <Icon name="scan" className="h-5 w-5" aria-hidden />
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm font-black tracking-tight text-gold-deep">{t("scan.bisnisCard.title")}</p>
+              <p className="mt-0.5 max-w-2xl text-xs leading-relaxed text-muted-foreground">{t("scan.bisnisCard.desc")}</p>
+            </div>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-4 py-2 text-[11px] font-extrabold tracking-widest text-forest-deep transition group-hover:bg-gold-soft">
+            <Icon name="chevron-right" className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+            {t("scan.bisnisCard.cta")}
+          </span>
+        </a>
+      </section>
+
       <section className="py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Tabs defaultValue="seats">

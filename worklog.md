@@ -1921,3 +1921,26 @@ Stage Summary:
 - Seluruh framing "PROMO 200 ANGGOTA PERTAMA" (kuota terbatas, iuran tahun pertama gratis) hilang dari situs publik di 3 bahasa.
 - Posisi pesan kini konsisten 100%: GRATIS SELAMANYA — Rp 0 tanpa pengecualian (footer strip, hero pill, strip membership, final CTA, admin CMS).
 - Kit banner lama dihapus; bisa dirender ulang dengan tema "GRATIS SELAMANYA" bila owner menghendaki.
+
+---
+Task ID: 9
+Agent: Z.ai (main agent)
+Task: v7.0 "PINDAI IZIN 360°" — input NIB/izin/nama → dossier kelengkapan BPW/PPIU/PIHK otomatis + rekomendasi berhuruf a–l + tautan mitra sertifikasi (permintaan owner: "sistem otomatis, semua data terbuka, direkomendasikan a b c ... l, tautkan sertifikasi-arofahajj.vercel.app")
+
+Work Log:
+- KATALOG: src/lib/license-catalog.ts — 12 syarat stabil berhuruf a–l (NIB, AKTA, NPWP, BPW, PPIU, PPIU_AKREDITASI, PIHK, PIHK_ESCROW, IATA, MUTHOWIF_SDM, ASURANSI, DIGITAL), kategori, appliesTo, bobot skor; CERT_PARTNERS = Arofa Hajj Certification (https://sertifikasi-arofahajj.vercel.app/).
+- ENGINE: src/lib/license-engine.ts (murni, tanpa DB) — deteksi kelas (BPW/PPIU/PIHK: AKTIF/BERMASALAH/TIDAK_ADA), checklist 12 status (VALID/EXPIRING ≤90h/EXPIRED/MISSING + relevance WAJIB/JALUR/BONUS), skor 0–100 berbobot, jalur naik kelas (BPW→PPIU→PIHK), rekomendasi 5 tingkat prioritas (0 darurat mati → 4 bonus) diurut huruf. Uji unit bun (scripts/test-license-engine.ts): kasus Arofah → skor 38, urutan reko "efghjkil", f=EXPIRED ✅.
+- DB: +2 model RegistryCompany (nib unik) & RegistryDoc (requirementKey = kunci katalog); db:push OK.
+- API (3): /api/license-scan GET publik (rateLimit 30/menit; pencarian NIB persis → NIB parsial → no. dokumen → nama; MULTIPLE → kandidat), /api/license-registry GET+POST, /api/license-registry/[id] PUT (docs ganti-total transaksional) + DELETE; guardRole, ok/fail, logAudit; helper parseDocsInput di src/lib/license-docs.ts (ekspor non-handler dari route.ts dihindari — risiko next build).
+- SEED: prisma/seed-fitur-v7.ts idempoten — 8 perusahaan 59 dokumen; kasus utama PT Arofah Global (BPW murni: NIB/AKTA/NPWP/BPW valid, akreditasi mati -400 hari, tanpa PPIU/PIHK/IATA) + 7 kontras (lengkap 100, expiring 60/45 hari, PIHK+PPIU mati, shell BPW, koperasi tanpa BPW, gap SDM/asuransi, escrow expiring+digital mati).
+- i18n: locales/fitur-v7.ts root `scan` ×3 bahasa (page + katalog 12 syarat × name/issuer/why/s1-s3/dur); registrasi dictionaries.ts; footer.quick.pindai ×3; layanan.items.pindai-izin ×3 (bug sisip python diperbaiki — anchor per kejadian id/en/ar, verifikasi runtime bun).
+- PORTAL: pindai-view.tsx (#/pindai) — panel pencarian + chip contoh, 3 cara kerja, kandidat ganda, not-found + CTA mitra, dossier: header + ring skor SVG, kartu kelas usaha, stepper jalur naik kelas, grid checklist a–l (status/relevansi/docNo/masa berlaku), rekomendasi berhuruf (langkah 1-2-3 + penerbit + estimasi + link sertifikasi per item), panel mitra (3 layanan), copy ringkasan + share deep-link, disclaimer indikatif. Deep-link #/pindai?q=auto-scan (root hash dibersihkan dari query di muhdin-app).
+- WIRING: muhdin-app case "pindai" + routeQuery; menu PERIZINAN▾ + "Pindai Izin 360°" (route pindai, ikon scan); CTA kartu Pindai di hero #/bisnis.
+- CMS: admin-bisnis tab 5 "Registri Izin" — daftar perusahaan + badge dokumen berhuruf, dialog Tambah/Ubah dengan editor baris dokumen (syarat select a–l + no + penerbit + validUntil), hapus via AlertDialog; types.ts +RegistryCompanyItem/RegistryDocItem.
+- VERIFIKASI: lint penuh 0 error; unit engine ✅; API: scan "arofah" (BPW AKTIF, PPIU/PIHK TIDAK_ADA, skor 38, f EXPIRED -400h), NIB lengkap → skor 100 semua kelas AKTIF, not-found NOT_FOUND, registry tanpa sesi 401; browser E2E: chip contoh → dossier (kelas, skor 38, KEDALUWARSA, jalur BPW POSISI ANDA → PPIU TARGET, reko 8 syarat berhuruf, panel Arofa Hajj), Safar Madinah → IZIN MATI + docNo tampil, deep-link CV Mabrur → SEGERA BERAKHIR "60 hari lagi", kandidat ganda "Tour" → 2 perusahaan, EN (hero/CTA/checklist/EXPIRED/Upgrade path) & AR (امسح الآن, RTL) via cookie+reload (open hash-only tidak re-render SSR — locale = cookie), CMS: login → tab Registri Izin (8) → POST (2 dokumen) → PUT ganti kunci BPW → DELETE kembali 8, kandidat ganda, 0 console error; mobile 390px tanpa h-scroll. Catatan: screenshot full-page tampil kosong karena Reveal whileInView opacity-0 — verifikasi visual memakai screenshot viewport per-bagian.
+- CLEANUP: perusahaan uji dihapus; seed kembali 8. Screenshot: download/v7-pindai-dossier-1..3.png (ID), v7-pindai-arofah-arabic.png (AR), v7-pindai-mobile.png, v7-cms-registri.png, v7-pindai-safar-mati.png.
+
+Stage Summary:
+- MUHDIN v7.0: PINDAI IZIN 360° live — satu input (NIB/nomor izin/nama) membuka dossier kepatuhan: kelas usaha terdeteksi, 12 syarat a–l dinilai otomatis, skor kelengkapan, jalur naik kelas BPW→PPIU→PIHK, rekomendasi berprioritas berhuruf dengan langkah/penerbit/estimasi, dan tautan sertifikasi mitra Arofa Hajj di setiap item + panel mitra.
+- Fitur tidak dimiliki kompetitor: registri kepatuhan publik dengan deteksi otomatis "izin mati/segera berakhir/belum ada", rekomendasi berhuruf, dan deep-link hasil yang bisa dibagikan.
+- Penuhi konvensi: guardRole, ok/fail, logAudit, rateLimit, useT ×3 bahasa, tokens forest/gold, seed idempoten.
