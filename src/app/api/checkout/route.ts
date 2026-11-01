@@ -34,6 +34,10 @@ export async function POST(req: NextRequest) {
     if (!packageId) return fail("Paket tidak valid.");
     if (name.length < 3) return fail("Nama lengkap minimal 3 karakter.");
     if (!/^[+\-\s()0-9]{8,20}$/.test(phone)) return fail("Nomor WhatsApp/telepon tidak valid.");
+    // R-078 UU PDP — persetujuan pemrosesan data pribadi wajib saat checkout.
+    if (body.pdpConsent !== true) {
+      return fail("Persetujuan Pelindungan Data Pribadi (UU PDP) wajib dicentang.");
+    }
 
     const pkg = await db.tourPackage.findUnique({
       where: { id: packageId },
@@ -71,6 +75,7 @@ export async function POST(req: NextRequest) {
           paymentProvider: adapter.name,
           paymentRef: intent.ref,
           notes: notes || null,
+          pdpConsent: true, // sudah divalidasi di atas (R-078)
         },
       });
       await tx.payment.create({

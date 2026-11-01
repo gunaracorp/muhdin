@@ -159,6 +159,9 @@ model MembershipApplication {
   reviewedBy  String? // nama akun verifikator yang memproses
   reviewedAt  DateTime?
   referralCode String? // GABUNG v11 — kode referal KTA (opsional); approve menghadiahkan poin ke perujuk
+  // R-078 UU PDP — bukti persetujuan pemrosesan data pribadi (UU 27/2022)
+  pdpConsent  Boolean   @default(false)
+  pdpConsentAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -201,6 +204,21 @@ model Faq {
   category  String   @default("Umum")
   order     Int      @default(0)
   createdAt DateTime @default(now())
+}
+
+// R-078 UU PDP — antrean permintaan hak subjek data pribadi (akses/ekspor & penghapusan).
+model PrivacyRequest {
+  id          String    @id @default(cuid())
+  type        String    // EXPORT | DELETE
+  name        String
+  contact     String    // email atau nomor WA pemohon
+  message     String?
+  status      String    @default("PENDING") // PENDING | PROCESSED | REJECTED
+  result      String?   // catatan penanganan oleh petugas
+  processedBy String?
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Testimonial {
@@ -1086,6 +1104,7 @@ model Order {
   paymentRef      String? // referensi intent dari provider
   paidAt          DateTime?
   notes           String?
+  pdpConsent      Boolean   @default(false) // R-078 UU PDP — persetujuan pemrosesan data saat checkout
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   payments        Payment[]

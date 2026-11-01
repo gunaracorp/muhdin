@@ -25,6 +25,11 @@ import {
   // v5.0 — marketplace & kartu
   Package,
   IdCard,
+  // v12.5 — Help Center & impor CSV (Task 19)
+  Upload,
+  Zap,
+  PlayCircle,
+  Check,
 } from "lucide-react";
 
 export const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
@@ -175,6 +180,11 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string; str
   // v5.0 — marketplace paket & kartu jamaah
   package: Package,
   "id-card": IdCard,
+  // v12.5 — Help Center & impor CSV (Task 19)
+  upload: Upload,
+  zap: Zap,
+  "play-circle": PlayCircle,
+  check: Check,
 };
 
 export function Icon({

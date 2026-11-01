@@ -67,14 +67,20 @@ export function JoinView() {
     licenseNo: "",
     message: "",
   });
+  // R-078 UU PDP — persetujuan pemrosesan data pribadi wajib.
+  const [pdpConsent, setPdpConsent] = useState(false);
 
   const submit = async () => {
+    if (!pdpConsent) {
+      toast({ title: t("join.toastFailTitle"), description: t("join.pdpConsent"), variant: "destructive" });
+      return;
+    }
     setLoading(true);
     try {
       const res = await apiSend<{ ticketCode?: string; queueNumber?: number | null }>(
         "/api/applications",
         "POST",
-        form
+        { ...form, pdpConsent }
       );
       if (res?.ticketCode) {
         // Task 18-c: respons kini memuat kode tiket — tampilkan kartu sukses.
@@ -303,6 +309,17 @@ export function JoinView() {
                     />
                   </div>
                 </div>
+                {/* R-078 UU PDP — persetujuan pemrosesan data (wajib) */}
+                <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-gold/40 bg-gold/5 p-4 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={pdpConsent}
+                    onChange={(e) => setPdpConsent(e.target.checked)}
+                    className="mt-0.5 h-4.5 w-4.5 shrink-0 accent-emerald-700"
+                    required
+                  />
+                  <span className="text-foreground/85">{t("join.pdpConsent")}</span>
+                </label>
                 <Button
                   onClick={submit}
                   disabled={loading}

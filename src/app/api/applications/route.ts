@@ -88,6 +88,10 @@ export async function POST(req: NextRequest) {
       return fail("Kolom licenseNo wajib diisi untuk jenis PPIU/PIHK/KBIHU.");
     }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(body.email))) return fail("Format email tidak valid.");
+    // R-078 UU PDP — persetujuan pemrosesan data pribadi wajib (UU 27/2022).
+    if (body.pdpConsent !== true) {
+      return fail("Persetujuan Pelindungan Data Pribadi (UU PDP) wajib dicentang.");
+    }
     const ticketCode = await generateTicketCode();
     const app = await createWithQueueNumber({
       orgName: String(body.orgName).trim(),
@@ -99,6 +103,8 @@ export async function POST(req: NextRequest) {
       province: String(body.province || "").trim(),
       licenseNo: String(body.licenseNo).trim(),
       message: body.message ? String(body.message) : null,
+      pdpConsent: true,
+      pdpConsentAt: new Date(),
       ticketCode, // Task 18 — kode pelacakan publik
     });
     // Task 15-d/18 — notifikasi WhatsApp (fire-and-forget, gagal-aman).

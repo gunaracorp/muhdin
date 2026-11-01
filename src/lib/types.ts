@@ -346,6 +346,20 @@ export interface AuditLogItem {
   createdAt: string;
 }
 
+/** R-078 UU PDP — permintaan hak subjek data pribadi. */
+export interface PrivacyRequestItem {
+  id: string;
+  type: "EXPORT" | "DELETE" | string;
+  name: string;
+  contact: string;
+  message: string | null;
+  status: "PENDING" | "PROCESSED" | "REJECTED" | string;
+  result: string | null;
+  processedBy: string | null;
+  processedAt: string | null;
+  createdAt: string;
+}
+
 /** Hasil pelacakan publik — data sensitif disamarkan. */
 export interface TrackResult {
   found: boolean;

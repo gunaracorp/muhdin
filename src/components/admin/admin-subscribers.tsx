@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { ExportCsvButton } from "@/components/admin/admin-sections";
+import { ImportCsvButton } from "@/components/admin/import-csv-button";
 import type { SubscriberItem } from "@/lib/types";
 
 export function AdminSubscribers() {
@@ -91,6 +92,7 @@ export function AdminSubscribers() {
             />
           </div>
           <ExportCsvButton type="subscribers" />
+          <ImportCsvButton type="subscribers" />
         </div>
       </div>
 

@@ -54,6 +54,7 @@ import { MemberDetail } from "@/components/views/member-detail";
 import { AgendaDetail } from "@/components/views/agenda-detail";
 import { GalleryDetail } from "@/components/views/gallery-detail";
 import { BranchIndex, BranchDetail } from "@/components/views/branch-pages";
+import { BantuanView } from "@/components/views/bantuan-view";
 import { FaqView } from "@/components/views/faq-view";
 import { SitemapView } from "@/components/views/sitemap-view";
 // GABUNG v11 — WA-AI, Paspor Haji (QR), Tracking GPS, Tur 360°, Power Pack
@@ -286,6 +287,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v4.1 — Pusat bantuan FAQ
     case "faq":
       content = <FaqView />;
+      break;
+    // v12.5 — Help Center (R-095): hub bantuan dengan pencarian & kategori belajar
+    case "bantuan":
+      content = <BantuanView />;
       break;
     // v5.0 — Marketplace paket ibadah: #/paket & #/paket/<id>
     case "paket":

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ImportCsvButton } from "@/components/admin/import-csv-button";
 import { apiGet, apiSend, formatDate, formatDateTime, maskKey, timeAgo, withPort } from "@/lib/client-api";
 import { Icon } from "@/components/site/icon";
 import { Button } from "@/components/ui/button";
@@ -469,6 +470,7 @@ export function AdminMessages() {
             </button>
           ))}
           <ExportCsvButton type="messages" />
+          <ImportCsvButton type="messages" />
         </div>
       </div>
 
@@ -719,6 +721,7 @@ export function AdminApplications() {
             />
           </div>
           <ExportCsvButton type="applications" />
+          <ImportCsvButton type="applications" />
         </div>
       </div>
 

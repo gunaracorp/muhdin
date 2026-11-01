@@ -2,13 +2,18 @@
 
 /**
  * Task 33-c — PrivacyView: halaman kebijakan privasi (route #/privasi).
- * Placeholder yang baik & lengkap strukturnya — konten ringkas per bagian,
- * dengan catatan eksplisit bahwa versi final akan ditinjau penasihat hukum.
+ * Task 19 (R-078) — kini hidup sepenuhnya: formulir Hak Subjek Data Pribadi
+ * (akses/ekspor & penghapusan) tersambung antrean /api/privacy-requests.
  */
+import { useState } from "react";
 import { navigate } from "@/hooks/use-hash-route";
+import { apiSend } from "@/lib/client-api";
 import { Icon } from "@/components/site/icon";
 import { Reveal } from "@/components/site/reveal";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useT } from "@/lib/i18n";
 
 function PolicySection({
@@ -37,6 +42,36 @@ function PolicySection({
 
 export function PrivacyView() {
   const { t } = useT();
+
+  // R-078 — state formulir Hak Subjek Data (DSR)
+  const [dsrType, setDsrType] = useState<"EXPORT" | "DELETE">("EXPORT");
+  const [dsrName, setDsrName] = useState("");
+  const [dsrContact, setDsrContact] = useState("");
+  const [dsrMessage, setDsrMessage] = useState("");
+  const [dsrBusy, setDsrBusy] = useState(false);
+  const [dsrRef, setDsrRef] = useState<string | null>(null);
+  const [dsrErr, setDsrErr] = useState("");
+
+  const submitDsr = async () => {
+    setDsrErr("");
+    setDsrBusy(true);
+    try {
+      const res = await apiSend<{ id: string; guidance: string }>("/api/privacy-requests", "POST", {
+        type: dsrType,
+        name: dsrName.trim(),
+        contact: dsrContact.trim(),
+        message: dsrMessage.trim() || undefined,
+      });
+      setDsrRef(res.id);
+      setDsrName("");
+      setDsrContact("");
+      setDsrMessage("");
+    } catch (e) {
+      setDsrErr((e as Error).message || "Gagal mengirim permintaan.");
+    } finally {
+      setDsrBusy(false);
+    }
+  };
 
   const NOT_PUBLISHED = [
     { icon: "fingerprint", key: "notpubNik" },
@@ -108,6 +143,75 @@ export function PrivacyView() {
           <PolicySection icon="heart-handshake" title={t("nusTrust.priv.rightsTitle")}>
             <p>{t("nusTrust.priv.rightsDesc")}</p>
           </PolicySection>
+
+          {/* 5-b. R-078 — Formulir Hak Subjek Data Pribadi (hidup, tersambung antrean petugas) */}
+          <Reveal>
+            <section aria-label={t("nusTrust.priv.dsrTitle")} className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm sm:p-6">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                  <Icon name="shield-check" className="h-5 w-5" aria-hidden />
+                </span>
+                <h2 className="text-lg font-extrabold leading-snug">{t("nusTrust.priv.dsrTitle")}</h2>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-foreground/80">{t("nusTrust.priv.dsrDesc")}</p>
+
+              {dsrRef ? (
+                <div className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm">
+                  <p className="font-extrabold text-emerald-800 dark:text-emerald-300">{t("nusTrust.priv.dsrSuccess")}</p>
+                  <code className="mt-1 inline-block rounded bg-emerald-700/15 px-2 py-0.5 font-mono font-extrabold text-emerald-900 dark:text-emerald-200">{dsrRef}</code>
+                  <Button variant="outline" size="sm" className="mt-3" onClick={() => { setDsrRef(null); setDsrType("EXPORT"); }}>
+                    {t("nusTrust.priv.dsrSubmit")}
+                  </Button>
+                </div>
+              ) : (
+                <div className="mt-4 space-y-3">
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    {(["EXPORT", "DELETE"] as const).map((tp) => (
+                      <button
+                        key={tp}
+                        type="button"
+                        onClick={() => setDsrType(tp)}
+                        aria-pressed={dsrType === tp}
+                        className={`rounded-xl border p-3 text-start text-sm font-bold transition ${
+                          dsrType === tp
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "border-border bg-card text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <Icon name={tp === "EXPORT" ? "download" : "trash-2"} className="me-2 inline h-4 w-4" aria-hidden />
+                        {t(tp === "EXPORT" ? "nusTrust.priv.dsrTypeAccess" : "nusTrust.priv.dsrTypeDelete")}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="dsr-name">{t("nusTrust.priv.dsrName")}</Label>
+                    <Input id="dsr-name" value={dsrName} onChange={(e) => setDsrName(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="dsr-contact">{t("nusTrust.priv.dsrContact")}</Label>
+                    <Input id="dsr-contact" value={dsrContact} onChange={(e) => setDsrContact(e.target.value)} placeholder="nama@email.com / 0812…" />
+                  </div>
+                  {dsrType === "DELETE" && (
+                    <div className="space-y-1.5">
+                      <Label htmlFor="dsr-msg">{t("nusTrust.priv.dsrMessage")}</Label>
+                      <Textarea id="dsr-msg" value={dsrMessage} onChange={(e) => setDsrMessage(e.target.value)} rows={3} />
+                    </div>
+                  )}
+                  {dsrErr && (
+                    <p className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">{dsrErr}</p>
+                  )}
+                  <Button onClick={submitDsr} disabled={dsrBusy} className="w-full sm:w-auto">
+                    {dsrBusy ? (
+                      <Icon name="loader-2" className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <Icon name="send" className="h-4 w-4" aria-hidden />
+                    )}
+                    <span className="ms-2">{t("nusTrust.priv.dsrSubmit")}</span>
+                  </Button>
+                </div>
+              )}
+            </section>
+          </Reveal>
 
           {/* 6. Kontak */}
           <Reveal>

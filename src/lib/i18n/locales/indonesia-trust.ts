@@ -80,7 +80,17 @@ export const nusTrustDict = {
           "Data disimpan selama keanggotaan aktif ditambah periode administratif yang wajar. Permintaan penghapusan dilayani melalui kontak resmi setelah verifikasi identitas pemohon. Data yang diwajibkan oleh peraturan untuk disimpan tidak dapat dihapus sebelum jangka wajibnya berakhir.",
         rightsTitle: "Hak Anda",
         rightsDesc:
-          "Anda berhak meminta akses, koreksi, pembatasan pemrosesan, penarikan persetujuan, dan penghapusan data pribadi Anda. Permintaan dapat diajukan kapan saja melalui kontak resmi dan akan kami tanggapi dalam waktu yang wajar.",
+          "Anda berhak meminta akses, koreksi, pembatasan pemrosesan, penarikan persetujuan, dan penghapusan data pribadi Anda. Gunakan formulir Hak Subjek Data di bawah — permintaan masuk antrean resmi petugas.",
+        dsrTitle: "Formulir Hak Subjek Data Pribadi",
+        dsrDesc:
+          "UU PDP No. 27/2022 memberi Anda hak mengakses (ekspor) dan meminta penghapusan data pribadi. Kirim permintaan resmi di sini; petugas kami memverifikasi identitas lalu memproses maksimal 3×24 jam kerja.",
+        dsrTypeAccess: "Akses / Ekspor Data Saya",
+        dsrTypeDelete: "Hapus Data Pribadi Saya",
+        dsrName: "Nama lengkap pemohon",
+        dsrContact: "Email atau nomor WhatsApp aktif",
+        dsrMessage: "Konteks permintaan (wajib untuk penghapusan)",
+        dsrSubmit: "Kirim Permintaan Resmi",
+        dsrSuccess: "Permintaan tercatat ✓ — simpan nomor referensi Anda:",
         contactTitle: "Kontak Perlindungan Data",
         contactDesc:
           "Untuk pertanyaan, permintaan, atau keluhan seputar privasi, hubungi kami di email resmi berikut. Kami membalas setiap permintaan yang sah.",
@@ -252,7 +262,17 @@ export const nusTrustDict = {
           "Data is kept for the duration of active membership plus a reasonable administrative period. Deletion requests are served through official contact after verifying the requester's identity. Data that regulations require us to retain cannot be deleted before the mandatory period ends.",
         rightsTitle: "Your Rights",
         rightsDesc:
-          "You have the right to request access, correction, restriction of processing, withdrawal of consent, and deletion of your personal data. Requests may be submitted at any time via official contact and will be answered within a reasonable time.",
+          "You have the right to request access, correction, restriction of processing, withdrawal of consent, and deletion of your personal data. Use the Data Subject Request form below — requests enter the officers' official queue.",
+        dsrTitle: "Data Subject Request Form",
+        dsrDesc:
+          "Indonesian PDP Law No. 27/2022 grants you the right to access (export) and request deletion of your personal data. Submit an official request here; our officers verify your identity and process within 3×24 working hours.",
+        dsrTypeAccess: "Access / Export My Data",
+        dsrTypeDelete: "Delete My Personal Data",
+        dsrName: "Requester's full name",
+        dsrContact: "Active email or WhatsApp number",
+        dsrMessage: "Request context (required for deletion)",
+        dsrSubmit: "Send Official Request",
+        dsrSuccess: "Request recorded ✓ — keep your reference number:",
         contactTitle: "Data Protection Contact",
         contactDesc:
           "For privacy questions, requests, or complaints, reach us at the official email below. We respond to every legitimate request.",
@@ -421,7 +441,17 @@ export const nusTrustDict = {
           "تُحفظ البيانات طوال فترة العضوية النشطة إضافة إلى مدة إدارية معقولة. تُلبّى طلبات الحذف عبر جهة الاتصال الرسمية بعد التحقق من هوية الطالب. أما البيانات التي تُلزمنا الأنظمة بالاحتفاظ بها فلا يمكن حذفها قبل انتهاء المدة الإلزامية.",
         rightsTitle: "حقوقك",
         rightsDesc:
-          "من حقك طلب الوصول إلى بياناتك وتصحيحها وتقييد معالجتها وسحب الموافقة وحذفها. يمكن تقديم الطلبات في أي وقت عبر جهة الاتصال الرسمية وسنرد عليها في وقت معقول.",
+          "من حقك طلب الوصول إلى بياناتك وتصحيحها وتقييد معالجتها وسحب الموافقة وحذفها. استخدم نموذج طلب صاحب البيانات أدناه — تدخل الطلبات قائمة الانتظار الرسمية.",
+        dsrTitle: "نموذج طلب صاحب البيانات",
+        dsrDesc:
+          "يمنحك قانون حماية البيانات الشخصية رقم 27/2022 حق الوصول (التصدير) وطلب حذف بياناتك الشخصية. أرسل طلبًا رسميًا هنا؛ يتحقق موظفونا من هويتك ويعالجون الطلب خلال 3×24 ساعة عمل.",
+        dsrTypeAccess: "الوصول / تصدير بياناتي",
+        dsrTypeDelete: "حذف بياناتي الشخصية",
+        dsrName: "الاسم الكامل لمقدم الطلب",
+        dsrContact: "بريد إلكتروني أو رقم واتساب نشط",
+        dsrMessage: "سياق الطلب (مطلوب للحذف)",
+        dsrSubmit: "إرسال الطلب الرسمي",
+        dsrSuccess: "تم تسجيل الطلب ✓ — احفظ رقم الإشارة الخاص بك:",
         contactTitle: "جهة اتصال حماية البيانات",
         contactDesc: "للاستفسارات أو الطلبات أو الشكاوى المتعلقة بالخصوصية، راسلنا على البريد الرسمي التالي. نرد على كل طلب مشروع.",
         placeholder: "هذه الوثيقة مسودة أولية — ستتم مراجعة النسخة النهائية مع مستشار قانوني.",

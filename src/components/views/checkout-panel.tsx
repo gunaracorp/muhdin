@@ -37,6 +37,8 @@ export function CheckoutPanel({ packageId, price, slotsLeft }: { packageId: stri
   const [email, setEmail] = useState("");
   const [quantity, setQuantity] = useState("1");
   const [notes, setNotes] = useState("");
+  // R-078 UU PDP — persetujuan pemrosesan data wajib saat checkout.
+  const [pdpConsent, setPdpConsent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<CheckoutResult | null>(null);
@@ -49,6 +51,7 @@ export function CheckoutPanel({ packageId, price, slotsLeft }: { packageId: stri
     setError("");
     if (name.trim().length < 3) return setError(t("checkout.nameErr"));
     if (!/^[+\-\s()0-9]{8,20}$/.test(phone.trim())) return setError(t("checkout.phoneErr"));
+    if (!pdpConsent) return setError(t("checkout.pdpConsent"));
     setSending(true);
     try {
       const res = await apiSend<CheckoutResult>("/api/checkout", "POST", {
@@ -58,6 +61,7 @@ export function CheckoutPanel({ packageId, price, slotsLeft }: { packageId: stri
         email: email.trim() || undefined,
         quantity: qty,
         notes: notes.trim() || undefined,
+        pdpConsent,
       });
       // Simpan nomor WhatsApp agar auto-lacak di #/pesanan?no=… langsung jalan.
       try {
@@ -198,6 +202,19 @@ export function CheckoutPanel({ packageId, price, slotsLeft }: { packageId: stri
           <span className="text-xs font-semibold text-muted-foreground">{t("checkout.total")}</span>
           <span className={cn("text-base font-extrabold text-gold-deep")} data-testid="checkout-total">{rupiah(total)}</span>
         </div>
+
+        {/* R-078 UU PDP — persetujuan pemrosesan data (wajib) */}
+        <label className="flex cursor-pointer items-start gap-2.5 rounded-lg bg-muted/50 px-3 py-2.5 text-[11px] leading-relaxed text-muted-foreground">
+          <input
+            type="checkbox"
+            checked={pdpConsent}
+            onChange={(e) => setPdpConsent(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 accent-emerald-700"
+            required
+            data-testid="checkout-consent"
+          />
+          <span>{t("checkout.pdpConsent")}</span>
+        </label>
 
         {error && (
           <p className="flex items-center gap-1.5 rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">

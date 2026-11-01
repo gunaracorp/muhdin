@@ -60,6 +60,8 @@ import { complianceDict } from "@/lib/i18n/locales/fitur-v12";
 import { roadmap99Dict } from "@/lib/i18n/locales/fitur-v12b";
 // v12.4 «LUNAS» — Checkout + Pesanan & Invoice (root `checkout`, `pesanan`)
 import { checkoutDict } from "@/lib/i18n/locales/fitur-v12c";
+// v12.5 — Help Center #/bantuan (R-095, root `help`)
+import { helpDict } from "@/lib/i18n/locales/fitur-v12d";
 // GABUNG v11 — WA-AI, Paspor Haji, Tracking GPS, Tur 360°, Statistik, Global Search, Keanggotaan
 import { waaiDict } from "@/lib/i18n/locales/waai";
 import { pasporDict } from "@/lib/i18n/locales/paspor";
@@ -136,6 +138,8 @@ const dicts = [
   roadmap99Dict,
   // v12.4 «LUNAS» — Checkout & Lacak Pesanan
   checkoutDict,
+  // v12.5 — Help Center (R-095)
+  helpDict,
   // GABUNG v11 — Keanggotaan Power Pack
   keanggotaanDict,
 ];
