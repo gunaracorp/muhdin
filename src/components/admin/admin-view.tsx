@@ -37,6 +37,10 @@ import { AdminBisnis } from "@/components/admin/admin-bisnis";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
+// GABUNG v11 — Power Pack (Akademi/Booking/Benefit, Paspor & GPS, Tur 360°)
+import { AdminAcademy, AdminBooking, AdminBenefits } from "@/components/admin/admin-membership";
+import { AdminPassport } from "@/components/admin/admin-passport";
+import { AdminTour } from "@/components/admin/admin-tour";
 import { visibleSections, ROLE_LABELS } from "@/lib/roles";
 import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -60,6 +64,12 @@ const MENU = [
   { id: "cards", label: "Kartu Jamaah", icon: "qr-code" },
   { id: "bisnis", label: "Pusat Bisnis B2B", icon: "briefcase" },
   { id: "jamaahops", label: "Operasi Jamaah", icon: "clipboard-check" },
+  // GABUNG v11 — Power Pack Layanan Digital
+  { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
+  { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap" },
+  { id: "booking", label: "Booking & Slot", icon: "calendar-check" },
+  { id: "benefits", label: "Benefit & Poin KTA", icon: "gift" },
+  { id: "tour", label: "Tur Virtual 360°", icon: "orbit" },
   { id: "subscribers", label: "Pelanggan Berita", icon: "mail" },
   { id: "faqs", label: "FAQ", icon: "help-circle" },
   { id: "testimonials", label: "Testimoni", icon: "quote" },
@@ -242,6 +252,12 @@ export function AdminView() {
           {section === "resources" && <AdminResources />}
           {section === "audit" && <AdminAudit />}
           {section === "users" && <AdminUsers meId={user.id} />}
+          {/* GABUNG v11 — Power Pack */}
+          {section === "passport" && <AdminPassport />}
+          {section === "academy" && <AdminAcademy />}
+          {section === "booking" && <AdminBooking />}
+          {section === "benefits" && <AdminBenefits />}
+          {section === "tour" && <AdminTour />}
         </main>
 
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground pb-[max(1rem,env(safe-area-inset-bottom))]">

@@ -26,8 +26,15 @@ export async function GET() {
       enabled: cfg.enabled,
       notifyContact: cfg.notifyContact,
       notifyApplication: cfg.notifyApplication,
+      notifyAcademy: cfg.notifyAcademy,
+      notifyBooking: cfg.notifyBooking,
+      notifyBenefit: cfg.notifyBenefit,
       hasToken: Boolean(cfg.token),
       tokenMasked: mask(cfg.token),
+      // v5 Fase 2 — chatbot AI WhatsApp
+      botEnabled: cfg.botEnabled,
+      botSecretSet: Boolean(cfg.botWebhookSecret),
+      botSecretMasked: mask(cfg.botWebhookSecret),
       lastTestAt: cfg.lastTestAt,
       lastTestStatus: cfg.lastTestStatus,
     });
@@ -66,8 +73,17 @@ export async function PUT(req: NextRequest) {
         notifyContact: body.notifyContact !== undefined ? Boolean(body.notifyContact) : cfg.notifyContact,
         notifyApplication:
           body.notifyApplication !== undefined ? Boolean(body.notifyApplication) : cfg.notifyApplication,
+        notifyAcademy: body.notifyAcademy !== undefined ? Boolean(body.notifyAcademy) : cfg.notifyAcademy,
+        notifyBooking: body.notifyBooking !== undefined ? Boolean(body.notifyBooking) : cfg.notifyBooking,
+        notifyBenefit: body.notifyBenefit !== undefined ? Boolean(body.notifyBenefit) : cfg.notifyBenefit,
         // Kosong = tetap pakai token lama (agar tidak perlu ketik ulang saat edit).
         token: body.token !== undefined && String(body.token).trim() !== "" ? String(body.token).trim() : cfg.token,
+        // v5 Fase 2 — chatbot AI: saklar + rahasia webhook (kosong = tetap).
+        botEnabled: body.botEnabled !== undefined ? Boolean(body.botEnabled) : cfg.botEnabled,
+        botWebhookSecret:
+          body.botWebhookSecret !== undefined && String(body.botWebhookSecret).trim() !== ""
+            ? String(body.botWebhookSecret).trim()
+            : cfg.botWebhookSecret,
       },
     });
 
@@ -78,8 +94,14 @@ export async function PUT(req: NextRequest) {
       enabled: updated.enabled,
       notifyContact: updated.notifyContact,
       notifyApplication: updated.notifyApplication,
+      notifyAcademy: updated.notifyAcademy,
+      notifyBooking: updated.notifyBooking,
+      notifyBenefit: updated.notifyBenefit,
       hasToken: Boolean(updated.token),
       tokenMasked: mask(updated.token),
+      botEnabled: updated.botEnabled,
+      botSecretSet: Boolean(updated.botWebhookSecret),
+      botSecretMasked: mask(updated.botWebhookSecret),
       lastTestAt: updated.lastTestAt,
       lastTestStatus: updated.lastTestStatus,
     });

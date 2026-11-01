@@ -75,3 +75,4 @@ node_modules/
 /db/
 .merge-v11/
 src/generated/
+.merge-v6/

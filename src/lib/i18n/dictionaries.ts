@@ -55,6 +55,14 @@ import { fiturV5Dict } from "@/lib/i18n/locales/fitur-v5";
 import { fiturV6Dict } from "@/lib/i18n/locales/fitur-v6";
 // v7.0 — Pindai Izin 360°
 import { scanDict } from "@/lib/i18n/locales/fitur-v7";
+// GABUNG v11 — WA-AI, Paspor Haji, Tracking GPS, Tur 360°, Statistik, Global Search, Keanggotaan
+import { waaiDict } from "@/lib/i18n/locales/waai";
+import { pasporDict } from "@/lib/i18n/locales/paspor";
+import { trackingDict } from "@/lib/i18n/locales/tracking";
+import { turDict } from "@/lib/i18n/locales/tur";
+import { statistikDict } from "@/lib/i18n/locales/statistik";
+import { searchDict } from "@/lib/i18n/locales/search";
+import { keanggotaanDict } from "@/lib/i18n/locales/keanggotaan";
 
 const dicts = [
   commonDict,
@@ -107,6 +115,18 @@ const dicts = [
   // v6.0 — Ekosistem Hulu-Hilir (Pusat Bisnis, Brankas Jamaah, Ulasan, Composer, SOS)
   fiturV6Dict,
   scanDict,
+  // GABUNG v11 — WhatsApp AI Chatbot (#/whatsapp-ai)
+  waaiDict,
+  // GABUNG v11 — Paspor Haji Digital (QR) + GPS Tracking rombongan
+  pasporDict,
+  trackingDict,
+  // GABUNG v11 — Virtual Tour 360° (#/tur-virtual)
+  turDict,
+  // GABUNG v11 — Statistik Nasional & Transparansi + Global Search
+  statistikDict,
+  searchDict,
+  // GABUNG v11 — Keanggotaan Power Pack
+  keanggotaanDict,
 ];
 
 export const dictionaries: Record<"id" | "en" | "ar", Record<string, unknown>> = {

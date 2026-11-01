@@ -72,6 +72,20 @@ export const MENU_NODES: MenuNode[] = [
     ],
   },
   { key: "anggota", route: "anggota" },
+  // GABUNG v11 — Layanan Digital Power Pack (Akademi, Slot, Benefit, Paspor, Tur, Tracking)
+  {
+    key: "digital",
+    group: "digital",
+    groupIcon: "sparkles",
+    children: [
+      { slug: "akademi", icon: "graduation-cap", route: "academy" },
+      { slug: "booking-slot", icon: "calendar-check", route: "booking" },
+      { slug: "benefit-kta", icon: "gift", route: "benefit" },
+      { slug: "paspor-haji", icon: "wallet-cards", route: "paspor" },
+      { slug: "tur-virtual", icon: "orbit", route: "tur-virtual" },
+      { slug: "tracking-gps", icon: "map-pin", route: "tracking" },
+    ],
+  },
   // v5.0 — Marketplace paket ibadah (feature baru)
   { key: "paket", route: "paket" },
   { key: "berita", route: "berita" },

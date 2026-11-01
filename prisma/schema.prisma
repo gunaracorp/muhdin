@@ -111,6 +111,10 @@ model Member {
   seatListings   SeatListing[]   @relation("SeatOwner")
   seatTakes      SeatListing[]   @relation("SeatTaker")
   muthowifs      Muthowif[]      @relation("MuthowifAffiliation")
+  passports   HajjPassport[]
+  devices     TrackingDevice[]
+  card        MemberCard?
+  benefits    Benefit[]
 }
 
 model MembershipApplication {
@@ -130,6 +134,7 @@ model MembershipApplication {
   reviewNote  String? // catatan verifikator (wajib saat menolak)
   reviewedBy  String? // nama akun verifikator yang memproses
   reviewedAt  DateTime?
+  referralCode String? // GABUNG v11 — kode referal KTA (opsional); approve menghadiahkan poin ke perujuk
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -300,6 +305,11 @@ model WhatsAppSetting {
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+  notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
+  notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
+  notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
+  botEnabled        Boolean   @default(true) // saklar balasan otomatis AI (Task WA-AI)
+  botWebhookSecret  String    @default("") // rahasia bersama verifikasi webhook (header X-Webhook-Token)
 }
 
 // ==================== NOTIFIKASI EMAIL (Task 60) ====================
@@ -327,6 +337,9 @@ model EmailSetting {
   lastTestStatus    String    @default("")
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+  notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
+  notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
+  notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
 }
 
 /// Audit semua upaya notifikasi (email & WhatsApp) — agar admin dapat
@@ -702,3 +715,258 @@ model RegistryDoc {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
+model AcademyCourse {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String // JSON trilingual {"id","en","ar"}
+  summary      String // JSON trilingual
+  category     String   @default("MANASIK") // MANASIK | KOMPETENSI | SYARIAH | DIGITAL
+  level        String   @default("DASAR") // DASAR | MENENGAH | LANJUT
+  durationMin  Int      @default(60)
+  modules      Int      @default(4)
+  quiz         String   @default("[]") // JSON [{q,options[4],answer}]
+  passScore    Int      @default(70)
+  rewardPoints Int      @default(30)
+  icon         String   @default("book-open")
+  color        String   @default("emerald")
+  order        Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  enrollments  AcademyEnrollment[]
+
+  @@index([active, order])
+}
+
+model AcademyEnrollment {
+  id            String        @id @default(cuid())
+  courseSlug    String
+  course        AcademyCourse @relation(fields: [courseSlug], references: [slug], onDelete: Cascade)
+  name          String
+  email         String
+  score         Int?
+  status        String        @default("ONGOING") // ONGOING | COMPLETED | FAILED
+  certificateId String?       @unique
+  certificate   Certificate?  @relation(fields: [certificateId], references: [id], onDelete: SetNull)
+  startedAt     DateTime      @default(now())
+  completedAt   DateTime?
+
+  @@index([courseSlug, status])
+  @@index([email])
+}
+
+model AiChatLog {
+  id        String   @id @default(cuid())
+  channel   String   @default("PORTAL") // PORTAL | WHATSAPP
+  locale    String   @default("id") // id | en | ar
+  question  String
+  answer    String   @default("")
+  userHash  String   @default("") // hash pengirim (IP / nomor WA) — bukan identitas mentah
+  latencyMs Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([channel, createdAt])
+}
+
+model Benefit {
+  id           String              @id @default(cuid())
+  title        String
+  partnerName  String
+  memberId     String?
+  member       Member?             @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  category     String              @default("LAINNYA") // HOTEL | TRANSPORT | VAKSIN | UMRAH_PAKET | EDUKASI | LAINNYA
+  description  String
+  discountText String              @default("")
+  pointsCost   Int                 @default(0)
+  quota        Int?
+  claimed      Int                 @default(0)
+  validUntil   DateTime?
+  active       Boolean             @default(true)
+  icon         String              @default("gift")
+  color        String              @default("emerald")
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  redemptions  BenefitRedemption[]
+
+  @@index([active, category])
+}
+
+model BenefitRedemption {
+  id         String     @id @default(cuid())
+  code       String     @unique // BNF-XXXXXX
+  benefitId  String
+  benefit    Benefit    @relation(fields: [benefitId], references: [id], onDelete: Cascade)
+  cardId     String
+  card       MemberCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  holderName String
+  status     String     @default("ISSUED") // ISSUED | USED | EXPIRED
+  createdAt  DateTime   @default(now())
+  usedAt     DateTime?
+
+  @@index([benefitId, status])
+  @@index([cardId])
+}
+
+model Certificate {
+  id                String             @id @default(cuid())
+  code              String             @unique // SERT-2026-00001
+  holderName        String
+  courseSlug        String
+  courseTitle       String // snapshot judul kursus saat terbit
+  score             Int
+  issuedAt          DateTime           @default(now())
+  verificationCount Int                @default(0)
+  lastVerifiedAt    DateTime?
+  enrollment        AcademyEnrollment?
+
+  @@index([courseSlug])
+}
+
+model GpsPing {
+  id         String         @id @default(cuid())
+  deviceId   String
+  device     TrackingDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  lat        Float
+  lng        Float
+  speedKph   Float          @default(0)
+  recordedAt DateTime       @default(now())
+
+  @@index([deviceId, recordedAt])
+}
+
+model HajjPassport {
+  id                String    @id @default(cuid())
+  passportNo        String    @unique
+  holderName        String
+  type              String    @default("UMRAH") // HAJI | UMRAH
+  gender            String    @default("M") // M | F
+  nationality       String    @default("IDN")
+  rombongan         String? // nama rombongan / kelompok terbang
+  memberId          String?
+  member            Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  status            String    @default("ACTIVE") // ACTIVE | EXPIRED | REVOKED | LOST
+  issuedAt          DateTime  @default(now())
+  expiresAt         DateTime
+  verificationCount Int       @default(0)
+  lastVerifiedAt    DateTime?
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([status])
+  @@index([memberId])
+}
+
+model MemberCard {
+  id                String    @id @default(cuid())
+  cardNo            String    @unique // KTA-2026-00001
+  memberId          String    @unique
+  member            Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  tier              String    @default("KLASIK") // KLASIK | VERIFIED | PLATINUM
+  points            Int       @default(0)
+  referralCode      String    @unique // MHD-REF-XXXXXX
+  status            String    @default("ACTIVE") // ACTIVE | SUSPENDED
+  verificationCount Int       @default(0)
+  lastVerifiedAt    DateTime?
+  issuedAt          DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  ledger            PointLedger[]
+  redemptions       BenefitRedemption[]
+
+  @@index([tier])
+  @@index([status])
+}
+
+model PointLedger {
+  id           String     @id @default(cuid())
+  cardId       String
+  card         MemberCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  delta        Int // +50 REGISTER, +100 REFERRAL, +30 ACADEMY, -cost REDEEM
+  reason       String // REGISTER | REFERRAL | ACADEMY | BOOKING | REDEEM | ADMIN
+  note         String?
+  balanceAfter Int
+  createdAt    DateTime   @default(now())
+
+  @@index([cardId, createdAt])
+}
+
+model ServiceSlot {
+  id          String        @id @default(cuid())
+  service     String // KELAS_MANASIK | KONSULTASI_SYARIAH | KLINIK_VAKSIN
+  title       String
+  city        String
+  venue       String
+  startsAt    DateTime
+  durationMin Int           @default(90)
+  capacity    Int           @default(30)
+  booked      Int           @default(0)
+  active      Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  bookings    SlotBooking[]
+
+  @@index([service, startsAt])
+  @@index([active])
+}
+
+model SlotBooking {
+  id          String      @id @default(cuid())
+  code        String      @unique // BKG-XXXXXX
+  slotId      String
+  slot        ServiceSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  name        String
+  phone       String
+  pax         Int         @default(1)
+  status      String      @default("BOOKED") // BOOKED | CHECKED_IN | CANCELLED
+  notes       String?
+  createdAt   DateTime    @default(now())
+  checkedInAt DateTime?
+
+  @@index([slotId, status])
+  @@index([phone])
+}
+
+model TourScene {
+  id          String   @id @default(cuid())
+  slug        String   @unique // makkah | madinah | mina | arafah | muzdalifah | jeddah
+  site        String   @default("MAKKAH") // MAKKAH | MADINAH | MINA | ARAFAH | MUZDALIFAH | JEDDAH
+  image       String // path publik, mis. /tour/makkah.jpg
+  name        String // JSON trilingual
+  description String // JSON trilingual
+  initialView String   @default("{}") // {"yaw":0,"pitch":0,"hfov":100}
+  hotspots    String   @default("[]") // [{type,yaw,pitch,target?,title?,text?,icon?}]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, order])
+}
+
+model TrackingDevice {
+  id         String   @id @default(cuid())
+  code       String   @unique // GPS-001
+  groupName  String
+  leader     String
+  pax        Int      @default(40) // jumlah jamaah dalam rombongan
+  memberId   String?
+  member     Member?  @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  site       String   @default("MAKKAH") // MAKKAH | MADINAH | JEDDAH | MINA | ARAFAH | MUZDALIFAH
+  lat        Float
+  lng        Float
+  speedKph   Float    @default(0)
+  heading    Float    @default(0) // derajat 0-359
+  battery    Int      @default(90) // persen baterai perangkat
+  status     String   @default("ONLINE") // ONLINE | IDLE | OFFLINE
+  lastPingAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  pings      GpsPing[]
+
+  @@index([site])
+  @@index([status])
+}
+

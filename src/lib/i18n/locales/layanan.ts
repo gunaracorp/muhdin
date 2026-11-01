@@ -29,6 +29,7 @@ export const layananDict = {
         pengurus: { label: "PENGURUS", tag: "Badan koordinasi MUHDIN — nasional, wilayah, hingga daerah." },
         perizinan: { label: "PERIZINAN", tag: "Legalitas usaha & izin penyelenggaraan perjalanan ibadah." },
         sertifikasi: { label: "SERTIFIKASI", tag: "Kompetensi SDM ibadah bersertifikat dan terukur." },
+        digital: { label: "LAYANAN DIGITAL", tag: "Power Pack keanggotaan digital: Akademi, slot layanan, benefit KTA, paspor QR, tur 360°, GPS." },
         paspor: { label: "PASPOR", tag: "Paspor & layanan visa perjalanan ibadah — umrah, ziyarah, amil, haji." },
         transportasi: { label: "TRANSPORTASI", tag: "Mobilitas jamaah di Tanah Suci — darat hingga kereta cepat." },
         vaksin: { label: "VAKSIN", tag: "Vaksinasi wajib & anjuran sebelum keberangkatan." },
@@ -90,6 +91,30 @@ export const layananDict = {
           p1: "Izin haji khusus dari Kemenag",
           p2: "Kepatuhan kuota resmi PPIHN",
           p3: "Pengawalan keberangkatan haji khusus",
+        },
+        "akademi": {
+          title: "Akademi Manasik",
+          desc: "Kursus manasik berjenjang dengan sertifikat digital ber-QR.",
+        },
+        "booking-slot": {
+          title: "Booking Slot Layanan",
+          desc: "Pesan kelas manasik, konsultasi syariah, dan klinik vaksin.",
+        },
+        "benefit-kta": {
+          title: "Benefit & Poin KTA",
+          desc: "Tebus poin keanggotaan menjadi benefit mitra ekosistem.",
+        },
+        "paspor-haji": {
+          title: "Paspor Haji Digital",
+          desc: "Identitas jamaah digital dengan QR siap verifikasi lapangan.",
+        },
+        "tur-virtual": {
+          title: "Tur Virtual 360°",
+          desc: "Jelajahi situs suci Makkah-Madinah imersif dari rumah.",
+        },
+        "tracking-gps": {
+          title: "Tracking GPS Rombongan",
+          desc: "Pantau posisi rombongan & angkutan secara real time.",
         },
         "pindai-izin": {
           title: "PINDAI IZIN 360°",
@@ -258,6 +283,7 @@ export const layananDict = {
         pengurus: { label: "LEADERSHIP", tag: "MUHDIN coordination boards — national, regional, and district." },
         perizinan: { label: "LICENSING", tag: "Business legality & worship-travel organizer permits." },
         sertifikasi: { label: "CERTIFICATION", tag: "Certified, measurable pilgrimage-workforce competence." },
+        digital: { label: "DIGITAL SERVICES", tag: "Digital membership power pack: academy, service slots, KTA benefits, QR passport, 360° tour, GPS." },
         paspor: { label: "PASSPORT", tag: "Passport & pilgrimage visa services — umrah, ziyarah, amil, hajj." },
         transportasi: { label: "TRANSPORTATION", tag: "Pilgrim mobility in the Holy Land — road to high-speed rail." },
         vaksin: { label: "VACCINATION", tag: "Mandatory & recommended vaccinations before departure." },
@@ -319,6 +345,30 @@ export const layananDict = {
           p1: "Special hajj license from the Ministry",
           p2: "Compliance with the official PPIHN quota",
           p3: "Full escort for special hajj departures",
+        },
+        "akademi": {
+          title: "Manasik Academy",
+          desc: "Levelled manasik courses with QR-verified digital certificates.",
+        },
+        "booking-slot": {
+          title: "Book Service Slots",
+          desc: "Reserve manasik classes, sharia consults, vaccination clinics.",
+        },
+        "benefit-kta": {
+          title: "KTA Points & Benefits",
+          desc: "Redeem membership points into partner ecosystem benefits.",
+        },
+        "paspor-haji": {
+          title: "Digital Hajj Passport",
+          desc: "Digital pilgrim identity with field-ready QR verification.",
+        },
+        "tur-virtual": {
+          title: "Virtual Tour 360°",
+          desc: "Explore the holy sites of Makkah & Madinah immersively.",
+        },
+        "tracking-gps": {
+          title: "Group GPS Tracking",
+          desc: "Track group and transport positions in real time.",
         },
         "pindai-izin": {
           title: "LICENSE SCAN 360°",
@@ -487,6 +537,7 @@ export const layananDict = {
         pengurus: { label: "الهيكل التنظيمي", tag: "هيئات التنسيق في موهدين — الوطنية والإقليمية والمناطقي." },
         perizinan: { label: "التراخيص", tag: "الوثوقية القانونية وتصاريح تنظيم رحلات العبادة." },
         sertifikasi: { label: "الشهادات", tag: "كفاءة القوى العاملة المؤهلة لخدمة الحجاج." },
+        digital: { label: "الخدمات الرقمية", tag: "حزمة العضوية الرقمية: الأكاديمية ومواعيد الخدمات ومزايا العضوية وجواز QR وجولة 360° وGPS." },
         paspor: { label: "جواز السفر", tag: "خدمات جواز السفر والتأشيرات — العمرة والزيارة والعاملين والحج." },
         transportasi: { label: "النقل", tag: "تنقّل الحجاج في الأرض المقدسة — البر والقطار السريع." },
         vaksin: { label: "التطعيمات", tag: "التطعيمات الإلزامية والموصى بها قبل المغادرة." },
@@ -548,6 +599,30 @@ export const layananDict = {
           p1: "ترخيص الحج الخاص من الوزارة",
           p2: "الامتثال للحصة الرسمية PPIHN",
           p3: "مرافقة كاملة لرحلات الحج الخاص",
+        },
+        "akademi": {
+          title: "أكاديمية المناسك",
+          desc: "دورات مناسك متدرجة بشهادات رقمية موثقة بـ QR.",
+        },
+        "booking-slot": {
+          title: "حجز مواعيد الخدمات",
+          desc: "احجز دروس المناسك والاستشارات الشرعية وعيادات التطعيم.",
+        },
+        "benefit-kta": {
+          title: "نقاط ومزايا العضوية",
+          desc: "استبدل نقاط العضوية بمزايا شركاء المنظومة.",
+        },
+        "paspor-haji": {
+          title: "جواز الحج الرقمي",
+          desc: "هوية رقمية للحاج مع QR جاهز للتحقق الميداني.",
+        },
+        "tur-virtual": {
+          title: "جولة افتراضية 360°",
+          desc: "استكشاف الحرمين المكي والمدني غامقاً من المنزل.",
+        },
+        "tracking-gps": {
+          title: "تتبع GPS للموافيب",
+          desc: "راقب مواقع الموافيب والنقل لحظة بلحظة.",
         },
         "pindai-izin": {
           title: "المسح الشامل للأرصاد ٣٦٠°",

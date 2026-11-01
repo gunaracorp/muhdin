@@ -56,6 +56,18 @@ import { GalleryDetail } from "@/components/views/gallery-detail";
 import { BranchIndex, BranchDetail } from "@/components/views/branch-pages";
 import { FaqView } from "@/components/views/faq-view";
 import { SitemapView } from "@/components/views/sitemap-view";
+// GABUNG v11 — WA-AI, Paspor Haji (QR), Tracking GPS, Tur 360°, Power Pack
+import { WaAiView } from "@/components/views/wa-ai-view";
+import { PasporView } from "@/components/views/paspor-view";
+import { PassportVerifyView } from "@/components/views/passport-verify-view";
+import { TrackingView } from "@/components/views/tracking-view";
+import { TourView } from "@/components/views/tour-view";
+import { KartuAnggotaView } from "@/components/views/kartu-anggota-view";
+import { AcademyView } from "@/components/views/academy-view";
+import { BookingView } from "@/components/views/booking-view";
+import { BenefitView } from "@/components/views/benefit-view";
+import { KtaVerifyView } from "@/components/views/kta-verify-view";
+import { CertificateVerifyView } from "@/components/views/certificate-verify-view";
 import { PengurusDetail } from "@/components/views/pengurus-detail";
 // v5.0 — Marketplace paket, forum jamaah, kartu jamaah digital
 import { PaketView } from "@/components/views/paket-view";
@@ -330,6 +342,46 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
       break;
     case "widget":
       content = <WidgetView />;
+      break;
+    // GABUNG v11 — WhatsApp AI Chatbot (demo otak bot + panduan gateway)
+    case "whatsapp-ai":
+      content = <WaAiView />;
+      break;
+    // GABUNG v11 — Paspor Haji Digital + verifikasi QR + GPS Tracking
+    case "paspor":
+      content = <PasporView />;
+      break;
+    case "verifikasi-paspor":
+      // QR mendarat di #/verifikasi-paspor/PH-XXX-TTTT-0000 → auto-verifikasi.
+      content = <PassportVerifyView code={route[1]} />;
+      break;
+    case "tracking":
+      content = <TrackingView />;
+      break;
+    // GABUNG v11 — Virtual Tour 360° situs suci
+    case "tur-virtual":
+      content = <TourView />;
+      break;
+    // GABUNG v11 — Keanggotaan Power Pack
+    case "kartu-anggota":
+      content = <KartuAnggotaView />;
+      break;
+    case "academy":
+      content = <AcademyView />;
+      break;
+    case "booking":
+      content = <BookingView />;
+      break;
+    case "benefit":
+      content = <BenefitView />;
+      break;
+    case "verifikasi-kta":
+      // QR kartu mendarat di #/verifikasi-kta/KTA-2026-00001 → auto-verifikasi.
+      content = <KtaVerifyView key={route[1] ?? "kta"} code={route[1]} />;
+      break;
+    case "verifikasi-sertifikat":
+      // QR sertifikat mendarat di #/verifikasi-sertifikat/SERT-2026-… → auto-verifikasi.
+      content = <CertificateVerifyView key={route[1] ?? "sert"} code={route[1]} />;
       break;
     case "admin":
       content = <AdminView />;

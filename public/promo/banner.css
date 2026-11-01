@@ -1,0 +1,411 @@
+/* ============================================================
+   Task 35-f — Kit Banner Promosi MUHDIN "DAFTAR & IURAN GRATIS"
+   Dipakai bersama banner-feed.html / banner-story.html / banner-wide.html
+   Brand: forest-deep emerald + gold (sesuai globals.css situs)
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #041a14;
+  --deep: #052019;
+  --panel: rgba(4, 26, 20, 0.66);
+  --panel-strong: rgba(3, 22, 17, 0.82);
+  --gold: #e9be5a;
+  --gold-soft: #f6e3a8;
+  --gold-deep: #c8963a;
+  --cream: #fdf8ec;
+  --line: rgba(233, 190, 90, 0.45);
+}
+
+html, body { background: var(--ink); }
+
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Latar ---------- */
+.bg {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.scrim { position: absolute; inset: 0; }
+
+/* ---------- Teks emas gradient (ala text-gold-gradient situs) ---------- */
+.gold-text {
+  background: linear-gradient(180deg, #f9ecc0 0%, #efc569 46%, #c8963a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 24px rgba(233, 190, 90, 0.35));
+}
+
+/* ---------- Brand header ---------- */
+.brand { text-align: center; position: relative; z-index: 3; }
+
+.wordmark {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+}
+
+.brand .sub {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: rgba(253, 248, 236, 0.85);
+  text-transform: uppercase;
+}
+
+.orn {
+  margin-top: 12px;
+  color: var(--gold);
+  font-size: 17px;
+  letter-spacing: 0.6em;
+  text-indent: 0.6em;
+}
+
+/* ---------- Eyebrow pill ---------- */
+.eyebrow {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(180deg, #f2d98b, #e9be5a 55%, #d3a442);
+  color: #06231c;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  border-radius: 999px;
+  padding: 10px 26px;
+  box-shadow: 0 10px 30px -10px rgba(233, 190, 90, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Headline ---------- */
+.h1 {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+}
+
+.h1 .line1 { display: block; color: #ffffff; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.55); }
+.h1 .line2 { display: block; }
+
+/* Baris GRATIS! + cap Rp 0 — flex agar cap tidak pernah menimpa teks */
+.gratis-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* ---------- Cap "Rp 0 SELAMANYA" ---------- */
+.stamp {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 50%;
+  border: 3px solid rgba(233, 190, 90, 0.92);
+  box-shadow: 0 0 0 7px rgba(233, 190, 90, 0.16), inset 0 0 0 1.5px rgba(233, 190, 90, 0.55),
+    0 16px 44px -14px rgba(0, 0, 0, 0.6);
+  background: rgba(4, 28, 22, 0.62);
+  backdrop-filter: blur(4px);
+  transform: rotate(-12deg);
+  z-index: 4;
+}
+.stamp .a { font-weight: 800; color: var(--gold-soft); line-height: 1; }
+.stamp .b { font-weight: 700; letter-spacing: 0.28em; text-indent: 0.28em; color: var(--gold); }
+
+/* ---------- USP & chips ---------- */
+.usp {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: rgba(253, 248, 236, 0.94);
+  font-style: italic;
+}
+.usp b { color: var(--gold-soft); font-style: normal; }
+
+.chips {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: rgba(4, 28, 22, 0.55);
+  backdrop-filter: blur(4px);
+  color: var(--cream);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 9px 20px;
+  white-space: nowrap;
+}
+.chip::before { content: "✔"; color: var(--gold); font-weight: 800; }
+
+/* ---------- Kartu perbandingan ---------- */
+.compare {
+  position: relative;
+  z-index: 3;
+  width: 660px;
+  max-width: 92%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.65);
+}
+.compare .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 26px;
+  font-size: 19px;
+}
+.compare .row + .row { border-top: 1px dashed rgba(233, 190, 90, 0.35); }
+.compare .row .lbl { font-weight: 700; color: rgba(253, 248, 236, 0.8); }
+.compare .row .val { font-weight: 800; display: inline-flex; align-items: center; gap: 10px; }
+.compare .row.other .val { color: rgba(253, 248, 236, 0.62); }
+.compare .row.other .val .price { text-decoration: line-through; text-decoration-color: #e2635a; text-decoration-thickness: 3px; }
+.compare .row.other .val .x { color: #e2635a; font-weight: 800; }
+.compare .row.us { background: rgba(233, 190, 90, 0.12); }
+.compare .row.us .lbl b { color: var(--gold-soft); }
+.compare .row.us .val .check { color: var(--gold); font-weight: 800; }
+
+/* ---------- Promise pill ---------- */
+.promise {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  border: 1.5px solid var(--line);
+  background: rgba(233, 190, 90, 0.14);
+  color: var(--gold-soft);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border-radius: 14px;
+  padding: 12px 24px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ---------- CTA ---------- */
+.cta-wrap { position: relative; z-index: 3; text-align: center; }
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #f2d98b, #e9be5a 55%, #d3a442);
+  color: #06231c;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  box-shadow: 0 16px 44px -12px rgba(233, 190, 90, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+.domain {
+  margin-top: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+.domain span { color: var(--gold); }
+
+/* ---------- Footer ---------- */
+.foot {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(253, 248, 236, 0.6);
+}
+
+.arabic {
+  font-family: "Amiri", serif;
+  color: var(--gold);
+  text-align: center;
+  direction: rtl;
+}
+
+/* ============================================================
+   FEED — 1080 × 1080 (IG Post)
+   ============================================================ */
+body.feed { width: 1080px; height: 1080px; }
+body.feed .bg { background-image: url("bg-feed.png"); }
+body.feed .scrim {
+  background:
+    radial-gradient(ellipse 78% 46% at 50% 45%, rgba(3, 20, 15, 0.66), transparent 72%),
+    linear-gradient(180deg, rgba(4, 24, 18, 0.5) 0%, rgba(4, 24, 18, 0.22) 34%, rgba(4, 24, 18, 0.4) 66%, rgba(4, 24, 18, 0.72) 100%);
+}
+body.feed .content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 74px;
+}
+body.feed .wordmark { font-size: 46px; }
+body.feed .eyebrow { font-size: 16px; margin-top: 22px; }
+body.feed .h1 { margin-top: 16px; }
+body.feed .h1 .line1 { font-size: 80px; }
+body.feed .h1 .line2 { font-size: 112px; }
+body.feed .gratis-row { margin-top: 6px; }
+body.feed .stamp {
+  width: 138px;
+  height: 138px;
+}
+body.feed .stamp .a { font-size: 34px; }
+body.feed .stamp .b { font-size: 11px; }
+body.feed .usp { margin-top: 20px; font-size: 23px; }
+body.feed .chips { margin-top: 18px; }
+body.feed .chip { font-size: 16.5px; padding: 8px 18px; }
+body.feed .compare { margin-top: 20px; width: 640px; }
+body.feed .promise { margin-top: 18px; font-size: 14px; }
+body.feed .cta-wrap { margin-top: 22px; }
+body.feed .cta { height: 60px; padding: 0 44px; font-size: 20px; }
+body.feed .domain { font-size: 27px; }
+body.feed .foot { margin-top: 20px; font-size: 12px; }
+
+/* ============================================================
+   STORY — 1080 × 1920 (IG Story / WA Status)
+   ============================================================ */
+body.story { width: 1080px; height: 1920px; }
+body.story .bg { background-image: url("bg-story.png"); }
+body.story .scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 24, 18, 0.34) 0%,
+    rgba(4, 24, 18, 0.24) 22%,
+    rgba(4, 24, 18, 0.66) 38%,
+    rgba(4, 24, 18, 0.78) 54%,
+    rgba(4, 24, 18, 0.86) 76%,
+    rgba(4, 24, 18, 0.9) 100%
+  );
+}
+body.story .content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 84px 56px;
+}
+body.story .brand { margin-top: 128px; }
+body.story .wordmark { font-size: 58px; }
+body.story .brand .sub { font-size: 17px; }
+body.story .eyebrow { font-size: 18px; margin-top: 218px; }
+body.story .h1 { margin-top: 24px; }
+body.story .h1 .line1 { font-size: 96px; }
+body.story .h1 .line2 { font-size: 134px; }
+body.story .gratis-row { margin-top: 8px; gap: 26px; }
+body.story .stamp {
+  width: 156px;
+  height: 156px;
+}
+body.story .stamp .a { font-size: 40px; }
+body.story .stamp .b { font-size: 12px; }
+body.story .usp { margin-top: 30px; font-size: 26px; }
+body.story .chips { margin-top: 26px; }
+body.story .chip { font-size: 19px; padding: 11px 22px; }
+body.story .compare { margin-top: 48px; width: 760px; }
+body.story .compare .row { font-size: 22px; padding: 20px 30px; }
+body.story .promise { margin-top: 36px; font-size: 16px; }
+body.story .cta-wrap { margin-top: 40px; }
+body.story .cta { height: 72px; padding: 0 56px; font-size: 24px; }
+body.story .domain { font-size: 31px; }
+body.story .arabic { margin-top: 58px; font-size: 30px; }
+body.story .foot { margin-top: 44px; font-size: 13px; }
+
+/* ============================================================
+   WIDE — 1200 × 630 (Share link WA / OG image)
+   ============================================================ */
+body.wide { width: 1200px; height: 630px; }
+body.wide .bg { background-image: url("bg-wide.png"); }
+body.wide .scrim {
+  background: linear-gradient(
+    90deg,
+    rgba(4, 24, 18, 0.82) 0%,
+    rgba(4, 24, 18, 0.6) 38%,
+    rgba(4, 24, 18, 0.22) 66%,
+    rgba(4, 24, 18, 0.05) 100%
+  );
+}
+body.wide .hairline {
+  position: absolute;
+  inset: 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  z-index: 2;
+  pointer-events: none;
+}
+body.wide .content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 64px;
+}
+body.wide .brand { text-align: left; }
+body.wide .wordmark { font-size: 30px; }
+body.wide .brand .sub { font-size: 10.5px; letter-spacing: 0.24em; margin-top: 6px; }
+body.wide .orn { display: none; }
+body.wide .eyebrow { font-size: 12px; padding: 7px 18px; margin-top: 16px; }
+body.wide .h1 { margin-top: 12px; text-align: left; }
+body.wide .h1 .line1 { font-size: 56px; }
+body.wide .h1 .line2 { font-size: 78px; }
+body.wide .gratis-row { margin-top: 6px; justify-content: flex-start; gap: 22px; }
+body.wide .stamp {
+  width: 110px;
+  height: 110px;
+}
+body.wide .stamp .a { font-size: 26px; }
+body.wide .stamp .b { font-size: 8.5px; }
+body.wide .usp { margin-top: 14px; font-size: 18px; text-align: left; }
+body.wide .chips { margin-top: 14px; justify-content: flex-start; gap: 10px; }
+body.wide .chip { font-size: 13.5px; padding: 6px 14px; }
+body.wide .compare { display: none; }
+body.wide .promise { margin-top: 16px; font-size: 11.5px; padding: 9px 18px; }
+body.wide .cta-wrap { margin-top: 18px; text-align: left; }
+body.wide .cta { height: 52px; padding: 0 34px; font-size: 17px; }
+body.wide .domain { font-size: 21px; margin-top: 8px; }
+body.wide .foot {
+  position: absolute;
+  left: 64px;
+  bottom: 30px;
+  font-size: 10.5px;
+}
