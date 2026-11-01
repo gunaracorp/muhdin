@@ -787,3 +787,77 @@ export async function notifyEmailBenefit(r: Parameters<typeof emailBenefitTempla
     /* diamkan */
   }
 }
+
+// ==================== v12.1 — GOD-MODE IZIN COMPLIANCE CHECKER ====================
+
+/**
+ * v12.1 — Laporan hasil audit kepatuhan izin (COMPLIANCE).
+ * Dikirim ke sekretariat setiap eksekusi audit god-mode yang menemukan
+ * temuan — ringkasan agregat + daftar temuan teratas berprioritas.
+ */
+export function emailComplianceAuditTemplate(a: {
+  auditId: string;
+  total: number;
+  passed: number;
+  warnings: number;
+  critical: number;
+  avgScore: number;
+  expiredDocs: number;
+  expiringDocs: number;
+  missingDocs: number;
+  triggeredBy: string;
+  finishedAt: Date;
+  topFindings: { companyName: string; requirementKey: string; letter: string; status: string; severity: string; message: string }[];
+  refId?: string;
+}) {
+  return emailShell({
+    badge: "Audit Kepatuhan Izin (God-Mode)",
+    title: `Audit kepatuhan selesai — ${a.critical} perusahaan berisiko tinggi, rata-rata skor ${Math.round(a.avgScore)}/100`,
+    headline: [
+      { label: "Perusahaan Dinilai", value: String(a.total) },
+      { label: "Skor Rata-rata", value: `${Math.round(a.avgScore)}/100` },
+      { label: "Risiko Kritis", value: String(a.critical) },
+    ],
+    rows: [
+      { label: "Grade A–B (Sehat)", value: `${a.passed} perusahaan` },
+      { label: "Grade C–D (Perlu Perhatian)", value: `${a.warnings} perusahaan` },
+      { label: "Grade E (Kritis)", value: `${a.critical} perusahaan` },
+      { label: "Dokumen Wajib Kedaluwarsa", value: String(a.expiredDocs) },
+      { label: "Dokumen Wajib ≤90 Hari", value: String(a.expiringDocs) },
+      { label: "Dokumen Wajib Belum Direkam", value: String(a.missingDocs) },
+      { label: "Pelaksana", value: a.triggeredBy },
+      { label: "Waktu Selesai (WIB)", value: fmtWib(a.finishedAt) },
+    ],
+    blocks: a.topFindings.length
+      ? [
+          {
+            label: `Temuan Teratas (${Math.min(a.topFindings.length, 8)} dari temuan)`,
+            text: a.topFindings
+              .slice(0, 8)
+              .map((f) => `[${f.severity}] ${f.message}`)
+              .join("\n"),
+          },
+        ]
+      : [],
+    refId: a.refId,
+  });
+}
+
+export async function notifyEmailComplianceAudit(a: Parameters<typeof emailComplianceAuditTemplate>[0]) {
+  try {
+    const cfg = await getEmailSetting();
+    if (!cfg.enabled || !cfg.notifyCompliance) return;
+    const { html, text } = emailComplianceAuditTemplate(a);
+    await sendSecretariatEmail({
+      subject: subjectPrefix(
+        `Audit Kepatuhan — ${a.critical} kritis · ${a.warnings} perlu perhatian · skor rata-rata ${Math.round(a.avgScore)}`
+      ),
+      html,
+      text,
+      eventType: "COMPLIANCE",
+      refId: a.refId,
+    });
+  } catch {
+    /* diamkan */
+  }
+}

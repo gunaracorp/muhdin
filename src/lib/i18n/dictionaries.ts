@@ -55,6 +55,7 @@ import { fiturV5Dict } from "@/lib/i18n/locales/fitur-v5";
 import { fiturV6Dict } from "@/lib/i18n/locales/fitur-v6";
 // v7.0 — Pindai Izin 360°
 import { scanDict } from "@/lib/i18n/locales/fitur-v7";
+import { complianceDict } from "@/lib/i18n/locales/fitur-v12";
 // GABUNG v11 — WA-AI, Paspor Haji, Tracking GPS, Tur 360°, Statistik, Global Search, Keanggotaan
 import { waaiDict } from "@/lib/i18n/locales/waai";
 import { pasporDict } from "@/lib/i18n/locales/paspor";
@@ -125,6 +126,8 @@ const dicts = [
   // GABUNG v11 — Statistik Nasional & Transparansi + Global Search
   statistikDict,
   searchDict,
+  // v12.1 — God-Mode Izin Compliance Checker (#/compliance)
+  complianceDict,
   // GABUNG v11 — Keanggotaan Power Pack
   keanggotaanDict,
 ];

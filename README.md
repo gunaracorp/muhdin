@@ -3,7 +3,7 @@
 
 ![MUHDIN.ID — Portal Digital Ekosistem Umrah dan Haji Indonesia](docs/assets/banner.svg)
 
-# 🕋 MUHDIN.ID — v12.0.0 «GABUNG»
+# 🕋 MUHDIN.ID — v12.1.0 «GOD MODE»
 
 ### **MU**asyarakat **U**mroh **H**aji **D**igital **I**ndonesia
 
@@ -15,16 +15,16 @@
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Prisma 6](https://img.shields.io/badge/Prisma_6-56_model-2D3748?logo=prisma)](https://prisma.io)
+[![Prisma 6](https://img.shields.io/badge/Prisma_6-59_model-2D3748?logo=prisma)](https://prisma.io)
 [![SQLite](https://img.shields.io/badge/DB-SQLite_↔_Postgres_ready-003B57?logo=sqlite)](#strategi-database)
 [![i18n](https://img.shields.io/badge/i18n-ID_·_EN_·_AR_RTL-16a34a)](#internasionalisasi)
-[![RBAC](https://img.shields.io/badge/RBAC-4_peran_·_35+_modul_CMS-d97706)](#keamanan-dan-rbac)
+[![RBAC](https://img.shields.io/badge/RBAC-4_peran_·_36+_modul_CMS-d97706)](#keamanan-dan-rbac)
 [![PWA](https://img.shields.io/badge/PWA-installable_+_offline-5A0FC8?logo=pwa)](#tema-gelap-pwa-dan-animasi)
-[![WA Gateway](https://img.shields.io/badge/WA-4_provider_+_AI_Bot-25D366?logo=whatsapp)](#notifikasi-9-kejadian--2-kanal)
+[![WA Gateway](https://img.shields.io/badge/WA-4_provider_+_AI_Bot-25D366?logo=whatsapp)](#notifikasi-10-kejadian--2-kanal)
 
 > 🕌 **GRATIS SELAMANYA** — pendaftaran & iuran **Rp 0** untuk semua anggota, tanpa pengecualian. Itu keunggulan MUHDIN dibanding asosiasi lain, dan seluruh portal konsisten menyampaikan satu pesan itu.
 
-**v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) kini **menjadi satu codebase utuh**. Semua fitur keduanya hidup, satu database, satu CMS, tiga bahasa.
+**v12.1.0 «GOD MODE»** dibangun di atas fondasi **v12.0.0 «GABUNG»** — dua garis pengembangan besar portal ini (**garis fitur v6**: Marketplace, Forum, Kartu Jamaah, Pusat Bisnis, Pindai Izin 360°, dll. dan **garis v11.1**: Akademi, KTA Digital, Booking Slot, Benefit, Paspor Haji QR, GPS Tracking, Tur 360°, WA-AI Bot) yang kini **menjadi satu codebase utuh** — ditambah **God-Mode Izin Compliance Checker**: papan kepatuhan izin seluruh ekosistem dengan skor, grade A–E, risiko, tren antar-audit, dan notifikasi otomatis. Semua fitur hidup, satu database, satu CMS, tiga bahasa.
 
 ---
 
@@ -32,7 +32,7 @@
 
 1. [MUHDIN dalam 30 Detik](#-muhdin-dalam-30-detik)
 2. [Peta Fitur Lengkap](#-peta-fitur-lengkap)
-3. [Notifikasi: 9 Kejadian × 2 Kanal](#-notifikasi-9-kejadian--2-kanal)
+3. [Notifikasi: 10 Kejadian × 2 Kanal](#-notifikasi-10-kejadian--2-kanal)
 4. [Tema Gelap, PWA dan Animasi](#-tema-gelap-pwa-dan-animasi)
 5. [Jalankan Lokal](#-jalankan-lokal)
 6. [Akun Demo CMS](#-akun-demo-cms)
@@ -54,10 +54,10 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 
 | Angka | Artinya |
 | --- | --- |
-| **56 model** Prisma | Skema data terpadu hasil gabungan dua garis besar |
+| **59 model** Prisma | Skema data terpadu hasil gabungan dua garis besar |
 | **40+ rute halaman** portal publik | Beranda → ekosistem → layanan digital → trust center |
-| **35+ modul CMS** | Semua konten & transaksi dikelola tanpa sentuh kode |
-| **9 kejadian notifikasi × 2 kanal** | Email sekretariat + WhatsApp admin, otomatis |
+| **36+ modul CMS** | Semua konten & transaksi dikelola tanpa sentuh kode |
+| **10 kejadian notifikasi × 2 kanal** | Email sekretariat + WhatsApp admin, otomatis |
 | **3 bahasa (ID/EN/AR)** | Arab sungguhan RTL, bukan tempelan |
 | **Rp 0** | Pendaftaran & iuran — gratis selamanya |
 
@@ -91,12 +91,17 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 - **Tur Virtual 360°** (`#/tur-virtual`) — Photo Sphere Viewer panorama situs suci, multi-scene (**TourScene**)
 - **WhatsApp AI Bot** (`#/whatsapp-ai`) — otak bot + **webhook `/api/whatsapp/webhook`** ber-`X-Webhook-Token`, balasan otomatis bisa dimatikan dari CMS (`botEnabled`)
 
+### 🛡️ v12.1 — God-Mode Izin Compliance Checker
+- **Compliance Center** (`#/compliance`) — ⭐ *god mode tier max*: papan kepatuhan **seluruh perusahaan registri** dihitung live oleh engine Pindai Izin 360° — **skor 0–100**, **grade A–E**, **level risiko** (RENDAH→KRITIS), **tren antar-audit**, dan **dossier drill-down** per perusahaan (checklist a–l berwarna status + rekomendasi berprioritas + tren skor) — publik & transparan
+- **Audit god-mode dari CMS** (modul *Compliance Checker*) — satu klik menilai registri penuh, menyimpan snapshot **ComplianceScore** (riwayat tren) + **temuan berprioritas** (`ComplianceFinding`, tier 0 darurat … 4 nilai tambah) + agregat **ComplianceAudit**, lalu meneruskan ringkasan ke sekretariat via **Email & WhatsApp** (saklar `notifyCompliance`)
+- **Deep-link** `#/compliance?q=<companyId>` membuka dossier langsung · menu **PERIZINAN → Compliance Center** · i18n 3 bahasa penuh
+
 ### 🤖 Kecerdasan Buatan
 - **Sahabat MUHDIN** — AI concierge mengapung di semua halaman publik (trilingual, tahu batas: menyarankan WA resmi & halaman verifikasi, tidak mengarang regulasi)
 - **AI Content Studio** di CMS — redaksi artikel berbantuan AI (topik → draf 350-500 kata)
 - **Penerjemah Cerdas** — sinergi translate-engine untuk konten DB ×3 bahasa
 
-### 💬 Notifikasi: 9 Kejadian × 2 Kanal
+### 💬 Notifikasi: 10 Kejadian × 2 Kanal
 
 | Kejadian | Email | WhatsApp |
 | --- | --- | --- |
@@ -109,6 +114,7 @@ MUHDIN adalah **asosiasi digital pertama** yang mempertemukan seluruh rantai lay
 | **Lulus quiz / sertifikat** (v11) | ✅ | ✅ |
 | **Booking slot layanan** (v11) | ✅ | ✅ |
 | **Tebus benefit** (v11) | ✅ | ✅ |
+| **Audit kepatuhan izin** (v12.1) | ✅ | ✅ |
 
 Provider email SMTP (App Password Gmail) + provider WA **FONNTE / WABLAS / CALLMEBOT (gratis) / CUSTOM** — semua disaklarkan per-kejadian dari CMS (Notifikasi & WhatsApp), lengkap dengan **NotificationLog** audit + tombol uji kirim.
 
@@ -146,6 +152,7 @@ bun prisma/seed-fitur-v5.ts          # marketplace + forum + kartu jamaah
 bun prisma/seed-fitur-v6.ts          # pusat bisnis, brankas, SOS, vendor…
 bun prisma/seed-fitur-v7.ts          # pindai izin 360°
 bun scripts/seed-membership.ts       # KTA + poin + akademi + slot + benefit
+bun scripts/seed-compliance.ts       # riwayat audit & tren kepatuhan izin (v12.1)
 bun scripts/seed-kontak-resmi.ts     # WA resmi + kantor Jakarta/Tasikmalaya
 bun scripts/seed-resource-lengkap.mjs
 
@@ -161,7 +168,7 @@ Skrip produksi: `bun run build` (generate + next build + post-build) · `bun run
 
 | Peran | Email | Catatan |
 | --- | --- | --- |
-| Super Admin | `admin@muhdin.web.id` | Akses penuh 35+ modul + Kelola Admin |
+| Super Admin | `admin@muhdin.web.id` | Akses penuh 36+ modul + Kelola Admin |
 
 > ⚠️ Sandi demo ada di `prisma/seed.ts` (untuk sandbox/demo lokal). **Ganti segera** bila portal dipasang di server publik: CMS → Kelola Admin → Ubah sandi. Login: `#/admin`.
 
@@ -169,7 +176,7 @@ Skrip produksi: `bun run build` (generate + next build + post-build) · `bun run
 
 ## 🗄️ Strategi Database
 
-Satu skema **56 model** (union dua garis), dua mode jalankan:
+Satu skema **59 model** (union dua garis + compliance checker), dua mode jalankan:
 
 | Mode | Provider | Cara |
 | --- | --- | --- |
@@ -199,13 +206,13 @@ Kelompok model: **Auth & RBAC** (User, Role…) · **Keanggotaan** (Member, Memb
 │  │ track      │ pilgrim-    │ bookings     │ vendors/seat    │   │
 │  │ verify     │  cards      │ benefits     │ compliance docs │   │
 │  └────────────┴─────────────┴──────────────┴─────────────────┘   │
-│  Notifier gagal-aman: email.ts + whatsapp.ts (9×2 kanal)         │
+│  Notifier gagal-aman: email.ts + whatsapp.ts (10×2 kanal)         │
 └──────┬───────────────────────┬─────────────────────┬─────────────┘
        │                       │                     │
 ┌──────▼──────┐        ┌───────▼───────┐     ┌───────▼────────┐
 │ Prisma 6    │        │ SMTP / WA     │     │ z-ai-web-dev-  │
 │ SQLite ↔ PG │        │ 4 provider    │     │ sdk (AI)       │
-│ 56 model    │        │ + webhook bot │     │ concierge/bot  │
+│ 59 model    │        │ + webhook bot │     │ concierge/bot  │
 └─────────────┘        └───────────────┘     └────────────────┘
 ```
 
@@ -220,6 +227,7 @@ Semua respons konsisten `ok()` / `fail()`, audit via `logAudit`, dilindungi `gua
 | Publik | `/api/settings` · `/api/members` (+verify) · `/api/track` · `/api/stats` (+public/insights) · `/api/rss` · `/api/search` · `/api/health` · `/api/promo/counter` · `/api/applications` (+live/track) |
 | Transaksi v6 | `/api/packages` · `/api/package-bookings` · `/api/forum` (+replies/moderation) · `/api/pilgrim-cards` (+verify) · `/api/reviews` |
 | B2B v6 | `/api/vendors` · `/api/seat-exchange` · `/api/muthowif` · `/api/license-registry` · `/api/license-scan` · `/api/compliance-docs` · `/api/jamaah-docs` · `/api/trip-composer` · `/api/sos-points` |
+| Compliance v12.1 | `/api/compliance/scoreboard` (publik) · `/api/compliance/report?id=` (publik) · `/api/compliance/audit` (POST jalankan · GET riwayat — admin) |
 | Layanan v11 | `/api/academy` (courses/enroll/quiz) · `/api/slots` (+book) · `/api/bookings` · `/api/benefits` (+redeem) · `/api/certificates/verify` · `/api/passport` (+verify/qr/public) · `/api/cards` (+verify) · `/api/tracking` (+history) · `/api/tour` (+view) |
 | Nusuk | `/api/nusuk` (connection/permits/sync/rotate/logs/verify/webhook/public) · `/api/ppiu-pihk` (+sync) |
 | Notifikasi | `/api/email-settings` · `/api/whatsapp` (+bot/webhook) · `/api/notifications` |
@@ -229,7 +237,7 @@ Semua respons konsisten `ok()` / `fail()`, audit via `logAudit`, dilindungi `gua
 
 ## 🌍 Internasionalisasi
 
-- Tiga locale penuh: **Indonesia, English, العربية** — setiap namespace satu file di `src/lib/i18n/locales/*.ts` (35+ modul, hasil union dua garis)
+- Tiga locale penuh: **Indonesia, English, العربية** — setiap namespace satu file di `src/lib/i18n/locales/*.ts` (36+ modul, hasil union dua garis)
 - Bahasa Arab = **RTL sungguhan**: `dir="rtl"` pada `<html>`, ikon membalik via `.icon-flip`, angka & telepon tetap `dir="ltr"`
 - Locale bertahan lewat cookie `muhdin-locale` (1 tahun) — switcher di navbar + menu mobile
 - Konten dari database (anggota, artikel, layanan) disimpan trilingual `{ id, en, ar }` + **Penerjemah Cerdas** di CMS untuk menerjemahkan sekali klik
@@ -238,7 +246,7 @@ Semua respons konsisten `ok()` / `fail()`, audit via `logAudit`, dilindungi `gua
 
 ## 🔐 Keamanan dan RBAC
 
-- **4 peran** — SUPER_ADMIN · ADMIN · EDITOR · VERIFIKATOR — matriks `src/lib/roles.ts` mengatur 35+ seksi CMS
+- **4 peran** — SUPER_ADMIN · ADMIN · EDITOR · VERIFIKATOR — matriks `src/lib/roles.ts` mengatur 36+ seksi CMS
 - Setiap API: `guardRole()` → 401/403 konsisten; **rate limit** per-IP untuk formulir publik; **logAudit** untuk semua aksi tulis CMS
 - Sandi hash (bcryptjs), sesi cookie httpOnly, manajemen admin (aktif/nonaktif, reset sandi) dari CMS
 - Webhook WA-AI diverifikasi header `X-Webhook-Token` (`botWebhookSecret`)
@@ -256,19 +264,19 @@ src/
 ├── components/
 │   ├── site/               # navbar, footer, FAB, global-search, tour-360, tracking-map…
 │   ├── views/              # 45+ halaman portal (hash-router)
-│   └── admin/              # 35+ modul CMS
+│   └── admin/              # 36+ modul CMS
 ├── lib/
 │   ├── i18n/               # index + dictionaries + locales/ (3 bahasa)
 │   ├── license-engine.ts   # ⭐ mesin dossier izin (BPW/PPIU/PIHK, checklist a–l)
 │   ├── nusuk-engine.ts     # sinkronisasi & verifikasi Nusuk
 │   ├── membership.ts       # KTA, poin, referal
-│   ├── email.ts whatsapp.ts# notifier 9×2 kanal
+│   ├── email.ts whatsapp.ts# notifier 10×2 kanal
 │   └── api-helpers.ts audit.ts auth.ts ratelimit.ts roles.ts…
 └── generated/prisma/       # (opsional) client hasil generate
 prisma/
-├── schema.prisma           # 56 model — union dua garis
+├── schema.prisma           # 59 model — union dua garis + compliance checker
 └── seed*.ts                # seed idempoten per fitur
-scripts/                    # seed-membership, kontak-resmi, migrate-sqlite-to-postgres, verify, dev-keep…
+scripts/                    # seed-membership, seed-compliance, kontak-resmi, migrate-sqlite-to-postgres, verify, dev-keep…
 shared-hosting/             # varian PHP murni (API tanpa Node) — lihat PANDUAN-SHARED-HOSTING.md
 docs/                       # aset & tangkapan layar
 ```
@@ -283,6 +291,7 @@ docs/                       # aset & tangkapan layar
 | `prisma/seed.ts` | Seed inti (idempoten, hapus-isi-ulang) |
 | `prisma/seed-fitur-v5/v6/v7.ts` | Seed marketplace/forum/kartu, bisnis/SOS, pindai izin |
 | `scripts/seed-membership.ts` | KTA + poin + akademi + slot + benefit |
+| `scripts/seed-compliance.ts` | Riwayat audit + tren kepatuhan izin (ComplianceAudit/Score/Finding) |
 | `scripts/seed-kontak-resmi.ts` | WA resmi 0812 2234 5856 + kantor resmi |
 | `scripts/migrate-sqlite-to-postgres.mjs` | Migrasi 42+ tabel → Postgres (topologis, batch) |
 | `scripts/verify-v111.mjs` | Verifikasi pasca-migrasi |
@@ -317,6 +326,7 @@ Varian API PHP murni tanpa Node (`shared-hosting/`, `PANDUAN-SHARED-HOSTING.md`,
 | v10 | Statistik nasional · global search ⌘K · tur 360° · tracking GPS |
 | **v11.1** | **KTA + poin + referal · Akademi + sertifikat · Booking slot · Benefit · Paspor QR · WA-AI bot · notifikasi 9×2** |
 | **v12.0 «GABUNG»** | **Union dua garis: 56 model, semua fitur hidup, satu CMS, tiga bahasa** |
+| **v12.1 «GOD MODE»** | **God-Mode Izin Compliance Checker: scoreboard publik, grade A–E, risiko, tren antar-audit, audit CMS 1-klik, notifikasi 10×2** |
 
 ---
 

@@ -90,6 +90,7 @@ export function AdminWhatsAppCard() {
         notifyAcademy: cfg.notifyAcademy,
         notifyBooking: cfg.notifyBooking,
         notifyBenefit: cfg.notifyBenefit,
+        notifyCompliance: cfg.notifyCompliance,
         botEnabled: cfg.botEnabled,
       };
       if (tokenInput.trim()) payload.token = tokenInput.trim();
@@ -267,6 +268,12 @@ export function AdminWhatsAppCard() {
               icon: "award",
               title: "Tebus Benefit Mitra",
               desc: "Penukaran poin KTA ke benefit mitra (BNF).",
+            },
+            {
+              key: "notifyCompliance" as const,
+              icon: "shield-check",
+              title: "Audit Kepatuhan Izin (v12.1)",
+              desc: "Temuan kedaluwarsa/kelengkapan izin dari Compliance Checker.",
             },
           ].map((ev) => (
             <div key={ev.key} className="flex items-start gap-3 rounded-lg border bg-card p-3.5">

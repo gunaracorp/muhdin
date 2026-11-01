@@ -452,10 +452,10 @@ export function waBenefitTemplate(r: {
 /* ============ NOTIFIER v11.1 (gagal-aman) ============ */
 
 async function notifyWaEvent(
-  eventType: "ACADEMY" | "CERTIFICATE" | "BOOKING" | "BENEFIT",
+  eventType: "ACADEMY" | "CERTIFICATE" | "BOOKING" | "BENEFIT" | "COMPLIANCE",
   message: string,
   subject: string,
-  switchKey: "notifyAcademy" | "notifyBooking" | "notifyBenefit"
+  switchKey: "notifyAcademy" | "notifyBooking" | "notifyBenefit" | "notifyCompliance"
 ) {
   try {
     const cfg = await getWhatsAppSetting();
@@ -488,4 +488,42 @@ export function notifyBooking(b: Parameters<typeof waBookingTemplate>[0]) {
 
 export function notifyBenefit(r: Parameters<typeof waBenefitTemplate>[0]) {
   return notifyWaEvent("BENEFIT", waBenefitTemplate(r), `Tebus ${r.code}`, "notifyBenefit");
+}
+
+/* ============ v12.1 — GOD-MODE IZIN COMPLIANCE CHECKER ============ */
+
+/** v12.1 — ringkasan hasil audit kepatuhan izin untuk admin WA. */
+export function waComplianceAuditTemplate(a: {
+  total: number;
+  critical: number;
+  warnings: number;
+  avgScore: number;
+  expiredDocs: number;
+  expiringDocs: number;
+  topFinding: string | null;
+}) {
+  return [
+    "🛡️ *Audit Kepatuhan Izin (God-Mode) — MUHDIN*",
+    "",
+    `*Perusahaan dinilai:* ${a.total}`,
+    `*Skor rata-rata:* ${Math.round(a.avgScore)}/100`,
+    `*Risiko kritis (grade E):* ${a.critical}`,
+    `*Perlu perhatian (C–D):* ${a.warnings}`,
+    `*Dokumen wajib kedaluwarsa:* ${a.expiredDocs}`,
+    `*Dokumen wajib ≤90 hari:* ${a.expiringDocs}`,
+    a.topFinding ? `*Temuan teratas:* ${a.topFinding}` : "",
+    "",
+    "_Rincian lengkap: CMS MUHDIN → Compliance Checker._",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+export function notifyComplianceAudit(a: Parameters<typeof waComplianceAuditTemplate>[0]) {
+  return notifyWaEvent(
+    "COMPLIANCE",
+    waComplianceAuditTemplate(a),
+    `Audit Kepatuhan — ${a.critical} kritis`,
+    "notifyCompliance"
+  );
 }

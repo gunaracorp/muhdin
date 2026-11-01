@@ -37,6 +37,7 @@ export async function GET() {
       notifyAcademy: cfg.notifyAcademy,
       notifyBooking: cfg.notifyBooking,
       notifyBenefit: cfg.notifyBenefit,
+      notifyCompliance: cfg.notifyCompliance,
       hasPass: Boolean(cfg.smtpPass),
       passMasked: mask(cfg.smtpPass),
       envFallback: envFallbackUser,
@@ -92,6 +93,8 @@ export async function PUT(req: NextRequest) {
         notifyAcademy: body.notifyAcademy !== undefined ? Boolean(body.notifyAcademy) : cfg.notifyAcademy,
         notifyBooking: body.notifyBooking !== undefined ? Boolean(body.notifyBooking) : cfg.notifyBooking,
         notifyBenefit: body.notifyBenefit !== undefined ? Boolean(body.notifyBenefit) : cfg.notifyBenefit,
+        notifyCompliance:
+          body.notifyCompliance !== undefined ? Boolean(body.notifyCompliance) : cfg.notifyCompliance,
       },
     });
 
@@ -112,6 +115,7 @@ export async function PUT(req: NextRequest) {
       notifyAcademy: updated.notifyAcademy,
       notifyBooking: updated.notifyBooking,
       notifyBenefit: updated.notifyBenefit,
+      notifyCompliance: updated.notifyCompliance,
       hasPass: Boolean(updated.smtpPass),
       passMasked: mask(updated.smtpPass),
       envFallback,

@@ -2021,3 +2021,24 @@ Work Log:
 
 Stage Summary:
 - GitHub main = v12.0.0 «GABUNG» lengkap: 56 model, seluruh fitur v6+v11, README & DATABASE.md baru, bukti E2E; v6-fitur-lokal sinkron; riwayat bersih tanpa secrets.
+
+## Task ID 15 — God-Mode Izin Compliance Checker (v12.1.0 «GOD MODE»)
+Tanggal: 2026-11-01
+
+Task: "lanjut ke Task 9 (god-mode izin compliance checker)" — Task 9 dari backlog era v7, kini dieksekusi penuh di atas codebase v12.0.0 GABUNG.
+
+Work Log:
+- SKEMA (+3 model + 2 saklar): ComplianceAudit (agregat per eksekusi: total/passed/warnings/critical/avgScore/expiredDocs/expiringDocs/missingDocs/notified), ComplianceFinding (temuan per perusahaan × syarat: tier, severity KRITIS/PERINGATAN/INFO, snapshot nama+NIB), ComplianceScore (snapshot skor per perusahaan → riwayat tren). RegistryCompany dapat back-relation findings+scores; EmailSetting & WhatsAppSetting dapat saklar notifyCompliance (kejadian notifikasi ke-10). db push ✓.
+- ENGINE: src/lib/compliance-engine.ts — gradeOf (A≥90/B≥80/C≥70/D≥60/E), riskOf (KRITIS bila ada wajib EXPIRED atau skor<45; TINGGI bila wajib EXPIRING atau skor<60), findingMessage (pesan admin ID), severityOfTier, auditCompany (membungkus buildScan), GRADE_TONE/RISK_TONE/scoreColor (token UI konsisten).
+- API (3 rute baru): GET /api/compliance/scoreboard (publik, rate-limit 30/menit, live-compute + lastAudit), GET /api/compliance/report?id= (publik: scan penuh + grade/risk + tren 12 snapshot), POST/GET /api/compliance/audit (POST = jalankan audit: guardRole SUPER_ADMIN/ADMIN/VERIFIKATOR + rate-limit 6/menit, createMany temuan, snapshot skor, notifikasi ganda; GET = riwayat 20 audit / detail temuan per auditId; EDITOR baca-saja).
+- NOTIFIKASI kejadian ke-10 "COMPLIANCE": emailComplianceAuditTemplate + notifyEmailComplianceAudit (email.ts), waComplianceAuditTemplate + notifyComplianceAudit (whatsapp.ts — notifyWaEvent diperluas), saklar tampil di CMS Notifikasi & WhatsApp (admin-notifications/admin-whatsapp + API email-settings & whatsapp GET/PUT).
+- PORTAL: #/compliance (compliance-view.tsx) — DetailHero + 4 kartu statistik + chip audit terakhir + Scoreboard Kepatuhan (peringkat, bar skor hsl, badge kelas/grade/risiko, klik → dossier: mini-stat 4 status, checklist a–l berwarna, tren bar antar-audit, rekomendasi tier 0–4, CTA pindai 360°) + cara kerja 3 langkah + CTA GRATIS SELAMANYA & WA 0812. Deep-link #/compliance?q=<companyId>. Reuse kunci i18n scan.req/status/rel.
+- i18n: locales/fitur-v12.ts complianceDict {id,en,ar} penuh (incl. tier.4 "NILAI TAMBAH" — bug raw-key ketemu E2E lalu diperbaiki); layanan.ts +items compliance-center ×3 bahasa; menu-data perizinan +child; muhdin-app case "compliance".
+- CMS: admin-compliance.tsx (panel JALANKAN AUDIT + hasil 5 stat + riwayat 20 audit dgn rincian temuan expandable); admin-view MENU+render; roles.ts seksi "compliance" [SUPER_ADMIN, ADMIN, VERIFIKATOR].
+- SEED: scripts/seed-compliance.ts — 2 audit historis (45 & 20 hari, delta -8/-4 → tren naik) + snapshot skor terkini + temuan; idempoten.
+- BONUS perbaikan pra-eksisting (peningkatan kesehatan tsc 113→108): WhatsAppConfig/EmailConfig types.ts dilengkapi field v11/v12 (notifyAcademy/Booking/Benefit/Compliance, bot*) — menghapus 5 error admin-whatsapp; import WhatsAppConfig di admin-notifications.
+
+Stage Summary:
+- E2E (agent-browser): portal #/compliance render sempurna (8 baris berperingkat, Anugrah 100/A/RENDAH … Koperasi 27/E/KRITIS), dossier Lazuardi terbuka (10 BERLAKU/1 ≤90/1 KEDALUWARSA, checklist berwarna, tren 4 titik, rekomendasi), menu PERIZINAN → COMPLIANCE CENTER jalan, deep-link q= auto-open ✓, EN ✓ AR ✓ (RTL), CMS login → modul Compliance Checker → JALANKAN AUDIT (8 perusahaan, rata-rata 61, 30 temuan, notified) + riwayat expandable, 0 console error, regresi 8 rute 200.
+- API smoke: scoreboard/report publik 200; audit anonim 401 (RBAC benar); audit admin 201 (8 dinilai, 30 temuan); NotificationLog COMPLIANCE tercatat di 2 kanal (FAILED = gateway sandbox belum diset — gagal-aman benar).
+- README.md diperbarui menyeluruh ke v12.1.0 «GOD MODE» (badge 59 model, peta fitur + seksi 🛡️, notifikasi 10×2, peta API + grup Compliance, seed + timeline).

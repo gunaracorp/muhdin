@@ -78,6 +78,7 @@ import { KartuView } from "@/components/views/kartu-view";
 // v6.0 — Ekosistem hulu-hilir: Pusat Bisnis B2B + Brankas Jamaah
 import { BisnisView } from "@/components/views/bisnis-view";
 import { PindaiView } from "@/components/views/pindai-view"; // v7.0 — Pindai Izin 360°
+import { ComplianceView } from "@/components/views/compliance-view"; // v12.1 — God-Mode Compliance Checker
 import { VaultView } from "@/components/views/vault-view";
 
 function LoadingSplash() {
@@ -303,6 +304,10 @@ export function MuhdinApp({ initialLocale = "id" }: { initialLocale?: "id" | "en
     // v7.0 — Pindai Izin 360°: input NIB → dossier kelengkapan BPW/PPIU/PIHK
     case "pindai":
       content = <PindaiView key={`pindai-${routeQuery}`} initialQuery={routeQuery} />;
+      break;
+    // v12.1 — God-Mode Compliance Checker: papan kepatuhan seluruh registri
+    case "compliance":
+      content = <ComplianceView key={`compliance-${routeQuery}`} initialQuery={routeQuery} />;
       break;
     // v6.0 — Brankas Jamaah: #/vault & #/vault/<cardNo> (target lanjutan QR)
     case "vault":

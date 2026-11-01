@@ -59,6 +59,8 @@ export const MENU_NODES: MenuNode[] = [
       { slug: "pihk", icon: "landmark" },
       // v7.0 — Pindai Izin 360°: input NIB → dossier kelengkapan BPW/PPIU/PIHK
       { slug: "pindai-izin", icon: "scan", route: "pindai" },
+      // v12.1 — God-Mode Compliance Checker: papan kepatuhan seluruh registri
+      { slug: "compliance-center", icon: "shield-check", route: "compliance" },
     ],
   },
   {

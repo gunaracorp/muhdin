@@ -23,7 +23,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import type { EmailConfig, NotificationLogItem, NotificationLogResponse } from "@/lib/types";
+import type { EmailConfig, NotificationLogItem, NotificationLogResponse, WhatsAppConfig } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /* ==================== KARTU KONFIGURASI EMAIL ==================== */
@@ -83,6 +83,7 @@ export function AdminEmailCard() {
         notifyAcademy: cfg.notifyAcademy,
         notifyBooking: cfg.notifyBooking,
         notifyBenefit: cfg.notifyBenefit,
+        notifyCompliance: cfg.notifyCompliance,
       };
       if (passInput.trim()) payload.smtpPass = passInput.trim();
       const updated = await apiSend<EmailConfig>("/api/email-settings", "PUT", payload);
@@ -128,6 +129,7 @@ export function AdminEmailCard() {
     { key: "notifyAcademy" as const, icon: "graduation-cap", title: "Akademi (Kursus & Sertifikat)", desc: "Pendaftaran kursus + kelulusan ber-sertifikat QR." },
     { key: "notifyBooking" as const, icon: "calendar", title: "Booking Slot Layanan", desc: "Kelas manasik, konsultasi syariah, klinik vaksin (BKG)." },
     { key: "notifyBenefit" as const, icon: "award", title: "Tebus Benefit Mitra", desc: "Penukaran poin KTA ke benefit mitra (BNF)." },
+    { key: "notifyCompliance" as const, icon: "shield-check", title: "Audit Kepatuhan Izin (v12.1)", desc: "Temuan kedaluwarsa/kelengkapan izin dari Compliance Checker god-mode." },
   ];
 
   return (

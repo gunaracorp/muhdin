@@ -123,6 +123,13 @@ export const layananDict = {
           p2: "Rekomendasi berprioritas a–l",
           p3: "Tertaut mitra verifikasi & sertifikasi",
         },
+        "compliance-center": {
+          title: "COMPLIANCE CENTER (GOD MODE)",
+          desc: "Papan kepatuhan seluruh ekosistem — skor, grade A–E, risiko, dan tren antar-audit tiap perusahaan, dihitung live oleh engine Pindai Izin 360°.",
+          p1: "Scoreboard kepatuhan publik",
+          p2: "Grade A–E + level risiko",
+          p3: "Tren antar-audit & temuan berprioritas",
+        },
         "tl": {
           title: "TL",
           desc: "Sertifikasi Tour Leader — pendamping rombongan jamaah dari keberangkatan hingga kepulangan.",
@@ -377,6 +384,13 @@ export const layananDict = {
           p2: "Prioritized a–l recommendations",
           p3: "Linked to verification & certification partner",
         },
+        "compliance-center": {
+          title: "COMPLIANCE CENTER (GOD MODE)",
+          desc: "The ecosystem-wide compliance board — score, grade A–E, risk, and cross-audit trend for every company, computed live by the License Scan 360° engine.",
+          p1: "Public compliance scoreboard",
+          p2: "Grade A–E + risk level",
+          p3: "Cross-audit trend & prioritized findings",
+        },
         "tl": {
           title: "TL",
           desc: "Tour Leader certification — group companions from departure to return.",
@@ -630,6 +644,13 @@ export const layananDict = {
           p1: "اكتشاف تلقائي لنواقص الأرصاد",
           p2: "توصيات مرتبة أ–ل",
           p3: "مرتبط بشريك التحقق والشهادات",
+        },
+        "compliance-center": {
+          title: "مركز الامتثال (الوضع الأقصى)",
+          desc: "لوحة امتثال لكامل المنظومة — الدرجة والتقدير A–E والمخاطر واتجاه التدقيق لكل شركة، تُحسب مباشرة بمحرك الفحص 360°.",
+          p1: "لوحة نتائج امتثال عامة",
+          p2: "تقدير A–E ومستوى المخاطر",
+          p3: "اتجاه بين التدقيقات ونتائج مرتبة",
         },
         "tl": {
           title: "TL",

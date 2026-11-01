@@ -308,6 +308,7 @@ model WhatsAppSetting {
   notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
   notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
   notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
+  notifyCompliance  Boolean   @default(true) // v12.1 — audit kepatuhan izin (temuan kritis/kedaluwarsa)
   botEnabled        Boolean   @default(true) // saklar balasan otomatis AI (Task WA-AI)
   botWebhookSecret  String    @default("") // rahasia bersama verifikasi webhook (header X-Webhook-Token)
 }
@@ -340,6 +341,7 @@ model EmailSetting {
   notifyAcademy     Boolean   @default(true) // pendaftaran kursus & kelulusan/sertifikat
   notifyBooking     Boolean   @default(true) // booking slot layanan (BKG)
   notifyBenefit     Boolean   @default(true) // penebusan benefit mitra (BNF)
+  notifyCompliance  Boolean   @default(true) // v12.1 — audit kepatuhan izin (temuan kritis/kedaluwarsa)
 }
 
 /// Audit semua upaya notifikasi (email & WhatsApp) — agar admin dapat
@@ -688,18 +690,20 @@ model SosPoint {
 
 /// Perusahaan pada registri pemindaian — diidentifikasi NIB unik.
 model RegistryCompany {
-  id          String        @id @default(cuid())
-  nib         String        @unique // Nomor Induk Berusaha (OSS-RBA)
+  id          String              @id @default(cuid())
+  nib         String              @unique // Nomor Induk Berusaha (OSS-RBA)
   name        String
-  legalEntity String        @default("PT") // PT | CV | KOPERASI | UD | YAYASAN
-  city        String        @default("")
-  province    String        @default("")
-  phone       String        @default("")
+  legalEntity String              @default("PT") // PT | CV | KOPERASI | UD | YAYASAN
+  city        String              @default("")
+  province    String              @default("")
+  phone       String              @default("")
   website     String?
   note        String?
   docs        RegistryDoc[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  findings    ComplianceFinding[] // v12.1 — god-mode compliance checker
+  scores      ComplianceScore[] // v12.1 — riwayat skor kepatuhan
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
 }
 
 /// Dokumen izin/sertifikasi perusahaan — satu baris per syarat katalog
@@ -715,6 +719,68 @@ model RegistryDoc {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
+
+/// v12.1 — GOD-MODE IZIN COMPLIANCE CHECKER.
+/// Satu eksekusi audit menilai SELURUH RegistryCompany dengan engine Pindai
+/// Izin 360°, lalu menyimpan agregat, temuan berprioritas, dan snapshot skor
+/// (riwayat tren). Temuan kritis memicu notifikasi Email sekretariat + WhatsApp.
+model ComplianceAudit {
+  id           String              @id @default(cuid())
+  scope        String              @default("ALL") // ALL | (cadangan: CLASS:BPW, dst.)
+  triggeredBy  String              @default("system") // email admin pelaksana | "system"
+  total        Int                 @default(0) // perusahaan dinilai
+  passed       Int                 @default(0) // grade A–B (skor ≥ 80)
+  warnings     Int                 @default(0) // grade C–D (skor 60–79)
+  critical     Int                 @default(0) // grade E (skor < 60)
+  avgScore     Float               @default(0)
+  expiredDocs  Int                 @default(0) // dokumen WAJIB kedaluwarsa
+  expiringDocs Int                 @default(0) // dokumen WAJIB ≤ 90 hari
+  missingDocs  Int                 @default(0) // dokumen WAJIB belum direkam
+  notified     Boolean             @default(false)
+  note         String?
+  startedAt    DateTime            @default(now())
+  finishedAt   DateTime?
+  findings     ComplianceFinding[]
+}
+
+/// Satu temuan audit — per perusahaan per syarat katalog (a–l) yang bermasalah.
+/// Hanya item non-VALID terekam; urutan prioritas = tier engine (0 darurat … 4 bonus).
+model ComplianceFinding {
+  id             String          @id @default(cuid())
+  auditId        String
+  audit          ComplianceAudit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  companyId      String
+  company        RegistryCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyName    String          @default("") // snapshot nama — temuan tetap terbaca bila perusahaan berubah
+  companyNib     String          @default("") // snapshot NIB
+  requirementKey String
+  letter         String          @default("")
+  category       String          @default("")
+  relevance      String          @default("WAJIB") // WAJIB | JALUR | BONUS
+  status         String          @default("MISSING") // EXPIRED | EXPIRING | MISSING
+  tier           Int             @default(2) // 0 darurat … 4 nilai tambah
+  severity       String          @default("INFO") // KRITIS | PERINGATAN | INFO
+  message        String          @default("")
+  createdAt      DateTime        @default(now())
+}
+
+/// Snapshot skor kepatuhan per perusahaan per audit — sumber riwayat tren.
+model ComplianceScore {
+  id            String          @id @default(cuid())
+  companyId     String
+  company       RegistryCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  score         Int             @default(0)
+  grade         String          @default("E") // A ≥90 | B ≥80 | C ≥70 | D ≥60 | E <60
+  risk          String          @default("SEDANG") // RENDAH | SEDANG | TINGGI | KRITIS
+  heldClasses   String          @default("") // JSON array kelas dipegang, mis. ["PPIU"]
+  currentClass  String?
+  validCount    Int             @default(0)
+  expiringCount Int             @default(0)
+  expiredCount  Int             @default(0)
+  missingCount  Int             @default(0)
+  checkedAt     DateTime        @default(now())
+}
+
 model AcademyCourse {
   id           String   @id @default(cuid())
   slug         String   @unique

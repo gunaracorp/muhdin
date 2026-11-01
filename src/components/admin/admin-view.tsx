@@ -34,6 +34,7 @@ import { AdminForum } from "@/components/admin/admin-forum";
 import { AdminPilgrimCards } from "@/components/admin/admin-pilgrim-cards";
 // v6.0 — Ekosistem hulu-hilir: Pusat Bisnis B2B + Operasi Jamaah
 import { AdminBisnis } from "@/components/admin/admin-bisnis";
+import { AdminCompliance } from "@/components/admin/admin-compliance";
 import { AdminJamaahOps } from "@/components/admin/admin-jamaah-ops";
 // v4.0 — AI Content Studio: redaksi berbantuan AI (topik → draf artikel).
 import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
@@ -64,6 +65,8 @@ const MENU = [
   { id: "cards", label: "Kartu Jamaah", icon: "qr-code" },
   { id: "bisnis", label: "Pusat Bisnis B2B", icon: "briefcase" },
   { id: "jamaahops", label: "Operasi Jamaah", icon: "clipboard-check" },
+  // v12.1 — God-Mode Izin Compliance Checker
+  { id: "compliance", label: "Compliance Checker", icon: "shield-check" },
   // GABUNG v11 — Power Pack Layanan Digital
   { id: "passport", label: "Paspor & GPS", icon: "wallet-cards" },
   { id: "academy", label: "Akademi & Sertifikat", icon: "graduation-cap" },
@@ -228,6 +231,7 @@ export function AdminView() {
           {section === "cards" && <AdminPilgrimCards />}
           {section === "bisnis" && <AdminBisnis />}
           {section === "jamaahops" && <AdminJamaahOps />}
+          {section === "compliance" && <AdminCompliance />}
           {section === "tutorials" && <AdminTutorials />}
           {section === "messages" && <AdminMessages />}
           {section === "complaints" && <AdminComplaints />}

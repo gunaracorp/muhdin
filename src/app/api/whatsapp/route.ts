@@ -29,6 +29,7 @@ export async function GET() {
       notifyAcademy: cfg.notifyAcademy,
       notifyBooking: cfg.notifyBooking,
       notifyBenefit: cfg.notifyBenefit,
+      notifyCompliance: cfg.notifyCompliance,
       hasToken: Boolean(cfg.token),
       tokenMasked: mask(cfg.token),
       // v5 Fase 2 — chatbot AI WhatsApp
@@ -76,6 +77,8 @@ export async function PUT(req: NextRequest) {
         notifyAcademy: body.notifyAcademy !== undefined ? Boolean(body.notifyAcademy) : cfg.notifyAcademy,
         notifyBooking: body.notifyBooking !== undefined ? Boolean(body.notifyBooking) : cfg.notifyBooking,
         notifyBenefit: body.notifyBenefit !== undefined ? Boolean(body.notifyBenefit) : cfg.notifyBenefit,
+        notifyCompliance:
+          body.notifyCompliance !== undefined ? Boolean(body.notifyCompliance) : cfg.notifyCompliance,
         // Kosong = tetap pakai token lama (agar tidak perlu ketik ulang saat edit).
         token: body.token !== undefined && String(body.token).trim() !== "" ? String(body.token).trim() : cfg.token,
         // v5 Fase 2 — chatbot AI: saklar + rahasia webhook (kosong = tetap).
@@ -97,6 +100,7 @@ export async function PUT(req: NextRequest) {
       notifyAcademy: updated.notifyAcademy,
       notifyBooking: updated.notifyBooking,
       notifyBenefit: updated.notifyBenefit,
+      notifyCompliance: updated.notifyCompliance,
       hasToken: Boolean(updated.token),
       tokenMasked: mask(updated.token),
       botEnabled: updated.botEnabled,

@@ -199,8 +199,15 @@ export interface WhatsAppConfig {
   enabled: boolean;
   notifyContact: boolean;
   notifyApplication: boolean;
+  notifyAcademy: boolean; // v11.1 — pendaftaran kursus & sertifikat
+  notifyBooking: boolean; // v11.1 — booking slot layanan
+  notifyBenefit: boolean; // v11.1 — penebusan benefit mitra
+  notifyCompliance: boolean; // v12.1 — audit kepatuhan izin (god-mode)
   hasToken: boolean;
   tokenMasked: string;
+  botEnabled: boolean; // v5 Fase 2 — chatbot AI WhatsApp
+  botSecretSet: boolean;
+  botSecretMasked: string;
   lastTestAt: string | null;
   lastTestStatus: string;
 }
@@ -219,6 +226,10 @@ export interface EmailConfig {
   notifyComplaint: boolean;
   notifySubscriber: boolean;
   notifyTestimonial: boolean;
+  notifyAcademy: boolean; // v11.1 — pendaftaran kursus & sertifikat
+  notifyBooking: boolean; // v11.1 — booking slot layanan
+  notifyBenefit: boolean; // v11.1 — penebusan benefit mitra
+  notifyCompliance: boolean; // v12.1 — audit kepatuhan izin (god-mode)
   hasPass: boolean;
   passMasked: string;
   envFallback: boolean;
