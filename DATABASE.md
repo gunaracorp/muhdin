@@ -1,195 +1,95 @@
-# DATABASE — Prisma & SQLite di MUHDIN INDONESIA
+# DATABASE — Prisma 6 · SQLite (dev) ↔ PostgreSQL (produksi)
 
-Seluruh data MUHDIN hidup di **satu file SQLite**: `db/custom.db` (akar proyek),
-diakses melalui **Prisma ORM 6** dengan **26 model** yang didefinisikan di
-`prisma/schema.prisma`. Satu file database memudahkan deploy, backup, dan restore.
+Seluruh data MUHDIN didefinisikan dalam **satu schema Prisma**: `prisma/schema.prisma`
+dengan **56 model** — hasil gabungan (v12.0 «GABUNG») dua garis pengembangan besar.
+Mode default sandbox/lokal memakai **SQLite** (`db/custom.db`), dan jalur produksi
+**PostgreSQL** sudah disiapkan penuh (lihat bagian akhir).
 
 ## Resolusi DATABASE_URL Saat Runtime
 
-`src/lib/db.ts` menentukan lokasi database sebelum `PrismaClient` dibuat:
+`src/lib/db.ts` membuat `PrismaClient` klasik (Prisma 6):
 
-1. **Di Vercel** (`VERCEL=1`): salin `db/custom.db` yang ter-bundle ke
-   `/tmp/muhdin.db` lalu pakai `file:/tmp/muhdin.db` (SQLite butuh akses tulis
-   meski hanya membaca; `/tmp` satu-satunya path writable di serverless).
-   Ingat: filesystem serverless ephemeral — lihat `DEPLOYMENT.md`.
-2. **`DATABASE_URL` eksplisit** dihormati *selama file-nya benar-benar ada*
-   (`file:` di-resolve relatif terhadap working directory). Path warisan yang
-   mati diabaikan dengan anggun.
-3. **Fallback lokal/VPS**: `file:<cwd>/db/custom.db`.
+1. **`DATABASE_URL` eksplisit** di `.env` dihormati (default `file:./db/custom.db`
+   — di-resolve relatif terhadap working directory).
+2. **Fallback lokal/VPS**: `file:<cwd>/db/custom.db`.
+3. `db/custom.db` **tidak pernah di-commit** (gitignore `/db/`) — berisi data runtime.
+4. Arsip contoh hasil migrasi garis v11: `db/arsip-v11-sqlite.db` (juga tidak di-commit).
 
-`prisma/schema.prisma` menetapkan `binaryTargets` multi-platform
-(`native`, `debian-openssl-3.0.x`, `rhel-openssl-3.0.x`) agar query engine tetap
-jalan di shared hosting CloudLinux/cPanel maupun Debian/Ubuntu.
+CLI memakai Prisma 6 bawaan (`bunx prisma db push` / `generate`); `bun run db:push`
+disediakan di `package.json`.
 
-Di edisi PHP shared hosting, database yang setara adalah
-`data/muhdin.sqlite` di dalam paket (dibangun dari `db/custom.db` oleh
-`scripts/build-shared-hosting.mjs`).
+## Registry 56 Model (per kelompok)
 
-## Daftar 26 Model Prisma
+### Auth & RBAC
+`User` — akun CMS (SUPER_ADMIN/ADMIN/EDITOR/VERIFIKATOR), hash bcryptjs.
 
-Dikelompokkan sesuai komentar di `prisma/schema.prisma`:
+### Keanggotaan & KTA
+`Member` (direktori anggota terverifikasi) · `MembershipApplication` (+`ticketCode`,
+`queueNumber` atomik, `referralCode`) · `MemberCard` (KTA digital) · `PointLedger`
+(buku poin: REGISTER/REFERRAL/ADMIN/REDEEM).
 
-### Auth
+### Perjalanan Ibadah & Identitas Jamaah
+`TourPackage` · `PackageBooking` (pipeline marketplace) · `PilgrimCard` (kartu jamaah
+QR per rombongan) · `PilgrimReview` · `HajjPassport` (paspor haji digital + QR) ·
+`GpsPing` · `TrackingDevice` (GPS rombongan real-time).
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `User` | Akun admin CMS | `email` (unique), `password` (hash), `role` (`SUPER_ADMIN`/`ADMIN`/`VERIFIKATOR`/`EDITOR`), `isActive`, `lastLoginAt` |
-| `Session` | Sesi login (token di cookie) | `token` (unique), `userId` → User (cascade), `expiresAt` |
+### Komunitas
+`ForumThread` · `ForumReply` (+moderasi CMS).
 
-### Konten
+### Akademi & Sertifikasi
+`AcademyCourse` (trilingual + quiz JSON) · `AcademyEnrollment` · `Certificate`
+(nomor SERT-…, verifikasi QR publik).
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `Article` | Berita/artikel portal | `slug` (unique), `status` (default `PUBLISHED`), `featured`, `views`, `author`, `category` |
-| `Ecosystem` | 13 layanan ekosistem | `number` (unique), `cluster`, `scope`, `standard`, `icon` |
-| `JourneyStep` | Tahapan alur jamaah | `step` (unique), `actor`, `output` |
-| `Roadmap` | Fase pengembangan 2026–2030 | `phase`, `period`, `deliverables`, `order` |
+### Layanan Terjadwal & Benefit
+`ServiceSlot` (kelas manasik/konsultasi syariah/klinik vaksin) · `SlotBooking` ·
+`Benefit` (katalog mitra) · `BenefitRedemption`.
 
-### Keanggotaan
+### Pusat Bisnis B2B (hulu-hilir)
+`SeatListing` (bursa kursi antar-penyelenggara, RELASI SeatOwner/SeatTaker) ·
+`Vendor` · `Muthowif` (registry + afiliasi Member) · `RegistryCompany` · `RegistryDoc`
+(dossier izin: BPW/PPIU/PIHK/IATA/akreditasi) · `ComplianceDoc` · `JamaahDoc`.
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `Member` | Direktori anggota terverifikasi | `type` (PPIU/PIHK/KBIHU/…), `licenseNo`, `city`, `province`, `status` (default `TERVERIFIKASI`), `rating`, `phone`/`email` (opsional) |
-| `MembershipApplication` | Pendaftaran anggota ber-tiket | `ticketCode` (unique, format `MHD-XXXXXX`), `status` (`PENDING`/`APPROVED`/`REJECTED`), `reviewNote`, `reviewedBy`, `reviewedAt` |
+### Kepercayaan & Darurat
+`Complaint` · `SosPoint` (KJRI/KKI/RS — posko darurat) · `RegionalBranch` (DPD/kantor).
 
-### Tutorial
+### Nusuk & Integrasi
+`NusukConnection` · `NusukPermit` · `NusukSyncLog` (riwayat sinkron + durasi).
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `Tutorial` | Tutorial portal | `slug` (unique), `category` (CMS/Jamaah/Mitra/Umum), `level` (Pemula/Menengah/Mahir), `duration`, `order`, `published`, `views` |
+### Konten Portal
+`Article` · `Tutorial` · `FAQ` · `Ecosystem` (13 ekosistem) · `JourneyStep` · `Roadmap` ·
+`Agenda` · `GalleryItem` · `Resource` (pusat unduhan) · `Subscriber` · `Testimonial` ·
+`ContactMessage` · `SiteSetting` · `Management` (struktur organisasi) · `Translation`.
 
-### Komunikasi
+### Tur Virtual
+`TourScene` (multi-scene panorama 360° + view counter).
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `ContactMessage` | Pesan form kontak | `status` (default `UNREAD`), `phone` (opsional) |
-| `Faq` | Tanya jawab | `question`, `answer`, `category`, `order` |
-| `Testimonial` | Testimoni | `rating`, `published` |
+### Notifikasi & AI
+`EmailSetting` (SMTP + 9 saklar kejadian) · `WhatsAppSetting` (provider
+FONNTE/WABLAS/CALLMEBOT/CUSTOM + saklar + `botEnabled` + `botWebhookSecret`) ·
+`NotificationLog` (audit EMAIL/WHATSAPP per kejadian) · `AiChatLog` (riwayat bot WA-AI).
 
-### Profil
+## Skema Union: Catatan Penting
 
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `Management` | Pengurus pusat | `name`, `position`, `bio`, `order` |
-| `RegionalBranch` | Jaringan daerah DPD/DPC & Branch Office | `code`, `province`, `city`, `officeName`, `address`, `picName`, `picPhone`, `published` |
-| `SiteSetting` | Pasangan key–value pengaturan situs | `key` (unique), `value` |
+- Relasi `Member` memuat back-relation kedua garis: `packages`, `cards`,
+  `complianceDocs`, `seatListings` ("SeatOwner"), `seatTakes` ("SeatTaker"),
+  `muthowifs`, `permits`, `passports`, `devices`, `card`, `benefits`.
+- Semua model memakai tipe portabel (String/Int/Boolean/DateTime/JSON-string) —
+  **kompatibel SQLite & PostgreSQL tanpa perubahan**, sehingga flip provider
+  produksi hanya menyentuh 1 baris `provider` + `DATABASE_URL`.
 
-### Integrasi Nusuk
-
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `NusukConnection` | Koneksi ke platform Nusuk (singleton) | `environment` (default `SANDBOX`), `apiKey`, `webhookSecret`, `status`, `autoSync`, `totalSyncs`, `lastSyncAt` |
-| `NusukPermit` | Data izin per anggota | `permitNo` (unique), `memberId` → Member (cascade), `type`, `holderName`, `status`, `expiresAt` |
-| `NusukSyncLog` | Riwayat sinkronisasi | `connectionId` → NusukConnection (set null), `type`, `status`, `recordsAffected`, `durationMs` |
-
-### I18N — Translasi Konten
-
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `ContentTranslation` | Terjemahan EN/AR baris konten DB | `entity`, `entityKey`, `locale` (`en`/`ar`), `field`, `value`, `engine` (`ai`/`manual`); unik per `(entity, entityKey, locale, field)` |
-
-### Notifikasi WhatsApp
-
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `WhatsAppSetting` | Konfigurasi gateway WA (singleton) | `provider` (`FONNTE`/`WABLAS`/`CUSTOM`), `apiUrl`, `token`, `target`, `enabled`, `notifyContact`, `notifyApplication`, `lastTestAt`, `lastTestStatus` |
-
-> Token disimpan di tabel ini — **bukan** di `SiteSetting` — agar tidak bocor
-> lewat `GET /api/settings` yang bersifat publik (lihat `SECURITY.md`).
-
-### Kelengkapan Portal
-
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `Gallery` | Galeri kegiatan (`#/galeri`) | `imageUrl`, `category`, `order`, `published` |
-| `Event` | Agenda kegiatan (`#/agenda`) | `startsAt`, `endsAt`, `location`, `category`, `published` |
-| `Resource` | Pusat unduhan (`#/unduhan`) | `fileUrl`, `fileType`, `downloads`, `published` |
-| `Subscriber` | Pelanggan newsletter footer | `email` (unique), `isActive` |
-| `Complaint` | Pengaduan jamaah (`#/lapor`) | `targetMember`, `category`, `status` (`UNREAD`/`PROCESSED`/`CLOSED`), `responseNote`, `respondedBy` |
-
-### Audit
-
-| Model | Fungsi | Field kunci |
-|---|---|---|
-| `AuditLog` | Jejak aktivitas admin | `userName`, `role`, `action` (`LOGIN`/`APPROVE`/`CREATE`/`UPDATE`/`DELETE`/`SYNC`/`EXPORT`/…), `entity`, `entityId`, `detail`; ter-index per `createdAt` dan `(entity, action)` |
-
-## Perintah Harian
-
-Semua dari akar proyek (bun, atau `npx` bila memakai Node):
+## Jalur Produksi PostgreSQL
 
 ```bash
-bun run db:push        # prisma db push --accept-data-loss — sinkronkan schema ke db/custom.db
-bun run db:generate    # prisma generate — regenerate Prisma Client (dipanggil otomatis oleh postinstall)
-bun prisma/seed.ts     # seed lengkap: akun demo, konten, anggota, dll (idempotent — hapus data lama dulu)
-bun prisma/seed-nusuk.ts  # seed integrasi Nusuk: koneksi sandbox, permit, log sync (idempotent)
+# 1. Di prisma/schema.prisma: provider = "postgresql"
+# 2. .env:
+DATABASE_URL="postgres://USER:PASSWORD@HOST:5432/DB?sslmode=require"
+# 3. (opsional, gaya v11 — driver adapter + prisma.config.ts)
+#    dependensi @prisma/adapter-pg + pg sudah tersedia di package.json
+bunx prisma generate
+bunx prisma db push
+# 4. Migrasi data dari SQLite:
+node scripts/migrate-sqlite-to-postgres.mjs   # 42+ tabel, urut topologis FK
+node scripts/verify-v111.mjs                  # verifikasi jumlah baris
 ```
 
-Catatan:
-
-- `db:push` memakai `--accept-data-loss` — baca konfirmasi Prisma sebelum lanjut.
-  Untuk perubahan skema terkontrol tersedia `bun run db:migrate`
-  (`prisma migrate dev`) dan `bun run db:reset`, tetapi alur kerja repo selama ini
-  memakai `db:push`.
-- `prisma/seed.ts` **menghapus seluruh data lama** sebelum mengisi — jangan
-  dijalankan di database produksi yang sudah berisi data nyata.
-- Seed memakai format hash yang sama dengan `src/lib/auth.ts` (`salt:hash` scrypt).
-
-## Backup
-
-### Edisi Node (VPS / cPanel Node / lokal)
-
-```bash
-# 1. Salin file database (cara paling cepat; SQLite = satu file)
-cp db/custom.db backup/custom-db-$(date +%Y%m%d).db
-
-# 2. Atau SQL dump (portabel antar versi/ mesin)
-sqlite3 db/custom.db ".dump" > backup/muhdin-$(date +%Y%m%d).sql
-```
-
-### Edisi PHP Shared Hosting
-
-Backup **`data/muhdin.sqlite`** dari File Manager cPanel (unduh salinan secara
-berkala — semua konten CMS tersimpan di file itu, seperti ditegaskan di
-`shared-hosting/INSTALL.txt`). Bila hosting menyediakan sqlite3 via SSH:
-
-```bash
-sqlite3 data/muhdin.sqlite ".dump" > muhdin-$(date +%Y%m%d).sql
-```
-
-Rekomendasi jadwal: harian untuk data transaksional (pendaftaran anggota,
-pesan, pengaduan, audit log), dan **selalu** backup sebelum:
-`bun run db:push`, update aplikasi, atau menjalankan seed apa pun.
-
-## Restore
-
-```bash
-# Dari salinan file
-cp backup/custom-db-20260101.db db/custom.db
-
-# Dari SQL dump
-sqlite3 db/custom.db < backup/muhdin-20260101.sql
-```
-
-Setelah restore, verifikasi dengan `curl /api/health` (`checks.database.ok = true`)
-dan login CMS. Bila file restore berasal dari skema yang lebih lama, jalankan
-`bun run db:push` agar skema menyatu dengan `prisma/schema.prisma` terbaru.
-Di edisi PHP: unggah ulang `data/muhdin.sqlite` ke folder `data/` melalui
-File Manager.
-
-## Catatan Arsitektur Masa Depan (Belum Diimplementasikan)
-
-Rencana entitas berikut **belum ada** di `prisma/schema.prisma` — dicatat di sini
-sebagai arah pengembangan, bukan kapabilitas saat ini:
-
-- **Pilgrims** — profil jamaah (saat ini jamaah hanya dilayani via halaman publik
-  dan pelacakan tiket; tidak ada tabel jamaah).
-- **Packages** — paket perjalanan umrah/haji milik anggota.
-- **Bookings** — pemesanan paket oleh jamaah.
-- **Payments** — pembayaran/iuran keanggotaan (iuran organisasi, bukan biaya
-  pemerintah — lihat aturan konten di `CONTENT_GUIDE.md`).
-
-Bila kelak ditambahkan, poin yang perlu dipikirkan: SQLite cocok untuk skala
-portal saat ini; bila volume tulis transaksional meningkat signifikan (booking/
-payment), pertimbangkan migrasi provider ke PostgreSQL — `datasource` di
-`prisma/schema.prisma` cukup diganti, dan `src/lib/db.ts` sudah meneruskan
-`DATABASE_URL` non-`file:` ke Prisma apa adanya.
+Backup: CMS → Backup (`/api/backup`) atau `scripts/make-backup.sh`.

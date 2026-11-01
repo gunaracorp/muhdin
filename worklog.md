@@ -1976,3 +1976,34 @@ Work Log:
 Stage Summary:
 - GitHub kini menyimpan KEDUA garis: main = v11.1.0 (Postgres, utuh), v6-fitur-lokal = seluruh kerja sesi ini (commit tunggal bersih, 563+ file, tanpa .env/db). Tidak ada data hilang di kedua sisi.
 - Lanjutan opsional (menunggu keputusan owner): (a) jadikan v6-fitur-lokal sebagai main (timpa v11), (b) merge dua garis (kerja integrasi besar: schema SQLite+fitur-v5 vs Postgres+v11), atau (c) biarkan keduanya & develop di branch masing-masing.
+
+## Task ID 12 — GABUNG dua garis pengembangan (v11.1.0 × v6) — fitur keduanya hidup
+Tanggal: 2026-11-01
+
+Task: "GABUNG — merge dua garis (kerja integrasi besar, fitur keduanya hidup)".
+
+Work Log:
+- PEMETAAN: remote gunaracorp/muhdin = garis v11.1.0 (Prisma Postgres, Akademi/KTA/Booking/Benefit/Paspor/GPS/Tur 360°/WA-AI/Statistik/Global Search, notifikasi 9 kejadian, generator prisma-client + adapter); lokal = garis v6 (SQLite, Marketplace/Forum/Kartu/Bisnis/Vault/Pindai Izin + license-engine, GRATIS SELAMANYA, WA 0812). histories TIDAK BERKAITAN (unrelated). 457 file beda-isi, 144 file unik v11, 97 unik v6.
+- STRATEGI (dipilih setelah auto-checkpoint tool melawan branch switching): v6 yang RUNNING jadi basis; porting 93 file v11 (API 23, views 12, locales 7, site 3, admin 3, libs) + copy 55+ file v6 yang hilang dari pohon; db.ts klasik Prisma 6 dipertahankan (jalur Postgres v8 didokumentasikan, adapter tersedia di deps).
+- SCHEMA UNION: 56 model = 42 v6 + 14 baru v11 (AcademyCourse/Enrollment, AiChatLog, Benefit/Redemption, Certificate, GpsPing, HajjPassport, MemberCard, PointLedger, ServiceSlot, SlotBooking, TourScene, TrackingDevice); field switch v11 (notifyAcademy/Booking/Benefit ×2 setting + botEnabled + botWebhookSecret) + MembershipApplication.referralCode + back-relation Member dua arah; audit nama-field 28 model bersama = hanya 2 field hilang. prisma validate ✓ generate ✓ db push ✓ (14 tabel baru; data v6 utuh: 8 paket/7 forum/8 kartu/8 izin/14 SOS).
+- HAND-MERGE: dictionaries (+7 locale v11), muhdin-app (+11 rute v11: whatsapp-ai/paspor/verifikasi-paspor/tracking/tur-virtual/kartu-anggota/academy/booking/benefit/verifikasi-kta/verifikasi-sertifikat), admin-view + roles.ts (+5 modul: passport/academy/booking/benefits/tour), menu-data + navbar.ts + layanan.ts (cluster "Layanan Digital" 6 item × 3 bahasa + groups.digital — sekali salah blok bahasa, langsung diperbaiki), email.ts + whatsapp.ts diganti versi v11 (superset: CallMeBot & complaint tetap ada), admin-notifications/admin-whatsapp + API email-settings/whatsapp/notifications versi v11 (saklar baru + webhook bot).
+- DEPS: +leaflet, @photo-sphere-viewer ×3, dotenv, @types/leaflet, @types/qrcode (penyebab 500 pertama: tracking-map butuh leaflet). scripts/_db.ts (v8-only) dihapus. src/app/[[...slug]] v11 dihapus (bentrok page.tsx SPA v6).
+- SEED v11: scripts/seed-membership.ts (import dipatch ke @prisma/client) → 6 kursus akademi, 7 slot, 8 benefit, kartu KTA + PointLedger + 2 sertifikat demo.
+- INSIDEN & PEMULIHAN: checkout v11 sempat menimpa db/custom.db live dgn arsip v11 → dipulihkan penuh dari commit backup-lama-lokal (git show d83c386:db/custom.db); arsip v11 diselamatkan ke db/arsip-v11-sqlite.db.
+
+Stage Summary:
+- VERIFIKASI E2E (agent-browser): 16/16 rute gabungan render sempurna & 0 console error — v6: paket/forum/kartu/bisnis/vault/pindai/darurat(SOS); v11: academy/booking/benefit/paspor/tracking/tur-virtual/whatsapp-ai/kartu-anggota/verifikasi-kta. API smoke: publik 200 (packages/forum/sos/academy/slots/benefits/promo/health), admin 401 (RBAC benar). CMS login Super Admin → 10 modul kedua garis tampil (5 Power Pack + 5 v6). Dropdown navbar "Layanan Digital" 6 item jalan (radix = klik). GRATIS SELAMANYA + WA 0812 tetap di seluruh portal.
+- Commit union: dac116e; README.md + DATABASE.md ditulis ulang total (Task 13) → era v12.0.0 "GABUNG".
+
+## Task ID 13 — README & DATABASE.md era v12.0.0 + push GitHub main (ff)
+Tanggal: 2026-11-01
+
+Task: "updates readme nya jadi yang terbaru kan muhdin.id jangan sampai ada readme yang lama updates semua" + push hasil GABUNG.
+
+Work Log:
+- README.md ditulis ulang TOTAL (readme v3.1.0 lama tidak tersisa satu baris pun): identitas v12.0.0 «GABUNG», badge modern, peta fitur lengkap dua garis (12 kategori), notifikasi 9×2, animasi & PWA, quickstart bun + daftar seed, akun demo CMS + peringatan ganti sandi, strategi DB SQLite↔Postgres, arsitektur ASCII, peta API 8 grup, i18n 3 bahasa RTL, RBAC 4 peran, struktur proyek, skrip referensi, 3 opsi deployment, garis waktu versi v3.1→v12.0.
+- DATABASE.md ditulis ulang: registry 56 model per kelompok + catatan union (back-relation Member dua garis, tipe portabel) + langkah produksi Postgres (flip provider, adapter, migrate-sqlite-to-postgres).
+- PUSH: main di-merge dgn history kedua garis (git merge -s ours --allow-unrelated-histories v11-postgres → DAG memuat kedua leluhur) → push origin main FAST-FORWARD tanpa force; v6-fitur-lokal disinkronkan dgn main; backup garis lama tetap di GitHub (backup-muhdin-remote-20261020, pre-v5-backup-20261027).
+
+Stage Summary:
+- GitHub main kini = codebase v12.0.0 GABUNG: semua fitur v6 (Marketplace/Forum/Kartu/Bisnis/Vault/Pindai Izin) + semua fitur v11 (KTA/Akademi/Slot/Benefit/Paspor/GPS/Tur/WA-AI) hidup dalam satu aplikasi berjalan, 56 model, 3 bahasa, CMS satu pintu. .env & db/ tetap tidak pernah ter-commit.
