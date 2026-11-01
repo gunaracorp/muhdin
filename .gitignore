@@ -70,3 +70,6 @@ tool-results/
 !.env.example
 node_modules/
 .next/
+
+# Database lokal (runtime, berisi hash password — jangan pernah ke GitHub)
+/db/

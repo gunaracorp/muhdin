@@ -1961,3 +1961,18 @@ Work Log:
 Stage Summary:
 - VERIFIKASI: rg nomor lama (0811/6281111/811 1116) = 0 hit di seluruh kode hidup; E2E browser — beranda 3× wa.me/6281222345856 (FAB+CTA+sosmed, salam pembuka utuh), #/kontak "0812 2234 5856" tampil & 4 link WA resmi, 0 nomor lama, 0 console error; eslint 6 file sentuh 0 error. Screenshot: download/kontak-wa-resmi-0812.png.
 - SATU KANAL RESMI: +62 812-2234-5856 kini hidup di FAB, footer (CTA + sosmed), halaman kontak, dashboard jamaah, layanan, detail anggota, prompt AI (3 bahasa), seed & CMS — konsisten dengan gateway notifikasi CallMeBot yang sudah memakai nomor yang sama.
+
+## Task ID 11 — Push ke GitHub (aman dua garis) + kebersihan repo
+Tanggal: 2026-11-01
+
+Task: "tolong push ke main github ghp_…" — simpan kerja sesi ini ke GitHub.
+
+Work Log:
+- PEMETAAN: remote gunaracorp/muhdin ternyata sudah memuat garis v11.1.0 (29 Okt, 17 commit: migrasi Prisma Postgres 42 tabel/1954 baris, Akademi/Slot Booking/Benefit/Nusuk, notifikasi 9 kejadian) dari sesi lain — LOKAL tidak memilikinya. Sebaliknya lokal punya fitur v5/v6/v7 (Marketplace Paket, Forum, Kartu QR), Task 8 (GRATIS SELAMANYA) & Task 10 (WA 0812) yang tidak ada di remote. Force-push = menghancurkan v11 → TIDAK dilakukan.
+- KEAMANAN: .env (DATABASE_URL) & db/custom.db (SQLite live: hash password admin) sebelumnya TER-TRACK; repo GitHub PUBLIK → dibersihkan dari git (git rm --cached, .gitignore += /db/) dan TIDAK ikut ter-push, termasuk dari history (squash 8 commit auto-checkpoint UUID → 1 commit bersih orphan e37984b/ee2a5c6).
+- PUSH: commit bersih ee2a5c6 "MUHDIN Portal — garis fitur v6 (SQLite)…" → branch BARU v6-fitur-lokal di GitHub; main & branch backup remote TIDAK disentuh. Lokal: main=ee2a5c6 (commit bersih), backup-lama-lokal=d83c386 (garis lama dgn .env/db di history, lokal saja), origin=https://github.com/gunaracorp/muhdin.git (tanpa token).
+- CATATAN: token GitHub ditempel user di chat — disarankan rotasi (GitHub → Settings → Developer settings → Tokens) setelah sesi; push berikutnya cukup pakai git push origin main:refs/heads/v6-fitur-lokal dgn token baru via credential helper.
+
+Stage Summary:
+- GitHub kini menyimpan KEDUA garis: main = v11.1.0 (Postgres, utuh), v6-fitur-lokal = seluruh kerja sesi ini (commit tunggal bersih, 563+ file, tanpa .env/db). Tidak ada data hilang di kedua sisi.
+- Lanjutan opsional (menunggu keputusan owner): (a) jadikan v6-fitur-lokal sebagai main (timpa v11), (b) merge dua garis (kerja integrasi besar: schema SQLite+fitur-v5 vs Postgres+v11), atau (c) biarkan keduanya & develop di branch masing-masing.
