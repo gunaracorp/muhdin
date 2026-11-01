@@ -4,6 +4,64 @@
  * tautan cepat layanan, dan CTA kontak.
  * Satu file berisi ketiga locale { id, en, ar } dengan key identik.
  */
+/** R-009/R-040 — itinerary, peta kursi & daftar tunggu (root `iten`). */
+export const itenDict = {
+  id: {
+    iten: {
+      title: "Itinerary Harian Interaktif",
+      daysCount: "{n} hari terjadwal",
+      empty: "Rundown hari-ke-hari paket ini sedang disusun panitia — hubungi panitia untuk detail sementara.",
+      seatAria: "Peta kursi: {taken} terisi dari {total} kursi",
+      seatTaken: "Kursi terisi",
+      seatFree: "Kursi kosong",
+      legendTaken: "Terisi",
+      legendFree: "Tersedia",
+      waitTitle: "Kursi habis — masuk daftar tunggu otomatis",
+      waitDesc: "Begitu kursi dibebaskan, sistem otomatis menawarkan ke antrean teratas via WhatsApp (konfirmasi 24 jam).",
+      waitName: "Nama lengkap",
+      waitQty: "Jumlah orang",
+      waitSubmit: "Daftar Tunggu Sekarang",
+      waitOkTitle: "Terdaftar dalam antrean ✓",
+    },
+  },
+  en: {
+    iten: {
+      title: "Interactive Daily Itinerary",
+      daysCount: "{n} days scheduled",
+      empty: "The day-by-day rundown for this package is being prepared — contact the committee for interim details.",
+      seatAria: "Seat map: {taken} of {total} seats taken",
+      seatTaken: "Seat taken",
+      seatFree: "Seat available",
+      legendTaken: "Taken",
+      legendFree: "Available",
+      waitTitle: "Fully booked — join the automatic waitlist",
+      waitDesc: "When a seat opens up, the system automatically offers it to the top of the queue via WhatsApp (24-hour confirmation).",
+      waitName: "Full name",
+      waitQty: "Number of people",
+      waitSubmit: "Join Waitlist",
+      waitOkTitle: "You are in the queue ✓",
+    },
+  },
+  ar: {
+    iten: {
+      title: "جدول الرحلة اليومي التفاعلي",
+      daysCount: "{n} أيام مجدولة",
+      empty: "يتم حاليًا إعداد البرنامج اليومي لهذه الباقة — تواصل مع اللجنة للتفاصيل المؤقتة.",
+      seatAria: "خريطة المقاعد: {taken} من {total} مقاعد مشغولة",
+      seatTaken: "المقعد مشغول",
+      seatFree: "المقعد متاح",
+      legendTaken: "مشغول",
+      legendFree: "متاح",
+      waitTitle: "المقاعد ممتلئة — انضم لقائمة الانتظار التلقائية",
+      waitDesc: "عند توفر مقعد، يعرضه النظام تلقائيًا على أعلى قائمة الانتظار عبر واتساب (تأكيد خلال 24 ساعة).",
+      waitName: "الاسم الكامل",
+      waitQty: "عدد الأشخاص",
+      waitSubmit: "انضم لقائمة الانتظار",
+      waitOkTitle: "أنت في قائمة الانتظار ✓",
+    },
+  },
+};
+
 export const helpDict = {
   id: {
     help: {

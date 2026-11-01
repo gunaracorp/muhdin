@@ -29,6 +29,7 @@ import {
 import { ReviewsSection } from "@/components/views/reviews-section";
 // v12.4 «LUNAS» — Checkout langsung (R-010) + payment gateway (R-038)
 import { CheckoutPanel } from "@/components/views/checkout-panel";
+import { PaketItinerary, SeatMapBoard, WaitlistPanel } from "@/components/views/paket-itinerary";
 
 function rupiah(n: number): string {
   return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
@@ -140,6 +141,9 @@ export function PaketDetail({ id }: { id: string }) {
               <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{pkg.description}</p>
             </div>
 
+            {/* R-009 — itinerary harian interaktif */}
+            <PaketItinerary packageId={id} durationDays={pkg.durationDays} />
+
             <div className="rounded-2xl border bg-card p-5 shadow-sm">
               <DetailSectionHead icon="clipboard-list" title={t("paket.statPackages")} />
               <div className="grid gap-1 sm:grid-cols-2">
@@ -179,6 +183,15 @@ export function PaketDetail({ id }: { id: string }) {
                   <Icon name="alert-triangle" className="h-3.5 w-3.5" aria-hidden />
                   {t("paket.bookAlmostFull")}
                 </p>
+              )}
+              <div className="mt-4">
+                {/* R-040 — peta kursi visual */}
+                <SeatMapBoard slots={pkg.slots} slotsTaken={pkg.slotsTaken} />
+              </div>
+              {left <= 0 && (
+                <div className="mt-4">
+                  <WaitlistPanel packageId={id} />
+                </div>
               )}
             </div>
 

@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { guardRole, ok, fail } from "@/lib/api-helpers";
+import { offerWaitlistSlot } from "@/lib/waitlist";
 import { logAudit } from "@/lib/audit";
 
 /**
@@ -46,6 +47,11 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ id: string 
       return b;
     });
 
+    // R-040 — slot dibebaskan: tawarkan ke antrean tunggu teratas (gagal-aman).
+    if (data.status === "CANCELLED" && existing.status !== "CANCELLED") {
+      void offerWaitlistSlot(existing.packageId, existing.pilgrims).catch(() => undefined);
+    }
+
     void logAudit(req, {
       action: "UPDATE",
       entity: "PackageBooking",
@@ -75,6 +81,10 @@ export async function DELETE(req: NextRequest, ctx: { params: Promise<{ id: stri
         });
       }
     });
+    // R-040 — slot dibebaskan: tawarkan ke antrean tunggu (gagal-aman).
+    if (existing.status !== "CANCELLED") {
+      void offerWaitlistSlot(existing.packageId, existing.pilgrims).catch(() => undefined);
+    }
 
     void logAudit(req, { action: "DELETE", entity: "PackageBooking", entityId: id, detail: existing.name });
     return ok({ success: true });

@@ -84,6 +84,37 @@ model JourneyStep {
   icon     String @default("circle")
 }
 
+// R-009 — itinerary harian interaktif per paket (hari-ke-hari).
+model ItineraryDay {
+  id        String      @id @default(cuid())
+  packageId String
+  pkg       TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  day       Int // hari ke-1, ke-2, …
+  title     String
+  plan      String // rincian kegiatan (markdown sederhana)
+  location  String      @default("") // Makkah | Madinah | Jeddah | Perjalanan | …
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@unique([packageId, day])
+}
+
+// R-040 — daftar tunggu otomatis saat kursi paket habis.
+model WaitlistEntry {
+  id        String      @id @default(cuid())
+  packageId String
+  pkg       TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String
+  quantity  Int         @default(1)
+  status    String      @default("WAITING") // WAITING | OFFERED | CONFIRMED | CANCELLED
+  offeredAt DateTime?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([packageId, status])
+}
+
 model Roadmap {
   id           String @id @default(cuid())
   phase        String
@@ -538,6 +569,8 @@ model TourPackage {
   bookings      PackageBooking[]
   reviews       PilgrimReview[]
   seatListings  SeatListing[]
+  itinerary     ItineraryDay[]
+  waitlist      WaitlistEntry[]
 }
 
 /// Booking/permintaan jadwal jamaah terhadap sebuah paket (pipeline panitia).
